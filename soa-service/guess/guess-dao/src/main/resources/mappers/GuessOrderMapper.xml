@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiqianyi.guess.core.dao.IGuessOrderMapper">
+    
+	<sql id="Base_Where_Clause" >
+	    <trim prefix="where" prefixOverrides="and|or" >
+	      <if test="id != null" >
+	         and id = #{id}
+	      </if>
+	      <if test="orderNo != null" >
+	         and orderNo = #{orderNo}
+	      </if>
+	      <if test="userId != null" >
+	         and userId = #{userId}
+	      </if>
+	      <if test="optionId != null" >
+	         and optionId = #{optionId}
+	      </if>
+	      <if test="topicId != null" >
+	         and topicId = #{topicId}
+	      </if>
+	      <if test="status != null" >
+	         and status = #{status}
+	      </if>
+	      <if test="start != null and start !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+		  </if>
+		  <if test="end != null and end !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
+		  </if>
+	    </trim>
+	</sql>
+	
+	<sql id="Base_Column_List" >
+	    id, orderNo, userId, optionId, diamond, amount, topicId, status, createTime
+	</sql>
+	
+	<select id="findByOrderNo" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	    select <include refid="Base_Column_List" />
+	    from guess_order <include refid="Base_Where_Clause" />
+	</select>
+	
+	<select id="findById" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	    select <include refid="Base_Column_List" />
+	    from guess_order <include refid="Base_Where_Clause" />
+	</select>
+	
+	<select id="findByUserIdForPager" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	    select <include refid="Base_Column_List" />
+	    from guess_order <include refid="Base_Where_Clause" />
+	</select>
+	
+	<insert id="insert">
+	    insert into guess_order (<include refid="Base_Column_List" />)
+	    	values (UUID(), #{orderNo}, #{userId}, #{optionId}, #{diamond}, #{amount}, #{topicId}, 0, now()
+	</insert>
+	
+	<update id="update">
+	    update guess_order
+	    <set>
+	      <if test="status != null" >
+	        status = #{status},
+	      </if>
+	    </set>
+	    where id = #{id}
+	</update>
+	
+	<delete id="delete">
+	    delete from guess_order where id = #{id}
+	</delete>
+	
+	<delete id="deleteByOrderNo">
+	    delete from guess_topic_option where orderNo = #{orderNo}
+	</delete>
+	
+</mapper>

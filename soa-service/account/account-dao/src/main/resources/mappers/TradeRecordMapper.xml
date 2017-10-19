@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiqianyi.account.dao.IUserMapper" >
+  
+	
+	<select id="findAllTradeRecordByUserid" resultType="com.caiqianyi.account.entity.TradeRecord">
+		select * from tradeRecords where userId = #{userId} 
+		<if test="size != null" >
+	  		limit #{size,jdbcType=INTEGER},#{offset,jdbcType=INTEGER}
+	    </if>
+	</select>
+	
+	<select id="findTradeRecordByUserid" resultType="com.caiqianyi.account.entity.TradeRecord">
+		select * from tradeRecords where userId = #{userId} and create_time between #{start} and #{end} 
+		<if test="size != null" >
+	  		limit #{size,jdbcType=INTEGER},#{offset,jdbcType=INTEGER}
+	    </if>
+	</select>
+	
+	<select id="findTradeRecordByReferId" resultType="com.caiqianyi.account.entity.TradeRecord">
+		select * from tradeRecords where refer_id = #{referId} and trade_type = #{tradeType} 
+	</select>
+	
+	<insert id="saveTradeRecord" parameterType="com.caiqianyi.account.entity.TradeRecord" useGeneratedKeys="true" keyProperty="id">
+		insert into trade_records(
+			id,
+			userId,
+			referId,
+			money,
+			tradeMoney,
+			descr,
+			host,
+			status,
+			tradeype,
+			createTime
+		) values(
+			UUID(),
+			#{userId},
+			#{referId},
+			#{money},
+			#{tradeMoney},
+			#{descr},
+			#{host},
+			#{status},
+			#{tradeType},
+			NOW()
+		)
+	</insert>
+</mapper>

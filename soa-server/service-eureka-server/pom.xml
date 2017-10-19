@@ -1,0 +1,109 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  <parent>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-parent</artifactId>
+      <version>1.5.0.RELEASE</version>
+      <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>service-eureka-server</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0.0-RELEASE</version>
+  <name>eureka服务注册与发现</name>
+
+  <dependencies>
+     <dependency>
+         <groupId>org.springframework.cloud</groupId>
+         <artifactId>spring-cloud-starter-eureka-server</artifactId>
+     </dependency>
+	<dependency>  
+	    <groupId>org.springframework.boot</groupId>  
+	    <artifactId>spring-boot-starter-security</artifactId>  
+	</dependency>  
+     <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-test</artifactId>
+         <scope>test</scope>
+     </dependency>
+  </dependencies>
+  
+   <dependencyManagement>
+      <dependencies>
+          <dependency>
+              <groupId>org.springframework.cloud</groupId>
+              <artifactId>spring-cloud-dependencies</artifactId>
+              <version>Camden.SR6</version>
+              <type>pom</type>
+              <scope>import</scope>
+          </dependency>
+      </dependencies>
+  </dependencyManagement>
+  <build>
+     <plugins>
+         <plugin>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-maven-plugin</artifactId>
+             <executions>
+                 <execution>
+                     <goals>
+                         <goal>repackage</goal>
+                     </goals>
+                 </execution>
+             </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+        <!-- docker maven plugin -->
+        <!-- <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>0.4.13</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>build</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                docker仓库地址，这里用的aws，后面文章会介绍
+                <imageName>xxx.dkr.ecr.ap-northeast-1.amazonaws.com/eureka-server</imageName>
+                <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                <resources>
+                    <resource>
+                        <targetPath>/</targetPath>
+                        <directory>${project.build.directory}</directory>
+                        <include>${project.build.finalName}.jar</include>
+                    </resource>
+                </resources>
+            </configuration>
+        </plugin> -->
+      </plugins>
+      <pluginManagement>
+          <plugins>
+              <plugin>
+                  <inherited>false</inherited>
+                  <groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-maven-plugin</artifactId>
+              </plugin>
+          </plugins>
+      </pluginManagement>
+  </build>
+  <repositories>
+      <repository>
+          <id>spring-release</id>
+          <name>Spring Release</name>
+          <url>https://repo.spring.io/libs-release</url>
+          <releases>
+              <enabled>true</enabled>
+          </releases>
+      </repository>
+  </repositories>
+  
+</project>

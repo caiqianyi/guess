@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <parent>
+  	<groupId>com.caiqianyi</groupId>
+  	<artifactId>service-parent</artifactId>
+  	<version>1.0.0-RELEASE</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>guess-caipiao-service</artifactId>
+  <version>1.0.0-RELEASE</version>
+  <packaging>jar</packaging>
+
+  <name>guess-caipiao-service</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <build>
+  	<finalName>guess-caipiao-service</finalName>
+  </build>
+  <dependencies>
+  	<!-- <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-oauth2</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency> -->
+  	<dependency>
+  		<groupId>com.caiqianyi</groupId>
+  		<artifactId>agent-model</artifactId>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.caiqianyi</groupId>
+  		<artifactId>base-dao</artifactId>
+  		<version>1.0.0-RELEASE</version>
+  	</dependency>
+  	<dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-ribbon</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-hystrix</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
+    </dependency>
+    
+    <!-- <dependency>
+	  <groupId>com.xlhy</groupId>
+	  <artifactId>config-load</artifactId>
+	  <version>2.0.0-RELEASE</version>
+	</dependency> -->
+  </dependencies>
+</project>

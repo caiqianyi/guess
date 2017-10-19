@@ -1,0 +1,21 @@
+
+security:  
+  basic:  
+    enabled: true  
+  user:  
+    name: registry  # 用户名  
+    password: registry123   # 用户密码  
+
+# Defines the Eureka server that is used by the Netflix OSS components to use as the registry
+# for server discovery
+eureka:
+  instance:
+    hostname: 10.0.0.17
+    port: ${server.port}
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    waitTimeInMsWhenSyncEmpty: 0

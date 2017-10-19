@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  <parent>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-parent</artifactId>
+      <version>Brixton.SR4</version>
+      <relativePath/>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>config-center-server</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0.0-RELEASE</version>
+  <name>配置中心</name>
+  
+  <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>Brixton.RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <dependencies>
+      <dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-starter-config</artifactId>
+      </dependency>
+
+      <!--暴露各种指标-->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-actuator</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-config-server</artifactId>
+      </dependency>
+      <dependency>
+		  <groupId>org.springframework.boot</groupId>
+		  <artifactId>spring-boot-starter-security</artifactId>
+	  </dependency>
+      <!-- <dependency>
+	      <groupId>org.springframework.boot</groupId>
+	      <artifactId>spring-boot-starter-tomcat</artifactId>
+	      <scope>provided</scope>
+	  </dependency>
+	  <dependency>
+	       <groupId>org.apache.tomcat.embed</groupId>
+	       <artifactId>tomcat-embed-jasper</artifactId>
+	       <scope>provided</scope>
+	  </dependency>
+	  <dependency>
+         <groupId>org.springframework.cloud</groupId>
+         <artifactId>spring-cloud-starter-eureka-server</artifactId>
+     </dependency> -->
+  </dependencies>
+  <build>
+    <finalName>config-center-server-1.0.0</finalName>
+	<plugins>
+		<plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+		</plugin>
+	</plugins>
+  </build>
+</project>

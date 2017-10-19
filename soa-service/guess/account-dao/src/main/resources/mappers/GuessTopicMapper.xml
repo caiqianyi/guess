@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiqianyi.guess.core.dao.IGuessTopicMapper">
+    
+	<sql id="Base_Where_Clause" >
+	    <trim prefix="where" prefixOverrides="and|or" >
+	      <if test="topicId != null" >
+	         and topicId = #{topicId}
+	      </if>
+	      <if test="roomId != null" >
+	         and roomId = #{roomId}
+	      </if>
+	      <if test="label != null" >
+	         and label = #{label}
+	      </if>
+	      <if test="kind != null" >
+	         and kind = #{kind}
+	      </if>
+	      <if test="league != null" >
+	         and league = #{league}
+	      </if>
+	      <if test="groupId != null" >
+	         and groupId = #{groupId}
+	      </if>
+	      <if test="status != null" >
+	         and status = #{status}
+	      </if>
+	      <if test="result != null" >
+	         and result = #{result}
+	      </if>
+	      <if test="start != null and start !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+		  </if>
+		  <if test="end != null and end !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
+		  </if>
+	    </trim>
+	</sql>
+	
+	<sql id="Base_Column_List" >
+	    id, topicId, roomId, subject, label, kind, league, groupId, joinCount, status, 
+	    result, createTime, beginTime, overTime, finishTime
+	</sql>
+	
+	<sql id="Guess_Topic_Option_Column_List" >
+	    id, topicId, name, value, orderBy, isSelected, odds, createTime
+	</sql>
+	
+	<select id="findOneGuessTopicByTopicId" resultType="com.caiqianyi.guess.entity.GuessTopic">
+	    select <include refid="Base_Column_List" />
+	    from guess_topic <include refid="Base_Where_Clause" />
+	</select>
+	
+	<select id="findOneGuessTopicByOptionId" resultType="com.caiqianyi.guess.entity.GuessTopic">
+	    select <include refid="Base_Column_List" />
+	    from guess_topic <include refid="Base_Where_Clause" />
+	</select>
+	
+	<select id="findGuessTopicByRoomId" resultType="com.caiqianyi.guess.entity.GuessTopic">
+	    select <include refid="Base_Column_List" />
+	    from guess_topic <include refid="Base_Where_Clause" />
+	</select>
+	
+	<select id="findGuessTopicByForPager" resultType="com.caiqianyi.guess.entity.GuessTopic">
+	    select <include refid="Base_Column_List" />
+	    from guess_topic <include refid="Base_Where_Clause" />
+	</select>
+	
+	<insert id="insert" parameterType="com.caiqianyi.guess.entity.GuessTopic">
+	    insert into guess_topic (<include refid="Base_Column_List" />)
+	    	values (UUID(), #{topicId}, #{roomId}, #{subject}, #{label}, #{kind}, #{league}, #{groupId}, 
+	    			#{joinCount}, #{status}, #{result}, now(), #{beginTime}, #{overTime}, 
+	    			#{finishTime})
+	</insert>
+	
+	<update id="update" parameterType="com.caiqianyi.guess.entity.GuessTopic">
+	    update guess_topic
+	    <set>
+	      <if test="subject != null" >
+	        subject = #{subject},
+	      </if>
+	      <if test="label != null" >
+	        label = #{label},
+	      </if>
+	      <if test="kind != null" >
+	        kind = #{kind},
+	      </if>
+	      <if test="league != null" >
+	        league = #{league},
+	      </if>
+	      <if test="groupId != null" >
+	        groupId = #{groupId},
+	      </if>
+	      <if test="joinCount != null" >
+	        joinCount = #{joinCount},
+	      </if>
+	      <if test="status != null" >
+	        status = #{status},
+	      </if>
+	      <if test="optionId != null" >
+	        optionId = #{optionId},
+	      </if>
+	      <if test="finishTime != null" >
+	        finishTime = #{finishTime},
+	      </if>
+	    </set>
+	    where id = #{id}
+	</update>
+	
+	<delete id="delete">
+	    delete from guess_topic where id = #{id}
+	</delete>
+	
+	<select id="findGuessTopicOptionByTopicId" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
+	    select <include refid="Guess_Topic_Option_Column_List" />
+	    from guess_topic_option where topicId = #{topicId}
+	</select>
+	
+	<insert id="insertOption">
+	    insert into guess_topic_option (<include refid="Guess_Topic_Option_Column_List" />)
+	    	values (UUID(),#{topicId}, #{name}, #{value}, #{orderBy}, #{isSelected}, #{odds}, now())
+	</insert>
+	
+	<update id="updateOption">
+	    update guess_topic_option
+	    <set>
+	      <if test="name != null" >
+	        name = #{name},
+	      </if>
+	      <if test="value != null" >
+	        value = #{value},
+	      </if>
+	      <if test="orderBy != null" >
+	        orderBy = #{orderBy},
+	      </if>
+	      <if test="isSelected != null" >
+	        isSelected = #{isSelected},
+	      </if>
+	      <if test="odds != null" >
+	        odds = #{odds},
+	      </if>
+	    </set>
+	    where id = #{id}
+	</update>
+	
+	<delete id="deleteOption">
+	    delete from guess_topic_option where id = #{id}
+	</delete>
+	
+	<delete id="deleteOptionByTopicId">
+	    delete from guess_topic_option where topicId = #{topicId}
+	</delete>
+</mapper>

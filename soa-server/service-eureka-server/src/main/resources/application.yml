@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: service-registry
+  profiles:
+    active: dev
+
+# Define the port where the Service Registry server would be running
+server:
+  port: 8761

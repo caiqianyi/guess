@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: sms-service
+  session:
+    store-type: none
+  cloud:
+    config:
+      name: gateway
+      profile: dev
+      label: master
+      username: config
+      password: QWERtyuiP
+      uri: http://123.206.192.46:7369/
+
+# Define the port where the Widget Foundry server would be running
+server:
+  port: 7080

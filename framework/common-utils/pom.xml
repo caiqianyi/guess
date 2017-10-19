@@ -1,0 +1,133 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <parent>
+  	<groupId>com.caiqianyi</groupId>
+  	<artifactId>framework-parent</artifactId>
+  	<version>1.0.0-RELEASE</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <artifactId>common-utils</artifactId>
+  <packaging>jar</packaging>
+
+  <name>common-utils</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>  
+        <groupId>org.springframework.boot</groupId>  
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+    </dependency>
+    
+    <dependency>
+	  <groupId>commons-httpclient</groupId>
+	  <artifactId>commons-httpclient</artifactId>
+	</dependency>
+    
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-io</artifactId>
+	</dependency>
+	<dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>javax</groupId>
+        <artifactId>javaee-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    
+    <!-- google java lib -->
+    <dependency> 
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+    </dependency> 
+    <!-- 条形码、二维码生成  -->
+    <dependency>
+        <groupId>com.google.zxing</groupId>
+        <artifactId>core</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.google.zxing</groupId>
+        <artifactId>javase</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+    </dependency>
+	
+	<!-- Apache POI是Apache软件基金会的开源项目，POI提供API给Java程序对Microsoft Office格式档案读和写的功能 -->
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+    </dependency>
+     
+    <!-- 基于java1.5 的加密算法实现 -->
+    <dependency>
+	     <groupId>org.bouncycastle</groupId>
+	     <artifactId>bcprov-jdk16</artifactId>
+	</dependency>
+	
+	<!-- fastjson -->  
+    <dependency>  
+        <groupId>com.alibaba</groupId>  
+        <artifactId>fastjson</artifactId>  
+    </dependency>  
+    
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+    </dependency>
+      
+    <dependency>  
+        <groupId>org.dom4j</groupId>  
+        <artifactId>dom4j</artifactId> 
+    </dependency>
+    
+    
+    <!-- excel 解析 -->
+	<dependency>
+	  <groupId>org.apache.poi</groupId>
+	  <artifactId>poi</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>org.apache.poi</groupId>
+	  <artifactId>poi-ooxml</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>org.apache.poi</groupId>
+	  <artifactId>poi-ooxml-schemas</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>org.apache.xmlbeans</groupId>
+	  <artifactId>xmlbeans</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.jsoup</groupId>
+		<artifactId>jsoup</artifactId> 
+	</dependency>
+  </dependencies>
+  <build>
+  	<finalName>common-utils</finalName>
+  </build>
+</project>

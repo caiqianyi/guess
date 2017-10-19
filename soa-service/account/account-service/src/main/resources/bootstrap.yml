@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: agent-service
+  session:
+    store-type: none
+  cloud:
+    config:
+      name: platform
+      profile: local
+      label: master
+      username: config
+      password: QWERtyuiP
+      uri: http://123.206.192.46:7369/
+# Define the port where the Widget Foundry server would be running
+server:
+  port: 6661
