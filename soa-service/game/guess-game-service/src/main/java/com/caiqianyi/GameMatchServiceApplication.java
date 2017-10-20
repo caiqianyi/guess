@@ -14,7 +14,7 @@ import com.caiqianyi.soa.web.framework.datasource.DynamicDataSourceRegister;
 @EnableFeignClients
 @EnableDiscoveryClient
 @EnableTransactionManagement
-public class AgentServiceApplication{
+public class GameMatchServiceApplication{
 	
 	 /*@Bean
      public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
@@ -25,7 +25,7 @@ public class AgentServiceApplication{
      }*/
 	
 	 public static void main(String[] args) {
-         SpringApplication.run(AgentServiceApplication.class, args);
+         SpringApplication.run(GameMatchServiceApplication.class, args);
      }
 	 
 }
