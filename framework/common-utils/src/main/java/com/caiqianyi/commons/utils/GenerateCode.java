@@ -14,14 +14,14 @@ public class GenerateCode {
 	 * @param inputnum
 	 * @return
 	 */
-    public static long gen(int inputnum) {
+    public static int gen(int inputnum) {
     	int num=inputnum+2;
         String current = String.valueOf((java.util.UUID.randomUUID().getLeastSignificantBits())).substring(2,num);
 
         while (current.startsWith("0") || isFourSame(current)) {
             current = String.valueOf((java.util.UUID.randomUUID().getLeastSignificantBits())).substring(2, num);
         }
-        return Long.parseLong(current);
+        return Integer.parseInt(current);
     }
 
     public static boolean isFourSame(String input) {
