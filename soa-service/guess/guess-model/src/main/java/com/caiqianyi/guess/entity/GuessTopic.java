@@ -2,6 +2,7 @@ package com.caiqianyi.guess.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 /**
  * 竞猜话题
  * @author caiqianyi
@@ -46,19 +47,63 @@ public class GuessTopic implements Serializable{
 	private static final long serialVersionUID = -6338921305202682461L;
 	private String id;
 	private Integer topicId;
-	private Integer roomId;//房间号
-	private String subject;//竞猜题目
-	private String label;//标签分类 如联赛
-	private String kind;//种类
-	private String league;//联赛|采种
-	private String groupId;//比赛ID|期号
-	private Integer joinCount;//参与人数
-	private Integer status;//话题状态
-	private String optionId;//中奖option id
-	private Date createTime;//创建时间
-	private Date beginTime;//话题开始竞猜时间
-	private Date overTime;//终止竞猜时间
-	private Date finishTime;//结算时间
+	/**
+	 * 房间号
+	 */
+	private Integer roomId;
+	/**
+	 * 竞猜题目
+	 */
+	private String subject;
+	/**
+	 * 标签分类 如联赛
+	 */
+	private String label;
+	/**
+	 * 种类
+	 */
+	private String kind;
+	/**
+	 * 联赛|采种
+	 */
+	private String league;
+	/**
+	 * 比赛ID|期号
+	 */
+	private String groupId;
+	/**
+	 * 参与人数
+	 */
+	private Integer joinCount;
+	/**
+	 * 话题状态
+	 */
+	private Integer status;
+	/**
+	 * 中奖option id
+	 */
+	private String optionId;
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
+	/**
+	 * 话题开始竞猜时间
+	 */
+	private Date beginTime;
+	/**
+	 * 终止竞猜时间
+	 */
+	private Date overTime;
+	/**
+	 * 结算时间
+	 */
+	private Date finishTime;
+	
+	/**
+	 * 竞猜项
+	 */
+	private List<GuessTopicOption> options;
 	
 	public String getId() {
 		return id;
@@ -150,5 +195,11 @@ public class GuessTopic implements Serializable{
 	}
 	public void setRoomId(Integer roomId) {
 		this.roomId = roomId;
+	}
+	public List<GuessTopicOption> getOptions() {
+		return options;
+	}
+	public void setOptions(List<GuessTopicOption> options) {
+		this.options = options;
 	}
 }
