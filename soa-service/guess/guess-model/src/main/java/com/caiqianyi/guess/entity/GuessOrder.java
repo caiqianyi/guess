@@ -12,9 +12,10 @@ CREATE TABLE `guess_order` (
   	`userId` varchar(500) NOT NULL COMMENT '购买玩家ID',
   	`optionId` varchar(500) NOT NULL COMMENT '购买竞猜项ID',
   	`diamond` float(10,2) DEFAULT '0.00' COMMENT '金币',
+  	`bonus` float(10,2) DEFAULT NULL COMMENT '奖金',
   	`amount` int(10) NOT NULL COMMENT '倍数',
   	`topicId` int(10) NOT NULL COMMENT '话题ID',
-  	`status` int(10) NOT NULL COMMENT '状态 0=未开奖，1=已返奖，-1=未中奖',
+  	`status` int(10) NOT NULL COMMENT '状态 0=未开奖，1=已返奖，-1=未中奖，2=已结束未返奖',
 	`createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `orderNo` (`orderNo`),
@@ -34,6 +35,7 @@ public class GuessOrder {
 	private String userId;
 	private String optionId;
 	private BigDecimal diamond;
+	private BigDecimal bonus;
 	private Integer amount;
 	private Integer topicId;
 	private Integer status;
@@ -92,5 +94,11 @@ public class GuessOrder {
 	}
 	public void setAmount(Integer amount) {
 		this.amount = amount;
+	}
+	public BigDecimal getBonus() {
+		return bonus;
+	}
+	public void setBonus(BigDecimal bonus) {
+		this.bonus = bonus;
 	}
 }

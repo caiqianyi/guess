@@ -32,6 +32,11 @@ public interface IGuessTopicMapper {
 			@Param("status")Integer status,@Param("start")Date start,
 			@Param("end")Date end,Pager pager);
 	
+	List<GuessTopic> findGuessTopicBy(@Param("kind")String kind,
+			@Param("league")String league,@Param("groupId")String groupId,
+			@Param("status")Integer status,@Param("start")Date start,
+			@Param("end")Date end);
+	
 	int insert(GuessTopic topic);
 	
 	int update(GuessTopic topic); 

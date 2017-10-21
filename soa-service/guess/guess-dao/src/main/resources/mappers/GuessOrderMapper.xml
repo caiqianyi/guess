@@ -16,6 +16,9 @@
 	      <if test="optionId != null" >
 	         and optionId = #{optionId}
 	      </if>
+	      <if test="bonus != null" >
+	         and bonus = #{bonus}
+	      </if>
 	      <if test="topicId != null" >
 	         and topicId = #{topicId}
 	      </if>
@@ -32,7 +35,7 @@
 	</sql>
 	
 	<sql id="Base_Column_List" >
-	    id, orderNo, userId, optionId, diamond, amount, topicId, status, createTime
+	    id, orderNo, userId, optionId, diamond, bonus, amount, topicId, status, createTime
 	</sql>
 	
 	<select id="findByOrderNo" resultType="com.caiqianyi.guess.entity.GuessOrder">
@@ -50,9 +53,14 @@
 	    from guess_order <include refid="Base_Where_Clause" />
 	</select>
 	
+	<select id="findByUserId" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	    select <include refid="Base_Column_List" />
+	    from guess_order <include refid="Base_Where_Clause" />
+	</select>
+	
 	<insert id="insert">
 	    insert into guess_order (<include refid="Base_Column_List" />)
-	    	values (UUID(), #{orderNo}, #{userId}, #{optionId}, #{diamond}, #{amount}, #{topicId}, 0, now()
+	    	values (UUID(), #{orderNo}, #{userId}, #{optionId}, #{diamond}, NULL, #{amount}, #{topicId}, 0, now()
 	</insert>
 	
 	<update id="update">

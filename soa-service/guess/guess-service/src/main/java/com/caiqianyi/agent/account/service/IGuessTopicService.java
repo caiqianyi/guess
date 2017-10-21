@@ -1,5 +1,6 @@
 package com.caiqianyi.agent.account.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -42,4 +43,12 @@ public interface IGuessTopicService {
 	boolean deleteOption(String id);
 	
 	boolean deleteOptionByTopicId(Integer topicId);
+	
+	/**
+	 * 计算奖金 核心算法
+	 * @param bas 选项支持总数
+	 * @return
+	 */
+	BigDecimal[] calOdds(Integer topicId);
+	
 }

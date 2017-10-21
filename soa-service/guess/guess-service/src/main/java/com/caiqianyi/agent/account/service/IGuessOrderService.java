@@ -23,4 +23,6 @@ public interface IGuessOrderService {
 	
 	boolean deleteByOrderNo(String orderNo);
 	
+	void backBonus();
+	
 }

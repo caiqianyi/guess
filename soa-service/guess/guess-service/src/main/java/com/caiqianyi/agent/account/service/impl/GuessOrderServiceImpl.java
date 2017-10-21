@@ -149,4 +149,18 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 		return guessOrderMapper.deleteByOrderNo(orderNo) > 0;
 	}
 
+	@Override
+	public void backBonus() {
+		// TODO Auto-generated method stub
+		/**
+		 * 已结束未返奖的竞猜
+		 */
+		List<GuessOrder> orders = guessOrderMapper.findByUserId(null, 2, null, null, null);
+		for(GuessOrder order : orders){
+			String optionId = order.getOptionId();
+			if(optionId != null){
+				
+			}
+		}
+	}
 }

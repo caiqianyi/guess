@@ -18,6 +18,7 @@ CREATE TABLE `game_match` (
   	`score` varchar(500) NOT NULL COMMENT '比分',
   	`bestOf` int(10) default 3 COMMENT '最多打多少场 BO3',
   	`matchId` int(10) default NULL COMMENT '比赛ID',
+  	`matchWin` varchar(50) DEFAULT NULL COMMENT '比赛输赢 host=主队赢 guest=客队赢',
   	`status` int(10) default 0 COMMENT '比赛状态 0=未开始，1=进行中，2=已结束',
   	`matchTime` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '比赛时间',
   	`createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -91,6 +92,10 @@ public class GameMatch {
 	 * 创建时间
 	 */
 	private Date createTime;
+	/**
+	 * 比赛输赢 host=主队赢 guest=客队赢
+	 */
+	private String matchWin;
 	
 	public String getId() {
 		return id;
@@ -175,5 +180,11 @@ public class GameMatch {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public String getMatchWin() {
+		return matchWin;
+	}
+	public void setMatchWin(String matchWin) {
+		this.matchWin = matchWin;
 	}
 }

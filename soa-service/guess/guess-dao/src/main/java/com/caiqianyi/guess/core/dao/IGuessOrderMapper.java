@@ -21,6 +21,10 @@ public interface IGuessOrderMapper {
 			@Param("status")Integer status,@Param("topicId") Integer topicId,
 			@Param("start")Date start,@Param("end")Date end,Pager pager);
 	
+	List<GuessOrder> findByUserId(@Param("userId")String userId,
+			@Param("status")Integer status,@Param("topicId") Integer topicId,
+			@Param("start")Date start,@Param("end")Date end);
+	
 	int insert(GuessOrder order); 
 	int update(GuessOrder order);
 	

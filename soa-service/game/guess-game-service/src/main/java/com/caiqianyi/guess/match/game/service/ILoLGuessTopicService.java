@@ -1,45 +1,67 @@
 package com.caiqianyi.guess.match.game.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.caiqianyi.guess.entity.GuessTopic;
 import com.caiqianyi.guess.game.entity.GameMatch;
 
 public interface ILoLGuessTopicService {
+	
+	Map<String,String> getGuessResultByMatch(String matchId);
 
 	/**
 	 * 创建关于比赛胜负竞猜话题
 	 * @param match 比赛
+	 * @param createBy 创建人 允许NULL
+	 * @param roomId 房间号 允许NULL
 	 * @return
 	 */
-	List<GuessTopic> createTopicForSF(GameMatch match);
+	GuessTopic createTopicForSF(GameMatch match,String createBy,Integer roomId);
 	
 	/**
 	 * 创建关于比赛比分竞猜话题
 	 * @param match
+	 * @param createBy 创建人 允许NULL
+	 * @param roomId 房间号 允许NULL
 	 * @return
 	 */
-	GuessTopic createTopicForBF(GameMatch match);
+	GuessTopic createTopicForBF(GameMatch match,String createBy,Integer roomId);
 	
 	/**
 	 * 创建关于冠军竞猜话题
 	 * @param match
+	 * @param createBy 创建人 允许NULL
+	 * @param roomId 房间号 允许NULL
 	 * @return
 	 */
-	GuessTopic createTopicForFirst(GameMatch match);
+	GuessTopic createTopicForFirst(GameMatch match,String createBy,Integer roomId);
 	
 	/**
 	 * 创建关于比赛一血竞猜话题
 	 * @param match
+	 * @param createBy 创建人 允许NULL
+	 * @param roomId 房间号 允许NULL
 	 * @return
 	 */
-	List<GuessTopic> createTopicForFirstBlood(GameMatch match);
+	List<GuessTopic> createTopicForFirstBlood(GameMatch match,String createBy,Integer roomId);
 	
 	/**
 	 * 创建关于比赛一塔竞猜话题
 	 * @param match
+	 * @param createBy 创建人 允许NULL
+	 * @param roomId 房间号 允许NULL
 	 * @return
 	 */
-	List<GuessTopic> createTopicForFirstTurret(GameMatch match);
+	List<GuessTopic> createTopicForFirstTurret(GameMatch match,String createBy,Integer roomId);
+	
+	/**
+	 * 创建关于比赛总人头数单双竞猜话题
+	 * @param match
+	 * @param createBy 创建人 允许NULL
+	 * @param roomId 房间号 允许NULL
+	 * @return
+	 */
+	List<GuessTopic> createTopicForSOD(GameMatch match,String createBy,Integer roomId);
 	
 }

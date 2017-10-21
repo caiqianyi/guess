@@ -10,22 +10,26 @@ import java.util.List;
 DROP TABLE IF EXISTS `guess_topic`;
 CREATE TABLE `guess_topic` (
   `id` varchar(36) CHARACTER SET utf8mb4 NOT NULL COMMENT '主键',
+  `createBy` varchar(36) DEFAULT NULL COMMENT '创建人',
+  `roomId` int(10) NOT NULL COMMENT '房间号',
   `subject` longtext NOT NULL COMMENT '竞猜题目',
   `label` varchar(200) NOT NULL COMMENT '标签分类',
   `kind` varchar(50) NOT NULL COMMENT '种类',
   `league` varchar(500) DEFAULT NULL COMMENT '联赛',
   `groupId` varchar(500) DEFAULT NULL COMMENT '比赛ID',
-  `roomId` int(10) NOT NULL COMMENT '房间号',
+  `topicType` varchar(500) DEFAULT NULL COMMENT '话题类型',
   `topicId` int(10) NOT NULL COMMENT '话题ID',
   `joinCount` int(10) DEFAULT 0 COMMENT '参与人数',
-  `status` int(10) DEFAULT 0 COMMENT '状态',
-  `optionId` varchar(36) DEFAULT null COMMENT '正确选项ID',
+  `status` int(10) DEFAULT 0 COMMENT '状态 0=进行中，1=未开奖，2=已开奖',
+  `optionId` varchar(36) DEFAULT NULL COMMENT '正确选项ID',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `beginTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '话题开始竞猜时间',
   `overTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '终止竞猜时间',
   `finishTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '结算时间',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `roomId` (`roomId`),
   UNIQUE KEY `topicId` (`topicId`),
+  KEY `createBy_index` (`createBy`),
   KEY `label_index` (`label`),
   KEY `kind_index` (`kind`),
   KEY `league_index` (`league`),
@@ -47,6 +51,11 @@ public class GuessTopic implements Serializable{
 	private static final long serialVersionUID = -6338921305202682461L;
 	private String id;
 	private Integer topicId;
+	
+	/**
+	 * 创建人
+	 */
+	private String createBy;
 	/**
 	 * 房间号
 	 */
@@ -72,11 +81,15 @@ public class GuessTopic implements Serializable{
 	 */
 	private String groupId;
 	/**
+	 * 话题类型 
+	 */
+	private String topicType;
+	/**
 	 * 参与人数
 	 */
 	private Integer joinCount;
 	/**
-	 * 话题状态
+	 * 话题状态 0=进行中，1=未开奖，2=已开奖
 	 */
 	private Integer status;
 	/**
@@ -201,5 +214,17 @@ public class GuessTopic implements Serializable{
 	}
 	public void setOptions(List<GuessTopicOption> options) {
 		this.options = options;
+	}
+	public String getTopicType() {
+		return topicType;
+	}
+	public void setTopicType(String topicType) {
+		this.topicType = topicType;
+	}
+	public String getCreateBy() {
+		return createBy;
+	}
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
 	}
 }
