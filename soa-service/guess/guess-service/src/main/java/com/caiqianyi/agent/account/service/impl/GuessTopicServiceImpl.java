@@ -55,12 +55,20 @@ public class GuessTopicServiceImpl implements IGuessTopicService {
 
 	@Override
 	public Pager findGuessTopicByForPager(String kind, String league,
-			String groupId, Integer status, Date start, Date end, Pager pager) {
+			String groupId, Integer status, Integer orderBy,
+			Date start, Date end, Pager pager) {
 		// TODO Auto-generated method stub
 		List<GuessTopic> datas = guessTopicMapper.findGuessTopicByForPager(
-				kind, league, groupId, status, start, end, pager);
+				kind, league, groupId, status, orderBy, start, end, pager);
 		pager.setDatas(datas);
 		return pager;
+	}
+	
+	@Override
+	public List<GuessTopic> findGuessTopicBy(String kind, String league, String groupId,
+			Integer status, Integer orderBy, Date start, Date end) {
+		// TODO Auto-generated method stub
+		return guessTopicMapper.findGuessTopicBy(kind, league, groupId, status, orderBy, start, end);
 	}
 
 	@Override
@@ -138,6 +146,24 @@ public class GuessTopicServiceImpl implements IGuessTopicService {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public int finishGuess() {
+		// TODO Auto-generated method stub
+		/*
+		 * 查询进行中竞猜
+		 */
+		int execute = 0;
+		List<GuessTopic> guessing = guessTopicMapper.findGuessTopicBy(null, null, null, 0, null, null, null);
+		for(GuessTopic topic : guessing){
+			boolean isOver = topic.getOverTime().after(new Date());
+			if(isOver){
+				topic.setStatus(1);
+				execute += guessTopicMapper.update(topic);
+			}
+		}
+		return execute;
 	}
 	
 }

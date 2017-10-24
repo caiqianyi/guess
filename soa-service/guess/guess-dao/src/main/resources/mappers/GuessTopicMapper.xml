@@ -25,6 +25,9 @@
 	      <if test="topicType != null" >
 	         and topicType = #{topicType}
 	      </if>
+	      <if test="orderBy != null" >
+	         and orderBy = #{orderBy}
+	      </if>
 	      <if test="status != null" >
 	         and status = #{status}
 	      </if>
@@ -41,7 +44,7 @@
 	</sql>
 	
 	<sql id="Base_Column_List" >
-	    id, topicId, roomId, subject, label, kind, league, groupId,topicType, joinCount, status, 
+	    id, topicId, roomId, subject, label, kind, league, groupId,topicType,orderBy, joinCount, status, 
 	    result, createTime, beginTime, overTime, finishTime
 	</sql>
 	
@@ -65,10 +68,15 @@
 	    from guess_topic <include refid="Base_Where_Clause" />
 	</select>
 	
+	<select id="findGuessTopicBy" resultType="com.caiqianyi.guess.entity.GuessTopic">
+	    select <include refid="Base_Column_List" />
+	    from guess_topic <include refid="Base_Where_Clause" />
+	</select>
+	
 	<insert id="insert" parameterType="com.caiqianyi.guess.entity.GuessTopic">
 	    insert into guess_topic (<include refid="Base_Column_List" />)
 	    	values (UUID(), #{topicId}, #{roomId}, #{subject}, #{label}, #{kind}, #{league}, #{groupId}, #{topicType} 
-	    			#{joinCount}, #{status}, #{result}, now(), #{beginTime}, #{overTime}, #{finishTime})
+	    			#{orderBy}, #{joinCount}, #{status}, #{result}, now(), #{beginTime}, #{overTime}, #{finishTime})
 	</insert>
 	
 	<update id="update" parameterType="com.caiqianyi.guess.entity.GuessTopic">

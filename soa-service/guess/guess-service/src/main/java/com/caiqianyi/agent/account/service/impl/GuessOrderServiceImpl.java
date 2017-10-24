@@ -155,12 +155,38 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 		/**
 		 * 已结束未返奖的竞猜
 		 */
-		List<GuessOrder> orders = guessOrderMapper.findByUserId(null, 2, null, null, null);
-		for(GuessOrder order : orders){
-			String optionId = order.getOptionId();
-			if(optionId != null){
-				
+		List<GuessTopic> gtList = guessTopicMapper.findGuessTopicBy(null, null, null, 2, null, null, null);
+		
+		for(GuessTopic topic : gtList){
+			String winningOptionId = topic.getOptionId();
+			
+			GuessTopicOption option = guessTopicMapper.findOneGuessTopicOptionById(winningOptionId);
+			//查询所有购买此竞猜订单
+			List<GuessOrder> orders = guessOrderMapper.findByUserId(null, null, topic.getTopicId(), null, null, null);
+			for(GuessOrder order : orders){
+				String optionId = order.getOptionId();
+				if(optionId.equals(winningOptionId)){//判断是否未中奖，true=中奖
+					BigDecimal bonus = option.getOdds().multiply(order.getDiamond());
+					order.setBonus(bonus);
+					order.setStatus(1);//已中奖状态
+					User user = userMapper.findById(order.getUserId());
+					
+					TradeRecord tradeRecord = new TradeRecord();
+					tradeRecord.setDescr(String.format("话题竞猜获得奖金‘%s’", bonus.toString()));
+					tradeRecord.setMoney(user.getBalance());
+					tradeRecord.setReferId(order.getOrderNo());
+					tradeRecord.setStatus(1);
+					tradeRecord.setTradeMoney(bonus);
+					tradeRecord.setTradeType("guess_back_bonus");
+					tradeRecord.setUserId(user.getId());
+					tradeRecordMapper.saveTradeRecord(tradeRecord);
+					userMapper.modifyBalance(order.getUserId(), user.getBalance().add(bonus), user.getFrozenMoney());
+				}else{
+					order.setStatus(-1);
+				}
+				guessOrderMapper.update(order);
 			}
 		}
+		
 	}
 }

@@ -24,9 +24,14 @@ public interface IGuessTopicService {
 			Date end,Pager pager);
 	
 	Pager findGuessTopicByForPager(String kind,
-			String league,String groupId,
-			Integer status,Date start,
-			Date end,Pager pager);
+			String league, String groupId,
+			Integer status, Integer orderBy,
+			Date start, Date end,Pager pager);
+	
+	List<GuessTopic> findGuessTopicBy(String kind,
+			String league, String groupId,
+			Integer status, Integer orderBy,
+			Date start, Date end);
 	
 	boolean insert(GuessTopic topic);
 	
@@ -51,4 +56,10 @@ public interface IGuessTopicService {
 	 */
 	BigDecimal[] calOdds(Integer topicId);
 	
+	/**
+	 * 查询所有进行中的竞猜话题，用当前时间与话题结束时间比对。
+	 * 当结束时间大于当前时间，则修改竞猜话题状态为未开奖（竞猜已结束）
+	 * @return
+	 */
+	int finishGuess();
 }

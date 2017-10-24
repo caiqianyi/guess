@@ -401,8 +401,8 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		List<GameMatch> gameMatchs = loLMatchNetworkSpider
 				.findByLeagueAndTime("", "", 1, 100,
-						format.parse("2017-10-19 00:00:00"),
-						format.parse("2017-10-27 00:00:00"));
+						format.parse("2017-10-17 00:00:00"),
+						format.parse("2017-10-30 00:00:00"));
 
 		for (GameMatch match : gameMatchs) {
 			loLGuessTopicService.createTopicForSF(match, null, null);

@@ -18,9 +18,10 @@ CREATE TABLE `guess_topic` (
   `league` varchar(500) DEFAULT NULL COMMENT '联赛',
   `groupId` varchar(500) DEFAULT NULL COMMENT '比赛ID',
   `topicType` varchar(500) DEFAULT NULL COMMENT '话题类型',
+  `orderBy` int(10) NOT NULL COMMENT '排序值',
   `topicId` int(10) NOT NULL COMMENT '话题ID',
   `joinCount` int(10) DEFAULT 0 COMMENT '参与人数',
-  `status` int(10) DEFAULT 0 COMMENT '状态 0=进行中，1=未开奖，2=已开奖',
+  `status` int(10) DEFAULT 0 COMMENT '状态 0=进行中，1=未开奖，2=已开奖，3=已返奖',
   `optionId` varchar(36) DEFAULT NULL COMMENT '正确选项ID',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `beginTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '话题开始竞猜时间',
@@ -34,6 +35,8 @@ CREATE TABLE `guess_topic` (
   KEY `kind_index` (`kind`),
   KEY `league_index` (`league`),
   KEY `group_id_index` (`groupId`),
+  KEY `topic_type_index` (`topicType`),
+  KEY `order_by_index` (`orderBy`),
   KEY `join_count_index` (`joinCount`),
   KEY `status_index` (`status`),
   KEY `create_time_index` (`createTime`),
@@ -84,6 +87,10 @@ public class GuessTopic implements Serializable{
 	 * 话题类型 
 	 */
 	private String topicType;
+	/**
+	 * 排序值
+	 */
+	private Integer orderBy;
 	/**
 	 * 参与人数
 	 */
@@ -226,5 +233,11 @@ public class GuessTopic implements Serializable{
 	}
 	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
+	}
+	public Integer getOrderBy() {
+		return orderBy;
+	}
+	public void setOrderBy(Integer orderBy) {
+		this.orderBy = orderBy;
 	}
 }

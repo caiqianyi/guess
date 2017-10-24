@@ -126,6 +126,7 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 				topic.setLeague(match.getLeague());
 				topic.setSubject(sj);
 				topic.setTopicId(topicId);
+				topic.setOrderBy(i);
 				topic.setOptions(options);
 				topic.setTopicType(topicType);
 				
@@ -180,6 +181,7 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 			topic.setLeague(match.getLeague());
 			topic.setSubject("比赛"+match.getHostTeam()+" VS "+match.getGuestTeam() +"谁将赢得最终胜利？");
 			topic.setTopicId(topicId);
+			topic.setOrderBy(0);
 			topic.setOptions(options);
 			
 			logger.debug("topic={}",new Gson().toJson(topic));
@@ -203,7 +205,7 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 						option.setName(i+":"+k);
 						option.setOrderBy(orderBy);
 						option.setTopicId(topicId);
-						option.setValue(i>k?"H"+i:"G"+k);
+						option.setValue(i+":"+k);
 						options.add(option);
 						bas.add(new BigDecimal("1.00"));
 						orderBy++;
@@ -226,6 +228,7 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 			topic.setLeague(match.getLeague());
 			topic.setSubject("本场BO"+match.getBestOf()+"最终比分将是？");
 			topic.setTopicId(topicId);
+			topic.setOrderBy(0);
 			topic.setOptions(options);
 			
 			logger.debug("topic={}",new Gson().toJson(topic));

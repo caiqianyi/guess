@@ -53,10 +53,11 @@ public class GuessTopicController {
 			@PathVariable("league")String league,
 			@PathVariable("groupId")String groupId,
 			@RequestParam(value="status",required=false)Integer status,
+			@RequestParam(value="orderBy",required=false)Integer orderBy,
 			@RequestParam(value="start",required=false)Date start, 
 			@RequestParam(value="end",required=false)Date end,
 			@RequestBody(required=false) Pager pager){
-		return guessTopicService.findGuessTopicByForPager(kind, league, groupId, status, start, end, pager);
+		return guessTopicService.findGuessTopicByForPager(kind, league, groupId, orderBy, status, start, end, pager);
 	}
 	
 	@RequestMapping(value="/guess/topic/insert/",method=RequestMethod.POST)
