@@ -6,25 +6,20 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.guess.entity.GuessOrder;
-import com.caiqianyi.soa.web.framework.model.Pager;
 
 
 @Mapper
 public interface IGuessOrderMapper {
 	
-	GuessOrder findByOrderNo(@Param("orderNo")String orderNo);
-	
-	GuessOrder findById(@Param("id")String id);
-	
-	List<GuessOrder> findByUserIdForPager(@Param("userId")String userId,
-			@Param("status")Integer status,@Param("topicId") Integer topicId,
+	List<GuessOrder> findByForPager(@Param("order")GuessOrder order,
 			@Param("start")Date start,@Param("end")Date end,Pager pager);
 	
-	List<GuessOrder> findByUserId(@Param("userId")String userId,
-			@Param("status")Integer status,@Param("topicId") Integer topicId,
-			@Param("optionId")String optionId,
+	List<GuessOrder> findAllBy(@Param("order")GuessOrder order,
 			@Param("start")Date start,@Param("end")Date end);
+	
+	GuessOrder findOneBy(@Param("order")GuessOrder order);
 	
 	int insert(GuessOrder order); 
 	

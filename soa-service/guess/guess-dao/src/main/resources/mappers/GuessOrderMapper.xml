@@ -4,33 +4,27 @@
     
 	<sql id="Base_Where_Clause" >
 	    <trim prefix="where" prefixOverrides="and|or" >
-	      <if test="id != null" >
-	         and id = #{id}
+	      <if test="order.id != null" >
+	         and id = #{order.id}
 	      </if>
-	      <if test="orderNo != null" >
-	         and orderNo = #{orderNo}
+	      <if test="order.orderNo != null" >
+	         and orderNo = #{order.orderNo}
 	      </if>
-	      <if test="userId != null" >
-	         and userId = #{userId}
+	      <if test="order.userId != null" >
+	         and userId = #{order.userId}
 	      </if>
-	      <if test="optionId != null" >
-	         and optionId = #{optionId}
+	      <if test="order.optionId != null" >
+	         and optionId = #{order.optionId}
 	      </if>
-	      <if test="bonus != null" >
-	         and bonus = #{bonus}
+	      <if test="order.bonus != null" >
+	         and bonus = #{order.bonus}
 	      </if>
-	      <if test="topicId != null" >
-	         and topicId = #{topicId}
+	      <if test="order.topicId != null" >
+	         and topicId = #{order.topicId}
 	      </if>
-	      <if test="status != null" >
-	         and status = #{status}
+	      <if test="order.status != null" >
+	         and status = #{order.status}
 	      </if>
-	      <if test="start != null and start !=''">
-		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
-		  </if>
-		  <if test="end != null and end !=''">
-		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
-		  </if>
 	    </trim>
 	</sql>
 	
@@ -38,22 +32,29 @@
 	    id, orderNo, userId, optionId, diamond, bonus, amount, topicId, status, createTime
 	</sql>
 	
-	<select id="findByOrderNo" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	<select id="findByForPager" resultType="com.caiqianyi.guess.entity.GuessOrder">
 	    select <include refid="Base_Column_List" />
 	    from guess_order <include refid="Base_Where_Clause" />
+	    <if test="start != null and start !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+		</if>
+		<if test="end != null and end !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
+		</if>
 	</select>
 	
-	<select id="findById" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	<select id="findAllBy" resultType="com.caiqianyi.guess.entity.GuessOrder">
 	    select <include refid="Base_Column_List" />
 	    from guess_order <include refid="Base_Where_Clause" />
+	    <if test="start != null and start !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+		</if>
+		<if test="end != null and end !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
+		</if>
 	</select>
 	
-	<select id="findByUserIdForPager" resultType="com.caiqianyi.guess.entity.GuessOrder">
-	    select <include refid="Base_Column_List" />
-	    from guess_order <include refid="Base_Where_Clause" />
-	</select>
-	
-	<select id="findByUserId" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	<select id="findOneBy" resultType="com.caiqianyi.guess.entity.GuessOrder">
 	    select <include refid="Base_Column_List" />
 	    from guess_order <include refid="Base_Where_Clause" />
 	</select>

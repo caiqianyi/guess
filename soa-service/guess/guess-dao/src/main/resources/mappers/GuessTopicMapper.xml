@@ -4,61 +4,45 @@
     
 	<sql id="Base_Where_Clause" >
 	    <trim prefix="where" prefixOverrides="and|or" >
-	      <if test="topicId != null" >
-	         and topicId = #{topicId}
+	      <if test="topic.topicId != null" >
+	         and topicId = #{topic.topicId}
 	      </if>
-	      <if test="roomId != null" >
-	         and roomId = #{roomId}
+	      <if test="topic.roomId != null" >
+	         and roomId = #{topic.roomId}
 	      </if>
-	      <if test="label != null" >
-	         and label = #{label}
+	      <if test="topic.label != null" >
+	         and label = #{topic.label}
 	      </if>
-	      <if test="kind != null" >
-	         and kind = #{kind}
+	      <if test="topic.kind != null" >
+	         and kind = #{topic.kind}
 	      </if>
-	      <if test="league != null" >
-	         and league = #{league}
+	      <if test="topic.league != null" >
+	         and league = #{topic.league}
 	      </if>
-	      <if test="groupId != null" >
-	         and groupId = #{groupId}
+	      <if test="topic.groupId != null" >
+	         and groupId = #{topic.groupId}
 	      </if>
-	      <if test="topicType != null" >
-	         and topicType = #{topicType}
+	      <if test="topic.topicType != null" >
+	         and topicType = #{topic.topicType}
 	      </if>
-	      <if test="orderBy != null" >
-	         and orderBy = #{orderBy}
+	      <if test="topic.orderBy != null" >
+	         and orderBy = #{topic.orderBy}
 	      </if>
-	      <if test="status != null" >
-	         and status = #{status}
+	      <if test="topic.status != null" >
+	         and status = #{topic.status}
 	      </if>
-	      <if test="result != null" >
-	         and result = #{result}
+	      <if test="topic.optionId != null" >
+	         and optionId = #{topic.optionId}
 	      </if>
-	      <if test="start != null and start !=''">
-		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
-		  </if>
-		  <if test="end != null and end !=''">
-		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
-		  </if>
 	    </trim>
 	</sql>
 	
 	<sql id="Base_Column_List" >
 	    id, topicId, roomId, subject, label, kind, league, groupId,topicType,orderBy, joinCount, status, 
-	    result, createTime, beginTime, overTime, finishTime
+	    optionId, createTime, beginTime, overTime, finishTime
 	</sql>
 	
-	<select id="findOneGuessTopicByTopicId" resultType="com.caiqianyi.guess.entity.GuessTopic">
-	    select <include refid="Base_Column_List" />
-	    from guess_topic <include refid="Base_Where_Clause" />
-	</select>
-	
-	<select id="findOneGuessTopicByOptionId" resultType="com.caiqianyi.guess.entity.GuessTopic">
-	    select <include refid="Base_Column_List" />
-	    from guess_topic <include refid="Base_Where_Clause" />
-	</select>
-	
-	<select id="findGuessTopicByRoomIdForPager" resultType="com.caiqianyi.guess.entity.GuessTopic">
+	<select id="findOneGuessTopicBy" resultType="com.caiqianyi.guess.entity.GuessTopic">
 	    select <include refid="Base_Column_List" />
 	    from guess_topic <include refid="Base_Where_Clause" />
 	</select>
@@ -66,17 +50,29 @@
 	<select id="findGuessTopicByForPager" resultType="com.caiqianyi.guess.entity.GuessTopic">
 	    select <include refid="Base_Column_List" />
 	    from guess_topic <include refid="Base_Where_Clause" />
+		<if test="start != null and start !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+		</if>
+		<if test="end != null and end !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
+		</if>
 	</select>
 	
-	<select id="findGuessTopicBy" resultType="com.caiqianyi.guess.entity.GuessTopic">
+	<select id="findAllGuessTopicBy" resultType="com.caiqianyi.guess.entity.GuessTopic">
 	    select <include refid="Base_Column_List" />
 	    from guess_topic <include refid="Base_Where_Clause" />
+		<if test="start != null and start !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+		</if>
+		<if test="end != null and end !=''">
+		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
+		</if>
 	</select>
 	
 	<insert id="insert" parameterType="com.caiqianyi.guess.entity.GuessTopic">
 	    insert into guess_topic (<include refid="Base_Column_List" />)
 	    	values (UUID(), #{topicId}, #{roomId}, #{subject}, #{label}, #{kind}, #{league}, #{groupId}, #{topicType} 
-	    			#{orderBy}, #{joinCount}, #{status}, #{result}, now(), #{beginTime}, #{overTime}, #{finishTime})
+	    			#{orderBy}, #{joinCount}, #{status}, #{optionId}, now(), #{beginTime}, #{overTime}, #{finishTime})
 	</insert>
 	
 	<update id="update" parameterType="com.caiqianyi.guess.entity.GuessTopic">
@@ -124,24 +120,25 @@
 	    id, topicId, name, value, orderBy, isSelected, odds, createTime
 	</sql>
 	
-	<select id="findOneGuessTopicOptionById" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
+	<sql id="Option_Base_Where_Clause" >
+	    <trim prefix="where" prefixOverrides="and|or" >
+	      <if test="topic.topicId != null" >
+	         and topicId = #{topic.topicId}
+	      </if>
+	      <if test="topic.id != null" >
+	         and topicId = #{topic.id}
+	      </if>
+	    </trim>
+	</sql>
+	
+	<select id="findOneGuessTopicOptionBy" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
 	    select <include refid="Guess_Topic_Option_Column_List" />
-	    from guess_topic_option where id = #{id}
+	    from guess_topic_option <include refid="Option_Base_Where_Clause" />
 	</select>
 	
-	<select id="findOneGuessTopicOptionByTopicId" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
-	    select <include refid="Guess_Topic_Option_Column_List" />
-	    from guess_topic_option where topicId = #{topicId} and id = #{id}
-	</select>
-	
-	<select id="findOneGuessTopicOptionByValue" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
+	<select id="findAllGuessTopicOptionBy" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
 	    select <include refid="Guess_Topic_Option_Show_Column_List" />
-	    from guess_topic_option where topicId = #{topicId} and value = #{value}
-	</select>
-	
-	<select id="findGuessTopicOptionByTopicId" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
-	    select <include refid="Guess_Topic_Option_Show_Column_List" />
-	    from guess_topic_option where topicId = #{topicId}
+	    from guess_topic_option <include refid="Option_Base_Where_Clause" />
 	</select>
 	
 	<insert id="insertOption">

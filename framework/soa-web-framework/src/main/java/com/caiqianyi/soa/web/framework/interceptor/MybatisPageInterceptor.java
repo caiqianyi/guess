@@ -34,7 +34,7 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.caiqianyi.soa.web.framework.model.Pager;
+import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.soa.web.framework.reflect.ReflectHelper;
 
 @Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class, Integer.class }) })

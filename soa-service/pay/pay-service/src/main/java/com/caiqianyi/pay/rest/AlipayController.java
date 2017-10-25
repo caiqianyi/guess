@@ -122,7 +122,7 @@ public class AlipayController {
 			map.put("trade_no", trade_no);
 			map.put("gmt_payment", gmt_payment+"");
 			
-			rabbitmqSender.sendContractDirect(DirectRabbitConfig.BuyCardQueue, map);
+			rabbitmqSender.sendContractDirect(DirectRabbitConfig.AlipayNotifyQueue, map);
 			
 			return "success";
 		}catch(Exception e){

@@ -7,10 +7,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.guess.core.dao.IGameMatchMapper;
 import com.caiqianyi.guess.game.entity.GameMatch;
 import com.caiqianyi.guess.match.game.service.IGameMatchService;
-import com.caiqianyi.soa.web.framework.model.Pager;
 
 @Service
 public class GameMatchServiceImpl implements IGameMatchService {

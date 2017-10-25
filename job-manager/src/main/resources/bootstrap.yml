@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: job-manager
+  session:
+    store-type: none
+  cloud:
+    config:
+      name: ${GUESS_CONFIG_NAME}
+      profile: ${GUESS_CONFIG_PROFILE}
+      username: ${GUESS_CONFIG_USERNAME}
+      password: ${GUESS_CONFIG_PASSWORD}
+      uri: ${GUESS_CONFIG_URI}
+      label: master
+  resources:
+    static-locations: classpath:/statics/
+
+# Define the port where the Widget Foundry server would be running
+server:
+  port: 9997
+  
+quartz:
+  job:
+    enabled: true
+  
+security:
+  basic:  
+    enabled: true  
+  user:  
+    name: guess  
+    password: 123123  

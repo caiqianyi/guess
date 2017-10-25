@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.guess.game.entity.GameMatch;
-import com.caiqianyi.soa.web.framework.model.Pager;
 
 @Mapper
 public interface IGameMatchMapper {

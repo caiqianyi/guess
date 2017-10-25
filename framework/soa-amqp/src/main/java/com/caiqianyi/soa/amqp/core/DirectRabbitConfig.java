@@ -7,7 +7,6 @@ public class DirectRabbitConfig {
 
     public final static String AlarmMailQueue = "alarm.mail.queue";
     
-    public final static String BuyCardQueue = "buy.card.queue";
+    public final static String AlipayNotifyQueue = "alipay.notify.queue";
     
-    public final static String BuyCardCashbackCompleteQueue = "cashback.complete.queue";
 }

@@ -51,6 +51,7 @@ public class QuartzConfig {
         // 自定义Job Factory，用于Spring注入
         factory.setJobFactory(jobFactory);
         
+        logger.debug("schedulerFactoryBean|autoStartup={}",autoStartup);
         factory.setAutoStartup(autoStartup);
         return factory;
     }
@@ -80,7 +81,7 @@ public class QuartzConfig {
 		prop.put("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX");
 		prop.put("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate");
 		prop.put("org.quartz.jobStore.dataSource", "quartzDataSource");
-		prop.put("org.quartz.jobStore.tablePrefix", "t_qrtz_");
+		prop.put("org.quartz.jobStore.tablePrefix", "qrtz_");
 		prop.put("org.quartz.jobStore.isClustered", "true");
 		prop.put("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool");
         prop.put("org.quartz.threadPool.threadCount", "5");

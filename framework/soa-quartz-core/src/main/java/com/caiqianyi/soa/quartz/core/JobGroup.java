@@ -2,7 +2,7 @@ package com.caiqianyi.soa.quartz.core;
 
 public enum JobGroup {
 	
-	SYSTEM("ct.system"),DATA_SYNC("ct.data.sync");
+	SYSTEM("guess.system"),DATA_SYNC("guess.data.sync");
 	
 	private String name;
 	

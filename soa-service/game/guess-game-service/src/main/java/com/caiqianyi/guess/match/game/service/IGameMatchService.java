@@ -3,8 +3,8 @@ package com.caiqianyi.guess.match.game.service;
 import java.util.Date;
 import java.util.List;
 
+import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.guess.game.entity.GameMatch;
-import com.caiqianyi.soa.web.framework.model.Pager;
 
 public interface IGameMatchService {
 	

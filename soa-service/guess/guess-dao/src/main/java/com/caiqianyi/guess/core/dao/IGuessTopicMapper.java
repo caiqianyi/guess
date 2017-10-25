@@ -6,9 +6,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.guess.entity.GuessTopic;
 import com.caiqianyi.guess.entity.GuessTopicOption;
-import com.caiqianyi.soa.web.framework.model.Pager;
 
 
 @Mapper
@@ -19,23 +19,13 @@ public interface IGuessTopicMapper {
 	 * @param topicId 竞猜ID
 	 * @return
 	 */
-	GuessTopic findOneGuessTopicByTopicId(@Param("topicId")Integer topicId);
+	GuessTopic findOneGuessTopicBy(@Param("topic")GuessTopic topic);
 	
-	GuessTopic findOneGuessTopicByOptionId(@Param("result")String result);
-	
-	List<GuessTopic> findGuessTopicByRoomIdForPager(@Param("roomId")Integer roomId,
-			@Param("status")Integer status,@Param("start")Date start,
-			@Param("end")Date end,Pager pager);
-	
-	List<GuessTopic> findGuessTopicByForPager(@Param("kind")String kind,
-			@Param("league")String league,@Param("groupId")String groupId,
-			@Param("status")Integer status,@Param("orderBy") Integer orderBy,
+	List<GuessTopic> findGuessTopicByForPager(@Param("topic")GuessTopic topic,
 			@Param("start")Date start,
 			@Param("end")Date end,Pager pager);
 	
-	List<GuessTopic> findGuessTopicBy(@Param("kind")String kind,
-			@Param("league")String league,@Param("groupId")String groupId,
-			@Param("status")Integer status,@Param("orderBy") Integer orderBy,
+	List<GuessTopic> findAllGuessTopicBy(@Param("topic")GuessTopic topic,
 			@Param("start")Date start,
 			@Param("end")Date end);
 	
@@ -45,17 +35,13 @@ public interface IGuessTopicMapper {
 	
 	int delete(@Param("id")String id);
 	
-	GuessTopicOption findOneGuessTopicOptionById(@Param("id")String id);
+	GuessTopicOption findOneGuessTopicOptionBy(@Param("option")GuessTopicOption option);
 	
-	GuessTopicOption findOneGuessTopicOptionByTopicId(@Param("topicId")Integer topicId,@Param("id")String id);
+	List<GuessTopicOption> findAllGuessTopicOptionBy(@Param("option")GuessTopicOption option);
 	
-	GuessTopicOption findOneGuessTopicOptionByValue(@Param("topicId")Integer topicId,@Param("value")String value);
+	int insertOption(@Param("option")GuessTopicOption option);
 	
-	List<GuessTopicOption> findGuessTopicOptionByTopicId(@Param("topicId")Integer topicId);
-	
-	int insertOption(GuessTopicOption option);
-	
-	int updateOption(GuessTopicOption option);
+	int updateOption(@Param("option")GuessTopicOption option);
 	
 	int deleteOption(@Param("id")String id);
 	

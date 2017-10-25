@@ -15,7 +15,7 @@ CREATE TABLE `guess_order` (
   	`bonus` float(10,2) DEFAULT NULL COMMENT '奖金',
   	`amount` int(10) NOT NULL COMMENT '倍数',
   	`topicId` int(10) NOT NULL COMMENT '话题ID',
-  	`status` int(10) NOT NULL COMMENT '状态 0=未开奖，1=已返奖，-1=未中奖，2=已结束未返奖',
+  	`status` int(10) NOT NULL COMMENT '状态 0=未开奖，1=已返奖，-1=未中奖',
 	`createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `orderNo` (`orderNo`),
