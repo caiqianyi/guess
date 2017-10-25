@@ -168,7 +168,7 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 				if(optionId.equals(winningOptionId)){//判断是否未中奖，true=中奖
 					BigDecimal bonus = option.getOdds().multiply(order.getDiamond());
 					order.setBonus(bonus);
-					order.setStatus(1);//已中奖状态
+					order.setStatus(1);//已返奖状态
 					User user = userMapper.findById(order.getUserId());
 					
 					TradeRecord tradeRecord = new TradeRecord();

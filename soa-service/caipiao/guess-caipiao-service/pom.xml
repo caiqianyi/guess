@@ -34,10 +34,6 @@
     </dependency> -->
   	<dependency>
   		<groupId>com.caiqianyi</groupId>
-  		<artifactId>agent-model</artifactId>
-  	</dependency>
-  	<dependency>
-  		<groupId>com.caiqianyi</groupId>
   		<artifactId>base-dao</artifactId>
   		<version>1.0.0-RELEASE</version>
   	</dependency>

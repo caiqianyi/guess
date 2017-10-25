@@ -2,7 +2,7 @@ spring:
   application:
     name: service-registry
   profiles:
-    active: dev
+    active: ${GUESS_CONFIG_PROFILE}
 
 # Define the port where the Service Registry server would be running
 server:

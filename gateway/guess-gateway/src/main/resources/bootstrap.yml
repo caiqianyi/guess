@@ -2,21 +2,21 @@ spring:
   aop:
     proxyTargetClass: true
   application:
-    name: agent-gateway
+    name: guess-gateway
   session:
     store-type: none
   cloud:
     config:
-      name: gateway
-      profile: dev
+      name: ${GUESS_CONFIG_NAME}
+      profile: ${GUESS_CONFIG_PROFILE}
+      username: ${GUESS_CONFIG_USERNAME}
+      password: ${GUESS_CONFIG_PASSWORD}
+      uri: ${GUESS_CONFIG_URI}
       label: master
-      uri: http://123.206.192.46:7369/
-      username: config
-      password: QWERtyuiP
 
 # Define the port where the API gateway server would be running
 server:
-  port: 8888
+  port: 9994
 
 sms:
   cst_id: 58007

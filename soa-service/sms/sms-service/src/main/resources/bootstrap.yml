@@ -5,13 +5,13 @@ spring:
     store-type: none
   cloud:
     config:
-      name: gateway
-      profile: dev
+      name: ${GUESS_CONFIG_NAME}
+      profile: ${GUESS_CONFIG_PROFILE}
+      username: ${GUESS_CONFIG_USERNAME}
+      password: ${GUESS_CONFIG_PASSWORD}
+      uri: ${GUESS_CONFIG_URI}
       label: master
-      username: config
-      password: QWERtyuiP
-      uri: http://123.206.192.46:7369/
 
 # Define the port where the Widget Foundry server would be running
 server:
-  port: 7080
+  port: 9992
