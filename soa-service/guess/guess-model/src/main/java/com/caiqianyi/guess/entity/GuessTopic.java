@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS `guess_topic`;
 CREATE TABLE `guess_topic` (
   `id` varchar(36) CHARACTER SET utf8mb4 NOT NULL COMMENT '主键',
   `createBy` varchar(36) DEFAULT NULL COMMENT '创建人',
-  `roomId` int(10) NOT NULL COMMENT '房间号',
+  `roomId` int(10) DEFAULT NULL  COMMENT '房间号',
   `subject` longtext NOT NULL COMMENT '竞猜题目',
   `label` varchar(200) NOT NULL COMMENT '标签分类',
   `kind` varchar(50) NOT NULL COMMENT '种类',
@@ -24,9 +24,8 @@ CREATE TABLE `guess_topic` (
   `status` int(10) DEFAULT 0 COMMENT '状态 0=进行中，1=未开奖，2=已开奖，3=已返奖',
   `optionId` varchar(36) DEFAULT NULL COMMENT '正确选项ID',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `beginTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '话题开始竞猜时间',
-  `overTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '终止竞猜时间',
-  `finishTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '结算时间',
+  `overTime` datetime DEFAULT NULL COMMENT '终止竞猜时间',
+  `finishTime` datetime DEFAULT NULL COMMENT '结算时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `roomId` (`roomId`),
   UNIQUE KEY `topicId` (`topicId`),
@@ -40,7 +39,6 @@ CREATE TABLE `guess_topic` (
   KEY `join_count_index` (`joinCount`),
   KEY `status_index` (`status`),
   KEY `create_time_index` (`createTime`),
-  KEY `begin_time_index` (`beginTime`),
   KEY `over_time_index` (`overTime`),
   KEY `finish_time_index` (`finishTime`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='竞猜表';
@@ -107,10 +105,6 @@ public class GuessTopic implements Serializable{
 	 * 创建时间
 	 */
 	private Date createTime;
-	/**
-	 * 话题开始竞猜时间
-	 */
-	private Date beginTime;
 	/**
 	 * 终止竞猜时间
 	 */
@@ -191,12 +185,6 @@ public class GuessTopic implements Serializable{
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
-	}
-	public Date getBeginTime() {
-		return beginTime;
-	}
-	public void setBeginTime(Date beginTime) {
-		this.beginTime = beginTime;
 	}
 	public Date getOverTime() {
 		return overTime;

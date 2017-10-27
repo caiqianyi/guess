@@ -14,31 +14,31 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import com.caiqianyi.guess.game.service.ILolGuessTopicService;
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
-import com.caiqianyi.guess.service.IGuessTopicService;
 
 /**
- * 同步比赛结果
+ * 同步LOL比赛
  * @author caiqianyi
  *
  */
 @Component
-@RabbitListener(queues = JobDirectRabbitConfig.SYNC_GUESS_GAME_RESULT_JOB)
-public class SyncGuessTopicOptionListener {
+@RabbitListener(queues = JobDirectRabbitConfig.SYNC_GUESS_GAME_LOL_MATCH_JOB)
+public class SyncGuessGameLolMatchListener {
 
-	private Logger logger = LoggerFactory.getLogger(SyncGuessTopicOptionListener.class);
+	private Logger logger = LoggerFactory.getLogger(SyncGuessGameLolMatchListener.class);
 	
 	@Resource
-	private IGuessTopicService guessTopicService;
+	private ILolGuessTopicService lolGuessTopicService;
 	
 	@Bean 
-    public Queue queueSyncGuessGameResultJob() {
-        return new Queue(JobDirectRabbitConfig.SYNC_GUESS_GAME_RESULT_JOB);
+    public Queue queueSyncGuessGameLolMatchJob() {
+        return new Queue(JobDirectRabbitConfig.SYNC_GUESS_GAME_LOL_MATCH_JOB);
     }
 
     @Bean
-    Binding bindingDirectExchangeSyncGuessGameResultJob(Queue queueSyncGuessGameResultJob, DirectExchange directExchange) {
-        return BindingBuilder.bind(queueSyncGuessGameResultJob).to(directExchange).with(JobDirectRabbitConfig.SYNC_GUESS_GAME_RESULT_JOB);
+    Binding bindingDirectExchangeSyncGuessGameLolMatchJob(Queue queueSyncGuessGameLolMatchJob, DirectExchange directExchange) {
+        return BindingBuilder.bind(queueSyncGuessGameLolMatchJob).to(directExchange).with(JobDirectRabbitConfig.SYNC_GUESS_GAME_LOL_MATCH_JOB);
     }
 	
 	@RabbitHandler
@@ -47,7 +47,7 @@ public class SyncGuessTopicOptionListener {
 		String body = new String(message.getBody());
 		logger.debug("body={}",body);
 		try {
-			guessTopicService.syncTopicOption("lol");
+			lolGuessTopicService.updatedLoLTopic(body);
 		}  catch (Exception e) {
 			e.printStackTrace();
 		}

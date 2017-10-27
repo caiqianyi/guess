@@ -31,6 +31,7 @@ import com.caiqianyi.commons.exception.I18nMessageException;
 import com.caiqianyi.soa.quartz.core.JobGroup;
 import com.caiqianyi.soa.quartz.core.entity.TaskInfo;
 import com.caiqianyi.soa.quartz.core.service.ITaskService;
+import com.google.gson.Gson;
 
 @Service
 public class TaskServiceImpl implements ITaskService{
@@ -79,12 +80,12 @@ public class TaskServiceImpl implements ITaskService{
 					TaskInfo info = new TaskInfo();
 					info.setJobName(jobKey.getName());
 					info.setJobGroup(jobKey.getGroup());
-					info.setGroupSimple(JobGroup.valueByName(jobKey.getGroup()));
 					info.setJobDescription(jobDetail.getDescription());
 					info.setJobStatus(triggerState.name());
 					info.setCronExpression(cronExpression);
 					info.setCreateTime(createTime);
 					info.setDataJson(jobDetail.getJobDataMap().getString("dataJson"));
+					logger.debug("info={}",new Gson().toJson(info));
 					list.add(info);
 				}					
 			}
@@ -119,6 +120,7 @@ public class TaskServiceImpl implements ITaskService{
 			   createTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"),
 					   dataJson = info.getDataJson();
 		try {
+			logger.debug("jobName={},jobGroup={}",jobName,jobGroup);
 			if (!checkExists(jobName, jobGroup)) {
 				throw new I18nMessageException("500",String.format("Job不存在, jobName:{%s},jobGroup:{%s}", jobName, jobGroup));
 			}
@@ -203,6 +205,20 @@ public class TaskServiceImpl implements ITaskService{
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void trigger(String jobName, String jobGroup) {
+		// TODO Auto-generated method stub
+		JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
+        try {
+			if (checkExists(jobName, jobGroup)) {
+				scheduler.triggerJob(jobKey);
+			    logger.info("===> trigger success, jobKey:{}", jobKey);
+			}
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}	
 	}
 	
 	/**

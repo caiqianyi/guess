@@ -23,7 +23,7 @@ import com.alibaba.fastjson.JSON;
 import com.caiqianyi.commons.exception.SuccessMessage;
 import com.caiqianyi.soa.quartz.core.JobGroup;
 import com.caiqianyi.soa.quartz.core.entity.TaskInfo;
-import com.caiqianyi.soa.quartz.core.service.impl.TaskServiceImpl;
+import com.caiqianyi.soa.quartz.core.service.ITaskService;
 import com.google.gson.Gson;
 
 /**
@@ -34,7 +34,7 @@ public class TaskManageController {
 	private Logger logger = LoggerFactory.getLogger(TaskManageController.class);
 	
 	@Resource
-	private TaskServiceImpl taskServiceImpl;
+	private ITaskService taskService;
 	
 	@Resource
 	private Map<String,Job> jobs;
@@ -65,7 +65,7 @@ public class TaskManageController {
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	public String list(String jobGroup) throws SchedulerException{
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<TaskInfo> infos = taskServiceImpl.list(jobGroup);
+		List<TaskInfo> infos = taskService.list(jobGroup);
 		map.put("rows", infos);
 		map.put("total", infos.size());
 		return JSON.toJSONString(map);
@@ -79,9 +79,9 @@ public class TaskManageController {
 	@RequestMapping(value="save", method=RequestMethod.POST, produces = "application/json; charset=UTF-8")
 	public SuccessMessage save(TaskInfo info){
 		if(info.getId() == 0)
-			taskServiceImpl.addJob(info);
+			taskService.addJob(info);
 		else
-			taskServiceImpl.edit(info);
+			taskService.edit(info);
 		return new SuccessMessage("ok");
 	}
 	
@@ -94,7 +94,7 @@ public class TaskManageController {
 	@RequestMapping(value="delete/{jobName}/{jobGroup}", produces = "application/json; charset=UTF-8")
 	public SuccessMessage delete(@PathVariable String jobName, @PathVariable String jobGroup){
 		logger.debug("====>>TaskManageController delete jobGroup:{}",jobGroup);
-		taskServiceImpl.delete(jobName, "undefined".equals(jobGroup) ? "" : jobGroup);
+		taskService.delete(jobName, "undefined".equals(jobGroup) ? "" : jobGroup);
 		return new SuccessMessage("ok");
 	}
 	
@@ -106,7 +106,19 @@ public class TaskManageController {
 	@ResponseBody
 	@RequestMapping(value="pause/{jobName}/{jobGroup}", produces = "application/json; charset=UTF-8")
 	public SuccessMessage pause(@PathVariable String jobName, @PathVariable String jobGroup){
-		taskServiceImpl.pause(jobName, jobGroup);
+		taskService.pause(jobName, jobGroup);
+		return new SuccessMessage("ok");
+	}
+	
+	/**
+	 * 立即开始
+	 * @param jobName
+	 * @param jobGroup
+	 */
+	@ResponseBody
+	@RequestMapping(value="trigger/{jobName}/{jobGroup}", produces = "application/json; charset=UTF-8")
+	public SuccessMessage trigger(@PathVariable String jobName, @PathVariable String jobGroup){
+		taskService.trigger(jobName, jobGroup);
 		return new SuccessMessage("ok");
 	}
 	
@@ -118,7 +130,7 @@ public class TaskManageController {
 	@ResponseBody
 	@RequestMapping(value="resume/{jobName}/{jobGroup}", produces = "application/json; charset=UTF-8")
 	public SuccessMessage resume(@PathVariable String jobName, @PathVariable String jobGroup){
-		taskServiceImpl.resume(jobName, jobGroup);
+		taskService.resume(jobName, jobGroup);
 		return new SuccessMessage("ok");
 	}
 }

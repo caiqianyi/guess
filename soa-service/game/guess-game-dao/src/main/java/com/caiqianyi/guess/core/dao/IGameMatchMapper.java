@@ -12,17 +12,19 @@ import com.caiqianyi.guess.game.entity.GameMatch;
 @Mapper
 public interface IGameMatchMapper {
 
-	GameMatch findByMatchId(@Param("gameType") String gameType,
-			@Param("matchId") Integer matchId);
+	GameMatch findOneBy(@Param("match") GameMatch match);
 
-	GameMatch findById(@Param("id") String id);
-
-	List<GameMatch> findByGameTypeForPager(GameMatch match,
+	List<GameMatch> findAllBy(@Param("match")GameMatch match,
+			@Param("start") Date start, @Param("end") Date end);
+	
+	List<GameMatch> findAllByTopicStatus(@Param("status")Integer topicStatus);
+	
+	List<GameMatch> findByForPager(@Param("match")GameMatch match,
 			@Param("start") Date start, @Param("end") Date end, Pager pager);
 
-	int insert(GameMatch match);
+	int insert(@Param("match")GameMatch match);
 
-	int update(GameMatch match);
+	int update(@Param("match")GameMatch match);
 
 	int delete(@Param("id") String id);
 

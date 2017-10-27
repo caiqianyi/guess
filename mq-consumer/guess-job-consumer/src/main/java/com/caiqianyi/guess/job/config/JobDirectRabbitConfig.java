@@ -12,7 +12,12 @@ public class JobDirectRabbitConfig {
 	/**
 	 * 同步比赛结果 JOB
 	 */
-	public static final String SYNC_GUESS_GAME_RESULT_JOB = "guess.sync.game.result.job";
+	public static final String SYNC_GUESS_GAME_LOL_MATCH_RESULT_JOB = "guess.sync.game.lol.match.result.job";
+	
+	/**
+	 * 同步LOL比赛
+	 */
+	public static final String SYNC_GUESS_GAME_LOL_MATCH_JOB = "guess.sync.game.lol.match.job";
 	/**
 	 * 同步订单返奖 JOB
 	 */

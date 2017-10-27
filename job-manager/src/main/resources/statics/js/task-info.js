@@ -71,12 +71,6 @@ var TaskInfo = {
 	
 	//保存模块
 	saveTaskInfo: function(){
-		var jobGroup1 = $("#jobGroup1").combobox("getValue"),jobGroup2 = $("#jobGroup2").textbox("getValue");;
-		var jobGroup = jobGroup1;
-		if(jobGroup2 && $.trim(jobGroup2).length > 0){
-			jobGroup += "."+jobGroup2;
-		}
-		$("input[name=jobGroup]").val(jobGroup);
 		$(TaskInfo.form).form('submit',{
 	        url: '/save',
 	        onSubmit: function(){
@@ -87,9 +81,9 @@ var TaskInfo = {
 	            return flag;
 	        },
 	        success: function(result){
-	        	result = $.parseJSON(result);
+	        	console.info(result);
 	            if(result.errcode ==0){
-	            	var d = TaskInfo.createTaskInfoDialog();
+	            	var d = TaskInfo.createTaskInfoDialog(); 
 	            	d.dialog('close');
 	            	$(TaskInfo.grid).datagrid("reload");
 	            }else{
@@ -97,6 +91,9 @@ var TaskInfo = {
 	            }
 	            
 	            Ext.progressClose();
+	        },
+	        error: function (){
+	        	Ext.progressClose();
 	        }
 	    });
 	},
@@ -120,7 +117,25 @@ var TaskInfo = {
 			});
 		});
 	},
-	
+	//立即执行一次
+	triggerTaskInfo: function(index) {
+		$(TaskInfo.grid).datagrid('selectRow',index); 
+		var row = Ext.getRecord(this.grid);
+		if(!row){return;}
+		
+		Ext.confirm('您确认要立即执行该任务吗?', function(){
+			Ext.progress('正在立即执行任务...');
+			var record = Ext.getRecord(TaskInfo.grid);
+			$.get("/trigger/"+record.jobName+"/"+record.jobGroup+"/", function(result){
+				if(result.errcode==0){
+					$(TaskInfo.grid).datagrid("reload")
+				}else{
+					Ext.alert(result.errmsg);
+				}
+				Ext.progressClose();
+			});
+		});
+	},
 	//开始
 	resumeTaskInfo: function(index) {
 		$(TaskInfo.grid).datagrid('selectRow',index); 
@@ -166,14 +181,15 @@ var TaskInfo = {
 				{field:'cronExpression',title:'CronExpression',width:60},
 				{field:'createTime',title:'CreateTime',width:70},
 				{field:'Opr',title:'Opr',width:40,formatter:function(v,r,i){
-						if(r.jobStatus == 'NORMAL') {
-							return '<a href="javascript:void(0)" onclick="TaskInfo.pauseTaskInfo('+i+')">暂停</a>'
-						}else if(r.jobStatus == 'PAUSED'){
-							return '<a href="javascript:void(0)" onclick="TaskInfo.resumeTaskInfo('+i+')">开始</a>'
-						}
-						return '';
+					var html = '';
+					if(r.jobStatus == 'NORMAL') {
+						html += '<a href="javascript:void(0)" onclick="TaskInfo.pauseTaskInfo('+i+')">暂停</a>'
+					}else if(r.jobStatus == 'PAUSED'){
+						html += '<a href="javascript:void(0)" onclick="TaskInfo.resumeTaskInfo('+i+')">开始</a>'
 					}
-				}
+					html += '&nbsp;&nbsp;<a href="javascript:void(0)" onclick="TaskInfo.triggerTaskInfo('+i+')">立即执行一次</a>' 
+					return html;
+				}}
 		    ]]
 		});	
 	},

@@ -21,20 +21,28 @@ public class GameMatchServiceImpl implements IGameMatchService {
 	@Override
 	public GameMatch findByMatchId(String gameType, Integer matchId) {
 		// TODO Auto-generated method stub
-		return gameMatchMapper.findByMatchId(gameType, matchId);
+		
+		GameMatch match = new GameMatch();
+		match.setGameType(gameType);
+		match.setMatchId(matchId);
+		return gameMatchMapper.findOneBy(match);
 	}
 
 	@Override
 	public GameMatch findById(String id) {
 		// TODO Auto-generated method stub
-		return gameMatchMapper.findById(id);
+		GameMatch match = new GameMatch();
+		match.setId(id);
+		return gameMatchMapper.findOneBy(match);
 	}
 
 	@Override
-	public List<GameMatch> findByGameTypeForPager(GameMatch match, Date start,
+	public Pager findByGameTypeForPager(GameMatch match, Date start,
 			Date end, Pager pager) {
 		// TODO Auto-generated method stub
-		return gameMatchMapper.findByGameTypeForPager(match, start, end, pager);
+		List<GameMatch> datas = gameMatchMapper.findByForPager(match, start, end, pager);
+		pager.setDatas(datas);
+		return pager;
 	}
 
 	@Override

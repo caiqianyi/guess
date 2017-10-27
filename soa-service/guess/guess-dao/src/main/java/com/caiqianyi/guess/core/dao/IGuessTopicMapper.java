@@ -29,9 +29,9 @@ public interface IGuessTopicMapper {
 			@Param("start")Date start,
 			@Param("end")Date end);
 	
-	int insert(GuessTopic topic);
+	int insert(@Param("topic")GuessTopic topic);
 	
-	int update(GuessTopic topic); 
+	int update(@Param("topic")GuessTopic topic); 
 	
 	int delete(@Param("id")String id);
 	

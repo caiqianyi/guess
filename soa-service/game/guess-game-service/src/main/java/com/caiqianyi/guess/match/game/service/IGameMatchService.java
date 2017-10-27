@@ -1,7 +1,6 @@
 package com.caiqianyi.guess.match.game.service;
 
 import java.util.Date;
-import java.util.List;
 
 import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.guess.game.entity.GameMatch;
@@ -32,7 +31,7 @@ public interface IGameMatchService {
 	 * @param pager 分页参数
 	 * @return
 	 */
-	List<GameMatch> findByGameTypeForPager(GameMatch match,
+	Pager findByGameTypeForPager(GameMatch match,
 			Date start, Date end, Pager pager);
 
 	/**

@@ -1,15 +1,41 @@
 package com.caiqianyi.guess.match.game.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.caiqianyi.guess.entity.GuessTopic;
+import com.caiqianyi.guess.entity.GuessTopicOption;
 import com.caiqianyi.guess.game.entity.GameMatch;
 
 public interface ILoLGuessTopicService {
 	
-	Map<String,String> getGuessResultByMatch(String matchId);
-
+	/**
+	 * 公布结果
+	 * @return
+	 */
+	List<GuessTopicOption> announceResults();
+	/**
+	 * 公布结果
+	 * @return
+	 */
+	List<GuessTopicOption> announceResults(String matchId);
+	
+	/**
+	 * 系统更新创建LOL所有竞猜话题
+	 * @param match
+	 * @param createBy
+	 * @param roomId
+	 * @return
+	 */
+	List<GuessTopic> updatedLoLTopic(String startDate);
+	
+	/**
+	 * 创建LOL所有竞猜话题
+	 * @param match
+	 * @param createBy
+	 * @param roomId
+	 * @return
+	 */
+	List<GuessTopic> createAll(GameMatch match,String createBy,Integer roomId);
 	/**
 	 * 创建关于比赛胜负竞猜话题
 	 * @param match 比赛

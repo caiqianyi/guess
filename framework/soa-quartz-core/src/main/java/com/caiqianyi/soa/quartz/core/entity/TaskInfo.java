@@ -15,9 +15,6 @@ public class TaskInfo implements Serializable{
 	/**任务名称*/
 	private String jobName;
 	
-	/**任务分组*/
-	private JobGroup groupSimple;
-	
 	private String jobGroup;
 	
 	/**任务描述*/
@@ -96,13 +93,4 @@ public class TaskInfo implements Serializable{
 	public void setDataJson(String dataJson) {
 		this.dataJson = dataJson;
 	}
-
-	public JobGroup getGroupSimple() {
-		return groupSimple;
-	}
-
-	public void setGroupSimple(JobGroup groupSimple) {
-		this.groupSimple = groupSimple;
-	}
-
 }

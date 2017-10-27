@@ -21,9 +21,9 @@ public interface IGuessOrderMapper {
 	
 	GuessOrder findOneBy(@Param("order")GuessOrder order);
 	
-	int insert(GuessOrder order); 
+	int insert(@Param("order")GuessOrder order); 
 	
-	int update(GuessOrder order);
+	int update(@Param("order")GuessOrder order);
 	
 	int delete(@Param("id")String  id);
 	

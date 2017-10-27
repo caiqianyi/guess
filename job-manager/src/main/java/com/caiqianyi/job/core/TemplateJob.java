@@ -26,7 +26,6 @@ public class TemplateJob implements Job{
 	public void execute(JobExecutionContext context)
 			throws JobExecutionException {
 		JobDataMap jobMap =  context.getJobDetail().getJobDataMap();
-		logger.debug("jsonMap={}",jobMap);
 		if(jobMap != null){
 			String dataJson = jobMap.getString("dataJson");
 			JSONObject datas = JSONObject.parseObject(dataJson);

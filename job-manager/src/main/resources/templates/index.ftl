@@ -88,9 +88,9 @@
 								<td width="100"></td>
 							</tr>
 							<tr>
-								<td>JobGroup</td>
+								<td>JobGroupSelect</td>
 								<td>
-									<select class="easyui-combobox" name="jobGroup1" style="width:100%;" data-options="required:true" id="jobGroup1">
+									<select class="easyui-combobox" name="jobGroup1" style="width:100%;" data-options="required:false" id="jobGroup1">
 										<#list jobGroups as jobGroup>
 											<option value="${jobGroup }">${jobGroup }</option>
 										</#list>
@@ -100,9 +100,9 @@
 								<td width="100"></td>
 							</tr>
 							<tr>
-								<td>JobGroup2</td>
+								<td>jobGroup</td>
 								<td>
-									<input class="easyui-textbox" name="jobGroup2" data-options="required:false" style="width:100%" id="jobGroup2">
+									<input class="easyui-textbox" name="jobGroup" data-options="required:false" style="width:100%" id="jobGroup">
 								</td>
 								<td width="100"></td>
 							</tr>
@@ -166,6 +166,12 @@
 	</div>
 <script type="text/javascript">
 (function($) {
+	
+	$('#jobGroup1').combobox({    
+        onChange: function (newValue, oldValue) {  
+            $('#jobGroup').textbox('setValue',newValue);
+        }
+    });                      
 	TaskInfo.init({jobGroup:{name:"",value:""}});
 })(jQuery);
 </script>

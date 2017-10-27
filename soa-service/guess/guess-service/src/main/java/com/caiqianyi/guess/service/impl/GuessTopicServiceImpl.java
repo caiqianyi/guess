@@ -28,7 +28,7 @@ public class GuessTopicServiceImpl implements IGuessTopicService {
 	
 	private static Logger logger = LoggerFactory.getLogger(GuessTopicServiceImpl.class);
 
-	@Value("{guess.bonus.ratio}")
+	@Value("${guess.bonus.ratio}")
 	private String bonusRatio;
 	@Resource
 	private IGuessTopicMapper guessTopicMapper;
@@ -153,6 +153,7 @@ public class GuessTopicServiceImpl implements IGuessTopicService {
 	}
 	
 	@Override
+	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public void calOdds(){
 		GuessTopic topicParam = new GuessTopic();
 		topicParam.setStatus(0);
@@ -163,6 +164,7 @@ public class GuessTopicServiceImpl implements IGuessTopicService {
 	}
 	
 	@Override
+	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public BigDecimal[] calOdds(Integer topicId) {
 		List<GuessTopicOption> options = this.findGuessTopicOptionByTopicId(topicId);
 		if(options != null){
@@ -171,6 +173,7 @@ public class GuessTopicServiceImpl implements IGuessTopicService {
 				GuessTopicOption gto = options.get(i);
 				bas[i] = gto.getBuyAmount(); 
 			}
+			logger.debug("bonusRatio={}",bonusRatio);
 			BigDecimal odds[] = OddsMath.calOdds(bonusRatio, bas);
 			for(int i=0;i<odds.length;i++){
 				GuessTopicOption gto = options.get(i);
@@ -185,6 +188,7 @@ public class GuessTopicServiceImpl implements IGuessTopicService {
 	}
 	
 	@Override
+	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public int finishGuess() {
 		// TODO Auto-generated method stub
 		/*
@@ -205,6 +209,7 @@ public class GuessTopicServiceImpl implements IGuessTopicService {
 	}
 	
 	@Override
+	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public void syncTopicOption(String kind) {
 		// TODO Auto-generated method stub
 		/*

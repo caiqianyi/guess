@@ -77,6 +77,13 @@ public interface ITaskService {
 	public void resume(String jobName, String jobGroup);
 	
 	/**
+	 * 立即执行
+	 * @param jobName
+	 * @param jobGroup
+	 */
+	public void trigger(String jobName,String jobGroup);
+	
+	/**
 	 * 验证是否存在
 	 * @param jobName
 	 * @param jobGroup

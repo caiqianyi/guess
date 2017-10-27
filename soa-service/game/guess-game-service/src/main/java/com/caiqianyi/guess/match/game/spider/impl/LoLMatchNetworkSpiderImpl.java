@@ -6,7 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
@@ -33,15 +35,52 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 	private Logger logger = LoggerFactory
 			.getLogger(LoLMatchNetworkSpiderImpl.class);
 	
-	private String url = "http://apps.game.qq.com/lol/match/apis/searchBMatchInfo.php?p8=%s&p1=%s&p9=%s&p10=%s&p6=3&page=%s&pagesize=%s&r1=retObj&_=";
+	private final String url = "http://apps.game.qq.com/lol/match/apis/searchBMatchInfo.php?p8=%s&p1=%s&p9=%s&p10=%s&p6=3&page=%s&pagesize=%s&r1=retObj&_=";
 
-	private String teamUrl = "http://lpl.qq.com/web201612/data/LOL_MATCH2_TEAM_TEAM%s_INFO.js";
+	private final String teamUrl = "http://lpl.qq.com/web201612/data/LOL_MATCH2_TEAM_TEAM%s_INFO.js";
 	
-	private String searchBMatchInfo = "http://apps.game.qq.com//lol/match/apis/searchBMatchInfo.php?p0=%s&r1=bMatchObj&_=%s";
+	private final String searchBMatchInfo = "http://apps.game.qq.com//lol/match/apis/searchBMatchInfo.php?p0=%s&r1=bMatchObj&_=%s";
 
-	private String searchSMatchList = "http://apps.game.qq.com/lol/match/apis/searchSMatchList.php?p0=%s&r1=SMatchListArr&_=%s";
+	private final String searchSMatchList = "http://apps.game.qq.com/lol/match/apis/searchSMatchList.php?p0=%s&r1=SMatchListArr&_=%s";
 
-	private String searchMatchInfo = "http://apps.game.qq.com/lol/match/apis/searchMatchInfo_s.php?p0=%s&r1=MatchInfo&_=%s";
+	private final String searchMatchInfo = "http://apps.game.qq.com/lol/match/apis/searchMatchInfo_s.php?p0=%s&r1=MatchInfo&_=%s";
+	
+	@Override
+	public Map<String,String> getGuessResultByMatch(GameMatch match,String matchId){
+		
+		if(match != null && match.getStatus() == 3){
+			
+			List<LoLSMatch> battleDatas = this.findSMatchByMatchId(matchId);
+			Map<String,String> result = new LinkedHashMap<String,String>();
+			String sfOp = "F",fbOp = "",ftOp = "",sodOp = "",bfOp = match.getScore();
+			if("host".equals(match.getMatchWin())){
+				sfOp = "S";
+			}
+			if(battleDatas != null && !battleDatas.isEmpty()){
+				for(int i=0;i<battleDatas.size();i++){
+					LoLSMatch lsm = battleDatas.get(i);
+					BattleData battleData = lsm.getBattleData();
+					fbOp += "host".equals(battleData.getFirstBlood()) ? "S" : "F";
+					ftOp += "host".equals(battleData.getFirstTower()) ? "S" : "F";
+					sodOp += battleData.getKills() % 2 != 0 ? "S" : "F";
+					if(i<battleDatas.size()-1){
+						fbOp+="|";
+						ftOp+="|";
+						sodOp+="|";
+					}
+				}
+			}
+			result.put("SF", sfOp);
+			result.put("FirstBlood", fbOp);
+			result.put("FirstTurret", ftOp);
+			result.put("SOD", sodOp);
+			result.put("BF", bfOp);
+			result.put("lolMatch", match.getHostTeam()+" VS "+match.getGuestTeam());
+			logger.debug("result={}",result);
+			return result;
+		}
+		return null;
+	}
 	
 	@Override
 	public BattleData findMatchInfoBySMatchId(String sMatchId) {
@@ -335,8 +374,8 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 			if (!StringUtils.isNumeric(match.getSeason())) {
 				match.setSeason(DateFormatUtils.format(matchTime,
 						"yyyy"));
-				// logger.debug("match.season={}",match.getSeason());
 			}
+			// logger.debug("match.season={}",match.getSeason());
 			return match;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -352,7 +391,8 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 		try {
 			String s = DateFormatUtils.format(start, "yyyy-MM-dd%20HH:mm:ss"), e = DateFormatUtils
 					.format(end, "yyyy-MM-dd%20HH:mm:ss");
-			url = String.format(url, league, season, s, e, "" + pageNum, ""
+			logger.debug("findByLeagueAndTime|league={},season={},s={},e={},pageNum={},size={}",league,season,s,e,pageNum,size);
+			String url = String.format(this.url, league, season, s, e, "" + pageNum, ""
 					+ size);
 			logger.debug("url={}", url);
 			Document doc = Jsoup
@@ -398,7 +438,7 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 		
 		ILoLMatchNetworkSpider loLMatchNetworkSpider = new LoLMatchNetworkSpiderImpl();
 		ILoLGuessTopicService loLGuessTopicService = new LoLGuessTopicServiceImpl();
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		/*DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		List<GameMatch> gameMatchs = loLMatchNetworkSpider
 				.findByLeagueAndTime("", "", 1, 100,
 						format.parse("2017-10-17 00:00:00"),
@@ -410,8 +450,11 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 			loLGuessTopicService.createTopicForFirstBlood(match, null, null);
 			loLGuessTopicService.createTopicForFirstTurret(match, null, null);
 			loLGuessTopicService.createTopicForSOD(match, null, null);
-			loLGuessTopicService.getGuessResultByMatch(match.getMatchId()+"");
-		}
+			loLMatchNetworkSpider.getGuessResultByMatch(match,match.getMatchId()+"");
+		}*/
+		String matchId = "2822";
+		GameMatch match = loLMatchNetworkSpider.findByMatchId(matchId);
+		loLMatchNetworkSpider.getGuessResultByMatch(match,matchId+"");
 		//loLMatchNetworkSpider.findByMatchId("2823");
 	}
 }

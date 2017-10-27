@@ -34,12 +34,15 @@
 	      <if test="topic.optionId != null" >
 	         and optionId = #{topic.optionId}
 	      </if>
+	      <if test="topic.createBy != null" >
+	         and optionId = #{topic.createBy}
+	      </if>
 	    </trim>
 	</sql>
 	
 	<sql id="Base_Column_List" >
 	    id, topicId, roomId, subject, label, kind, league, groupId,topicType,orderBy, joinCount, status, 
-	    optionId, createTime, beginTime, overTime, finishTime
+	    optionId, createTime, overTime, finishTime ,createBy
 	</sql>
 	
 	<select id="findOneGuessTopicBy" resultType="com.caiqianyi.guess.entity.GuessTopic">
@@ -51,62 +54,66 @@
 	    select <include refid="Base_Column_List" />
 	    from guess_topic <include refid="Base_Where_Clause" />
 		<if test="start != null and start !=''">
-		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+		    and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
 		</if>
 		<if test="end != null and end !=''">
-		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
+		    and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
 		</if>
+		
+		order by orderBy,createTime;
 	</select>
 	
 	<select id="findAllGuessTopicBy" resultType="com.caiqianyi.guess.entity.GuessTopic">
 	    select <include refid="Base_Column_List" />
 	    from guess_topic <include refid="Base_Where_Clause" />
 		<if test="start != null and start !=''">
-		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+		    and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
 		</if>
 		<if test="end != null and end !=''">
-		    and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
+		    and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
 		</if>
+		
+		order by orderBy,createTime;
 	</select>
 	
 	<insert id="insert" parameterType="com.caiqianyi.guess.entity.GuessTopic">
 	    insert into guess_topic (<include refid="Base_Column_List" />)
-	    	values (UUID(), #{topicId}, #{roomId}, #{subject}, #{label}, #{kind}, #{league}, #{groupId}, #{topicType} 
-	    			#{orderBy}, #{joinCount}, #{status}, #{optionId}, now(), #{beginTime}, #{overTime}, #{finishTime})
+	    	values (UUID(), #{topic.topicId}, #{topic.roomId}, #{topic.subject}, #{topic.label}, #{topic.kind}, #{topic.league}, #{topic.groupId}, #{topic.topicType}, 
+	    			#{topic.orderBy}, 0, 0, #{topic.optionId}, now(), #{topic.overTime}, NULL , #{topic.createBy})
 	</insert>
 	
 	<update id="update" parameterType="com.caiqianyi.guess.entity.GuessTopic">
 	    update guess_topic
 	    <set>
-	      <if test="subject != null" >
-	        subject = #{subject},
+	      <if test="topic.subject != null" >
+	        subject = #{topic.subject},
 	      </if>
-	      <if test="label != null" >
-	        label = #{label},
+	      <if test="topic.label != null" >
+	        label = #{topic.label},
 	      </if>
-	      <if test="kind != null" >
-	        kind = #{kind},
+	      <if test="topic.kind != null" >
+	        kind = #{topic.kind},
 	      </if>
-	      <if test="league != null" >
-	        league = #{league},
+	      <if test="topic.league != null" >
+	        league = #{topic.league},
 	      </if>
-	      <if test="groupId != null" >
-	        groupId = #{groupId},
+	      <if test="topic.groupId != null" >
+	        groupId = #{topic.groupId},
 	      </if>
-	      <if test="joinCount != null" >
-	        joinCount = #{joinCount},
+	      <if test="topic.joinCount != null" >
+	        joinCount = #{topic.joinCount},
 	      </if>
-	      <if test="status != null" >
-	        status = #{status},
+	      <if test="topic.status != null" >
+	        status = #{topic.status},
 	      </if>
-	      <if test="optionId != null" >
-	        optionId = #{optionId},
+	      <if test="topic.optionId != null" >
+	        optionId = #{topic.optionId},
 	      </if>
-	      <if test="finishTime != null" >
-	        finishTime = #{finishTime},
+	      <if test="topic.finishTime != null" >
+	        finishTime = #{topic.finishTime},
 	      </if>
 	    </set>
-	    where id = #{id}
+	    where id = #{topic.id}
 	</update>
 	
 	<delete id="delete">
@@ -116,17 +123,17 @@
 	<sql id="Guess_Topic_Option_Column_List" >
 	    id, topicId, name, value, orderBy, buyCount, buyAmount, isSelected, odds, createTime
 	</sql>
-	<sql id="Guess_Topic_Option_Show_Column_List" >
-	    id, topicId, name, value, orderBy, isSelected, odds, createTime
-	</sql>
 	
 	<sql id="Option_Base_Where_Clause" >
 	    <trim prefix="where" prefixOverrides="and|or" >
-	      <if test="topic.topicId != null" >
-	         and topicId = #{topic.topicId}
+	      <if test="option.topicId != null" >
+	         and topicId = #{option.topicId}
 	      </if>
-	      <if test="topic.id != null" >
-	         and topicId = #{topic.id}
+	      <if test="option.value != null" >
+	         and value = #{option.value}
+	      </if>
+	      <if test="option.id != null" >
+	         and id = #{option.id}
 	      </if>
 	    </trim>
 	</sql>
@@ -137,41 +144,41 @@
 	</select>
 	
 	<select id="findAllGuessTopicOptionBy" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
-	    select <include refid="Guess_Topic_Option_Show_Column_List" />
+	    select <include refid="Guess_Topic_Option_Column_List" />
 	    from guess_topic_option <include refid="Option_Base_Where_Clause" />
 	</select>
 	
 	<insert id="insertOption">
 	    insert into guess_topic_option (<include refid="Guess_Topic_Option_Column_List" />)
-	    	values (UUID(),#{topicId}, #{name}, #{value}, #{orderBy}, 0, '0.00', 0, #{odds}, now())
+	    	values (UUID(),#{option.topicId}, #{option.name}, #{option.value}, #{option.orderBy}, 0, '1.00', 0, #{option.odds}, now())
 	</insert>
 	
 	<update id="updateOption">
 	    update guess_topic_option
 	    <set>
-	      <if test="name != null" >
-	        name = #{name},
+	      <if test="option.name != null" >
+	        name = #{option.name},
 	      </if>
-	      <if test="value != null" >
-	        value = #{value},
+	      <if test="option.value != null" >
+	        value = #{option.value},
 	      </if>
-	      <if test="orderBy != null" >
-	        orderBy = #{orderBy},
+	      <if test="option.orderBy != null" >
+	        orderBy = #{option.orderBy},
 	      </if>
-	      <if test="buyCount != null" >
-	        buyCount = #{buyCount},
+	      <if test="option.buyCount != null" >
+	        buyCount = #{option.buyCount},
 	      </if>
-	      <if test="buyAmount != null" >
-	        buyAmount = #{buyAmount},
+	      <if test="option.buyAmount != null" >
+	        buyAmount = #{option.buyAmount},
 	      </if>
-	      <if test="isSelected != null" >
-	        isSelected = #{isSelected},
+	      <if test="option.isSelected != null" >
+	        isSelected = #{option.isSelected},
 	      </if>
-	      <if test="odds != null" >
-	        odds = #{odds}
+	      <if test="option.odds != null" >
+	        odds = #{option.odds}
 	      </if>
 	    </set>
-	    where id = #{id}
+	    where id = #{option.id}
 	</update>
 	
 	<delete id="deleteOption">

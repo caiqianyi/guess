@@ -83,7 +83,7 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 			throw new I18nMessageException("21001","题目不存在！");
 		}
 		
-		if(topic.getStatus() != 0 || topic.getBeginTime().before(new Date())){
+		if(topic.getStatus() != 0 || topic.getOverTime().before(new Date())){
 			throw new I18nMessageException("21002","竞猜已结束！");
 		}
 		GuessTopicOption option = new GuessTopicOption();

@@ -18,7 +18,7 @@ CREATE TABLE `guess_topic_option` (
   	`odds` float(10,2) DEFAULT '0.00' COMMENT '赔率',
 	`createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `topicId` (`topicId`),
+  KEY `topic_id_index` (`topicId`),
   KEY `name_index` (`name`),
   KEY `value_index` (`value`),
   KEY `order_by_index` (`orderBy`),

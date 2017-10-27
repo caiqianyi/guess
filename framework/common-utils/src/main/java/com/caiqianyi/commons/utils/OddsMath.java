@@ -16,12 +16,14 @@ public class OddsMath {
 			BigDecimal total = new BigDecimal("0.00");
 			for(int k=0;k<bas.length;k++){
 				if(i != k){
-					logger.debug("bas[{}]={},total={}",k,bas[k],total.add(bas[k]));
-					total = total.add(bas[k]);
+					BigDecimal odd = bas[k] == null? new BigDecimal("1.00") : bas[k] ;
+					logger.debug("bas[{}]={},total={}",k,odd,total.add(odd));
+					total = total.add(odd);
 				}
 			}
+			BigDecimal odd = bas[i] == null? new BigDecimal("1.00") : bas[i] ;
 			BigDecimal betmoney = base.subtract(ratio);
-			odds[i] = total.multiply(betmoney).divide(bas[i],2,BigDecimal.ROUND_DOWN).add(base);
+			odds[i] = total.multiply(betmoney).divide(odd,2,BigDecimal.ROUND_DOWN).add(base);
 			logger.debug("index={},betmoney={},total={},odds={}",i,betmoney,total,odds[i]);
 		}
 		logger.debug("length={},odds={}",odds.length,odds);
