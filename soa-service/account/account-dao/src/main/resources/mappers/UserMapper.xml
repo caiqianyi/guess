@@ -3,7 +3,7 @@
 <mapper namespace="com.caiqianyi.account.dao.IUserMapper" >
   
   <sql id="Base_User">
-      id,account,password,nickName,mobile,nickName,source,type,openid,unionid,status,payOrderNo,payCount
+      id,account,password,nickName,mobile,source,type,openid,unionid,status,payOrderNo,payCount,
       host,createTime,lastLoginTime,lastBuyTime,lastUpdateTime,level,balance,frozenMoney,accountSign
   </sql>
   
@@ -18,10 +18,10 @@
   </select>
   
   <select id="findByAccount" resultType="com.caiqianyi.account.entity.User"  parameterType="java.lang.String" >
-    select <include refid="Base_User"/> from user where account = #{username,jdbcType=VARCHAR}
+    select <include refid="Base_User"/> from user where account = #{account,jdbcType=VARCHAR}
   </select>
   <select id="findUserVoByAccount" resultType="com.caiqianyi.account.vo.UserVo"  parameterType="java.lang.String" >
-    select account,id from user where account = #{username,jdbcType=VARCHAR}
+    select account,id from user where account = #{account,jdbcType=VARCHAR}
   </select>
   
   <select id="findByUnionid" resultType="com.caiqianyi.account.entity.User" parameterType="java.lang.String">

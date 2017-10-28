@@ -80,6 +80,16 @@
 			<artifactId>account-api</artifactId>
 			<version>1.0.0-RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>com.caiqianyi</groupId>
+			<artifactId>guess-api</artifactId>
+			<version>1.0.0-RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.caiqianyi</groupId>
+			<artifactId>guess-game-api</artifactId>
+			<version>1.0.0-RELEASE</version>
+		</dependency>
 	</dependencies>
 
 </project>

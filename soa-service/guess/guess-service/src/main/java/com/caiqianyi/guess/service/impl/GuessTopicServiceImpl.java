@@ -200,6 +200,7 @@ public class GuessTopicServiceImpl implements IGuessTopicService {
 		List<GuessTopic> guessing = guessTopicMapper.findAllGuessTopicBy(topicParam, null, null);
 		for(GuessTopic topic : guessing){
 			boolean isOver = topic.getOverTime().after(new Date());
+			logger.debug("overTime={},isOver={}",topic.getOverTime(),isOver);
 			if(isOver){
 				topic.setStatus(1);
 				execute += guessTopicMapper.update(topic);

@@ -4,7 +4,7 @@ public class CacheKeyConstant {
 	/**
 	 * 账号锁定n小时
 	 */
-	public static final String CACHEKEY_LOGIN_ACCOUNT_LOCK = "agent.login.account.lock";
+	public static final String CACHEKEY_LOGIN_ACCOUNT_LOCK = "guess.login.account.lock";
 	
 	public final static Integer ACCOUNT_ERROR_COUNT = 10;//一天账号密码错误次数
 	

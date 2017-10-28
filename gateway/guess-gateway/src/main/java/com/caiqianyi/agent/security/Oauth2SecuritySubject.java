@@ -1,10 +1,15 @@
 package com.caiqianyi.agent.security;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.caiqianyi.account.entity.User;
@@ -18,12 +23,38 @@ import com.caiqianyi.soa.core.redis.IRedisCache;
 public class Oauth2SecuritySubject{
 	
 	private Logger logger = LoggerFactory.getLogger(Oauth2SecuritySubject.class);
+	@Resource
+	private Environment env;
 	
 	@Resource
 	private IRedisCache redisCache;
 	
 	@Resource
 	private IAccountService accountService;
+	
+	public Authority getAuthority(String account){
+		Authority authority = new Authority();
+		List<Navigation> navs = new ArrayList<Navigation>();
+		
+		Navigation lolGuessNav = new Navigation();
+		lolGuessNav.setIcon("lol");
+		lolGuessNav.setIndex(1);
+		lolGuessNav.setLink("/guess/lol/list.html");
+		lolGuessNav.setName("英雄联盟竞猜");
+		
+		Navigation accountNav = new Navigation();
+		accountNav.setIcon("account");
+		accountNav.setIndex(1);
+		accountNav.setLink("/account/info.html");
+		accountNav.setName("账户中心");
+		
+		navs.add(lolGuessNav);
+		navs.add(accountNav);
+		
+		authority.setNavs(navs);
+		authority.setRole("normal");
+		return authority;
+	}
 	
 	public String getOpenid(String account){
 		String openid = null;
@@ -107,6 +138,31 @@ public class Oauth2SecuritySubject{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean isWhiteAccess(String account,String path){
+		String names = env.getProperty("guess.accessWhite.names");
+    	if(StringUtils.isNotBlank(names)){
+    		String nms[] = names.split("\\,");
+    		for(String nm : nms){
+    			logger.debug("path={},nm={}",path,nm);
+    			String sta = "agent.accessWhite."+nm+".";
+    			String pathPattern = env.getProperty(sta+"pathPattern");
+    			if(StringUtils.isBlank(pathPattern)){
+    				continue;
+    			}
+    			String pps[] = pathPattern.split(",");
+    			for(String pp : pps){
+    				logger.debug("pp={},path={},matches={}",pp,path,pp.matches(path));
+    				if(path.matches(pp)
+    						&& !Arrays.asList(env.getProperty(sta+"whiteList").split(","))
+    						.contains(account)){
+    					return false;
+    				}
+    			}
+    		}
+    	}
+    	return true;
 	}
 	
 }

@@ -85,7 +85,6 @@ public class TaskServiceImpl implements ITaskService{
 					info.setCronExpression(cronExpression);
 					info.setCreateTime(createTime);
 					info.setDataJson(jobDetail.getJobDataMap().getString("dataJson"));
-					logger.debug("info={}",new Gson().toJson(info));
 					list.add(info);
 				}					
 			}
@@ -133,7 +132,8 @@ public class TaskServiceImpl implements ITaskService{
 	        if(StringUtils.isNotBlank(dataJson)){
 	        	jobDetail.getJobDataMap().put("dataJson", dataJson);
 	        }
-	        jobDetail.getJobBuilder().withDescription(jobDescription);
+	        logger.debug("descr={}",jobDescription);
+	        jobDetail = jobDetail.getJobBuilder().withDescription(jobDescription).build();
 	        HashSet<Trigger> triggerSet = new HashSet<Trigger>();
 	    	triggerSet.add(cronTrigger);
 	        
@@ -158,12 +158,9 @@ public class TaskServiceImpl implements ITaskService{
 		}*/
 		TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
         try {
-        	logger.info("===> delete, jobName:{}", jobName);
-        	logger.info("===> delete, jobGroup:{}", jobGroup);
 			if (checkExists(jobName, jobGroup)) {
 				scheduler.pauseTrigger(triggerKey);
 			    scheduler.unscheduleJob(triggerKey);
-			    logger.info("===> delete, triggerKey:{}", triggerKey);
 			}
 		} catch (SchedulerException e) {
 			throw new I18nMessageException(e);
@@ -181,7 +178,6 @@ public class TaskServiceImpl implements ITaskService{
 		try {
 			if (checkExists(jobName, jobGroup)) {
 				scheduler.pauseTrigger(triggerKey);
-			    logger.info("===> Pause success, triggerKey:{}", triggerKey);
 			}
 		} catch (SchedulerException e) {
 			throw new I18nMessageException(e);
@@ -200,7 +196,6 @@ public class TaskServiceImpl implements ITaskService{
         try {
 			if (checkExists(jobName, jobGroup)) {
 				scheduler.resumeTrigger(triggerKey);
-			    logger.info("===> Resume success, triggerKey:{}", triggerKey);
 			}
 		} catch (SchedulerException e) {
 			e.printStackTrace();
@@ -214,7 +209,6 @@ public class TaskServiceImpl implements ITaskService{
         try {
 			if (checkExists(jobName, jobGroup)) {
 				scheduler.triggerJob(jobKey);
-			    logger.info("===> trigger success, jobKey:{}", jobKey);
 			}
 		} catch (SchedulerException e) {
 			e.printStackTrace();

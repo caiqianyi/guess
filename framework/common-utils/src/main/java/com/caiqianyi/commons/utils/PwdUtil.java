@@ -99,4 +99,8 @@ public class PwdUtil {
 		}
 		return flag;
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(PwdUtil.getMd5Password("15010602718", "cqy010203"));
+	}
 }

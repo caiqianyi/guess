@@ -1,5 +1,6 @@
 package com.caiqianyi.agent.interceptor;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
 
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.caiqianyi.account.entity.User;
 import com.caiqianyi.agent.security.GlobalToken;
 import com.caiqianyi.agent.security.Oauth2SecuritySubject;
 import com.caiqianyi.commons.beans.PropertyConfigurer;
@@ -31,29 +33,42 @@ public class AuthorityInterceptor implements HandlerInterceptor {
 	private Oauth2SecuritySubject oauth2SecuritySubject;
 	
 
-    /**
+	/**
      * 拦截指定接口(AuthorityPath内配置)判断所传参数区服和游戏是否属于登录用户本身权限范围内 指定接口必须传serverCode和gameId参数
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, 
+    		Object handler) throws Exception {
     	String token = request.getHeader("Authorization");
     	GlobalToken.setToken(token);
     	logger.debug("token={}",token);
-    	if(StringUtils.isBlank(token) || !oauth2SecuritySubject.checkToken(token)){
-    		Gson gson = new Gson();
-    		SuccessMessage _i18n = new SuccessMessage();
-    		String code = "10003";
-    		String msg = props.getProperty(code);
-    		_i18n.setErrcode(code);
-    		_i18n.setErrmsg(msg);
-    		String jsonString = gson.toJson(_i18n);
-    		response.setContentType("application/json;charset=utf-8");
-    		PrintWriter writer = response.getWriter();
-    		writer.write(jsonString);
-    		writer.flush();
+    	User user = null;
+    	if(StringUtils.isBlank(token) || "null".equals(token)
+    			||  !oauth2SecuritySubject.checkToken(token) || 
+    			(user = oauth2SecuritySubject.getCurrentUser()) == null){
+    		writeError(response, "10003");
     		return false;
     	}
+    	
+    	String path = request.getRequestURI().replace(request.getContextPath(), "");
+    	if(!oauth2SecuritySubject.isWhiteAccess(user.getAccount(), path)){
+    		writeError(response, "10008");
+			return false;
+    	}
         return true;
+    }
+    
+    private void writeError(HttpServletResponse response,String code) throws IOException{
+    	Gson gson = new Gson();
+		SuccessMessage _i18n = new SuccessMessage();
+		String msg = props.getProperty(code);
+		_i18n.setErrcode(code);
+		_i18n.setErrmsg(msg);
+		String jsonString = gson.toJson(_i18n);
+		response.setContentType("application/json;charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		writer.write(jsonString);
+		writer.flush();
     }
 
     @Resource

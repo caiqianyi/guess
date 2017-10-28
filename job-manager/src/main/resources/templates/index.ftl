@@ -90,12 +90,11 @@
 							<tr>
 								<td>JobGroupSelect</td>
 								<td>
-									<select class="easyui-combobox" name="jobGroup1" style="width:100%;" data-options="required:false" id="jobGroup1">
+									<select class="easyui-combobox" name="group123" style="width:100%;" data-options="required:false" id="group123">
 										<#list jobGroups as jobGroup>
 											<option value="${jobGroup }">${jobGroup }</option>
 										</#list>
 									</select>
-									<input type="hidden" name="jobGroup" value="">
 								</td>
 								<td width="100"></td>
 							</tr>
@@ -169,6 +168,7 @@
 	
 	$('#jobGroup1').combobox({    
         onChange: function (newValue, oldValue) {  
+        	console.info(newValue,oldValue);
             $('#jobGroup').textbox('setValue',newValue);
         }
     });                      

@@ -31,14 +31,22 @@ public class AccountController extends BaseController{
 	@Resource
 	private DesUtils desUtils;
 	
-	@RequestMapping(value = "/myInfo", method = RequestMethod.GET)
-	public SuccessMessage myInfo() throws Exception{
+	@RequestMapping(value = "/authority", method = RequestMethod.GET)
+	SuccessMessage authority(){
 		User user = oauth2SecuritySubject.getCurrentUser();
+		return new SuccessMessage(oauth2SecuritySubject.getAuthority(user.getAccount()));
+	}
+	
+	@RequestMapping(value = "/info", method = RequestMethod.GET)
+	public SuccessMessage info() throws Exception{
+		User user = oauth2SecuritySubject.getCurrentUser();
+		user.setPassword(null);
+		user.setAccountSign(null);
 		return new SuccessMessage(user);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/editMyInfo")
-	SuccessMessage editMyInfo(String nickName){
+	@RequestMapping(method = RequestMethod.GET, value = "/editInfo")
+	SuccessMessage editInfo(String nickName){
 		User user = oauth2SecuritySubject.getCurrentUser();
 		User u = new User();
 		u.setId(user.getId());
@@ -46,8 +54,8 @@ public class AccountController extends BaseController{
 		return accountService.update(u);
 	}
 	
-	@RequestMapping(value = "/editPassword", method = RequestMethod.POST)
-	public SuccessMessage editPassword(String prepsw,String newpsw){
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+	public SuccessMessage resetPassword(String prepsw,String newpsw){
 		String newpasswd,passwd;
 		logger.info("prepsw={},newpsw={}",prepsw,newpsw);
 		try {

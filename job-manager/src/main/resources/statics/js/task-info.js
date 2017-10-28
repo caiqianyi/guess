@@ -46,10 +46,10 @@ var TaskInfo = {
 			Ext.progress('Loading...');
 			var record = Ext.getRecord(TaskInfo.grid);
 			$.get("/delete/"+record.jobName+"/"+record.jobGroup+"/", function(result){
-				if(result.errcode==0){
-					$(TaskInfo.grid).datagrid("reload")
-				}else{
+				if(result.errcode > 0){
 					Ext.alert(result.errmsg);
+				}else{
+					$(TaskInfo.grid).datagrid("reload")
 				}
 				Ext.progressClose();
 			});
@@ -82,12 +82,12 @@ var TaskInfo = {
 	        },
 	        success: function(result){
 	        	console.info(result);
-	            if(result.errcode ==0){
+	            if(result.errcode > 0){
+	            	Ext.alert(result.errmsg);
+	            }else{
 	            	var d = TaskInfo.createTaskInfoDialog(); 
 	            	d.dialog('close');
 	            	$(TaskInfo.grid).datagrid("reload");
-	            }else{
-	            	Ext.alert(result.errmsg);
 	            }
 	            
 	            Ext.progressClose();
@@ -108,10 +108,10 @@ var TaskInfo = {
 			Ext.progress('正在暂停任务...');
 			var record = Ext.getRecord(TaskInfo.grid);
 			$.get("/pause/"+record.jobName+"/"+record.jobGroup+"/", function(result){
-				if(result.errcode==0){
-					$(TaskInfo.grid).datagrid("reload")
-				}else{
+				if(result.errcode > 0){
 					Ext.alert(result.errmsg);
+				}else{
+					$(TaskInfo.grid).datagrid("reload")
 				}
 				Ext.progressClose();
 			});
@@ -127,10 +127,10 @@ var TaskInfo = {
 			Ext.progress('正在立即执行任务...');
 			var record = Ext.getRecord(TaskInfo.grid);
 			$.get("/trigger/"+record.jobName+"/"+record.jobGroup+"/", function(result){
-				if(result.errcode==0){
-					$(TaskInfo.grid).datagrid("reload")
-				}else{
+				if(result.errcode > 0){
 					Ext.alert(result.errmsg);
+				}else{
+					$(TaskInfo.grid).datagrid("reload")
 				}
 				Ext.progressClose();
 			});
@@ -146,10 +146,10 @@ var TaskInfo = {
 			Ext.progress('正在开始任务...');
 			var record = Ext.getRecord(TaskInfo.grid);
 			$.get("/resume/"+record.jobName+"/"+record.jobGroup+"/", function(result){
-				if(result.errcode==0){
-					$(TaskInfo.grid).datagrid("reload")
-				}else{
+				if(result.errcode > 0){
 					Ext.alert(result.errmsg);
+				}else{
+					$(TaskInfo.grid).datagrid("reload")
 				}
 				Ext.progressClose();
 			});
@@ -172,12 +172,12 @@ var TaskInfo = {
 	        border: false,
 		    columns:[[
 				{field:'id',title:'',checkbox:'true', width:20},
-				{field:'jobName',title:'JobName',width:120,formatter:function(v,r,i){return '<a href="javascript:void(0)" onclick="TaskInfo.detailTaskInfo('+i+')">'+v+'</a>';}},
-				{field:'jobGroup',title:'JobGroup',width:50,formatter:function(v,r,i){
-					return v == "undefined" || !v ? r.group : v; 
+				{field:'jobName',title:'JobName',width:70,formatter:function(v,r,i){return '<a href="javascript:void(0)" onclick="TaskInfo.detailTaskInfo('+i+')">'+v+'</a>';}},
+				{field:'jobGroup',title:'JobGroup',width:120,formatter:function(v,r,i){
+					return v == "undefined" || !v ? r.jobGroup : v; 
 				}},
 				{field:'jobDescription',title:'JobDescription',width:120},
-				{field:'jobStatus',title:'JobStatus',width:50},
+				{field:'jobStatus',title:'JobStatus',width:20},
 				{field:'cronExpression',title:'CronExpression',width:60},
 				{field:'createTime',title:'CreateTime',width:70},
 				{field:'Opr',title:'Opr',width:40,formatter:function(v,r,i){
