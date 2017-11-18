@@ -1,4 +1,4 @@
-package com.caiqianyi.guess.entity;
+package com.caiqianyi.guess.caipiao.entity;
 
 import java.util.Date;
 /**
@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS `lottery_issue`;
 CREATE TABLE `lottery_issue` (
 	`id` varchar(36) CHARACTER SET utf8mb4 NOT NULL COMMENT '主键',
   	`expect` varchar(500) NOT NULL COMMENT '期号ID',
-  	`openCode` varchar(500) NOT NULL COMMENT '开奖号码',
+  	`openCode` varchar(500) DEFAULT NULL COMMENT '开奖号码',
   	`kindOf` varchar(500) NOT NULL COMMENT '玩法',
   	`status` int(10) NOT NULL COMMENT '状态：0=进行中，1=已开奖，2=已返奖',
   	`openTime` datetime DEFAULT NULL COMMENT '开奖时间',
