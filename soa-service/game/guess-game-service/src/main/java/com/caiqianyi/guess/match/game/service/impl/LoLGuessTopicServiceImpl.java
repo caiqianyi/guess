@@ -48,7 +48,7 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 		// TODO Auto-generated method stub
 		
 		//查询进行中比赛
-		List<GameMatch> gameMatchs =gameMatchMapper.findAllByTopicStatus(0);
+		List<GameMatch> gameMatchs =gameMatchMapper.findAllByTopicStatus(1);
 		for(GameMatch match : gameMatchs){
 			if(match.getStatus() == 3){
 				String matchId = ""+match.getMatchId();

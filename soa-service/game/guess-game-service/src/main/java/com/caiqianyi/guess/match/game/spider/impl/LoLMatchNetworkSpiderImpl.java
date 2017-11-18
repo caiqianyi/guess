@@ -176,6 +176,7 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 	@Override
 	public List<LoLSMatch> findSMatchByMatchId(String matchId) {
 		// TODO Auto-generated method stub
+		List<LoLSMatch> sMatch = new ArrayList<LoLSMatch>();
 
 		try {
 			String url = String.format(searchSMatchList, matchId,
@@ -201,18 +202,16 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 
 			if ("0".equals(status)) {
 				JSONArray matchs =  datas.getJSONArray("msg");
-				List<LoLSMatch> sMatch = new ArrayList<LoLSMatch>();
 				for (int i = 0; i < matchs.size(); i++) {
 					LoLSMatch lsm = matchs.getObject(i, LoLSMatch.class);
 					lsm.setBattleData(findMatchInfoBySMatchId(lsm.getsMatchId()));
 					sMatch.add(lsm);
 				}
-				return sMatch;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return sMatch;
 	}
 	
 	@Override
@@ -388,6 +387,7 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 	public List<GameMatch> findByLeagueAndTime(String league, String season,
 			Integer pageNum, Integer size, Date start, Date end) {
 		// TODO Auto-generated method stub
+		List<GameMatch> gameMatchs = new ArrayList<GameMatch>();
 		try {
 			String s = DateFormatUtils.format(start, "yyyy-MM-dd%20HH:mm:ss"), e = DateFormatUtils
 					.format(end, "yyyy-MM-dd%20HH:mm:ss");
@@ -421,12 +421,10 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 
 				JSONArray matchs = msg.getJSONArray("result");
 				logger.info("matchs.size={}", matchs.size());
-				List<GameMatch> gameMatchs = new ArrayList<GameMatch>();
 				for (int i = 0; i < matchs.size(); i++) {
 					JSONObject data = matchs.getJSONObject(i);
 					gameMatchs.add(findByMatchId(data));
 				}
-				return gameMatchs;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
