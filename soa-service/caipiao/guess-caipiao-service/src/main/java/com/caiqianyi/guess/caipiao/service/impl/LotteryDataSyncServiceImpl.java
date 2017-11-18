@@ -8,6 +8,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.caiqianyi.guess.caipiao.config.K3Cat;
@@ -20,9 +22,13 @@ import com.caiqianyi.guess.caipiao.service.gaopin.I11x5LotteryService;
 import com.caiqianyi.guess.caipiao.service.gaopin.IBjxcLotteryService;
 import com.caiqianyi.guess.caipiao.service.gaopin.IK3LotteryService;
 import com.caiqianyi.guess.caipiao.service.gaopin.ISSCLotteryService;
+import com.google.gson.Gson;
+import com.google.gson.Gson;
 
 @Service
 public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
+	
+	private Logger logger = LoggerFactory.getLogger(LotteryDataSyncServiceImpl.class);
 
 	@Resource
 	private I11x5LotteryService _11x5IssueSpiderService;
@@ -133,10 +139,13 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 			for(LotteryIssue issue : issues){
 				for(LotteryIssue noOpen : noOpenList){
 					if(noOpen.getExpect().equals(issue.getExpect())){
+						logger.debug("issue={}",new Gson().toJson(issue));
 						noOpen.setOpenCode(issue.getOpenCode());
 						noOpen.setStatus(1);
-						issue.setOpenTime(issue.getOpenTime());
-						lotteryIssueMapper.update(issue);
+						noOpen.setOpenTime(issue.getOpenTime());
+						logger.debug("noOpen={}",new Gson().toJson(noOpen));
+						lotteryIssueMapper.update(noOpen);
+						success.add(issue);
 					}
 				}
 			}

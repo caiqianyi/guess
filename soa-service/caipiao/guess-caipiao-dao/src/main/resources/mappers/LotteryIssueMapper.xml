@@ -60,11 +60,8 @@
 			<if test="issue.openCode != null">
 				openCode = #{issue.openCode},
 			</if>
-			<if test="issue.status != null">
-				status = #{issue.status},
-			</if>
 			<if test="issue.openTime != null">
-				openTime = #{issue.openTime},
+				openTime = #{issue.openTime}
 			</if>
 		</set>
 		where kindOf = #{issue.kindOf} and expect = #{issue.expect}

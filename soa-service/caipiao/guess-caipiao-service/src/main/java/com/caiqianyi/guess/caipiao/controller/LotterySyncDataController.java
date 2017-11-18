@@ -21,7 +21,7 @@ public class LotterySyncDataController {
 	}
 	
 	@RequestMapping(value="/lottery/syncData/{kindOf}/openCode",method=RequestMethod.GET)
-	SuccessMessage syncOpenCodeForToday(String kindOf){
+	SuccessMessage syncOpenCodeForToday(@PathVariable("kindOf")String kindOf){
 		return new SuccessMessage(lotteryDataSyncService.syncOpenCodeForToday(kindOf));
 	}
 }

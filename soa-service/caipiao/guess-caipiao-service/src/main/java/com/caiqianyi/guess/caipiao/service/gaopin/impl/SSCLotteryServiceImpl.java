@@ -46,11 +46,12 @@ public class SSCLotteryServiceImpl extends AbstractLotteryServiceSupport
 
 				Date s = DateUtils.addMilliseconds(all.get(all.size() - 1)
 						.getStartTime(), cat.getPeriods()[i] * 60 * 1000);
+				boolean isLast = i == times.length -1;
 				List<LotteryIssue> list = getLotteryIssueByTimeAndKindOf(
 						cat.getCatId(), 
 						DateFormatUtils.format(new Date(), "yyyyMMdd"),
 						cat.getPeriods()[i] * 60, time[0], time[1], 3, s,
-						Long.parseLong(all.get(all.size() - 1).getExpect()) + 1);
+						Long.parseLong(all.get(all.size() - 1).getExpect()) + 1,isLast);
 				all.addAll(list);
 			}
 			logger.debug("issue.size={}", all.size());

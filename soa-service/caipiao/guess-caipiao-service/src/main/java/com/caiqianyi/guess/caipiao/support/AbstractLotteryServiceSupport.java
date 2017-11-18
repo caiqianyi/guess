@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.dom4j.Document;
@@ -20,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.caiqianyi.commons.exception.I18nMessageException;
-import com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 import com.caiqianyi.guess.caipiao.service.ILotteryIssueService;
 
@@ -69,7 +66,7 @@ public abstract class AbstractLotteryServiceSupport implements ILotteryIssueServ
 			Integer period, String start, String end, Date iEndTime, Long issue)
 			throws ParseException {
 		return getLotteryIssueByTimeAndKindOf(kindOf,day, period, start, end, null,
-				iEndTime, issue);
+				iEndTime, issue,true);
 	}
 
 	/**
@@ -90,7 +87,7 @@ public abstract class AbstractLotteryServiceSupport implements ILotteryIssueServ
 			Integer period, String start, String end, Integer issueLength)
 			throws ParseException {
 		return getLotteryIssueByTimeAndKindOf(kindOf,day, period, start, end,
-				issueLength, null, null);
+				issueLength, null, null,true);
 	}
 
 	/**
@@ -109,7 +106,7 @@ public abstract class AbstractLotteryServiceSupport implements ILotteryIssueServ
 	 */
 	public List<LotteryIssue> getLotteryIssueByTimeAndKindOf(String kindOf,String day,
 			Integer period, String start, String end, Integer issueLength,
-			Date iEndTime, Long issue) throws ParseException {
+			Date iEndTime, Long issue,Boolean isOver) throws ParseException {
 		List<LotteryIssue> issues = new ArrayList<LotteryIssue>();
 		Date startTime = DateUtils.parseDate(day + " " + start,
 				new String[] { dateFormat }), endTime = DateUtils.parseDate(day
@@ -136,6 +133,9 @@ public abstract class AbstractLotteryServiceSupport implements ILotteryIssueServ
 			String qh = day + "" + zeroFill(i + 1, issueLength);
 			if (issue != null && iEndTime != null) {
 				qh = "" + (issue + ((istart.getTime() - iEndTime.getTime()) / 1000 / period));
+			}
+			if(i == total -1){
+				iend = DateUtils.addDays(startTime, 1);
 			}
 			LotteryIssue li = new LotteryIssue();
 			li.setStartTime(istart);
