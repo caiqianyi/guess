@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 
-public interface ILotteryIssueSpiderService {
+public interface ILotterySpiderService {
 	
 	List<LotteryIssue> getIssueForToday();
 
 	List<LotteryIssue> getIssueByDay(String day);
 	
-	List<LotteryIssue> captureNewestNum();
-
+	List<LotteryIssue> getOpencode(String day);
+	
 }

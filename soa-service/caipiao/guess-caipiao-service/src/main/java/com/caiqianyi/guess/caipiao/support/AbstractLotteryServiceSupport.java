@@ -1,32 +1,56 @@
 package com.caiqianyi.guess.caipiao.support;
 
-import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang.time.DateFormatUtils;
+import javax.annotation.Resource;
+
 import org.apache.commons.lang.time.DateUtils;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.Node;
-import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.caiqianyi.commons.exception.I18nMessageException;
+import com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
-import com.caiqianyi.guess.caipiao.service.ILotteryIssueService;
+import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
+import com.caiqianyi.guess.caipiao.service.ILotteryService;
 
-public abstract class AbstractLotteryServiceSupport implements ILotteryIssueService {
+public abstract class AbstractLotteryServiceSupport implements ILotteryService{
 
 	private Logger logger = LoggerFactory
 			.getLogger(AbstractLotteryServiceSupport.class);
 
-	private String dateFormat = "yyyyMMdd HH:mm:ss";
+	protected String dateFormat = "yyyyMMdd HH:mm:ss";
+	
+	protected abstract String getKindOf();
+	
+	@Resource
+	private ILotteryIssueMapper lotteryIssueMapper;
+
+	@Resource
+	private ILotteryCatService lotteryCatService;
+	
+	@Override
+	public LotteryIssue getCurrentIssue() {
+		// TODO Auto-generated method stub
+		return lotteryIssueMapper.getCurrentIssue(getKindOf());
+	}
+	
+	@Override
+	public List<LotteryIssue> getLotteryNumBy(Integer size) {
+		// TODO Auto-generated method stub
+		return lotteryIssueMapper.getHistoryOpenCode(getKindOf(), null, null, size, null);
+	}
+	
+	@Override
+	public LotteryIssue getLotteryNumByIssue(String issue){
+		return lotteryIssueMapper.getIssueByExpect(getKindOf(), issue);
+	}
 	
 	/**
 	 * 获取某天的期号
@@ -119,11 +143,12 @@ public abstract class AbstractLotteryServiceSupport implements ILotteryIssueServ
 			issueLength = ("" + total).length();
 		}
 
+		//logger.debug("isOver={},day={}", isOver,day);
 		if (iEndTime != null) {
 			int days = differentDays(iEndTime, startTime);
 			issue += days * total;
 			iEndTime = startTime;
-			logger.debug("issue={},total={}", issue, total);
+			//logger.debug("issue={},total={}", issue, total);
 		}
 
 		for (int i = 0; i < total; i++) {
@@ -134,8 +159,9 @@ public abstract class AbstractLotteryServiceSupport implements ILotteryIssueServ
 			if (issue != null && iEndTime != null) {
 				qh = "" + (issue + ((istart.getTime() - iEndTime.getTime()) / 1000 / period));
 			}
-			if(i == total -1){
+			if(isOver && i == total -1){
 				iend = DateUtils.addDays(startTime, 1);
+				//logger.debug("startTime{},iend={}", startTime,iend);
 			}
 			LotteryIssue li = new LotteryIssue();
 			li.setStartTime(istart);
@@ -143,9 +169,7 @@ public abstract class AbstractLotteryServiceSupport implements ILotteryIssueServ
 			li.setExpect(qh);
 			li.setKindOf(kindOf);
 			issues.add(li);
-			logger.debug("istart={},iend={},issue={}",
-					DateFormatUtils.format(istart, "yyyy-MM-dd HH:mm:ss"),
-					DateFormatUtils.format(iend, "yyyy-MM-dd HH:mm:ss"), qh);
+			//logger.debug("istart={},iend={},issue={}", DateFormatUtils.format(istart, "yyyy-MM-dd HH:mm:ss"), DateFormatUtils.format(iend, "yyyy-MM-dd HH:mm:ss"), qh);
 		}
 		return issues;
 	}
@@ -190,31 +214,16 @@ public abstract class AbstractLotteryServiceSupport implements ILotteryIssueServ
 		return blank + num;
 	}
 	
-	public List<LotteryIssue> kaijiang500(String url){
-		try {
-			SAXReader reader = new SAXReader();
-			Document doc = reader.read(new URL(url));
-			List<Node> nodes = doc.selectNodes("/xml/row");
-			//同时迭代当前节点下面的所有子节点  
-	        //使用递归  
-	        Iterator<Node> iterator = nodes.iterator();
-	        List<LotteryIssue> nums = new ArrayList<LotteryIssue>();
-	        while(iterator.hasNext()){  
-	        	Element e = (Element) iterator.next();
-	        	String expect = e.attribute("expect").getText(),
-	        			opencode = e.attribute("opencode").getText(),
-	        				opentime = e.attribute("opentime").getText();
-	        	logger.debug("expect={},opencode={},opentime={}",expect,opencode,opentime);  
-	        	LotteryIssue lottery = new LotteryIssue();
-	        	lottery.setExpect(expect);
-	        	lottery.setOpenCode(opencode);
-	        	lottery.setOpenTime(DateUtils.parseDate(opentime, new String[]{"yyyy-MM-dd HH:mm:ss"}));
-	        	nums.add(lottery);
-	        }
-	        return nums;
-		}catch(Exception e){
-			e.printStackTrace();
+	public List<LotteryIssue> kaijiang(String day,String kindOf){
+		Map<String,LotteryIssue> nums = new LinkedHashMap<String,LotteryIssue>();
+		
+		String sites[] = new String[]{"_500W","Cp9811","Apiplus","Cp8s"};
+		for(int i=0;i<sites.length;i++){
+			lotteryCatService.getKJDataService(sites[i]).kaijiang(kindOf, day, nums);
 		}
-		return null;
+		List<LotteryIssue> lotterys = new ArrayList<LotteryIssue>();
+		lotterys.addAll(nums.values());
+		//logger.debug("lotterys={}",new Gson().toJson(lotterys));
+		return lotterys;
 	}
 }

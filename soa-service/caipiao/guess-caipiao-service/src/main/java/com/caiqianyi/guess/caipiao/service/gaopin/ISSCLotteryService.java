@@ -1,8 +1,9 @@
 package com.caiqianyi.guess.caipiao.service.gaopin;
 
-import com.caiqianyi.guess.caipiao.config.SSCCat;
+import com.caiqianyi.guess.caipiao.service.ILotteryService;
 
 
-public interface ISSCLotteryService extends ILotteryGaoPinService {
-	void setCatId(SSCCat cat);
+
+public interface ISSCLotteryService extends ILotteryService {
+	
 }

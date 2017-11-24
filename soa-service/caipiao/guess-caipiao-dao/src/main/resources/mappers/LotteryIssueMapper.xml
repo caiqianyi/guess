@@ -23,14 +23,20 @@
 		<include refid="Base_Column_List" />
 		from lottery_issue
 		where kindOf = #{kindOf}
-		and openTime != null
+		and openTime is not null
 		<if test="start != null and start !=''">
 			and DATE_FORMAT(openTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
 		</if>
 		<if test="end != null and end !=''">
 			and DATE_FORMAT(openTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
 		</if>
-		
+		order by startTime desc
+		<if test="size != null">
+			limit #{size}
+		</if>
+		<if test="offset != null">
+			,#{offset}
+		</if>
 	</select>
 	
 	<select id="getIssusByKindOfAndStatus" resultType="com.caiqianyi.guess.caipiao.entity.LotteryIssue">
@@ -40,8 +46,9 @@
 		where kindOf = #{kindOf}
 		and status = #{status}
 		<if test="day != null and day !=''">
-			and DATE_FORMAT(startTime,'%Y-%m-%d') = #{day,jdbcType=VARCHAR}
+			and DATE_FORMAT(startTime,'%Y%m%d') = #{day,jdbcType=VARCHAR}
 		</if>
+		and startTime &lt;= NOW()
 	</select>
 	
 	<insert id="insert">

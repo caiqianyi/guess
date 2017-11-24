@@ -2,8 +2,8 @@ package com.caiqianyi.guess.caipiao.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,17 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.caiqianyi.guess.caipiao.config.K3Cat;
-import com.caiqianyi.guess.caipiao.config.SSCCat;
-import com.caiqianyi.guess.caipiao.config._11x5Cat;
 import com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper;
+import com.caiqianyi.guess.caipiao.data.analysis.YllrAnalysis;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
+import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
 import com.caiqianyi.guess.caipiao.service.ILotteryDataSyncService;
-import com.caiqianyi.guess.caipiao.service.gaopin.I11x5LotteryService;
-import com.caiqianyi.guess.caipiao.service.gaopin.IBjxcLotteryService;
-import com.caiqianyi.guess.caipiao.service.gaopin.IK3LotteryService;
-import com.caiqianyi.guess.caipiao.service.gaopin.ISSCLotteryService;
-import com.google.gson.Gson;
+import com.caiqianyi.guess.caipiao.service.ILotteryService;
+import com.caiqianyi.soa.core.redis.IRedisCache;
 import com.google.gson.Gson;
 
 @Service
@@ -31,72 +27,27 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 	private Logger logger = LoggerFactory.getLogger(LotteryDataSyncServiceImpl.class);
 
 	@Resource
-	private I11x5LotteryService _11x5IssueSpiderService;
-	
-	@Resource
-	private ISSCLotteryService sscLotteryService;
-	
-	@Resource
-	private IK3LotteryService k3LotteryService;
-	
-	@Resource
-	private IBjxcLotteryService bjxcLotteryService;
+	private ILotteryCatService lotteryCatService;
 	
 	@Resource
 	private ILotteryIssueMapper lotteryIssueMapper;
+	
+	@Resource
+	private IRedisCache redisCache;
 	
 	@Override
 	public List<LotteryIssue> syncIssueforWeek(String kindOf) {
 		// TODO Auto-generated method stub
 		List<LotteryIssue> issues = new ArrayList<LotteryIssue>(),
 				success = new ArrayList<LotteryIssue>();
-		_11x5Cat cat = _11x5Cat.getCatByKindOf(kindOf);
-		if(cat != null){
-			_11x5IssueSpiderService.setCatId(cat);
-			for(int i=0;i<7;i++){
-				Calendar c = Calendar.getInstance();
-				c.set(Calendar.HOUR, 0);
-				c.set(Calendar.MINUTE, 0);
-				c.set(Calendar.MILLISECOND, 0);
-				c.set(Calendar.DAY_OF_YEAR, c.get(Calendar.DAY_OF_YEAR)+i);
-				issues.addAll(_11x5IssueSpiderService.getIssueByDay(DateFormatUtils.format(c, "yyyyMMdd")));
-			}
-		}
-		
-		SSCCat sscCat = SSCCat.getCatByKindOf(kindOf);
-		if(sscCat != null){
-			sscLotteryService.setCatId(sscCat);
-			for(int i=0;i<7;i++){
-				Calendar c = Calendar.getInstance();
-				c.set(Calendar.HOUR, 0);
-				c.set(Calendar.MINUTE, 0);
-				c.set(Calendar.MILLISECOND, 0);
-				c.set(Calendar.DAY_OF_YEAR, c.get(Calendar.DAY_OF_YEAR)+i);
-				issues.addAll(sscLotteryService.getIssueByDay(DateFormatUtils.format(c, "yyyyMMdd")));
-			}
-		}
-		
-		K3Cat k3Cat = K3Cat.getCatByKindOf(kindOf);
-		if(k3Cat != null){
-			k3LotteryService.setCatId(k3Cat);
-			for(int i=0;i<7;i++){
-				Calendar c = Calendar.getInstance();
-				c.set(Calendar.HOUR, 0);
-				c.set(Calendar.MINUTE, 0);
-				c.set(Calendar.MILLISECOND, 0);
-				c.set(Calendar.DAY_OF_YEAR, c.get(Calendar.DAY_OF_YEAR)+i);
-				issues.addAll(k3LotteryService.getIssueByDay(DateFormatUtils.format(c, "yyyyMMdd")));
-			}
-		}
-		if("bjsc".equals(kindOf)){
-			for(int i=0;i<7;i++){
-				Calendar c = Calendar.getInstance();
-				c.set(Calendar.HOUR, 0);
-				c.set(Calendar.MINUTE, 0);
-				c.set(Calendar.MILLISECOND, 0);
-				c.set(Calendar.DAY_OF_YEAR, c.get(Calendar.DAY_OF_YEAR)+i);
-				issues.addAll(bjxcLotteryService.getIssueByDay(DateFormatUtils.format(c, "yyyyMMdd")));
-			}
+		ILotteryService lotteryService = lotteryCatService.getLotteryService(kindOf);
+		for(int i=0;i<7;i++){
+			Calendar c = Calendar.getInstance();
+			c.set(Calendar.HOUR, 0);
+			c.set(Calendar.MINUTE, 0);
+			c.set(Calendar.MILLISECOND, 0);
+			c.set(Calendar.DAY_OF_YEAR, c.get(Calendar.DAY_OF_YEAR)+i);
+			issues.addAll(lotteryService.getIssueByDay(DateFormatUtils.format(c, "yyyyMMdd")));
 		}
 		if(!issues.isEmpty()){
 			for(LotteryIssue issue : issues){
@@ -111,31 +62,14 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 	}
 
 	@Override
-	public List<LotteryIssue> syncOpenCodeForToday(String kindOf) {
-		_11x5Cat cat = _11x5Cat.getCatByKindOf(kindOf);
+	public List<LotteryIssue> syncOpenCodeForDay(String kindOf, String day) {
 		List<LotteryIssue> issues = new ArrayList<LotteryIssue>(),
 				success = new ArrayList<LotteryIssue>();
-		if(cat != null){
-			_11x5IssueSpiderService.setCatId(cat);
-			issues.addAll(_11x5IssueSpiderService.captureNewestNum());
-		}
 		
-		SSCCat sscCat = SSCCat.getCatByKindOf(kindOf);
-		if(sscCat != null){
-			sscLotteryService.setCatId(sscCat);
-			issues.addAll(sscLotteryService.captureNewestNum());
-		}
-		
-		K3Cat k3Cat = K3Cat.getCatByKindOf(kindOf);
-		if(k3Cat != null){
-			k3LotteryService.setCatId(k3Cat);
-			issues.addAll(k3LotteryService.captureNewestNum());
-		}
-		if("bjsc".equals(kindOf)){
-			issues.addAll(bjxcLotteryService.captureNewestNum());
-		}
+		ILotteryService lotteryService = lotteryCatService.getLotteryService(kindOf);
+		issues.addAll(lotteryService.getOpencode(day));
 		if(!issues.isEmpty()){
-			List<LotteryIssue> noOpenList = lotteryIssueMapper.getIssusByKindOfAndStatus(kindOf, 0, DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
+			List<LotteryIssue> noOpenList = lotteryIssueMapper.getIssusByKindOfAndStatus(kindOf, 0, day);
 			for(LotteryIssue issue : issues){
 				for(LotteryIssue noOpen : noOpenList){
 					if(noOpen.getExpect().equals(issue.getExpect())){
@@ -149,10 +83,42 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 					}
 				}
 			}
-			
+			if(!success.isEmpty()){
+				
+				syncYllrData(kindOf);
+			}
 		}
 		return success;
 	}
-
-
+	
+	@Override
+	public void syncYllrData(String kindOf) {
+		// TODO Auto-generated method stub
+		ILotteryService lotteryService = lotteryCatService.getLotteryService(kindOf);
+		List<LotteryIssue> list = lotteryService.getLotteryNumBy(501);
+		
+		List<Map<String, Object>> datas = (List<Map<String, Object>>) redisCache.get("lottery:yllr:"+kindOf);
+		Map<String,Object> initData = null;
+		if(datas != null){
+			for(Map<String, Object> data : datas){
+				String expect = (String) data.get("expect");
+				if(expect.equals(list.get(list.size()-1).getExpect())){
+					initData = data;
+					break;
+				}
+			}
+		}
+		logger.debug("initData={}",new Gson().toJson(initData));
+		redisCache.set("lottery:yllr:"+kindOf, new YllrAnalysis(list,lotteryService.getLottery(),initData).doAnalysis());
+		
+		List<Map<String, Object>> datas200 = new YllrAnalysis(list,lotteryService.getLottery()).doAnalysis();
+		List<Map<String, Object>> d200 = new ArrayList<Map<String, Object>>();
+		if(datas200.size() > 200){
+			d200.addAll(datas200.subList(datas200.size()-200, datas200.size()));
+		}else{
+			d200.addAll(datas200);
+		}
+		redisCache.set("lottery:yllr:"+kindOf+":200", d200);
+	}
+	
 }

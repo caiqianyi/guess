@@ -24,7 +24,7 @@ public class SimpleAmqpSender implements IRabbitmqSender{
 
 	@Override
 	public void sendContractDirect(String routingKey, Object message) {
-		logger.debug("send queue:"+routingKey);
+		//logger.debug("send queue:"+routingKey);
 		amqpTemplate.convertAndSend(AmqpExchange.DIRECT.getValue(),routingKey, message);
 	}
 	

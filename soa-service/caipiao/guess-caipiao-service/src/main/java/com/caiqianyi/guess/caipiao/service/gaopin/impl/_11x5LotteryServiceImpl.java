@@ -38,8 +38,12 @@ public class _11x5LotteryServiceImpl extends AbstractLotteryServiceSupport
 	@Override
 	public List<LotteryIssue> getIssueByDay(String day) {
 		try {
-			return getLotteryIssueByTimeAndKindOf(cat.getCatId(), day, cat.getPeriod() * 60, cat.getStart(),
+			List<LotteryIssue> issues = getLotteryIssueByTimeAndKindOf(cat.getCatId(), day, cat.getPeriod() * 60, cat.getStart(),
 					cat.getEnd());
+			for(LotteryIssue issue : issues){
+				issue.setExpect(issue.getExpect().substring(2));
+			}
+			return issues;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -49,36 +53,36 @@ public class _11x5LotteryServiceImpl extends AbstractLotteryServiceSupport
 
 	public static void main(String[] args) {
 		I11x5LotteryService _11x5LotteryService = new _11x5LotteryServiceImpl();
-		_11x5LotteryService.setCatId(_11x5Cat.GD11X5);
+		_11x5LotteryService.setKindOf("gdsyxw");
 		_11x5LotteryService.getIssueForToday();
-		_11x5LotteryService.captureNewestNum();
+		_11x5LotteryService.getOpencode(DateFormatUtils.format(new Date(), "yyyyMMdd"));
 	}
 
 	@Override
-	public LotteryIssue findLotteryNumByIssue(String issue) {
+	public List<LotteryIssue> getOpencode(String day) {
 		// TODO Auto-generated method stub
-		return null;
+		return kaijiang(day,cat.getCatId());
 	}
 
 	@Override
-	public List<LotteryIssue> captureNewestNum() {
+	public void setKindOf(String kindOf) {
 		// TODO Auto-generated method stub
-		String url = String
-				.format("http://kaijiang.500.com/static/info/kaijiang/xml/%s/%s.xml?_A=%s",
-						cat.getCatId(),DateFormatUtils.format(new Date(), "yyyyMMdd"), ""
-								+ System.currentTimeMillis());
-		return kaijiang500(url);
+		this.cat = _11x5Cat.getCatByKindOf(kindOf);
 	}
-
-	@Override
-	public void setCatId(_11x5Cat cat) {
-		// TODO Auto-generated method stub
-		this.cat = cat;
-	}
-
+	
 	@Override
 	public LotteryIssue getCurrentIssue() {
 		// TODO Auto-generated method stub
 		return lotteryIssueMapper.getCurrentIssue(cat.getCatId());
+	}
+
+	@Override
+	protected String getKindOf() {
+		return cat.getCatId();
+	}
+	
+	@Override
+	public String[] getLottery() {
+		return new String[]{"01","02","03","04","05","06","07","08","09","10","11"};
 	}
 }

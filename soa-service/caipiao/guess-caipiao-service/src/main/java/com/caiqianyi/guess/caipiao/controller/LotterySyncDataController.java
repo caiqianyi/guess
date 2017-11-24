@@ -12,6 +12,7 @@ import com.caiqianyi.guess.caipiao.service.ILotteryDataSyncService;
 
 @RestController
 public class LotterySyncDataController {
+	
 	@Resource
 	private ILotteryDataSyncService lotteryDataSyncService;
 	
@@ -20,8 +21,16 @@ public class LotterySyncDataController {
 		return new SuccessMessage(lotteryDataSyncService.syncIssueforWeek(kindOf));
 	}
 	
-	@RequestMapping(value="/lottery/syncData/{kindOf}/openCode",method=RequestMethod.GET)
-	SuccessMessage syncOpenCodeForToday(@PathVariable("kindOf")String kindOf){
-		return new SuccessMessage(lotteryDataSyncService.syncOpenCodeForToday(kindOf));
+	@RequestMapping(value="/lottery/syncData/{kindOf}/openCode/{day}/",method=RequestMethod.GET)
+	SuccessMessage syncOpenCodeForToday(@PathVariable("kindOf")String kindOf,
+			@PathVariable("day")String day){
+		return new SuccessMessage(lotteryDataSyncService.syncOpenCodeForDay(kindOf,day));
 	}
+	
+	@RequestMapping(value="/yllr/data/sync/{kindOf}/",method=RequestMethod.GET)
+	SuccessMessage refreshllr(@PathVariable("kindOf")String kindOf){
+		lotteryDataSyncService.syncYllrData(kindOf);
+		return new SuccessMessage();
+	}
+	
 }

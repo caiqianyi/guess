@@ -8,75 +8,72 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.caiqianyi.guess.caipiao.config.K3Cat;
 import com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
-import com.caiqianyi.guess.caipiao.service.gaopin.IK3LotteryService;
+import com.caiqianyi.guess.caipiao.service.gaopin.IBjscLotteryService;
 import com.caiqianyi.guess.caipiao.support.AbstractLotteryServiceSupport;
-import com.google.gson.Gson;
 
-@Service("k3LotteryService")
-public class K3LotteryServiceImpl extends AbstractLotteryServiceSupport
-		implements IK3LotteryService {
-	
-	private Logger logger = LoggerFactory.getLogger(K3LotteryServiceImpl.class);
+@Service
+public class BjscLotteryServiceImpl extends AbstractLotteryServiceSupport
+		implements IBjscLotteryService {
 
-	private K3Cat cat;
-	
+	private Logger logger = LoggerFactory
+			.getLogger(BjscLotteryServiceImpl.class);
+
 	@Resource
 	private ILotteryIssueMapper lotteryIssueMapper;
-	
+	private String kindOf = "bjpk10";
+
 	@Override
 	public List<LotteryIssue> getIssueForToday() {
+		// TODO Auto-generated method stub
 		return getIssueByDay(DateFormatUtils.format(new Date(), "yyyyMMdd"));
 	}
 
 	@Override
 	public List<LotteryIssue> getIssueByDay(String day) {
 		try {
-			List<LotteryIssue> issues = getLotteryIssueByTimeAndKindOf(cat.getCatId(),day, cat.getPeriod() * 60, cat.getStart(),
-					cat.getEnd(),3);
-			
-			for(LotteryIssue issue : issues){
-				issue.setExpect(issue.getExpect().substring(2));
-			}
-			return issues;
+			return getLotteryIssueByTimeAndKindOf(kindOf, day, 5 * 60,
+					"09:02:00", "23:57:00", DateUtils.parseDate(
+							"2017-11-13 09:07:00",
+							new String[] { "yyyy-MM-dd HH:mm:ss" }), 650453l);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace(); 
+			e.printStackTrace();
 		}
 		return new ArrayList<LotteryIssue>();
 	}
 
-	public static void main(String[] args) {
-		IK3LotteryService k3LotteryService = new K3LotteryServiceImpl();
-		k3LotteryService.setKindOf("jsk3");
-		System.out.println(new Gson().toJson(k3LotteryService.getIssueForToday()));
-		//k3LotteryService.getOpencode(DateFormatUtils.format(new Date(), "yyyyMMdd"));
-	}
-
 	@Override
 	public List<LotteryIssue> getOpencode(String day) {
-		return kaijiang(day,cat.getCatId());
+		return kaijiang(day,kindOf);
 	}
 
 	@Override
 	public void setKindOf(String kindOf) {
 		// TODO Auto-generated method stub
-		this.cat = K3Cat.getCatByKindOf(kindOf);
+		this.kindOf = kindOf;
 	}
-	
+
 	@Override
 	protected String getKindOf() {
-		return cat.getCatId();
+		return kindOf;
 	}
-	
+
 	@Override
 	public String[] getLottery() {
-		return new String[]{"01","02","03","04","05","06"};
+		return new String[] { "01", "02", "03", "04", "05", "06", "07", "08",
+				"09", "10" };
 	}
+
+	public static void main(String[] args) {
+		BjscLotteryServiceImpl bls = new BjscLotteryServiceImpl();
+		bls.getOpencode(DateFormatUtils.format(new Date(), "yyyyMMdd"));
+	}
+
 }

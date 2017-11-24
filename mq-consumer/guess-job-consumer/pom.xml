@@ -72,6 +72,11 @@
     	<artifactId>guess-api</artifactId>
     	<version>1.0.0-RELEASE</version>
     </dependency>
+    <dependency>
+    	<groupId>com.caiqianyi</groupId>
+    	<artifactId>guess-caipiao-api</artifactId>
+    	<version>1.0.0-RELEASE</version>
+    </dependency>
   </dependencies>
   
   <build>

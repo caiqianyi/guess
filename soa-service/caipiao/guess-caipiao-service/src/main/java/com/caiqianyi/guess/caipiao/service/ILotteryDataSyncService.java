@@ -8,5 +8,7 @@ public interface ILotteryDataSyncService {
 	
 	List<LotteryIssue> syncIssueforWeek(String kindOf);
 	
-	List<LotteryIssue> syncOpenCodeForToday(String kindOf);
+	List<LotteryIssue> syncOpenCodeForDay(String kindOf,String day);
+	
+	void syncYllrData(String kindOf);
 }
