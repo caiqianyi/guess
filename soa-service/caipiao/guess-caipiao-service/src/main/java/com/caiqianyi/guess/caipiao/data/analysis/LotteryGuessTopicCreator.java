@@ -18,13 +18,20 @@ public class LotteryGuessTopicCreator {
 	
 	private final static String ljs[] = new String[]{"&&","||"};
 	
-	private static boolean has(String array[],String s){
+	private static int has(String array[],String s){
+		int count = 0;
 		for(int i=0;i<array.length;i++){
-			if(s.indexOf(array[i].replace("\\", ""))>-1){
-				return true;
+			int k = 0;
+			while(k < s.length()){
+				int index = s.indexOf(array[i].replace("\\", ""),k);
+				if(index == -1){
+					return count;
+				}
+				k = index+1;
+				count++;
 			}
 		}
-		return false;
+		return count;
 	}
 	
 	private static LinkedHashMap<Integer,Integer> pair(String str, char s, char e){
@@ -49,14 +56,26 @@ public class LotteryGuessTopicCreator {
 		for(Integer s : result.keySet()){
 			Integer e = result.get(s);
 			String str = line.substring(s,e);
-			logger.debug("check|s={},e={},str={}",s,e,str);
-			if(has(ljs, str)
-					|| has(pdr, str)){
-				String l = str.substring(1,str.length() -1);
-				ls = ls.replace(str, bqCheck(lots, l)+"");
+			String l = str.substring(1,str.length() -1);
+			int ei = has(new String[]{"("}, l);
+			logger.debug("check|s={},e={},str={},l={},ei={}",s,e,str,l,ei);
+			
+			Boolean ss = null;
+			if(ei > 1){
+				ss = check(lots, l);
+			}else if(has(ljs, l) > 0
+					|| has(pdr, l)  > 0){
+				ss = bqCheck(lots, l);
+			}
+			if(ss != null){
+				ls = ls.replace(str, ss+"");
 			}
 		}
 		logger.debug("check|ls={}",ls);
+		int ei = has(new String[]{"("}, ls);
+		if(ei > 0 && has(ljs, ls) > 0){
+			return check(lots, ls);
+		}
 		return bqCheck(lots, ls);
 	}
 	
@@ -93,7 +112,7 @@ public class LotteryGuessTopicCreator {
 		if(resultK.contains(1)){
 			return resultV.contains(true);
 		}
-		logger.debug("bqCheck|line={},result={},is={}",line,resultK,resultV.contains(false));
+		logger.debug("bqCheck|line={},result={},is={}",line,resultV,resultV.contains(false));
 		return !resultV.contains(false);
 	}
 
@@ -261,7 +280,9 @@ public class LotteryGuessTopicCreator {
 
 	public static void main(String[] args) {
 		String lots[] = new String[] { "08", "01", "06", "04", "10" };
-		System.out.println(check(lots, "((#N1*#N3+#N4)%2=0||1+1=2)&&1+2>=3&&((1+2)*2*(2+4)=36)"));
+		System.out.println(check(lots, "(true&&1+2>=3)||true"));
+		System.out.println(check(lots, "(((#N1*#N3+#N4)%2=0||1+1=2)&&1+2>=3&&1+#N1=9)&&((1+2)*2*(2+4)=36)"));
 		//System.out.println("123&&123||".indexOf("&&"));
+		
 	}
 }
