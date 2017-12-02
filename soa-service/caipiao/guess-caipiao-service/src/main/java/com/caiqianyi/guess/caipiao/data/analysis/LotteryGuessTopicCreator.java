@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +35,8 @@ public class LotteryGuessTopicCreator {
 		return count;
 	}
 	
-	private static LinkedHashMap<Integer,Integer> pair(String str, char s, char e){
-		LinkedHashMap<Integer,Integer> result = new LinkedHashMap<Integer,Integer>();
+	private static TreeMap<Integer,Integer> pair(String str, char s, char e){
+		TreeMap<Integer,Integer> result = new TreeMap<Integer,Integer>();
 		List<Integer> i1 = new ArrayList<Integer>();
 		
 		for(int i=0;i<str.length();i++){
@@ -51,7 +52,7 @@ public class LotteryGuessTopicCreator {
 	}
 	
 	public static boolean check(String lots[],String line){
-		LinkedHashMap<Integer,Integer> result = pair(line, '(', ')');
+		TreeMap<Integer,Integer> result = pair(line, '(', ')');
 		String ls = line;
 		for(Integer s : result.keySet()){
 			Integer e = result.get(s);
@@ -157,7 +158,7 @@ public class LotteryGuessTopicCreator {
 
 	public static Double calculate(String line) {
 		line = line.replaceAll(" ", "");
-		LinkedHashMap<Integer,Integer> result = pair(line, '(', ')');
+		TreeMap<Integer,Integer> result = pair(line, '(', ')');
 		String ls = line;
 		for(Integer s : result.keySet()){
 			Integer e = result.get(s);
@@ -281,7 +282,7 @@ public class LotteryGuessTopicCreator {
 	public static void main(String[] args) {
 		String lots[] = new String[] { "08", "01", "06", "04", "10" };
 		System.out.println(check(lots, "(true&&1+2>=3)||true"));
-		System.out.println(check(lots, "(((#N1*#N3+#N4)%2=0||1+1=2)&&1+2>=3&&1+#N1=9)&&((1+2)*2*(2+4)=36)"));
+		System.out.println(check(lots, "((((#N1*#N3+#N4)%2=0||1+1=2)&&1+2>=3&&1+#N1=9)&&true)&&(true&&((1+2)*2*(2+4)=36))"));
 		//System.out.println("123&&123||".indexOf("&&"));
 		
 	}
