@@ -89,7 +89,7 @@ public class RedisHashImpl implements
 		return redisTemplate.execute(new RedisCallback<Long>() {
 			public Long doInRedis(RedisConnection con) throws DataAccessException {
 				byte[] k = redisTemplate.getStringSerializer().serialize(newk);
-				return con.hDel(k);
+				return con.del(k);
 			}
 		});
 	}
@@ -131,5 +131,15 @@ public class RedisHashImpl implements
 			}
 		});
 	}
+	
+	@Override
+	public Boolean hExists(String key) {
+		// TODO Auto-generated method stub
+		return redisTemplate.hasKey(key);
+	}
 
+	@Override
+	public boolean exists(String key) {
+		return redisTemplate.hasKey(key);
+	}
 }

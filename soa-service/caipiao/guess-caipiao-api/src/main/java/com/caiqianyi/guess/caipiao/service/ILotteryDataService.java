@@ -17,4 +17,7 @@ public interface ILotteryDataService {
 	@RequestMapping(value="/lottery/syncData/{kindOf}/openCode/{day}/",method=RequestMethod.GET)
 	SuccessMessage syncOpenCodeForToday(@PathVariable("kindOf")String kindOf,
 			@PathVariable("day")String day);
+	
+	@RequestMapping(value="/jclq/syncData/",method=RequestMethod.GET)
+	SuccessMessage syncMatchJCLQForToday();
 }

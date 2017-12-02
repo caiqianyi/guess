@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.caiqianyi.commons.exception.I18nMessageException;
 import com.caiqianyi.commons.exception.SuccessMessage;
 import com.caiqianyi.guess.caipiao.service.ILotteryDataService;
 
@@ -15,12 +14,17 @@ public class LotteryDataServiceHystrix implements ILotteryDataService {
 
 	@Override
 	public SuccessMessage syncIssueforWeek(String kindOf) {
-		throw new I18nMessageException("502","服务器异常，请稍后重试");
+		return null;
 	}
 
 	@Override
 	public SuccessMessage syncOpenCodeForToday(String kindOf, String day) {
-		throw new I18nMessageException("502","服务器异常，请稍后重试");
+		return null;
 	}
 
+	@Override
+	public SuccessMessage syncMatchJCLQForToday() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

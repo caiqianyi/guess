@@ -27,6 +27,11 @@ public class LotterySyncDataController {
 		return new SuccessMessage(lotteryDataSyncService.syncOpenCodeForDay(kindOf,day));
 	}
 	
+	@RequestMapping(value="/jclq/syncData/",method=RequestMethod.GET)
+	SuccessMessage syncMatchJCLQForToday(){
+		return new SuccessMessage(lotteryDataSyncService.syncJCLQMatch());
+	}
+	
 	@RequestMapping(value="/yllr/data/sync/{kindOf}/",method=RequestMethod.GET)
 	SuccessMessage refreshllr(@PathVariable("kindOf")String kindOf){
 		lotteryDataSyncService.syncYllrData(kindOf);

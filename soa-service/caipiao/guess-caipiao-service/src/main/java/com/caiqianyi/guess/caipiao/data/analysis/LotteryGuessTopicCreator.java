@@ -1,27 +1,96 @@
 package com.caiqianyi.guess.caipiao.data.analysis;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.caiqianyi.commons.exception.I18nMessageException;
 
 public class LotteryGuessTopicCreator {
 	
-	private static Logger logger = LoggerFactory.getLogger(LotteryGuessTopicCreator.class);
-	
-	private final static String regex = "\\([0-9\\+\\-\\*\\/%]+\\)";
-	
 	private final static String pdr[] = new String[]{"\\=","\\>","\\<","\\>\\=","\\<\\="};
+	
+	private final static String ljs[] = new String[]{"&&","||"};
+	
+	private static boolean has(String array[],String s){
+		for(int i=0;i<array.length;i++){
+			if(s.indexOf(array[i].replace("\\", ""))>-1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private static LinkedHashMap<Integer,Integer> pair(String str, char s, char e){
+		LinkedHashMap<Integer,Integer> result = new LinkedHashMap<Integer,Integer>();
+		List<Integer> i1 = new ArrayList<Integer>();
+		for(int i=0;i<str.length();i++){
+			if(str.charAt(i) == s){
+				i1.add(i);
+			}
+			if(str.charAt(i) == e){
+				Integer end = i == str.length()? i : i+1;
+				result.put(i1.remove(i1.size()-1), end);
+			}
+		}
+		return result;
+	}
+	
+	public static boolean check(String lots[],String line){
+		LinkedHashMap<Integer,Integer> result = pair(line, '(', ')');
+		String ls = line;
+		for(Integer s : result.keySet()){
+			Integer e = result.get(s);
+			String str = line.substring(s,e);
+			if(has(ljs, str)
+					|| has(pdr, str)){
+				String l = str.substring(1,str.length() -1);
+				ls = ls.replace(str, bqCheck(lots, l)+"");
+			}
+		}
+		return bqCheck(lots, ls);
+	}
+	
+	public static boolean bqCheck(String lots[],String line){
+		Integer i = 0,
+				last = null;
+		LinkedHashMap<Integer,Boolean> result= new LinkedHashMap<Integer,Boolean>(); 
+		while(i<line.length()){
+			String str = line.substring(i, line.length());
+			boolean isHas = false;
+			for(int k=0;k<ljs.length;k++){
+				int d = str.indexOf(ljs[k]);
+				if(d > -1){
+					i += d+2;
+					String s = str.substring(0, d);
+					result.put(k, dxdCheck(lots,s));
+					last = k;
+					isHas = true;
+					break;
+				}
+			}
+			if(isHas == false){
+				if(i == 0){
+					return dxdCheck(lots, line);
+				}
+				result.put(last, dxdCheck(lots,str));
+				i = line.length();
+			}
+		}
+		if(result.containsKey(1)){
+			return result.containsValue(true);
+		}
+		return !result.containsValue(false);
+	}
 
-	public static boolean lotteryCheck(String lots[],String line){
+	public static boolean dxdCheck(String lots[],String line){
+		if("true".equalsIgnoreCase(line.trim()) || 
+				"false".equalsIgnoreCase(line.trim())){
+			return Boolean.parseBoolean(line);
+		}
 		for(int i=1;i<=lots.length;i++){
-			line = line.replaceAll("n"+i, Integer.parseInt(lots[i-1])+"");
+			line = line.replaceAll("#N"+i, Integer.parseInt(lots[i-1])+"");
 		}
 		int index = -1;
 		for(int i=0;i<pdr.length;i++){
@@ -58,18 +127,15 @@ public class LotteryGuessTopicCreator {
 		
 		line = line.replaceAll(" ", "");
 		
-		// 创建 Pattern 对象
-		Pattern pattern = Pattern.compile(regex);
-		// 创建 matcher 对象
-		Matcher mather = pattern.matcher(line);
-		List<Double> list = new ArrayList<Double>();
-		while(mather.find()){
-			String s = mather.group();
-			Double r = calculateBase(s.substring(1,s.length() -1));
-			line = line.replace(s, ""+r);
-			list.add(r);
+		LinkedHashMap<Integer,Integer> result = pair(line, '(', ')');
+		String ls = line;
+		for(Integer s : result.keySet()){
+			Integer e = result.get(s);
+			String str = line.substring(s,e);
+			String l = str.substring(1,str.length() -1);
+			ls = ls.replace(str, calculateBase(l)+"");
 		}
-		return calculateBase(line);
+		return calculateBase(ls);
 	}
 
 	private static Double calculateBase(String str) {
@@ -182,6 +248,7 @@ public class LotteryGuessTopicCreator {
 
 	public static void main(String[] args) {
 		String lots[] = new String[] { "08", "01", "06", "04", "10" };
-		System.out.println(lotteryCheck(lots, "(n1*n3+n4)%2=0&&"));
+		System.out.println(check(lots, "((#N1*#N3+#N4)%2=0||1+1=2)&&1+2=3&&((1+2)*2*(2+4)=36)"));
+		//System.out.println("123&&123||".indexOf("&&"));
 	}
 }

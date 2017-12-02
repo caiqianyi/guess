@@ -429,14 +429,14 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return gameMatchs;
 	}
 
 	public static void main(String[] args) throws ParseException {
 		
 		ILoLMatchNetworkSpider loLMatchNetworkSpider = new LoLMatchNetworkSpiderImpl();
 		ILoLGuessTopicService loLGuessTopicService = new LoLGuessTopicServiceImpl();
-		/*DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		List<GameMatch> gameMatchs = loLMatchNetworkSpider
 				.findByLeagueAndTime("", "", 1, 100,
 						format.parse("2017-10-17 00:00:00"),
@@ -449,10 +449,10 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 			loLGuessTopicService.createTopicForFirstTurret(match, null, null);
 			loLGuessTopicService.createTopicForSOD(match, null, null);
 			loLMatchNetworkSpider.getGuessResultByMatch(match,match.getMatchId()+"");
-		}*/
-		String matchId = "2822";
+		}
+		/*String matchId = "2822";
 		GameMatch match = loLMatchNetworkSpider.findByMatchId(matchId);
-		loLMatchNetworkSpider.getGuessResultByMatch(match,matchId+"");
+		loLMatchNetworkSpider.getGuessResultByMatch(match,matchId+"");*/
 		//loLMatchNetworkSpider.findByMatchId("2823");
 	}
 }

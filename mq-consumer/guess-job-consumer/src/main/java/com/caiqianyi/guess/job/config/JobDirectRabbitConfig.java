@@ -26,4 +26,6 @@ public class JobDirectRabbitConfig {
 	public static final String SYNC_LOTTERY_ISSUE_JOB = "lottery.sync.issue.job";
 	
 	public static final String SYNC_LOTTERY_OPENCODE_JOB = "lottery.sync.opencode.job";
+	
+	public static final String SYNC_GUESS_JCLQ_MATCH_JOB = "guess.sync.jclq.match.job";
 }

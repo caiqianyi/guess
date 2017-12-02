@@ -1,12 +1,14 @@
 package com.caiqianyi.guess.caipiao.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,6 +55,18 @@ public class LotteryDataController {
 	@RequestMapping(value="/yllr/data/200/{kindOf}/",method=RequestMethod.GET)
 	SuccessMessage yllr200(@PathVariable("kindOf")String kindOf){
 		return new SuccessMessage(redisCache.get("lottery:yllr:"+kindOf+":200"));
+	}
+	
+	@RequestMapping(value="/jclq/{league}/{matchId}",method=RequestMethod.GET)
+	SuccessMessage jclq(@PathVariable("league")String league,@PathVariable("matchId")String matchId){
+		return new SuccessMessage(redisCache.get("lottery:jclq:"+league+":"+DateFormatUtils.format(new Date(), "yyyyMMdd")+"|"+matchId));
+	}
+	
+	@RequestMapping(value="/jclq/{league}/{day}/{matchId}",method=RequestMethod.GET)
+	SuccessMessage jclq(@PathVariable("league")String league,
+			@PathVariable("day")String day,
+			@PathVariable("matchId")String matchId){
+		return new SuccessMessage(redisCache.get("lottery:jclq:"+league+":"+day+"|"+matchId));
 	}
 	
 	@RequestMapping(value="/yllr/data/200/{kindOf}/{zu}/",method=RequestMethod.GET)

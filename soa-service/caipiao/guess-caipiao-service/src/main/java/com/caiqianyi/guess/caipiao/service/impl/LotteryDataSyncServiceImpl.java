@@ -2,6 +2,7 @@ package com.caiqianyi.guess.caipiao.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,12 +13,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.caiqianyi.guess.caipiao.core.dao.IJCLQMatchMapper;
 import com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper;
 import com.caiqianyi.guess.caipiao.data.analysis.YllrAnalysis;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
 import com.caiqianyi.guess.caipiao.service.ILotteryDataSyncService;
 import com.caiqianyi.guess.caipiao.service.ILotteryService;
+import com.caiqianyi.guess.jclq.entity.JCLQMatch;
+import com.caiqianyi.guess.jclq.entity.JCLQMatchDatas;
+import com.caiqianyi.guess.jclq.match.IJCLQMatchService;
 import com.caiqianyi.soa.core.redis.IRedisCache;
 import com.google.gson.Gson;
 
@@ -34,6 +39,44 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 	
 	@Resource
 	private IRedisCache redisCache;
+	
+	@Resource
+	private IJCLQMatchService jCLQMatchService;
+	
+	@Resource
+	private IJCLQMatchMapper jCLQMatchMapper;
+	
+	@Override
+	public List<JCLQMatch> syncJCLQMatch() {
+		// TODO Auto-generated method stub
+		Map<String,JCLQMatch> nums = new LinkedHashMap<String, JCLQMatch>();
+		jCLQMatchService.pull(nums);
+		
+		List<JCLQMatch> matchs = new ArrayList<JCLQMatch>();
+		for(String key : nums.keySet()){
+			JCLQMatch match = nums.get(key);
+			JCLQMatch lqMatch = jCLQMatchMapper.findMatch(match.getSeq());
+			if(lqMatch == null){
+				matchs.add(match);
+				jCLQMatchMapper.insert(match);
+			}else{
+				lqMatch.setScore(match.getScore());
+				lqMatch.setStatus(match.getStatus());
+				lqMatch.setDxf(match.getDxf());
+				lqMatch.setRf(match.getRf());
+				jCLQMatchMapper.update(lqMatch);
+			}
+			JCLQMatchDatas datas = match.getDatas();
+			if(datas != null){
+				if(redisCache.exists("lottery:jclq:"+match.getSeq())){
+					redisCache.update("lottery:jclq:"+match.getSeq(), datas);
+				}else{
+					redisCache.set("lottery:jclq:"+match.getSeq(), datas, 15*24*60*60l);
+				}
+			}
+		}
+		return matchs;
+	}
 	
 	@Override
 	public List<LotteryIssue> syncIssueforWeek(String kindOf) {
