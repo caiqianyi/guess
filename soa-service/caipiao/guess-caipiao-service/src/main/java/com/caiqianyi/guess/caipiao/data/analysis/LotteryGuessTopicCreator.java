@@ -5,9 +5,14 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.caiqianyi.commons.exception.I18nMessageException;
 
 public class LotteryGuessTopicCreator {
+	
+	private static Logger logger = LoggerFactory.getLogger(LotteryGuessTopicCreator.class);
 	
 	private final static String pdr[] = new String[]{"\\=","\\>","\\<","\\>\\=","\\<\\="};
 	
@@ -25,6 +30,7 @@ public class LotteryGuessTopicCreator {
 	private static LinkedHashMap<Integer,Integer> pair(String str, char s, char e){
 		LinkedHashMap<Integer,Integer> result = new LinkedHashMap<Integer,Integer>();
 		List<Integer> i1 = new ArrayList<Integer>();
+		
 		for(int i=0;i<str.length();i++){
 			if(str.charAt(i) == s){
 				i1.add(i);
@@ -43,19 +49,22 @@ public class LotteryGuessTopicCreator {
 		for(Integer s : result.keySet()){
 			Integer e = result.get(s);
 			String str = line.substring(s,e);
+			logger.debug("check|s={},e={},str={}",s,e,str);
 			if(has(ljs, str)
 					|| has(pdr, str)){
 				String l = str.substring(1,str.length() -1);
 				ls = ls.replace(str, bqCheck(lots, l)+"");
 			}
 		}
+		logger.debug("check|ls={}",ls);
 		return bqCheck(lots, ls);
 	}
 	
 	public static boolean bqCheck(String lots[],String line){
 		Integer i = 0,
 				last = null;
-		LinkedHashMap<Integer,Boolean> result= new LinkedHashMap<Integer,Boolean>(); 
+		List<Integer> resultK = new ArrayList<Integer>();
+		List<Boolean> resultV = new ArrayList<Boolean>();
 		while(i<line.length()){
 			String str = line.substring(i, line.length());
 			boolean isHas = false;
@@ -64,7 +73,9 @@ public class LotteryGuessTopicCreator {
 				if(d > -1){
 					i += d+2;
 					String s = str.substring(0, d);
-					result.put(k, dxdCheck(lots,s));
+					logger.debug("bqCheck|s={},d={},i={},line={}",s,d,i,line);
+					resultK.add(k);
+					resultV.add(dxdCheck(lots,s));
 					last = k;
 					isHas = true;
 					break;
@@ -74,14 +85,16 @@ public class LotteryGuessTopicCreator {
 				if(i == 0){
 					return dxdCheck(lots, line);
 				}
-				result.put(last, dxdCheck(lots,str));
+				resultV.add(dxdCheck(lots,str));
+				logger.debug("bqCheck|str={},last={}",str,last);
 				i = line.length();
 			}
 		}
-		if(result.containsKey(1)){
-			return result.containsValue(true);
+		if(resultK.contains(1)){
+			return resultV.contains(true);
 		}
-		return !result.containsValue(false);
+		logger.debug("bqCheck|line={},result={},is={}",line,resultK,resultV.contains(false));
+		return !resultV.contains(false);
 	}
 
 	public static boolean dxdCheck(String lots[],String line){
@@ -124,17 +137,17 @@ public class LotteryGuessTopicCreator {
 	}
 
 	public static Double calculate(String line) {
-		
 		line = line.replaceAll(" ", "");
-		
 		LinkedHashMap<Integer,Integer> result = pair(line, '(', ')');
 		String ls = line;
 		for(Integer s : result.keySet()){
 			Integer e = result.get(s);
 			String str = line.substring(s,e);
+			logger.debug("calculate|s={},e={},str={}",s,e,str);
 			String l = str.substring(1,str.length() -1);
 			ls = ls.replace(str, calculateBase(l)+"");
 		}
+		logger.debug("calculate|ls={}",ls);
 		return calculateBase(ls);
 	}
 
@@ -248,7 +261,7 @@ public class LotteryGuessTopicCreator {
 
 	public static void main(String[] args) {
 		String lots[] = new String[] { "08", "01", "06", "04", "10" };
-		System.out.println(check(lots, "((#N1*#N3+#N4)%2=0||1+1=2)&&1+2=3&&((1+2)*2*(2+4)=36)"));
+		System.out.println(check(lots, "((#N1*#N3+#N4)%2=0||1+1=2)&&1+2>=3&&((1+2)*2*(2+4)=36)"));
 		//System.out.println("123&&123||".indexOf("&&"));
 	}
 }
