@@ -1,191 +1,306 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.caiqianyi.guess.core.dao.IGuessTopicMapper">
-    
-	<sql id="Base_Where_Clause" >
-	    <trim prefix="where" prefixOverrides="and|or" >
-	      <if test="topic.topicId != null" >
-	         and topicId = #{topic.topicId}
-	      </if>
-	      <if test="topic.roomId != null" >
-	         and roomId = #{topic.roomId}
-	      </if>
-	      <if test="topic.label != null" >
-	         and label = #{topic.label}
-	      </if>
-	      <if test="topic.kind != null" >
-	         and kind = #{topic.kind}
-	      </if>
-	      <if test="topic.league != null" >
-	         and league = #{topic.league}
-	      </if>
-	      <if test="topic.groupId != null" >
-	         and groupId = #{topic.groupId}
-	      </if>
-	      <if test="topic.topicType != null" >
-	         and topicType = #{topic.topicType}
-	      </if>
-	      <if test="topic.orderBy != null" >
-	         and orderBy = #{topic.orderBy}
-	      </if>
-	      <if test="topic.status != null" >
-	         and status = #{topic.status}
-	      </if>
-	      <if test="topic.optionId != null" >
-	         and optionId = #{topic.optionId}
-	      </if>
-	      <if test="topic.createBy != null" >
-	         and optionId = #{topic.createBy}
-	      </if>
-	    </trim>
+
+	<resultMap id="GuessOptionMap" type="com.caiqianyi.guess.entity.GuessTopic">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="topicId" jdbcType="INTEGER" property="topicId" />
+		<result column="createBy" jdbcType="VARCHAR" property="createBy" />
+		<result column="clubId" jdbcType="INTEGER" property="clubId" />
+		<result column="subject" jdbcType="VARCHAR" property="subject" />
+		<result column="label" jdbcType="VARCHAR" property="label" />
+		<result column="kind" jdbcType="VARCHAR" property="kind" />
+		<result column="league" jdbcType="VARCHAR" property="league" />
+		<result column="groupId" jdbcType="VARCHAR" property="groupId" />
+		<result column="topicType" jdbcType="VARCHAR" property="topicType" />
+		<result column="orderBy" jdbcType="INTEGER" property="orderBy" />
+		<result column="joinCount" jdbcType="INTEGER" property="joinCount" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="optionId" jdbcType="VARCHAR" property="optionId" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="overTime" jdbcType="TIMESTAMP" property="overTime" />
+		<result column="finishTime" jdbcType="TIMESTAMP" property="finishTime" />
+		<collection property="options"
+			ofType="com.caiqianyi.guess.entity.GuessTopicOption">
+			<id column="optId" jdbcType="VARCHAR" property="id" />
+			<result column="topicId" property="topicId" />
+			<result column="name" property="name" />
+			<result column="value" property="value" />
+			<result column="optOrderBy" property="orderBy" />
+			<result column="buyCount" property="buyCount" />
+			<result column="buyAmount" property="buyAmount" />
+			<result column="isSelected" property="isSelected" />
+			<result column="odds" property="odds" />
+			<result column="optCreateTime" property="createTime" />
+		</collection>
+	</resultMap>
+
+	<sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="topic.topicId != null">
+				and topicId = #{topic.topicId}
+			</if>
+			<if test="topic.clubId != null">
+				and clubId = #{topic.clubId}
+			</if>
+			<if test="topic.label != null">
+				and label = #{topic.label}
+			</if>
+			<if test="topic.kind != null">
+				and kind = #{topic.kind}
+			</if>
+			<if test="topic.league != null">
+				and league = #{topic.league}
+			</if>
+			<if test="topic.groupId != null">
+				and groupId = #{topic.groupId}
+			</if>
+			<if test="topic.topicType != null">
+				and topicType = #{topic.topicType}
+			</if>
+			<if test="topic.orderBy != null">
+				and orderBy = #{topic.orderBy}
+			</if>
+			<if test="topic.status != null">
+				and status = #{topic.status}
+			</if>
+			<if test="topic.optionId != null">
+				and optionId = #{topic.optionId}
+			</if>
+			<if test="topic.createBy != null">
+				and createBy = #{topic.createBy}
+			</if>
+		</trim>
 	</sql>
-	
-	<sql id="Base_Column_List" >
-	    id, topicId, roomId, subject, label, kind, league, groupId,topicType,orderBy, joinCount, status, 
-	    optionId, createTime, overTime, finishTime ,createBy
+
+	<sql id="Base_Column_List">
+		id, topicId, clubId, subject, label, kind, league,
+		groupId,topicType,orderBy, joinCount, status,
+		optionId, createTime,
+		overTime, finishTime ,createBy
 	</sql>
-	
+
 	<select id="findOneGuessTopicBy" resultType="com.caiqianyi.guess.entity.GuessTopic">
-	    select <include refid="Base_Column_List" />
-	    from guess_topic <include refid="Base_Where_Clause" />
+		select
+		<include refid="Base_Column_List" />
+		from guess_topic
+		<include refid="Base_Where_Clause" />
 	</select>
-	
+
 	<select id="findGuessTopicByForPager" resultType="com.caiqianyi.guess.entity.GuessTopic">
-	    select <include refid="Base_Column_List" />
-	    from guess_topic <include refid="Base_Where_Clause" />
+		select
+		<include refid="Base_Column_List" />
+		from guess_topic
+		<include refid="Base_Where_Clause" />
 		<if test="start != null and start !=''">
-		    and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+			and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
 		</if>
 		<if test="end != null and end !=''">
-		    and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
+			and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
 		</if>
-		
+
 		order by orderBy,createTime;
 	</select>
-	
+
+	<select id="findAllGuessTopicLeftOptionsBy" resultMap="GuessOptionMap">
+		select
+		topic.id,topic.topicId,topic.createBy,
+		topic.clubId,topic.subject,topic.label,
+		topic.kind,topic.league,topic.groupId,
+		topic.topicType,topic.orderBy,topic.joinCount,
+		topic.status,topic.optionId,topic.createTime,
+		topic.overTime,topic.finishTime,
+		gt_option.id as optId,gt_option.topicId,gt_option.name,
+		gt_option.value,gt_option.orderBy as optOrderBy,gt_option.buyCount,
+		gt_option.buyAmount,gt_option.isSelected,gt_option.odds,
+		gt_option.createTime as optCreateTime
+		from guess_topic as topic left join guess_topic_option as
+		gt_option on
+		gt_option.topicId = topic.topicId
+		where 
+		1=1
+		<if test="topic.topicId != null">
+			and topic.topicId = #{topic.topicId}
+		</if>
+		<if test="topic.clubId != null">
+			and topic.clubId = #{topic.clubId}
+		</if>
+		<if test="topic.label != null">
+			and topic.label = #{topic.label}
+		</if>
+		<if test="topic.kind != null">
+			and topic.kind = #{topic.kind}
+		</if>
+		<if test="topic.league != null">
+			and topic.league = #{topic.league}
+		</if>
+		<if test="topic.groupId != null">
+			and topic.groupId = #{topic.groupId}
+		</if>
+		<if test="topic.topicType != null">
+			and topic.topicType = #{topic.topicType}
+		</if>
+		<if test="topic.orderBy != null">
+			and topic.orderBy = #{topic.orderBy}
+		</if>
+		<if test="topic.status != null">
+			and topic.status = #{topic.status}
+		</if>
+		<if test="topic.optionId != null">
+			and topic.optionId = #{topic.optionId}
+		</if>
+		<if test="topic.createBy != null">
+			and topic.createBy = #{topic.createBy}
+		</if>
+		<if test="start != null and start !=''">
+			and DATE_FORMAT(topic.createTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+		</if>
+		<if test="end != null and end !=''">
+			and DATE_FORMAT(topic.createTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
+		</if>
+	</select>
+
 	<select id="findAllGuessTopicBy" resultType="com.caiqianyi.guess.entity.GuessTopic">
-	    select <include refid="Base_Column_List" />
-	    from guess_topic <include refid="Base_Where_Clause" />
+		select
+		<include refid="Base_Column_List" />
+		from guess_topic
+		<include refid="Base_Where_Clause" />
 		<if test="start != null and start !=''">
-		    and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+			and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
 		</if>
 		<if test="end != null and end !=''">
-		    and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}	
+			and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
 		</if>
-		
+
 		order by orderBy,createTime;
 	</select>
-	
+
 	<insert id="insert" parameterType="com.caiqianyi.guess.entity.GuessTopic">
-	    insert into guess_topic (<include refid="Base_Column_List" />)
-	    	values (UUID(), #{topic.topicId}, #{topic.roomId}, #{topic.subject}, #{topic.label}, #{topic.kind}, #{topic.league}, #{topic.groupId}, #{topic.topicType}, 
-	    			#{topic.orderBy}, 0, 0, #{topic.optionId}, now(), #{topic.overTime}, NULL , #{topic.createBy})
+		insert into guess_topic (
+		<include refid="Base_Column_List" />
+		)
+		values (UUID(), #{topic.topicId}, #{topic.clubId}, #{topic.subject},
+		#{topic.label}, #{topic.kind}, #{topic.league}, #{topic.groupId},
+		#{topic.topicType},
+		#{topic.orderBy}, 0, 0, #{topic.optionId}, now(),
+		#{topic.overTime}, NULL ,
+		#{topic.createBy})
 	</insert>
-	
+
 	<update id="update" parameterType="com.caiqianyi.guess.entity.GuessTopic">
-	    update guess_topic
-	    <set>
-	      <if test="topic.subject != null" >
-	        subject = #{topic.subject},
-	      </if>
-	      <if test="topic.label != null" >
-	        label = #{topic.label},
-	      </if>
-	      <if test="topic.kind != null" >
-	        kind = #{topic.kind},
-	      </if>
-	      <if test="topic.league != null" >
-	        league = #{topic.league},
-	      </if>
-	      <if test="topic.groupId != null" >
-	        groupId = #{topic.groupId},
-	      </if>
-	      <if test="topic.joinCount != null" >
-	        joinCount = #{topic.joinCount},
-	      </if>
-	      <if test="topic.status != null" >
-	        status = #{topic.status},
-	      </if>
-	      <if test="topic.optionId != null" >
-	        optionId = #{topic.optionId},
-	      </if>
-	      <if test="topic.finishTime != null" >
-	        finishTime = #{topic.finishTime},
-	      </if>
-	    </set>
-	    where id = #{topic.id}
+		update guess_topic
+		<set>
+			<if test="topic.subject != null">
+				subject = #{topic.subject},
+			</if>
+			<if test="topic.label != null">
+				label = #{topic.label},
+			</if>
+			<if test="topic.kind != null">
+				kind = #{topic.kind},
+			</if>
+			<if test="topic.league != null">
+				league = #{topic.league},
+			</if>
+			<if test="topic.groupId != null">
+				groupId = #{topic.groupId},
+			</if>
+			<if test="topic.joinCount != null">
+				joinCount = #{topic.joinCount},
+			</if>
+			<if test="topic.status != null">
+				status = #{topic.status},
+			</if>
+			<if test="topic.optionId != null">
+				optionId = #{topic.optionId},
+			</if>
+			<if test="topic.finishTime != null">
+				finishTime = #{topic.finishTime},
+			</if>
+		</set>
+		where id = #{topic.id}
 	</update>
-	
+
 	<delete id="delete">
-	    delete from guess_topic where id = #{id}
+		delete from guess_topic where id = #{id}
 	</delete>
-	
-	<sql id="Guess_Topic_Option_Column_List" >
-	    id, topicId, name, value, orderBy, buyCount, buyAmount, isSelected, odds, createTime
+
+	<sql id="Guess_Topic_Option_Column_List">
+		id, topicId, name, value, orderBy, buyCount, buyAmount,
+		isSelected, odds,
+		createTime
 	</sql>
-	
-	<sql id="Option_Base_Where_Clause" >
-	    <trim prefix="where" prefixOverrides="and|or" >
-	      <if test="option.topicId != null" >
-	         and topicId = #{option.topicId}
-	      </if>
-	      <if test="option.value != null" >
-	         and value = #{option.value}
-	      </if>
-	      <if test="option.id != null" >
-	         and id = #{option.id}
-	      </if>
-	    </trim>
+
+	<sql id="Option_Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="option.topicId != null">
+				and topicId = #{option.topicId}
+			</if>
+			<if test="option.value != null">
+				and value = #{option.value}
+			</if>
+			<if test="option.id != null">
+				and id = #{option.id}
+			</if>
+		</trim>
 	</sql>
-	
+
 	<select id="findOneGuessTopicOptionBy" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
-	    select <include refid="Guess_Topic_Option_Column_List" />
-	    from guess_topic_option <include refid="Option_Base_Where_Clause" />
+		select
+		<include refid="Guess_Topic_Option_Column_List" />
+		from guess_topic_option
+		<include refid="Option_Base_Where_Clause" />
 	</select>
-	
+
 	<select id="findAllGuessTopicOptionBy" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
-	    select <include refid="Guess_Topic_Option_Column_List" />
-	    from guess_topic_option <include refid="Option_Base_Where_Clause" />
+		select
+		<include refid="Guess_Topic_Option_Column_List" />
+		from guess_topic_option
+		<include refid="Option_Base_Where_Clause" />
 	</select>
-	
+
 	<insert id="insertOption">
-	    insert into guess_topic_option (<include refid="Guess_Topic_Option_Column_List" />)
-	    	values (UUID(),#{option.topicId}, #{option.name}, #{option.value}, #{option.orderBy}, 0, '1.00', 0, #{option.odds}, now())
+		insert into guess_topic_option (
+		<include refid="Guess_Topic_Option_Column_List" />
+		)
+		values (UUID(),#{option.topicId}, #{option.name}, #{option.value},
+		#{option.orderBy}, 0, '1.00', 0, #{option.odds}, now())
 	</insert>
-	
+
 	<update id="updateOption">
-	    update guess_topic_option
-	    <set>
-	      <if test="option.name != null" >
-	        name = #{option.name},
-	      </if>
-	      <if test="option.value != null" >
-	        value = #{option.value},
-	      </if>
-	      <if test="option.orderBy != null" >
-	        orderBy = #{option.orderBy},
-	      </if>
-	      <if test="option.buyCount != null" >
-	        buyCount = #{option.buyCount},
-	      </if>
-	      <if test="option.buyAmount != null" >
-	        buyAmount = #{option.buyAmount},
-	      </if>
-	      <if test="option.isSelected != null" >
-	        isSelected = #{option.isSelected},
-	      </if>
-	      <if test="option.odds != null" >
-	        odds = #{option.odds}
-	      </if>
-	    </set>
-	    where id = #{option.id}
+		update guess_topic_option
+		<set>
+			<if test="option.name != null">
+				name = #{option.name},
+			</if>
+			<if test="option.value != null">
+				value = #{option.value},
+			</if>
+			<if test="option.orderBy != null">
+				orderBy = #{option.orderBy},
+			</if>
+			<if test="option.buyCount != null">
+				buyCount = #{option.buyCount},
+			</if>
+			<if test="option.buyAmount != null">
+				buyAmount = #{option.buyAmount},
+			</if>
+			<if test="option.isSelected != null">
+				isSelected = #{option.isSelected},
+			</if>
+			<if test="option.odds != null">
+				odds = #{option.odds}
+			</if>
+		</set>
+		where id = #{option.id}
 	</update>
-	
+
 	<delete id="deleteOption">
-	    delete from guess_topic_option where id = #{id}
+		delete from guess_topic_option where id = #{id}
 	</delete>
-	
+
 	<delete id="deleteOptionByTopicId">
-	    delete from guess_topic_option where topicId = #{topicId}
+		delete from guess_topic_option where topicId =
+		#{topicId}
 	</delete>
 </mapper>

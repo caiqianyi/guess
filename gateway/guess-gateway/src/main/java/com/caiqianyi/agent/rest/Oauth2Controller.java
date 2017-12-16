@@ -22,11 +22,14 @@ import com.caiqianyi.agent.security.Oauth2;
 import com.caiqianyi.agent.security.Oauth2SecuritySubject;
 import com.caiqianyi.commons.exception.I18nMessageException;
 import com.caiqianyi.commons.exception.SuccessMessage;
+import com.caiqianyi.commons.utils.GenerateCode;
 import com.caiqianyi.commons.utils.PwdUtil;
 import com.caiqianyi.soa.core.redis.IRedisCache;
+import com.caiqianyi.wechat.service.IWechatService;
+import com.ylhy.wechat.vo.AccessToken;
+import com.ylhy.wechat.vo.WechatUserInfo;
 
 @RestController
-@RequestMapping("/oauth2")
 public class Oauth2Controller extends BaseController{
 	
 	private Logger logger = LoggerFactory.getLogger(Oauth2Controller.class);
@@ -43,17 +46,26 @@ public class Oauth2Controller extends BaseController{
 	@Resource
 	private IAccountService accountService;
 	
-	@RequestMapping(value = "/token/refresh", method = RequestMethod.GET)
-	SuccessMessage refreshToken(String username,String password,
+	@Resource
+	private IWechatService wechatService;
+	
+	@RequestMapping(value = "/oauth2/token/refresh", method = RequestMethod.GET)
+	SuccessMessage oauthToken(String username,String password,
 			String platform,
 			String verfiyCode,String openid){
 		if(StringUtils.isBlank(openid)){
-			if(!"app".equals(platform)){
+			
+			if(!"app".equals(platform)
+					&& !"wechatOA".equals(platform)){
 				String verifycode = (String) request.getSession().getAttribute(WebConstants.SYS_VERIFYCODE);
+				logger.debug("verifycode={},verfiyCode={}",verifycode,verfiyCode);
 				if(verifycode == null || !verifycode.equalsIgnoreCase(verfiyCode)){
 					throw new I18nMessageException("10001", "验证码不正确");
 				}
 				request.getSession().removeAttribute(WebConstants.SYS_VERIFYCODE);
+			}
+			if(StringUtils.isBlank(username) || StringUtils.isBlank(password)){
+				throw new I18nMessageException("10001", "验证码不正确");
 			}
 			String key = CacheKeyConstant.CACHEKEY_LOGIN_ACCOUNT_LOCK + "." + username;
 			String value = (String) redisCache.get(key);
@@ -64,16 +76,20 @@ public class Oauth2Controller extends BaseController{
 			if(StringUtils.isNumeric(value)){
 				errorCount = Integer.parseInt(value);
 			}
-			String account,passwd;
-			try {
-				account = desUtils.decrypt(username);
-				passwd = desUtils.decrypt(password);
-			} catch (Exception e) {
-				IncrErrorCount(username, value);
-				throw new I18nMessageException("10002", new String[]{CacheKeyConstant.ACCOUNT_ERROR_COUNT+"",CacheKeyConstant.ACCOUNT_ERROR_LOCK_TIME/3600+"",(CacheKeyConstant.ACCOUNT_ERROR_COUNT-errorCount-1)+""});
+			
+			String account = username,pw = password,passwd = null;
+			if(!"wechatOA".equals(platform)){
+				try {
+					account = desUtils.decrypt(username);
+					passwd = desUtils.decrypt(password);
+				} catch (Exception e) {
+					IncrErrorCount(username, value);
+					throw new I18nMessageException("10002", new String[]{CacheKeyConstant.ACCOUNT_ERROR_COUNT+"",CacheKeyConstant.ACCOUNT_ERROR_LOCK_TIME/3600+"",(CacheKeyConstant.ACCOUNT_ERROR_COUNT-errorCount-1)+""});
+				}
+				pw = PwdUtil.getMd5Password(account, passwd);
+				logger.info("username={},password={},pw={}",account,passwd,pw);
 			}
-			String pw = PwdUtil.getMd5Password(account, passwd);
-			logger.info("username={},password={},pw={}",account,passwd,pw);
+			
 			User a = accountService.login(account, pw);
 			if(a == null){
 				IncrErrorCount(username, value);
@@ -82,13 +98,60 @@ public class Oauth2Controller extends BaseController{
 			openid = oauth2SecuritySubject.getOpenid(account);
 		}
 		Oauth2 oauth2 = oauth2SecuritySubject.refreshToken(openid);
-		
 		GlobalToken.setToken(oauth2.getAssess_token());
 		Map<String,Object> json = new TreeMap<String,Object>();
 		json.put("access_token", oauth2.getAssess_token());
 		json.put("openid", oauth2.getOpenid());
 		json.put("expires_in", oauth2.getExpires_in());
 		return new SuccessMessage(json);
+	}
+	
+	/**
+	 * 微信授权登录、注册
+	 * @param code
+	 * @param state
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/oauth2/token/wechatOA", method = RequestMethod.GET)
+	SuccessMessage oauthTokenForWechatOA(String code,String state) throws Exception{
+		logger.info("wechatOA|code={},state={}",code,state);
+		AccessToken accessToken = wechatService.getAccessToken(code, state);
+		if(accessToken == null || StringUtils.isBlank(accessToken.getOpenid())){
+			throw new I18nMessageException("40001","微信授权失败");
+		}
+		String openid = accessToken.getOpenid();
+		User user = accountService.findByOpenid(openid);
+		if(user == null){
+			WechatUserInfo userInfo = wechatService.getUserInfo(accessToken.getAccess_token(), openid);
+			Integer userId = GenerateCode.getRandom(8);
+			String account = "WX_"+userId;
+			String passwd = "R_"+GenerateCode.gen(6);
+			String password = PwdUtil.getMd5Password(account, passwd);
+			user = new User();
+			
+			user.setUserId(userId);
+			user.setAccount(account);
+			user.setPassword(password);
+			user.setCity(userInfo.getCity());
+			user.setCountry(userInfo.getCountry());
+			user.setGroupid(userInfo.getGroupid());
+			user.setHeadimgurl(userInfo.getHeadimgurl());
+			user.setLanguage(user.getLanguage());
+			user.setNickname(user.getNickname());
+			user.setOpenid(user.getOpenid());
+			user.setProvince(userInfo.getProvince());
+			user.setRemark(user.getRemark());
+			user.setSex(user.getSex());
+			user.setSource("wechatOA");
+			user.setSubscribe(userInfo.getSubscribe());
+			user.setSubscribeTime(userInfo.getSubscribe_time());
+			user.setType("0");
+			user.setUnionid(userInfo.getUnionid());
+			
+			accountService.register(user);
+		}
+		return oauthToken(user.getAccount(), user.getPassword(), "wechatOA", null, null);
 	}
 	
 	@RequestMapping(value = "/token/clear", method = RequestMethod.GET)

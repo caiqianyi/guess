@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/css/style.css" />
+	<link rel="stylesheet" href="/assets/css/ace.min.css" />
+	<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+	<link rel="stylesheet"
+	href="/Widget/zTree/css/zTreeStyle/zTreeStyle.css"
+	type="text/css">
+	<link href="/Widget/icheck/icheck.css" rel="stylesheet"
+		type="text/css" />
+	<!--[if IE 7]>
+  <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css" />
+<![endif]-->
+	<!--[if lte IE 8]>
+  <link rel="stylesheet" href="/assets/css/ace-ie.min.css" />
+<![endif]-->
+	<script src="/js/jquery-1.9.1.min.js"></script>
+	<script src="/assets/js/bootstrap.min.js"></script>
+	<script src="/assets/js/typeahead-bs2.min.js"></script>
+	<!-- page specific plugin scripts -->
+	<script src="/Widget/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script src="/assets/js/jquery.dataTables.bootstrap.js"></script>
+	<script type="text/javascript" src="/js/H-ui.js"></script>
+	<script type="text/javascript" src="/js/H-ui.admin.js"></script>
+	<script src="/assets/layer/layer.js" type="text/javascript"></script>
+	<script src="/assets/laydate/laydate.js"
+		type="text/javascript"></script>
+	<script type="text/javascript"
+		src="/Widget/zTree/js/jquery.ztree.all-3.5.min.js"></script>
+	<script src="/js/lrtk.js" type="text/javascript"></script>
+	
+	<style>
+		#example tr td {
+			vertical-align: middle;
+		}
+		
+		#example tr td:last-child {
+			padding: 0px;
+		}
+		
+		#example tr td p {
+			margin: 0px;
+			overflow: hidden;
+		}
+		#example tr td .pl1{
+			border: 1px solid #CCC;
+			margin: 0px;
+			line-height: 29px;
+			font-weight: normal;
+			height: 29px;
+		}
+		
+		#example tr td p label {
+			width: 25%;
+			display: inline-block;
+			border : 1px solid #CCC;
+			border-bottom: 1px solid #CCC;
+			border-left: 1px solid #CCC;
+			margin: 0px;
+			line-height: 29px;
+			font-weight: normal;
+			height: 29px;
+			float: left;
+		}
+	</style>
+<title>比赛列表</title>
+</head>
+<body>
+	<div class=" page-content clearfix">
+		<div id="products_style">
+			<div class="search_style">
+
+				<ul class="search_content clearfix">
+					<li><label class="l_f">比赛时间</label><input
+						class="inline laydate-icon" id="start" style="margin-left: 10px;"></li>
+					<li style="width: 90px;"><button type="button"
+							class="btn_search">
+							<i class="icon-search"></i>查询
+						</button></li>
+				</ul>
+			</div>
+			<!--产品列表展示-->
+			<div class="h_products_list clearfix" id="products_list">
+				<div id="scrollsidebar" class="left_Treeview">
+					<div class="show_btn" id="rightArrow">
+						<span></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="table_menu_list" id="example">
+			<table class="table table-striped table-bordered table-hover"
+				id="sample-table">
+				<thead>
+					<tr>
+						<th width="80px">比赛ID</th>
+						<th width="100px">比分</th>
+						<th width="80px">话题</th>
+						<th width="80px">选项</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
+<script>
+Date.prototype.format = function (fmt) { //author: meizz 
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "h+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "S": this.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
+function match_edit(id){
+  layer.open({
+	type: 1,
+	title: '修改比赛信息',
+	maxmin: true, 
+	shadeClose:false, //点击遮罩关闭层
+     	area : ['800px' , ''],
+     	content:$('#match_edit_style'),
+	btn:['提交','取消'],
+	yes:function(index,layero){	
+		var num=0;
+		var str="";
+  			$(".match_edit input[type$='text']").each(function(n){
+       		if($(this).val()==""){
+				layer.alert(str+=""+$(this).attr("name")+"不能为空！\r\n",{
+              		title: '提示框',				
+					icon:0,								
+        		}); 
+		    	num++;
+          		return false;            
+       		} 
+	 	});
+	  	if(num>0){  return false;}	 	
+       	else{
+			layer.alert('添加成功！',{
+            		title: '提示框',				
+				icon:1,		
+		  	});
+		  	layer.close(index);	
+	  	}		  		     				
+	}
+  });
+}
+
+var oTable = null;
+function query(day){
+	if(oTable){
+		oTable.fnClearTable();
+		oTable.api(0).destroy();
+	}
+	oTable = $('#sample-table').dataTable({
+		ajax: {
+	        url: "/jclq/guess/day/"+day+".json",
+	        dataSrc: 'data'
+	    },
+		"aaSorting" : [ [  0, "asc" ]],//默认第几个排序
+		"bPaginate": false, //翻页功能
+		"bLengthChange": false, //改变每页显示数据数量
+		"bInfo": false,//页脚信息
+		"columns" : [
+            { data: 'status' },
+            { data: 'score' },
+            { data: 'topic.subject'},
+            { data: 'options'}
+        ],
+        "fnCreatedRow": function( nRow, aData, iDataIndex ) {
+            var so = aData.score.split("-");
+       		var status = aData.status == 0?"未开始" : aData.status == 1?"进行中":"已结束";
+        	var td0 = "";
+        	td0 += 
+        			"<p class=\"pl1\">"+status+"</p>"+
+        			"<p class=\"pl1\"><a href=\"javascript:layer_show('战绩分析','xi.html?seq="+aData.seq+"&_="+(new Date().getTime())+"',1200,810);\">"+aData.matchId+"</a></p>"+
+        			"<p class=\"pl1\"><a href=\"javascript:layer_show('欧赔','ou_odds.html?seq="+aData.seq+"&_="+(new Date().getTime())+"','',810);\">欧</a></p>";
+            $('td:eq(0)', nRow).html(td0);
+            
+           	aData.rf = (aData.rf.indexOf("+")>-1||aData.rf.indexOf("-")>-1 ? "": "+")+aData.rf;
+           	
+           	var rf = aData.rf, dxf = aData.dxf;
+           	if(aData.status == 2){
+            	//console.info(so[0],aData.rf,eval(so[0]+aData.rf));
+            	var rfsf = eval(so[0]+aData.rf) > so[1] ? "主胜" :"客胜",
+            		dxf = eval(so[0]+"+"+so[1]) > aData.dxf ? "大" : "小";
+            	rf = '<font style="color:red">让分：' + rfsf + ' （'+aData.rf+'）</font>'; 
+				dxf ='<font style="color:red">大小分：' +dxf + ' （<font style="color:red">'+aData.dxf+'</font>）';
+        	}
+           	
+           	var h1= "" +
+				"<p class=\"pl1\">"+aData.league+"</p>"+
+				"<p class=\"pl1\">"+new Date(aData.matchTime).format("MM-dd hh:mm")+"</p>"+
+				"<p class=\"pl1\">"+aData.hostTeam +" VS "+ aData.gustTeam+"</p>"+
+				"<p class=\"pl1\">"+aData.score+"</p>"+
+				"<p class=\"pl1\">"+rf+"</p>"+
+				"<p class=\"pl1\">"+dxf+"</p>" ;
+           	$('td:eq(1)', nRow).html(h1);
+           	
+           	$('td:eq(2)', nRow).html( aData.topic.subject + "<br/>" + 
+           			"话题ID："+aData.topic.topicId + "<br/>"
+           			);
+        	var html = "";
+        	html += "<p>" +
+				"<label>选择项</label>"+
+				"<label>参与人数</label>"+
+				"<label>购买金额</label>"+
+				"<label>结算公式</label>"+
+			"</p>";
+        	for(var i=0;i<aData.options.length;i++){
+        		var option = aData.options[i].name.replace(new RegExp('#HOST',"gm"),aData.hostTeam)
+        									.replace(new RegExp('#GUST',"gm"),aData.gustTeam)
+        									.replace(new RegExp('#GUEST',"gm"),aData.gustTeam)
+        									.replace(new RegExp('#RF',"gm"),aData.rf)
+        									.replace(new RegExp('#DXF',"gm"),aData.dxf);
+        		var value = aData.options[i].value;
+        		
+        		if(aData.options[i].isSelected){
+	        		html += "<p style=\"color: red;\">";
+        		}else{
+	        		html += "<p>";
+        		}
+        		html += "<label>"+option+(aData.options[i].isSelected? " （√）" : "")+"</label>"+
+        					"<label>"+aData.options[i].buyCount+"</label>"+
+        					"<label>"+aData.options[i].buyAmount+"</label>"+
+        					"<label>"+value+"</label>"+
+        				"</p>";
+        	}
+        	$('td:eq(3)', nRow).html(html);
+			//$('td:eq(4)', nRow).html(td4);
+        }
+	});
+}
+
+$(function($) {
+	laydate({
+	    elem: '#start',
+	    event: 'focus',
+	    format: 'YYYYMMDD',
+	    istoday: true
+	});
+	
+	var day = new Date().format("yyyyMMdd");
+	$('#start').val(day);
+	$(".btn_search").click(function(){
+		query($("#start").val());
+	});
+	
+	$(".btn_search").click();
+});
+//初始化宽度、高度  
+$(".widget-box").height($(window).height() - 215);
+$(".table_menu_list").width($(window).width() - 260);
+$(".table_menu_list").height($(window).height() - 215);
+//当文档窗口发生改变时 触发  
+$(window).resize(function() {
+	$(".widget-box").height($(window).height() - 215);
+	$(".table_menu_list").width($(window).width() - 260);
+	$(".table_menu_list").height($(window).height() - 215);
+})
+</script>

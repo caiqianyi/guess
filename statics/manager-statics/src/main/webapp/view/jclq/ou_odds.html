@@ -1,0 +1,455 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<style>
+body {
+	padding: 0;
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif, "宋体";
+	color: #333;
+	font-size: 12px;
+}
+
+div, h1, h2, h3, h4, p, form, input, textarea, img, span {
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+img {
+	border-width: 0;
+}
+
+a:link, a:visited {
+	text-decoration: none;
+	color: #86420B;
+}
+
+a:hover {
+	color: #F60;
+	text-decoration: underline;
+}
+
+#webmain {
+	width: 910px;
+	margin-right: auto;
+	margin-left: auto;
+	padding-top: 6px;
+}
+
+.fx_title, .fx_title2 {
+	font-size: 14px;
+	line-height: 30px;
+	font-weight: bold;
+	color: #fff;
+	text-align: center;
+	height: 30px;
+	background-color: blue;
+	font-family: "微软雅黑";
+	margin-top: 8px;
+}
+
+td {
+	text-align: center
+}
+
+.page-content {
+    background: #fff;
+    margin: 0;
+    padding: 0px 15px;
+}
+
+.sred {
+	background-color: #CFF;
+}
+
+.bbtns {
+	height: 20px;
+	width: 46px;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	background-image: url(images/fe.png);
+}
+
+.dl:link {
+	text-decoration: underline;
+}
+
+.y_bg td {
+	background-color: #FAF1DE;
+}
+
+.blue_t2 td {
+	background-color: #EBEBEB;
+}
+
+.bui {
+	color: #333;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	background-color: #EBF1F3;
+}
+
+.BgYellow {
+	background-color: #fcebda;
+	color: #73250f
+}
+
+.BgSky {
+	background-color: #d2e6ff
+}
+
+.sl {
+	text-align: left
+}
+
+.sr {
+	text-align: right
+}
+
+.teamname_td {
+	background-color: #E6F0FB;
+	line-height: 18px;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+#mymenu2 {
+	BORDER-BOTTOM: #df3a0d 2px solid;
+	HEIGHT: 33px
+}
+
+#mymenu2 A, #mymenu2 A:visited {
+	BACKGROUND-POSITION: 5px top;
+	DISPLAY: block;
+	FLOAT: left;
+	BACKGROUND-IMAGE: url(images/soccer1.png);
+	WIDTH: 80px;
+	COLOR: #333;
+	BACKGROUND-REPEAT: no-repeat;
+	TEXT-ALIGN: center;
+	height: 21px;
+	padding-top: 12px;
+}
+
+#mymenu2 A:hover {
+	BACKGROUND-POSITION: -86px top;
+	BACKGROUND-IMAGE: url(images/soccer1.png);
+	COLOR: #ff6600;
+	BACKGROUND-REPEAT: no-repeat;
+	TEXT-DECORATION: none
+}
+
+#mymenu2 .myons A:link, #mymenu2 .myons A:visited, #mymenu2 .myons A:hover
+	{
+	BACKGROUND-POSITION: -182px top;
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 14px;
+	BACKGROUND-IMAGE: url(images/soccer1.png);
+	WIDTH: 80px;
+	COLOR: #fff;
+	PADDING-TOP: 9px;
+	BACKGROUND-REPEAT: no-repeat;
+	HEIGHT: 24px
+}
+
+.white16px {
+	FONT-WEIGHT: bold;
+	COLOR: #333
+}
+
+.hp {
+	FONT-SIZE: 8pt;
+	COLOR: #ffffff;
+	FONT-FAMILY: Verdana;
+	BACKGROUND-COLOR: #ff0000;
+}
+
+/*2014-03-04*/
+.fx_title2 a:link {
+	color: #fff;
+}
+
+.porlet_right {
+	float: right;
+	width: 100px;
+	display: block;
+	height: 25px;
+	_height: 25px;
+}
+
+.porlet_right span {
+	display: none;
+	float: right;
+	width: 18px;
+	height: 18px;
+	margin-top: 6px;
+	margin-right: 10px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background: url(images/starnew.gif);
+}
+
+.porlet_right .porlet_up {
+	background-position: -58px -85px;
+}
+
+.porlet_right .porlet_up:hover {
+	background-position: -58px -117px;
+}
+
+.porlet_right .porlet_down {
+	background-position: -58px -21px;
+}
+
+.porlet_right .porlet_down:hover {
+	background-position: -58px -54px;
+}
+
+.porlet_right .porlet_close {
+	background-position: -115px 0;
+}
+
+.porlet_right .porlet_close:hover {
+	background-position: -115px -30px;
+}
+
+.odds_checked, .odds_unchecked {
+	display: block;
+	float: left;
+	width: 94px;
+	margin: 5px 0px 5px 10px;
+	line-height: 25px;
+	padding-left: 10px;
+	cursor: pointer;
+}
+
+.odds_checked input, .odds_unchecked input {
+	margin-right: 3px;
+}
+
+.odds_checked {
+	border: 1px solid #cc0000;
+	background-color: #FFDDDD;
+}
+
+.odds_unchecked {
+	border: 1px solid #ccc;
+	background-color: #F5F5F5;
+}
+
+.gamefor, .gamefor_on {
+	background: url(/images/ns/soccer1.png) no-repeat left -128px;
+	display: block;
+	height: 24px;
+	width: 76px;
+	line-height: 24px;
+	_line-height: 25px;
+	color: #333;
+	float: left;
+	cursor: pointer;
+	z-index: 999;
+	position: absolute;
+}
+
+.gamefor_on {
+	background-image: url(/images/ns/btnsd.png);
+	background-repeat: no-repeat;
+	background-position: left bottom;
+}
+
+#dropDiv {
+	background-color: #FDFDFD;
+	width: 255px;
+	border: 1px solid #7894B1;
+	padding: 5px;
+	position: absolute;
+	margin-top: 23px;
+	z-index: 997;
+	overflow-x: hidden;
+	overflow-y: auto;
+	height: 300px;
+}
+
+#dropDiv td {
+	word-break: keep-all;
+	white-space: nowrap;
+}
+
+.cksg, .cksg span {
+	font-size: 18px;
+	font-family: 微软雅黑;
+	color: #C9C9C9;
+	font-weight: bold;
+}
+
+.char {
+	height: 60px;
+	width: 20px;
+}
+
+.sChar, .pChar, .fChar {
+	display: block;
+	bottom: 0px;
+	left: 0px;
+	width: 15px;
+}
+
+.sChar {
+	height: 100%;
+	background-color: #ED5564;
+}
+
+.pChar {
+	height: 60%;
+	background-color: #545253;
+}
+
+.fChar {
+	height: 30%;
+	background-color: #5d9cec;
+}
+
+#right_float {
+	display: block;
+	width: 40px;
+}
+
+.rf:link, .rf:hover, .rf:visited {
+	background-color: #23488F;
+	color: #fff;
+	margin-bottom: 2px;
+	width: 40px;
+	display: block;
+	line-height: 22px;
+	text-align: center;
+}
+
+.scheduleTable td {
+	line-height: 20px;
+	border-bottom: 1px solid #DFEBF3;
+	text-align: center;
+	cursor: pointer;
+}
+
+.scheduleTable tr:hover {
+	background-color: #FAF1DE;
+}
+
+.cctr td {
+	background-color: #1B62A0;
+	color: #fff !important;
+}
+</style>
+<title>比赛分析</title>
+<script src="/js/jquery-1.9.1.min.js"></script>
+<script>
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+
+function ifnull(v,s){
+	return v ? v : s; 
+}
+
+function showDate(t1, type) {
+    var t2 = t1.split(",");
+    var t = new Date(t2[0], eval(t2[1]), t2[2], t2[3], t2[4], t2[5]);
+    var date = new Date();
+    t = new Date(Date.UTC(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours(), t.getMinutes(), t.getSeconds()));
+    var nums = t.getTime() - date.getTime()
+    var minutes = Math.floor(nums / (60 * 1000))
+    var y = t.getFullYear();
+    var M = t.getMonth() + 1;
+    var d = t.getDate();
+    var h = t.getHours();
+    var m = t.getMinutes();
+    if (M < 10) M = "0" + M;
+    if (d < 10) d = "0" + d;
+    if (h < 10) h = "0" + h;
+    if (m < 10) m = "0" + m;
+    if (type == 1)
+        return (y + '年' + M + "月" + d + "日" + h + ":" + m);
+    else {
+        if (minutes < 0 && minutes >= -30)
+            return ("<font style='color:red;'>" + M + "-" + d + " " + h + ":" + m + "</font>");
+        else
+            return (M + "-" + d + " " + h + ":" + m);
+    }
+}
+
+var matchDatas = null;
+function drawDatas(id,datas){
+	var html = ""; 
+	html += '<tr align="middle" class="y_bg" bgcolor="#FAF1DE"><td>所有公司</td><td>主胜</td><td>可胜</td><td>主胜率</td><td>客胜率</td><td>返还率</td><td>凯利指数</td><td>变化时间</td></tr>';
+	if(datas && datas.length > 0){
+		for(var i=0;i<datas.length;i++){
+			var data = datas[i];
+			html += '	<td bgcolor="#FEFAF8">'+data.name+'</a></td>';
+			html += '	<td bgcolor="#FEFAF8"><font>'+data.hodds+'</font></td>';
+			html += '	<td bgcolor="#FEFAF8"><font>'+data.vodds+'</font></a></td>';
+			html += '	<td bgcolor="#FEFAF8"><font>'+ data.hirate +'</font></b></td>';
+			html += '	<td bgcolor="#FEFAF8"><font>'+ data.virate +'</font></b></td>';
+			html += '	<td bgcolor="#FEFAF8"><font>'+ data.firate +'</font></b></td>';
+			html += '	<td bgcolor="#FEFAF8"><font>'+ data.klzs1 +" "+ data.klzs2 +'</font></b></td>';
+			html += '	<td bgcolor="#FEFAF8"><font>'+ showDate(data.lastUpdateTime,2) +'</font></b></td>';
+			html += '</tr>';
+		}
+	}else{
+		html += '<tr align="middle" class="y_bg" bgcolor="#FAF1DE"><td valign="top" colspan="8" class="data_empty">没有相关记录</td></tr>';
+	}
+	$(id).html(html);
+}
+$(function(){
+	var seq = GetQueryString("seq");
+	$.ajax({
+		url: "/jclq/data/"+seq+".json",
+		type: "GET",
+		dataType: "json",
+		success: function(response){
+			matchDatas = response.data;
+			drawDatas("#oddsTable",matchDatas.odds);
+		}
+	});
+});
+</script>
+</head>
+<body>
+	<div class=" page-content clearfix">
+		
+		<div>
+			<h2 class="fx_title">百家欧赔</h2>
+			<table width="100%" border="0" cellpadding="1" cellspacing="1"
+				bgcolor="#bbbbbb">
+				<tbody id="oddsTable">
+					<tr align="middle" class="y_bg" bgcolor="#FAF1DE">
+						<td>所有公司</td>
+						<td>主胜</td>
+						<td>可胜</td>
+						<td>主胜率</td>
+						<td>客胜率</td>
+						<td>返还率</td>
+						<td>凯利指数</td>
+						<td>变化时间</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

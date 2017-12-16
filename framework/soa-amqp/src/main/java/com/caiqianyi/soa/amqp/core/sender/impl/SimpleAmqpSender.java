@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.caiqianyi.soa.amqp.core.AmqpExchange;
 import com.caiqianyi.soa.amqp.core.sender.IRabbitmqSender;
 
-@Component
+@Component("baseAmqpSender")
 public class SimpleAmqpSender implements IRabbitmqSender{
 	
 	private Logger logger = LoggerFactory.getLogger(SimpleAmqpSender.class);
@@ -34,8 +34,8 @@ public class SimpleAmqpSender implements IRabbitmqSender{
 	}
 
 	@Override
-	public void sendContractFanout(Object message) {
-		amqpTemplate.convertAndSend(AmqpExchange.FANOUT.getValue(), "" , message);
+	public void sendContractFanout(String queue,Object message) {
+		amqpTemplate.convertAndSend(AmqpExchange.FANOUT.getValue(), queue , message);
 	}
 
 }

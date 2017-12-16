@@ -1,8 +1,6 @@
 package com.caiqianyi.agent.security;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -31,30 +29,6 @@ public class Oauth2SecuritySubject{
 	
 	@Resource
 	private IAccountService accountService;
-	
-	public Authority getAuthority(String account){
-		Authority authority = new Authority();
-		List<Navigation> navs = new ArrayList<Navigation>();
-		
-		Navigation lolGuessNav = new Navigation();
-		lolGuessNav.setIcon("lol");
-		lolGuessNav.setIndex(1);
-		lolGuessNav.setLink("/guess/lol/list.html");
-		lolGuessNav.setName("英雄联盟竞猜");
-		
-		Navigation accountNav = new Navigation();
-		accountNav.setIcon("account");
-		accountNav.setIndex(1);
-		accountNav.setLink("/account/info.html");
-		accountNav.setName("账户中心");
-		
-		navs.add(lolGuessNav);
-		navs.add(accountNav);
-		
-		authority.setNavs(navs);
-		authority.setRole("normal");
-		return authority;
-	}
 	
 	public String getOpenid(String account){
 		String openid = null;

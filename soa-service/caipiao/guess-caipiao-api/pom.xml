@@ -29,6 +29,11 @@
 		<groupId>com.caiqianyi</groupId>
 		<artifactId>common-utils</artifactId>
 	</dependency>
+    <dependency>
+    	<groupId>com.caiqianyi</groupId>
+    	<artifactId>guess-model</artifactId>
+    	<version>1.0.0-RELEASE</version>
+    </dependency>
   </dependencies>
   
   <build>

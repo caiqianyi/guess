@@ -15,7 +15,6 @@ import com.caiqianyi.commons.exception.I18nMessageException;
 import com.caiqianyi.commons.exception.SuccessMessage;
 
 @RestController
-@RequestMapping("/common")
 public class CommonController {
 	
 	private Logger logger = LoggerFactory.getLogger(CommonController.class);

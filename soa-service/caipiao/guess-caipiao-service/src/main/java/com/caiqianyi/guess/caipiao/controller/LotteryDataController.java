@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.caiqianyi.commons.exception.SuccessMessage;
 import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
+import com.caiqianyi.guess.core.dao.GuessTemplateMapper;
+import com.caiqianyi.guess.entity.GuessTemplate;
 import com.caiqianyi.soa.core.redis.IRedisCache;
 
 @RestController
@@ -62,13 +64,6 @@ public class LotteryDataController {
 		return new SuccessMessage(redisCache.get("lottery:jclq:"+league+":"+DateFormatUtils.format(new Date(), "yyyyMMdd")+"|"+matchId));
 	}
 	
-	@RequestMapping(value="/jclq/{league}/{day}/{matchId}",method=RequestMethod.GET)
-	SuccessMessage jclq(@PathVariable("league")String league,
-			@PathVariable("day")String day,
-			@PathVariable("matchId")String matchId){
-		return new SuccessMessage(redisCache.get("lottery:jclq:"+league+":"+day+"|"+matchId));
-	}
-	
 	@RequestMapping(value="/yllr/data/200/{kindOf}/{zu}/",method=RequestMethod.GET)
 	SuccessMessage yllr200(@PathVariable("kindOf")String kindOf,
 			@PathVariable("zu")String zu){
@@ -83,5 +78,6 @@ public class LotteryDataController {
 		}
 		return new SuccessMessage(result);
 	}
+	
 	
 }

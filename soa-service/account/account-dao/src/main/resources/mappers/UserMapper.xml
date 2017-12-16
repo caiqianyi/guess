@@ -3,13 +3,18 @@
 <mapper namespace="com.caiqianyi.account.dao.IUserMapper" >
   
   <sql id="Base_User">
-      id,account,password,nickName,mobile,source,type,openid,unionid,status,payOrderNo,payCount,
-      host,createTime,lastLoginTime,lastBuyTime,lastUpdateTime,level,balance,frozenMoney,accountSign
+      id,userId,account,password,mobile,source,type,status,payOrderNo,payCount,
+      host,createTime,lastLoginTime,lastBuyTime,lastUpdateTime,level,balance,frozen,accountSign,
+      subscribe,openid,unionid,nickname,sex,city,country,province,language,headimgurl,subscribeTime,
+      remark
   </sql>
   
   <sql id="Base_Show_User">
-     id,account,nickName,mobile as showMobile,nickName,type,status,payCount
-      createTime,lastLoginTime,lastBuyTime,lastUpdateTime,level,balance,frozenMoney
+      id,account,password,mobile,source,type,status,payOrderNo,payCount,
+      host,createTime,lastLoginTime,lastBuyTime,lastUpdateTime,level,balance,frozen,accountSign,
+      
+      subscribe,openid,unionid,nickname,sex,city,country,province,language,headimgurl,subscribeTime,
+      remark
   </sql>
   
   <!-- 根据账号和密码获得代理  -->
@@ -20,52 +25,34 @@
   <select id="findByAccount" resultType="com.caiqianyi.account.entity.User"  parameterType="java.lang.String" >
     select <include refid="Base_User"/> from user where account = #{account,jdbcType=VARCHAR}
   </select>
-  <select id="findUserVoByAccount" resultType="com.caiqianyi.account.vo.UserVo"  parameterType="java.lang.String" >
-    select account,id from user where account = #{account,jdbcType=VARCHAR}
-  </select>
   
   <select id="findByUnionid" resultType="com.caiqianyi.account.entity.User" parameterType="java.lang.String">
 	  SELECT <include refid="Base_User"/> FROM user WHERE unionid=#{unionid,jdbcType=VARCHAR}	
   </select>
-  <select id="findUserVoByUnionid" resultType="com.caiqianyi.account.vo.UserVo" parameterType="java.lang.String">
-	  SELECT <include refid="Base_Show_User"/> FROM user WHERE unionid=#{unionid,jdbcType=VARCHAR}	
-  </select>
-  
   <select id="findByOpenid" resultType="com.caiqianyi.account.entity.User" parameterType="java.lang.String">
 	  SELECT <include refid="Base_User"/> FROM user WHERE openid=#{openid,jdbcType=VARCHAR}	
   </select>
-  <select id="findUserVoByOpenid" resultType="com.caiqianyi.account.vo.UserVo" parameterType="java.lang.String">
-	  SELECT <include refid="Base_Show_User"/> FROM user WHERE openid=#{openid,jdbcType=VARCHAR}	
-  </select>
-  
   <select id="findByMobile" resultType="com.caiqianyi.account.entity.User" parameterType="java.lang.String">
 	  SELECT <include refid="Base_User"/> FROM user WHERE mobile=#{mobile,jdbcType=VARCHAR}	
   </select>  
-  <select id="findUserVoByMobile" resultType="com.caiqianyi.account.vo.UserVo" parameterType="java.lang.String">
-	  SELECT <include refid="Base_Show_User"/> FROM user WHERE mobile=#{mobile,jdbcType=VARCHAR}	
-  </select>
-  
   <select id="findById" resultType="com.caiqianyi.account.entity.User" >
       select <include refid="Base_User"/> from user where id=#{id,jdbcType=VARCHAR}
   </select>
-  <select id="findUserVoById" resultType="com.caiqianyi.account.vo.UserVo" >
-      select <include refid="Base_Show_User"/> from user where id=#{id,jdbcType=VARCHAR}
-  </select>
-  <select id="findAccountNormal" resultType="com.caiqianyi.account.vo.UserVo" >
-      select <include refid="Base_Show_User"/> from user where id=#{id,jdbcType=VARCHAR} and accountSign=md5(balance+"c8993417ca184f89a8bd492d86c750d3"+frozenMoney)
+  <select id="findAccountNormal" resultType="com.caiqianyi.account.entity.User" >
+      select <include refid="Base_Show_User"/> from user where id=#{id,jdbcType=VARCHAR} and accountSign=md5(balance+"c8993417ca184f89a8bd492d86c750d3"+frozen)
   </select>
   
   <update id="modifyBalance">
 	  UPDATE user SET lastUpdateTime = now(),balance=#{balance,jdbcType=DECIMAL},
-	  		frozenMoney=#{frozenMoney,jdbcType=DECIMAL},accountSign=md5(#{balance}+"c8993417ca184f89a8bd492d86c750d3"+#{frozenMoney}) WHERE id=#{id,jdbcType=VARCHAR}
+	  		frozen=#{frozen,jdbcType=DECIMAL},accountSign=md5(#{balance}+"c8993417ca184f89a8bd492d86c750d3"+#{frozen}) WHERE id=#{id,jdbcType=VARCHAR}
   </update>
   
   <!-- 修改 -->
   <update id="update">
   	UPDATE user SET
   	lastUpdateTime = now()
-  	<if test="nickName != null" >
-		,nickName=#{nickName,jdbcType=VARCHAR}
+  	<if test="nickname != null" >
+		,nickname=#{nickname,jdbcType=VARCHAR}
     </if>
   	<if test="password != null" >
 		,password=#{password,jdbcType=VARCHAR}
@@ -107,8 +94,9 @@
   <insert id="register">
   	insert into user(<include refid="Base_User"/>)
   	values(
-  		UUID(),#{account},#{password},#{nickName},#{mobile},#{nickName},#{source},#{type},#{openid},
-  		#{unionid},#{status},#{payOrderNo},#{payCount},#{host},now(),null,
-  		null,now(),#{level},#{balance},#{frozenMoney},md5('0.00c8993417ca184f89a8bd492d86c750d30.00')
+  		UUID(),#{userId},#{account},#{password},#{mobile},#{source},#{type},#{status},#{payOrderNo},#{payCount},
+  		#{host},now(),null,null,now(),#{level},#{balance},0,md5('0c8993417ca184f89a8bd492d86c750d30'),
+  		#{subscribe},#{openid},#{unionid},#{nickname},#{sex},#{city},#{country},#{province},#{language},
+  		#{headimgurl},#{subscribeTime},#{remark})
   </insert>
 </mapper>

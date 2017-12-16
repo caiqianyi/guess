@@ -41,7 +41,7 @@ public class ImagesController extends BaseController{
 		//当前页面刷验证码的次数
 		
 		if(StringUtils.isNotBlank(emid)){
-			redisCache.set("agent:vfcode:"+emid, code, 20*60L);
+			redisCache.set(WebConstants.SYS_VERIFYCODE+":"+emid, code, 20*60L);
 		}else{
 			request.getSession().setAttribute(WebConstants.SYS_VERIFYCODE, code);
 		}

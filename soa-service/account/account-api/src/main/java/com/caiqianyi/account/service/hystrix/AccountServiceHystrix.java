@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import com.caiqianyi.account.entity.TradeRecord;
 import com.caiqianyi.account.entity.User;
 import com.caiqianyi.account.service.IAccountService;
-import com.caiqianyi.account.vo.UserVo;
 import com.caiqianyi.commons.exception.I18nMessageException;
 import com.caiqianyi.commons.exception.SuccessMessage;
 @Component
@@ -27,7 +26,7 @@ public class AccountServiceHystrix implements IAccountService {
 	}
 
 	@Override
-	public UserVo findUserVoByAccount(String account) {
+	public User findUserByAccount(String account) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
@@ -39,7 +38,7 @@ public class AccountServiceHystrix implements IAccountService {
 	}
 
 	@Override
-	public UserVo findUserVoByUnionid(String unionid) {
+	public User findUserByUnionid(String unionid) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
@@ -51,7 +50,7 @@ public class AccountServiceHystrix implements IAccountService {
 	}
 
 	@Override
-	public UserVo findUserVoByOpenid(String openid) {
+	public User findUserByOpenid(String openid) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
@@ -63,7 +62,7 @@ public class AccountServiceHystrix implements IAccountService {
 	}
 
 	@Override
-	public UserVo findUserVoByMobile(String mobile) {
+	public User findUserByMobile(String mobile) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
@@ -75,14 +74,14 @@ public class AccountServiceHystrix implements IAccountService {
 	}
 
 	@Override
-	public UserVo findUserVoById(String id) {
+	public User findUserById(String id) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
 
 	@Override
-	public SuccessMessage modifyBalance(String id, BigDecimal balance,
-			BigDecimal frozenMoney, TradeRecord tradeRecord) {
+	public SuccessMessage modifyBalance(String id, Integer balance,
+			Integer frozen, TradeRecord tradeRecord) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}

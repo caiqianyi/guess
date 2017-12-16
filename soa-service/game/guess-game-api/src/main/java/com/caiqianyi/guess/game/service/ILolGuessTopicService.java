@@ -31,7 +31,7 @@ public interface ILolGuessTopicService {
 	 * 系统更新创建LOL所有竞猜话题
 	 * @param match
 	 * @param createBy
-	 * @param roomId
+	 * @param ClubId
 	 * @return
 	 */
 	@RequestMapping(value="/lol/guess/topic/updatedLoLTopic/",method=RequestMethod.GET)
@@ -41,82 +41,82 @@ public interface ILolGuessTopicService {
 	 * 创建LOL所有竞猜话题
 	 * @param match
 	 * @param createBy
-	 * @param roomId
+	 * @param ClubId
 	 * @return
 	 */
 	@RequestMapping(value="/lol/guess/topic/createAll/",method=RequestMethod.POST)
 	SuccessMessage createAll(@RequestBody GameMatch match,
 			@RequestParam(value="createBy",required=false)String createBy,
-			@RequestParam(value="roomId",required=false)Integer roomId);
+			@RequestParam(value="ClubId",required=false)Integer ClubId);
 	/**
 	 * 创建关于比赛胜负竞猜话题
 	 * @param match 比赛
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param ClubId 房间号 允许NULL
 	 * @return
 	 */
 	@RequestMapping(value="/lol/guess/topic/createTopicForSF/",method=RequestMethod.POST)
 	SuccessMessage createTopicForSF(@RequestBody GameMatch match,
 			@RequestParam(value="createBy",required=false)String createBy,
-			@RequestParam(value="roomId",required=false)Integer roomId);
+			@RequestParam(value="ClubId",required=false)Integer ClubId);
 	
 	/**
 	 * 创建关于比赛比分竞猜话题
 	 * @param match
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param ClubId 房间号 允许NULL
 	 * @return
 	 */
 	@RequestMapping(value="/lol/guess/topic/createTopicForBF/",method=RequestMethod.POST)
 	SuccessMessage createTopicForBF(@RequestBody GameMatch match,
 			@RequestParam(value="createBy",required=false)String createBy,
-			@RequestParam(value="roomId",required=false)Integer roomId);
+			@RequestParam(value="ClubId",required=false)Integer ClubId);
 	
 	/**
 	 * 创建关于冠军竞猜话题
 	 * @param match
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param ClubId 房间号 允许NULL
 	 * @return
 	 */
 	@RequestMapping(value="/lol/guess/topic/createTopicForFirst/",method=RequestMethod.POST)
 	SuccessMessage createTopicForFirst(@RequestBody GameMatch match,
 			@RequestParam(value="createBy",required=false)String createBy,
-			@RequestParam(value="roomId",required=false)Integer roomId);
+			@RequestParam(value="ClubId",required=false)Integer ClubId);
 	
 	/**
 	 * 创建关于比赛一血竞猜话题
 	 * @param match
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param ClubId 房间号 允许NULL
 	 * @return
 	 */
 	@RequestMapping(value="/lol/guess/topic/createTopicForFirstBlood/",method=RequestMethod.POST)
 	SuccessMessage createTopicForFirstBlood(@RequestBody GameMatch match,
 			@RequestParam(value="createBy",required=false)String createBy,
-			@RequestParam(value="roomId",required=false)Integer roomId);
+			@RequestParam(value="ClubId",required=false)Integer ClubId);
 	
 	/**
 	 * 创建关于比赛一塔竞猜话题
 	 * @param match
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param ClubId 房间号 允许NULL
 	 * @return
 	 */
 	@RequestMapping(value="/lol/guess/topic/createTopicForFirstTurret/",method=RequestMethod.POST)
 	SuccessMessage createTopicForFirstTurret(@RequestBody GameMatch match,
 			@RequestParam(value="createBy",required=false)String createBy,
-			@RequestParam(value="roomId",required=false)Integer roomId);
+			@RequestParam(value="ClubId",required=false)Integer ClubId);
 	
 	/**
 	 * 创建关于比赛总人头数单双竞猜话题
 	 * @param match
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param ClubId 房间号 允许NULL
 	 * @return
 	 */
 	@RequestMapping(value="/lol/guess/topic/createTopicForSOD/",method=RequestMethod.POST)
 	SuccessMessage createTopicForSOD(@RequestBody GameMatch match,
 			@RequestParam(value="createBy",required=false)String createBy,
-			@RequestParam(value="roomId",required=false)Integer roomId);
+			@RequestParam(value="ClubId",required=false)Integer ClubId);
 }

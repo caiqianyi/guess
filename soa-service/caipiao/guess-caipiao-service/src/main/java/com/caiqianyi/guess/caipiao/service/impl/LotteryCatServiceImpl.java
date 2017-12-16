@@ -1,5 +1,7 @@
 package com.caiqianyi.guess.caipiao.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import com.caiqianyi.commons.beans.SpringConfigTool;
 import com.caiqianyi.guess.caipiao.config.K3Cat;
 import com.caiqianyi.guess.caipiao.config.SSCCat;
 import com.caiqianyi.guess.caipiao.config._11x5Cat;
+import com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper;
 import com.caiqianyi.guess.caipiao.kaijiang.IKJDataService;
 import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
 import com.caiqianyi.guess.caipiao.service.ILotterySpiderService;
@@ -31,6 +34,15 @@ public class LotteryCatServiceImpl implements ILotteryCatService {
 	
 	@Resource
 	private IBjscLotteryService bjxcLotteryService;
+	
+	@Resource
+	private ILotteryIssueMapper lotteryIssueMapper;
+	
+	@Override
+	public List<String> findAllKindOf() {
+		// TODO Auto-generated method stub
+		return lotteryIssueMapper.findAllKindOf();
+	}
 	
 	@Override
 	public ILotteryService getLotteryService(String kindOf) {

@@ -12,6 +12,8 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.caiqianyi.guess.caipiao.core.dao.IJCLQMatchMapper;
 import com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper;
@@ -19,10 +21,13 @@ import com.caiqianyi.guess.caipiao.data.analysis.YllrAnalysis;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
 import com.caiqianyi.guess.caipiao.service.ILotteryDataSyncService;
+import com.caiqianyi.guess.caipiao.service.ILotteryGuessService;
 import com.caiqianyi.guess.caipiao.service.ILotteryService;
+import com.caiqianyi.guess.core.dao.GuessTemplateMapper;
+import com.caiqianyi.guess.entity.GuessTemplate;
 import com.caiqianyi.guess.jclq.entity.JCLQMatch;
 import com.caiqianyi.guess.jclq.entity.JCLQMatchDatas;
-import com.caiqianyi.guess.jclq.match.IJCLQMatchService;
+import com.caiqianyi.guess.jclq.match.service.IJCLQMatchSyncService;
 import com.caiqianyi.soa.core.redis.IRedisCache;
 import com.google.gson.Gson;
 
@@ -41,21 +46,35 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 	private IRedisCache redisCache;
 	
 	@Resource
-	private IJCLQMatchService jCLQMatchService;
+	private IJCLQMatchSyncService jCLQMatchService;
 	
 	@Resource
 	private IJCLQMatchMapper jCLQMatchMapper;
 	
+	@Resource
+	private GuessTemplateMapper guessTemplateMapper;
+	
+	@Resource
+	private ILotteryGuessService lotteryGuessService;
+	
 	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
 	public List<JCLQMatch> syncJCLQMatch() {
 		// TODO Auto-generated method stub
 		Map<String,JCLQMatch> nums = new LinkedHashMap<String, JCLQMatch>();
 		jCLQMatchService.pull(nums);
-		
+		logger.debug("nums={}",new Gson().toJson(nums));
 		List<JCLQMatch> matchs = new ArrayList<JCLQMatch>();
+		List<GuessTemplate> templates = guessTemplateMapper.findAllByWhere("jclq",null,null,null);
 		for(String key : nums.keySet()){
 			JCLQMatch match = nums.get(key);
 			JCLQMatch lqMatch = jCLQMatchMapper.findMatch(match.getSeq());
+			
+			lotteryGuessService.createGuessTopic(match.getSeq(), match.getLeague(), match.getEndTime(), templates);
+			if("2".equals(match.getStatus())){
+				lotteryGuessService.updateTopicResult("jclq", match.getSeq(), match.getScore().split("\\-"));
+			}
+			
 			if(lqMatch == null){
 				matchs.add(match);
 				jCLQMatchMapper.insert(match);
@@ -64,12 +83,28 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 				lqMatch.setStatus(match.getStatus());
 				lqMatch.setDxf(match.getDxf());
 				lqMatch.setRf(match.getRf());
+				lqMatch.setMatchTime(match.getMatchTime());
+				lqMatch.setEndTime(match.getEndTime());
+				//logger.debug("lqMatch={},match={}",new Gson().toJson(lqMatch),new Gson().toJson(match));
 				jCLQMatchMapper.update(lqMatch);
 			}
 			JCLQMatchDatas datas = match.getDatas();
 			if(datas != null){
 				if(redisCache.exists("lottery:jclq:"+match.getSeq())){
-					redisCache.update("lottery:jclq:"+match.getSeq(), datas);
+					JCLQMatchDatas matchDatas = (JCLQMatchDatas) redisCache.get("lottery:jclq:"+match.getSeq());
+					if(datas.getFightDatas() != null && !datas.getFightDatas().isEmpty()){
+						matchDatas.setFightDatas(datas.getFightDatas());
+					}
+					if(datas.getgDatas() != null && !datas.getgDatas().isEmpty()){
+						matchDatas.setgDatas(datas.getgDatas());
+					}
+					if(datas.gethDatas() != null && !datas.gethDatas().isEmpty()){
+						matchDatas.sethDatas(datas.gethDatas());
+					}
+					if(datas.getOdds() != null && !datas.getOdds().isEmpty()){
+						matchDatas.setOdds(datas.getOdds());
+					}
+					redisCache.update("lottery:jclq:"+match.getSeq(), matchDatas);
 				}else{
 					redisCache.set("lottery:jclq:"+match.getSeq(), datas, 15*24*60*60l);
 				}
@@ -79,6 +114,40 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 	}
 	
 	@Override
+	public List<JCLQMatch> syncJCLQMatch(String start, String end) {
+		Map<String,JCLQMatch> nums = new LinkedHashMap<String, JCLQMatch>();
+		jCLQMatchService.pull(nums,start,end);
+		logger.debug("nums={}",new Gson().toJson(nums));
+		List<JCLQMatch> matchs = new ArrayList<JCLQMatch>();
+		List<GuessTemplate> templates = guessTemplateMapper.findAllByWhere("jclq",null,null,null);
+		for(String key : nums.keySet()){
+			JCLQMatch match = nums.get(key);
+			JCLQMatch lqMatch = jCLQMatchMapper.findMatch(match.getSeq());
+			
+			lotteryGuessService.createGuessTopic(match.getSeq(), match.getLeague(), match.getEndTime(), templates);
+			if("2".equals(match.getStatus())){
+				lotteryGuessService.updateTopicResult("jclq", match.getSeq(), match.getScore().split("\\-"));
+			}
+			
+			if(lqMatch == null){
+				matchs.add(match);
+				jCLQMatchMapper.insert(match);
+			}else{
+				lqMatch.setScore(match.getScore());
+				lqMatch.setStatus(match.getStatus());
+				lqMatch.setDxf(match.getDxf());
+				lqMatch.setRf(match.getRf());
+				lqMatch.setMatchTime(match.getMatchTime());
+				lqMatch.setEndTime(match.getEndTime());
+				//logger.debug("lqMatch={},match={}",new Gson().toJson(lqMatch),new Gson().toJson(match));
+				jCLQMatchMapper.update(lqMatch);
+			}
+		}
+		return matchs;
+	}
+	
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
 	public List<LotteryIssue> syncIssueforWeek(String kindOf) {
 		// TODO Auto-generated method stub
 		List<LotteryIssue> issues = new ArrayList<LotteryIssue>(),
@@ -93,18 +162,20 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 			issues.addAll(lotteryService.getIssueByDay(DateFormatUtils.format(c, "yyyyMMdd")));
 		}
 		if(!issues.isEmpty()){
+			List<GuessTemplate> templates = guessTemplateMapper.findAllByWhere(kindOf,null,null,null);
 			for(LotteryIssue issue : issues){
 				if(lotteryIssueMapper.getIssueByExpect(kindOf, issue.getExpect())==null){
 					success.add(issue);
+					lotteryGuessService.createGuessTopic(issue.getExpect(), null, issue.getEndTime(), templates);
 					lotteryIssueMapper.insert(issue);
 				}
 			}
-			
 		}
 		return success;
 	}
 
 	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
 	public List<LotteryIssue> syncOpenCodeForDay(String kindOf, String day) {
 		List<LotteryIssue> issues = new ArrayList<LotteryIssue>(),
 				success = new ArrayList<LotteryIssue>();
@@ -122,12 +193,12 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 						noOpen.setOpenTime(issue.getOpenTime());
 						logger.debug("noOpen={}",new Gson().toJson(noOpen));
 						lotteryIssueMapper.update(noOpen);
+						lotteryGuessService.updateTopicResult(kindOf, noOpen.getExpect(), issue.getOpenCode().split("\\,"));
 						success.add(issue);
 					}
 				}
 			}
 			if(!success.isEmpty()){
-				
 				syncYllrData(kindOf);
 			}
 		}
@@ -163,5 +234,4 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 		}
 		redisCache.set("lottery:yllr:"+kindOf+":200", d200);
 	}
-	
 }

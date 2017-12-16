@@ -39,13 +39,13 @@ public class GuessTopicController {
 		return guessTopicService.findOneGuessTopicByOptionId(optionId);
 	}
 	
-	@RequestMapping(value="/guess/topic/findBy/pager/roomId/{roomId}/",method=RequestMethod.POST)
-	Pager findGuessTopicByRoomIdForPager(@PathVariable("roomId")Integer roomId,
+	@RequestMapping(value="/guess/topic/findBy/pager/clubId/{clubId}/",method=RequestMethod.POST)
+	Pager findGuessTopicByClubIdForPager(@PathVariable("clubId")Integer clubId,
 			@RequestParam(value="status",required=false)Integer status,
 			@RequestParam(value="start",required=false)Date start, 
 			@RequestParam(value="end",required=false)Date end,
 			@RequestBody(required=false) Pager pager){
-		return guessTopicService.findGuessTopicByRoomIdForPager(roomId, status, start, end, pager);
+		return guessTopicService.findGuessTopicByClubIdForPager(clubId, status, start, end, pager);
 	}
 	
 	@RequestMapping(value="/guess/topic/findBy/pager/{kind}/{league}/{groupId}/",method=RequestMethod.POST)

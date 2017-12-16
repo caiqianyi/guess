@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS `guess_topic`;
 CREATE TABLE `guess_topic` (
   `id` varchar(36) CHARACTER SET utf8mb4 NOT NULL COMMENT '主键',
   `createBy` varchar(36) DEFAULT NULL COMMENT '创建人',
-  `roomId` int(10) DEFAULT NULL COMMENT '房间号',
+  `clubId` int(10) DEFAULT NULL COMMENT '俱乐部ID',
   `subject` longtext NOT NULL COMMENT '竞猜题目',
   `label` varchar(200) NOT NULL COMMENT '标签分类',
   `kind` varchar(50) NOT NULL COMMENT '种类',
@@ -28,7 +28,7 @@ CREATE TABLE `guess_topic` (
   `finishTime` datetime DEFAULT NULL COMMENT '结算时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `topicId` (`topicId`),
-  UNIQUE KEY `roomId` (`roomId`),
+  UNIQUE KEY `clubId` (`clubId`),
   KEY `createBy_index` (`createBy`),
   KEY `label_index` (`label`),
   KEY `kind_index` (`kind`),
@@ -58,9 +58,9 @@ public class GuessTopic implements Serializable{
 	 */
 	private String createBy;
 	/**
-	 * 房间号
+	 * 俱乐部ID
 	 */
-	private Integer roomId;
+	private Integer clubId;
 	/**
 	 * 竞猜题目
 	 */
@@ -198,11 +198,11 @@ public class GuessTopic implements Serializable{
 	public void setFinishTime(Date finishTime) {
 		this.finishTime = finishTime;
 	}
-	public Integer getRoomId() {
-		return roomId;
+	public Integer getClubId() {
+		return clubId;
 	}
-	public void setRoomId(Integer roomId) {
-		this.roomId = roomId;
+	public void setClubId(Integer clubId) {
+		this.clubId = clubId;
 	}
 	public List<GuessTopicOption> getOptions() {
 		return options;

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiqianyi.guess.caipiao.core.dao.IJCLQMatchMapper">
+
+	<sql id="Base_Column_List">
+		id, seq, matchId, league, hostTeam, gustTeam, score, status, rf,
+		dxf, matchTime, endTime, createTime
+	</sql>
+	
+	<resultMap id="JCLQMatchGuessTopic" type="com.caiqianyi.guess.jclq.vo.JCLQMatchGuessTopic">
+		<id property="id" column="match_id"/>  
+		<result property="seq" column="seq"/>  
+		<result property="matchId" column="matchId"/>  
+		<result property="league" column="league"/>  
+		<result property="hostTeam" column="hostTeam"/>  
+		<result property="gustTeam" column="gustTeam"/>  
+		<result property="score" column="score"/>  
+		<result property="status" column="m_status"/>  
+		<result property="rf" column="rf"/>  
+		<result property="dxf" column="dxf"/>  
+		<result property="matchTime" column="matchTime"/>  
+		<result property="endTime" column="endTime"/>  
+		<result property="createTime" column="m_createTime"/>  
+		<association property="topic" column="topic_id" javaType="com.caiqianyi.guess.entity.GuessTopic">  
+			<id property="id" column="topic_id"/>  
+			<result column="topicId" jdbcType="INTEGER" property="topicId" />
+			<result column="createBy" jdbcType="VARCHAR" property="createBy" />
+			<result column="clubId" jdbcType="INTEGER" property="clubId" />
+			<result column="subject" jdbcType="VARCHAR" property="subject" />
+			<result column="label" jdbcType="VARCHAR" property="label" />
+			<result column="kind" jdbcType="VARCHAR" property="kind" />
+			<result column="league" jdbcType="VARCHAR" property="league" />
+			<result column="groupId" jdbcType="VARCHAR" property="groupId" />
+			<result column="topicType" jdbcType="VARCHAR" property="topicType" />
+			<result column="topic_orderBy" jdbcType="INTEGER" property="orderBy" />
+			<result column="joinCount" jdbcType="INTEGER" property="joinCount" />
+			<result column="topic_status" jdbcType="INTEGER" property="status" />
+			<result column="optionId" jdbcType="VARCHAR" property="optionId" />
+			<result column="topic_createTime" jdbcType="TIMESTAMP" property="createTime" />
+			<result column="overTime" jdbcType="TIMESTAMP" property="overTime" />
+			<result column="finishTime" jdbcType="TIMESTAMP" property="finishTime" />
+		</association>  
+		<collection property="options"
+			ofType="com.caiqianyi.guess.entity.GuessTopicOption">
+			<id column="opt_id" jdbcType="VARCHAR" property="id" />
+			<result column="topicId" property="topicId" />
+			<result column="name" property="name" />
+			<result column="value" property="value" />
+			<result column="opt_orderBy" property="orderBy" />
+			<result column="buyCount" property="buyCount" />
+			<result column="buyAmount" property="buyAmount" />
+			<result column="isSelected" property="isSelected" />
+			<result column="odds" property="odds" />
+			<result column="opt_createTime" property="createTime" />
+		</collection>
+	</resultMap>
+
+	<select id="countMatchByTime">
+		select
+		count(id)
+		from jclq_match where 1 = 1
+		<if test="league != null">
+			and league = #{league}
+		</if>
+		<if test="start != null">
+			and <![CDATA[ DATE_FORMAT(matchTime,'%Y%m%d') >= #{start} ]]>
+		</if>
+		<if test="end != null">
+			and <![CDATA[ DATE_FORMAT(matchTime,'%Y%m%d') < #{end} ]]>
+		</if>
+	</select>
+	
+	<select id="findAllMatchByDay" resultType="com.caiqianyi.guess.jclq.entity.JCLQMatch">
+		select
+		<include refid="Base_Column_List" />
+		from jclq_match where 
+		1 = 1
+		<if test="league != null">
+			and league = #{league}
+		</if>
+		<if test="day != null">
+		and DATE_FORMAT(matchTime,'%Y%m%d') = #{day}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		order by matchTime
+	</select>
+	
+	<select id="findAllMatchTopicByDay" resultMap="JCLQMatchGuessTopic">
+		SELECT
+			topic.id as topic_id,topic.topicId,topic.createBy,topic.clubId,topic.subject,topic.label,
+			topic.kind,topic.groupId,topic.topicType,topic.orderBy as topic_orderBy, topic.joinCount,
+			topic.status as topic_status, topic.optionId, topic.createTime as topic_createTime,
+			topic.overTime,topic.finishTime,
+			
+			m.id as match_id, m.seq, m.matchId, m.league, m.hostTeam, m.gustTeam, m.score, m.status as m_status, m.rf,
+			m.dxf, m.matchTime, m.endTime, m.createTime as m_createTime,
+			
+			gt_option.id as opt_id,gt_option.name,gt_option.value,gt_option.orderBy as opt_orderBy,gt_option.buyCount,
+			gt_option.buyAmount,gt_option.isSelected,odds,
+			gt_option.createTime as opt_createTime
+		FROM
+			guess_topic AS topic
+		LEFT JOIN jclq_match AS m ON m.seq = topic.groupId
+		LEFT JOIN guess_topic_option AS gt_option ON topic.topicId = gt_option.topicId
+		WHERE topic.kind = "jclq" and DATE_FORMAT(m.matchTime,'%Y%m%d') = #{day};
+	</select>
+	
+	<select id="findAllMatchByTime" resultType="com.caiqianyi.guess.jclq.entity.JCLQMatch">
+		select
+		<include refid="Base_Column_List" />
+		from jclq_match where 
+		1 = 1
+		<if test="league != null">
+			and league = #{league}
+		</if>
+		<if test="start != null">
+			and <![CDATA[ DATE_FORMAT(matchTime,'%Y%m%d') >= #{start} ]]>
+		</if>
+		<if test="end != null">
+			and <![CDATA[ DATE_FORMAT(matchTime,'%Y%m%d') < #{end} ]]>
+		</if>
+		order by matchTime
+		<if test="size != null">
+			limit #{size}
+		</if>
+		<if test="offset != null">
+			,#{offset}
+		</if>
+	</select>
+	
+	<select id="findMatch" resultType="com.caiqianyi.guess.jclq.entity.JCLQMatch">
+		select
+		<include refid="Base_Column_List" />
+		from jclq_match where seq = #{seq}
+	</select>
+
+	<insert id="insert" parameterType="com.caiqianyi.guess.jclq.entity.JCLQMatch">
+		insert into jclq_match (
+		seq, matchId, league, hostTeam, gustTeam, score, status, rf, dxf, matchTime,
+		endTime
+		)
+		values (#{seq}, #{matchId}, #{league}, #{hostTeam}, #{gustTeam}, #{score},
+		#{status}, #{rf}, #{dxf}, #{matchTime}, #{endTime})
+	</insert>
+
+	<update id="update" parameterType="com.caiqianyi.guess.jclq.entity.JCLQMatch">
+		update jclq_match
+		<set>
+			<if test="score != null">
+				score = #{score},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="dxf != null">
+				dxf = #{dxf},
+			</if>
+			<if test="matchTime != null">
+				matchTime = #{matchTime},
+			</if>
+			<if test="endTime != null">
+				endTime = #{endTime},
+			</if>
+			<if test="dxf != null">
+				dxf = #{dxf},
+			</if>
+			<if test="rf != null">
+				rf = #{rf}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+</mapper>

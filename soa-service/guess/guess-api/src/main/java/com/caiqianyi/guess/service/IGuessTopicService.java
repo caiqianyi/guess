@@ -29,8 +29,8 @@ public interface IGuessTopicService {
 	@RequestMapping(value="/guess/topic/findBy/optionId/{optionId}/",method=RequestMethod.GET)
 	GuessTopic findOneGuessTopicByOptionId(@PathVariable("optionId")String optionId);
 	
-	@RequestMapping(value="/guess/topic/findBy/pager/roomId/{roomId}/",method=RequestMethod.POST)
-	Pager findGuessTopicByRoomIdForPager(@PathVariable("roomId")Integer roomId,
+	@RequestMapping(value="/guess/topic/findBy/pager/ClubId/{ClubId}/",method=RequestMethod.POST)
+	Pager findGuessTopicByClubIdForPager(@PathVariable("ClubId")Integer ClubId,
 			@RequestParam(value="status",required=false)Integer status,
 			@RequestParam(value="start",required=false)Date start, 
 			@RequestParam(value="end",required=false)Date end,

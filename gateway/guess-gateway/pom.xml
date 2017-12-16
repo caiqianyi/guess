@@ -82,12 +82,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.caiqianyi</groupId>
-			<artifactId>guess-api</artifactId>
+			<artifactId>wechat-api</artifactId>
 			<version>1.0.0-RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>com.caiqianyi</groupId>
-			<artifactId>guess-game-api</artifactId>
+			<artifactId>guess-caipiao-api</artifactId>
 			<version>1.0.0-RELEASE</version>
 		</dependency>
 	</dependencies>

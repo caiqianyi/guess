@@ -17,6 +17,7 @@
 
 	<modules>
 		<module>guess-gateway</module>
+		<module>manager-gateway</module>
 	</modules>
 
 	<properties>

@@ -31,8 +31,8 @@ public class ConsumerConfig implements RabbitListenerConfigurer {
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
-        // factory.setPrefetchCount(5);
-         factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
+        //factory.setPrefetchCount(5);
+        factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
         return factory;
     }
 

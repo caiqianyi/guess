@@ -1,5 +1,6 @@
 package com.caiqianyi.guess.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 /**
  * 
@@ -10,6 +11,7 @@ CREATE TABLE `guess_template_option` (
   `name` varchar(500) NOT NULL COMMENT '选项名',
   `formula` varchar(500) NOT NULL COMMENT '判断是否选中公式',
   `orderBy` int(10) NOT NULL COMMENT '排序值',
+  `odds` float(10,2) DEFAULT '0.00' COMMENT '赔率',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `templateId` (`templateId`),
@@ -34,6 +36,10 @@ public class GuessTemplateOption {
 	 * 排序值
 	 */
 	private Integer orderBy;
+	/**
+	 * 赔率
+	 */
+	private BigDecimal odds;
 	/**
 	 * 创建时间
 	 */

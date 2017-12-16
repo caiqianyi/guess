@@ -17,6 +17,7 @@ import com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 import com.caiqianyi.guess.caipiao.service.gaopin.IBjscLotteryService;
 import com.caiqianyi.guess.caipiao.support.AbstractLotteryServiceSupport;
+import com.google.gson.Gson;
 
 @Service
 public class BjscLotteryServiceImpl extends AbstractLotteryServiceSupport
@@ -73,7 +74,9 @@ public class BjscLotteryServiceImpl extends AbstractLotteryServiceSupport
 
 	public static void main(String[] args) {
 		BjscLotteryServiceImpl bls = new BjscLotteryServiceImpl();
-		bls.getOpencode(DateFormatUtils.format(new Date(), "yyyyMMdd"));
+		bls.setKindOf("bjpk10");
+		List<LotteryIssue> issues = bls.getIssueByDay("20171212");
+		System.out.println(new Gson().toJson(issues.get(0)));
 	}
 
 }

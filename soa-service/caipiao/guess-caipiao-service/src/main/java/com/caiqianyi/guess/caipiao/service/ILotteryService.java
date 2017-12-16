@@ -10,6 +10,8 @@ public interface ILotteryService extends ILotterySpiderService,ILotteryCalServic
 	
 	LotteryIssue getLotteryNumByIssue(String issue);
 	
+	List<LotteryIssue> findIssueByDay(String day);
+	
 	List<LotteryIssue> getLotteryNumBy(Integer size);
 	
 	void setKindOf(String kindOf);

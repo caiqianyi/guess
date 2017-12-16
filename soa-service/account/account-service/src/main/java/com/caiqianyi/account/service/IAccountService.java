@@ -1,12 +1,10 @@
 package com.caiqianyi.account.service;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import com.caiqianyi.account.entity.TradeRecord;
 import com.caiqianyi.account.entity.User;
-import com.caiqianyi.account.vo.UserVo;
 
 
 
@@ -16,25 +14,15 @@ public interface IAccountService {
 	
 	User findByAccount(String account);
 	
-	UserVo findUserVoByAccount(String account);
-
 	User findByUnionid(String unionid);
 	
-	UserVo findUserVoByUnionid(String unionid);
-
 	User findByOpenid(String openid);
-	
-	UserVo findUserVoByOpenid(String openid);
 
 	User findByMobile(String mobile);
 	
-	UserVo findUserVoByMobile(String mobile);
-	
 	User findById(String id);
 	
-	UserVo findUserVoById(String id);
-	
-	void modifyBalance(String id,BigDecimal balance,BigDecimal frozenMoney,TradeRecord tradeRecord);
+	void modifyBalance(String id,Integer balance,Integer frozenMoney,TradeRecord tradeRecord);
 	
 	void update(User user);
 	

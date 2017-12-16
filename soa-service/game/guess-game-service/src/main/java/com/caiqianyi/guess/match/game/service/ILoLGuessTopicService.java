@@ -23,7 +23,7 @@ public interface ILoLGuessTopicService {
 	 * 系统更新创建LOL所有竞猜话题
 	 * @param match
 	 * @param createBy
-	 * @param roomId
+	 * @param clubId
 	 * @return
 	 */
 	List<GuessTopic> updatedLoLTopic(String startDate);
@@ -32,62 +32,62 @@ public interface ILoLGuessTopicService {
 	 * 创建LOL所有竞猜话题
 	 * @param match
 	 * @param createBy
-	 * @param roomId
+	 * @param clubId
 	 * @return
 	 */
-	List<GuessTopic> createAll(GameMatch match,String createBy,Integer roomId);
+	List<GuessTopic> createAll(GameMatch match,String createBy,Integer clubId);
 	/**
 	 * 创建关于比赛胜负竞猜话题
 	 * @param match 比赛
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param clubId 房间号 允许NULL
 	 * @return
 	 */
-	GuessTopic createTopicForSF(GameMatch match,String createBy,Integer roomId);
+	GuessTopic createTopicForSF(GameMatch match,String createBy,Integer clubId);
 	
 	/**
 	 * 创建关于比赛比分竞猜话题
 	 * @param match
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param clubId 房间号 允许NULL
 	 * @return
 	 */
-	GuessTopic createTopicForBF(GameMatch match,String createBy,Integer roomId);
+	GuessTopic createTopicForBF(GameMatch match,String createBy,Integer clubId);
 	
 	/**
 	 * 创建关于冠军竞猜话题
 	 * @param match
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param clubId 房间号 允许NULL
 	 * @return
 	 */
-	GuessTopic createTopicForFirst(GameMatch match,String createBy,Integer roomId);
+	GuessTopic createTopicForFirst(GameMatch match,String createBy,Integer clubId);
 	
 	/**
 	 * 创建关于比赛一血竞猜话题
 	 * @param match
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param clubId 房间号 允许NULL
 	 * @return
 	 */
-	List<GuessTopic> createTopicForFirstBlood(GameMatch match,String createBy,Integer roomId);
+	List<GuessTopic> createTopicForFirstBlood(GameMatch match,String createBy,Integer clubId);
 	
 	/**
 	 * 创建关于比赛一塔竞猜话题
 	 * @param match
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param clubId 房间号 允许NULL
 	 * @return
 	 */
-	List<GuessTopic> createTopicForFirstTurret(GameMatch match,String createBy,Integer roomId);
+	List<GuessTopic> createTopicForFirstTurret(GameMatch match,String createBy,Integer clubId);
 	
 	/**
 	 * 创建关于比赛总人头数单双竞猜话题
 	 * @param match
 	 * @param createBy 创建人 允许NULL
-	 * @param roomId 房间号 允许NULL
+	 * @param clubId 房间号 允许NULL
 	 * @return
 	 */
-	List<GuessTopic> createTopicForSOD(GameMatch match,String createBy,Integer roomId);
+	List<GuessTopic> createTopicForSOD(GameMatch match,String createBy,Integer clubId);
 	
 }

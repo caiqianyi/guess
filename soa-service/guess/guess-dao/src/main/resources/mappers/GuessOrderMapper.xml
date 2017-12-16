@@ -10,6 +10,9 @@
 			<if test="order.orderNo != null">
 				and orderNo = #{order.orderNo}
 			</if>
+			<if test="order.clubId != null">
+				and clubId = #{order.clubId}
+			</if>
 			<if test="order.userId != null">
 				and userId = #{order.userId}
 			</if>
@@ -29,7 +32,7 @@
 	</sql>
 
 	<sql id="Base_Column_List">
-		id, orderNo, userId, optionId, diamond, bonus, amount, topicId, status,
+		id, orderNo, clubId, userId, optionId, diamond, bonus, amount, topicId, status,
 		createTime
 	</sql>
 
@@ -70,7 +73,7 @@
 		insert into guess_order (
 		<include refid="Base_Column_List" />
 		)
-		values (UUID(), #{order.orderNo}, #{order.userId}, #{order.optionId},
+		values (UUID(), #{order.clubId}, #{order.orderNo}, #{order.userId}, #{order.optionId},
 		#{order.diamond}, NULL, #{order.amount}, #{order.topicId}, 0, now()
 	</insert>
 

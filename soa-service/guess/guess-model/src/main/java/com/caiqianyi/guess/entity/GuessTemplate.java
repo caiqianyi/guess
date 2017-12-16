@@ -4,21 +4,21 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 竞猜话题模板
+ * 竞猜模板表
 DROP TABLE IF EXISTS `guess_template`;
 CREATE TABLE `guess_template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `roomId` int(10) DEFAULT NULL COMMENT '房间号',
-  `subject` longtext NOT NULL COMMENT '竞猜题目',
+  `userId` int(11) NOT NULL COMMENT '用户ID',
+  `clubId` int(10) DEFAULT NULL COMMENT '房间号',
+  `subject` varchar(500) NOT NULL COMMENT '竞猜题目',
   `kindOf` varchar(50) NOT NULL COMMENT '种类',
-  `seq` varchar(500) DEFAULT NULL COMMENT '比赛ID',
   `topicType` varchar(500) DEFAULT NULL COMMENT '话题类型',
   `orderBy` int(10) NOT NULL COMMENT '排序值',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  KEY `roomId` (`roomId`),
+  KEY `userId` (`userId`),
+  KEY `clubId` (`clubId`),
   KEY `kindOf` (`kindOf`),
-  KEY `seq` (`seq`),
   KEY `topicType` (`topicType`),
   KEY `orderBy` (`orderBy`),
   KEY `createTime` (`createTime`)
@@ -50,7 +50,8 @@ public class GuessTemplate {
 	 */
 	private Integer orderBy;
 	
-	private String roomId;
+	private Integer clubId;
+	private Integer userId;
 	/**
 	 * 创建时间
 	 */
@@ -88,11 +89,11 @@ public class GuessTemplate {
 	public void setOrderBy(Integer orderBy) {
 		this.orderBy = orderBy;
 	}
-	public String getRoomId() {
-		return roomId;
+	public Integer getClubId() {
+		return clubId;
 	}
-	public void setRoomId(String roomId) {
-		this.roomId = roomId;
+	public void setClubId(Integer clubId) {
+		this.clubId = clubId;
 	}
 	public Date getCreateTime() {
 		return createTime;
@@ -111,5 +112,11 @@ public class GuessTemplate {
 	}
 	public void setOptions(List<GuessTemplateOption> options) {
 		this.options = options;
+	}
+	public Integer getUserId() {
+		return userId;
+	}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiqianyi.guess.core.dao.IGuessClubMemberMapper">
+
+	<sql id="Base_Column_List">
+		clubId,userId,status,guessCount,winCount,unauditedContribution,totalContribution,joinTime,quitTime
+	</sql>
+
+	<insert id="join" parameterType="com.caiqianyi.guess.entity.GuessClubMember">
+		insert into guess_club_member ( <include refid="Base_Column_List"></include> )
+		values (#{clubId},#{userId},0,0,0,0,0, NOW(),null)
+	</insert>
+
+	<update id="quit">
+		update guess_club_member set status = -1,quitTime = NOW() where id = #{memberId}
+	</update>
+	
+	<update id="update" parameterType="com.caiqianyi.guess.entity.GuessClubMember">
+		update guess_club_member set status = 0
+		<if test="guessCount">
+			,guessCount = #{guessCount}
+		</if>
+		<if test="winCount">
+			,winCount = #{winCount}
+		</if>
+		<if test="unauditedContribution">
+			,unauditedContribution = #{unauditedContribution}
+		</if>
+		<if test="totalContribution">
+			,totalContribution = #{totalContribution}
+		</if>
+		where id = #{id} and status = 0
+	</update>
+	
+	<select id="findById" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+		select id,<include refid="Base_Column_List"/> from guess_club_member where id = #{id}
+	</select>
+	
+	<select id="findByClubAndUserId" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+		select id,<include refid="Base_Column_List"/> from guess_club_member where clubId = #{clubId} and userId = #{userId} and status = 0
+	</select>
+	
+	<select id="findByUserId" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+	    select id,<include refid="Base_Column_List"/> from guess_club_member where userId = #{userId} and status = 0
+	</select>
+	
+	<select id="findByClubId" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+	    select id,<include refid="Base_Column_List"/> from guess_club_member where clubId = #{clubId} and status = 0
+	</select>
+</mapper>

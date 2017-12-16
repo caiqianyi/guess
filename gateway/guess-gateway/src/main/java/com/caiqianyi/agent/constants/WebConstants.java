@@ -5,9 +5,7 @@ import java.util.UUID;
 
 public class WebConstants {
 	
-	public static final String SESSION_USER = "login.current.agent";//登录用户信息
-	
-	public static final String SYS_VERIFYCODE = "verifycode";//验证码
+	public static final String SYS_VERIFYCODE = "verify:imagecode";//验证码
 	
 	public static final String DES_SECURITY_KEY = "4fc704a1fff14148a23c04adbda987b5";
 	

@@ -18,6 +18,4 @@ public interface ILotteryDataService {
 	SuccessMessage syncOpenCodeForToday(@PathVariable("kindOf")String kindOf,
 			@PathVariable("day")String day);
 	
-	@RequestMapping(value="/jclq/syncData/",method=RequestMethod.GET)
-	SuccessMessage syncMatchJCLQForToday();
 }

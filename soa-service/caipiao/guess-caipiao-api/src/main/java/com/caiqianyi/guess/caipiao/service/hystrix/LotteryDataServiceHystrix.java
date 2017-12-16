@@ -22,9 +22,4 @@ public class LotteryDataServiceHystrix implements ILotteryDataService {
 		return null;
 	}
 
-	@Override
-	public SuccessMessage syncMatchJCLQForToday() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

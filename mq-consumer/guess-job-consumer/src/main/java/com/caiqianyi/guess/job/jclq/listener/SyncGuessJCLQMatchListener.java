@@ -14,7 +14,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import com.caiqianyi.guess.caipiao.service.ILotteryDataService;
+import com.caiqianyi.guess.caipiao.service.IJCLQMatchService;
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
 
 /**
@@ -29,7 +29,7 @@ public class SyncGuessJCLQMatchListener {
 	private Logger logger = LoggerFactory.getLogger(SyncGuessJCLQMatchListener.class);
 	
 	@Resource
-	private ILotteryDataService lotteryDataService;
+	private IJCLQMatchService jclqMatchService;
 	
 	@Bean 
     public Queue queueSyncGuessJCLQMatchJob() {
@@ -47,7 +47,7 @@ public class SyncGuessJCLQMatchListener {
 		String body = new String(message.getBody());
 		logger.debug("body={}",body);
 		try {
-			lotteryDataService.syncMatchJCLQForToday();
+			jclqMatchService.syncMatchJCLQForToday();
 		}  catch (Exception e) {
 			e.printStackTrace();
 		}

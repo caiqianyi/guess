@@ -17,6 +17,11 @@ public class Pager {
 	public Pager() {
 		// TODO Auto-generated constructor stub
 	}
+	public Pager(Integer size,Integer offset) {
+		// TODO Auto-generated constructor stub
+		this.size = size;
+		this.offset = offset;
+	}
 	
 	public Pager(Integer offset, Integer size, Object params) {
 		this.offset =offset;

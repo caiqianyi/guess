@@ -1,6 +1,5 @@
 package com.caiqianyi.account.service;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.caiqianyi.account.entity.TradeRecord;
 import com.caiqianyi.account.entity.User;
 import com.caiqianyi.account.service.hystrix.AccountServiceHystrix;
-import com.caiqianyi.account.vo.UserVo;
 import com.caiqianyi.commons.exception.SuccessMessage;
 
 @FeignClient(value="account-service",fallback=AccountServiceHystrix.class)
@@ -26,36 +24,36 @@ public interface IAccountService {
 	@RequestMapping(value="/account/findByAccount/{account}/",method=RequestMethod.GET)
 	User findByAccount(@PathVariable(value="account")String account);
 	
-	@RequestMapping(value="/account/findUserVoByAccount/{account}/",method=RequestMethod.GET)
-	UserVo findUserVoByAccount(@PathVariable(value="account")String account);
+	@RequestMapping(value="/account/findUserByAccount/{account}/",method=RequestMethod.GET)
+	User findUserByAccount(@PathVariable(value="account")String account);
 
 	@RequestMapping(value="/account/findByUnionid/{unionid}/",method=RequestMethod.GET)
 	User findByUnionid(@PathVariable(value="unionid")String unionid);
 	
-	@RequestMapping(value="/account/findUserVoByUnionid/{unionid}/",method=RequestMethod.GET)
-	UserVo findUserVoByUnionid(@PathVariable(value="unionid")String unionid);
+	@RequestMapping(value="/account/findUserByUnionid/{unionid}/",method=RequestMethod.GET)
+	User findUserByUnionid(@PathVariable(value="unionid")String unionid);
 
 	@RequestMapping(value="/account/findByOpenid/{openid}/",method=RequestMethod.GET)
 	User findByOpenid(@PathVariable(value="openid")String openid);
 	
-	@RequestMapping(value="/account/findUserVoByOpenid/{openid}/",method=RequestMethod.GET)
-	UserVo findUserVoByOpenid(@PathVariable(value="openid")String openid);
+	@RequestMapping(value="/account/findUserByOpenid/{openid}/",method=RequestMethod.GET)
+	User findUserByOpenid(@PathVariable(value="openid")String openid);
 
 	@RequestMapping(value="/account/findByMobile/{mobile}/",method=RequestMethod.GET)
 	User findByMobile(@PathVariable(value="mobile")String mobile);
 	
-	@RequestMapping(value="/account/findUserVoByMobile/{mobile}/",method=RequestMethod.GET)
-	UserVo findUserVoByMobile(@PathVariable(value="mobile")String mobile);
+	@RequestMapping(value="/account/findUserByMobile/{mobile}/",method=RequestMethod.GET)
+	User findUserByMobile(@PathVariable(value="mobile")String mobile);
 	
 	@RequestMapping(value="/account/findById/{id}/",method=RequestMethod.GET)
 	User findById(@PathVariable(value="id")String id);
 	
-	@RequestMapping(value="/account/findUserVoById/{id}/",method=RequestMethod.GET)
-	UserVo findUserVoById(@PathVariable(value="id")String id);
+	@RequestMapping(value="/account/findUserById/{id}/",method=RequestMethod.GET)
+	User findUserById(@PathVariable(value="id")String id);
 	
-	@RequestMapping(value="/account/modifyBalance/{id}/{balance}/{frozenMoney}/",method=RequestMethod.POST)
-	SuccessMessage modifyBalance(@PathVariable(value="id")String id,@PathVariable(value="balance")BigDecimal balance,
-			@PathVariable(value="frozenMoney")BigDecimal frozenMoney,@RequestBody TradeRecord tradeRecord);
+	@RequestMapping(value="/account/modifyBalance/{id}/{balance}/{frozen}/",method=RequestMethod.POST)
+	SuccessMessage modifyBalance(@PathVariable(value="id")String id,@PathVariable(value="balance")Integer balance,
+			@PathVariable(value="frozen")Integer frozen,@RequestBody TradeRecord tradeRecord);
 	
 	@RequestMapping(value="/account/update/",method=RequestMethod.POST)
 	SuccessMessage update(@RequestBody User user);

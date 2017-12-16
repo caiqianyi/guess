@@ -33,49 +33,49 @@ public class LolGuessTopicServiceHystrix implements ILolGuessTopicService {
 
 	@Override
 	public SuccessMessage createAll(GameMatch match, String createBy,
-			Integer roomId) {
+			Integer clubId) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
 
 	@Override
 	public SuccessMessage createTopicForSF(GameMatch match, String createBy,
-			Integer roomId) {
+			Integer clubId) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
 
 	@Override
 	public SuccessMessage createTopicForBF(GameMatch match, String createBy,
-			Integer roomId) {
+			Integer clubId) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
 
 	@Override
 	public SuccessMessage createTopicForFirst(GameMatch match, String createBy,
-			Integer roomId) {
+			Integer clubId) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
 
 	@Override
 	public SuccessMessage createTopicForFirstBlood(GameMatch match,
-			String createBy, Integer roomId) {
+			String createBy, Integer clubId) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
 
 	@Override
 	public SuccessMessage createTopicForFirstTurret(GameMatch match,
-			String createBy, Integer roomId) {
+			String createBy, Integer clubId) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
 
 	@Override
 	public SuccessMessage createTopicForSOD(GameMatch match, String createBy,
-			Integer roomId) {
+			Integer clubId) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}

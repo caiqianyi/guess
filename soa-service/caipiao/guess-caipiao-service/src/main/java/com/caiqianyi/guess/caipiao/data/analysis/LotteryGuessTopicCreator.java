@@ -1,7 +1,6 @@
 package com.caiqianyi.guess.caipiao.data.analysis;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -72,7 +71,7 @@ public class LotteryGuessTopicCreator {
 				ls = ls.replace(str, ss+"");
 			}
 		}
-		logger.debug("check|ls={}",ls);
+		//logger.debug("check|ls={}",ls);
 		int ei = has(new String[]{"("}, ls);
 		if(ei > 0 && has(ljs, ls) > 0){
 			return check(lots, ls);
@@ -113,7 +112,7 @@ public class LotteryGuessTopicCreator {
 		if(resultK.contains(1)){
 			return resultV.contains(true);
 		}
-		logger.debug("bqCheck|line={},result={},is={}",line,resultV,resultV.contains(false));
+		//logger.debug("bqCheck|line={},result={},is={}",line,resultV,resultV.contains(false));
 		return !resultV.contains(false);
 	}
 
@@ -167,7 +166,7 @@ public class LotteryGuessTopicCreator {
 			String l = str.substring(1,str.length() -1);
 			ls = ls.replace(str, calculateBase(l)+"");
 		}
-		logger.debug("calculate|ls={}",ls);
+		//logger.debug("calculate|ls={}",ls);
 		return calculateBase(ls);
 	}
 

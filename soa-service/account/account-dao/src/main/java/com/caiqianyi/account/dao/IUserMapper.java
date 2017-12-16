@@ -1,12 +1,9 @@
 package com.caiqianyi.account.dao;
 
-import java.math.BigDecimal;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.caiqianyi.account.entity.User;
-import com.caiqianyi.account.vo.UserVo;
 
 @Mapper
 public interface IUserMapper {
@@ -15,28 +12,20 @@ public interface IUserMapper {
 	
 	User findByAccount(@Param(value = "account")String account);
 	
-	UserVo findUserVoByAccount(String account);
+	User findUserByAccount(String account);
 
 	User findByUnionid(@Param(value = "unionid")String unionid);
 	
-	UserVo findUserVoByUnionid(@Param(value = "unionid")String unionid);
-
 	User findByOpenid(@Param(value = "openid")String openid);
 	
-	UserVo findUserVoByOpenid(@Param(value = "openid")String openid);
-
 	User findByMobile(@Param(value = "mobile")String mobile);
-	
-	UserVo findUserVoByMobile(@Param(value = "mobile")String mobile);
 	
 	User findById(@Param(value = "id")String id);
 	
-	UserVo findUserVoById(@Param(value = "id")String id);
+	User findAccountNormal(@Param(value = "id")String id);
 	
-	UserVo findAccountNormal(@Param(value = "id")String id);
-	
-	int modifyBalance(@Param(value = "id")String id,@Param(value = "balance")BigDecimal balance,
-			@Param(value = "frozenMoney")BigDecimal frozenMoney);
+	int modifyBalance(@Param(value = "id")String id,@Param(value = "balance")Integer balance,
+			@Param(value = "frozen")Integer frozen);
 	
 	int update(User user);
 	

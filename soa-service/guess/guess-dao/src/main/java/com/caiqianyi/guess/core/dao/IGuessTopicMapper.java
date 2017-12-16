@@ -29,6 +29,10 @@ public interface IGuessTopicMapper {
 			@Param("start")Date start,
 			@Param("end")Date end);
 	
+	List<GuessTopic> findAllGuessTopicLeftOptionsBy(@Param("topic")GuessTopic topic,
+			@Param("start")Date start,
+			@Param("end")Date end);
+	
 	int insert(@Param("topic")GuessTopic topic);
 	
 	int update(@Param("topic")GuessTopic topic); 

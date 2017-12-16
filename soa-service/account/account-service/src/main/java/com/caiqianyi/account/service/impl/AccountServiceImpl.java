@@ -1,6 +1,5 @@
 package com.caiqianyi.account.service.impl;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import com.caiqianyi.account.dao.IUserMapper;
 import com.caiqianyi.account.entity.TradeRecord;
 import com.caiqianyi.account.entity.User;
 import com.caiqianyi.account.service.IAccountService;
-import com.caiqianyi.account.vo.UserVo;
 
 @Service
 public class AccountServiceImpl implements IAccountService {
@@ -43,21 +41,9 @@ public class AccountServiceImpl implements IAccountService {
 	}
 
 	@Override
-	public UserVo findUserVoByAccount(String account) {
-		// TODO Auto-generated method stub
-		return userMapper.findUserVoByAccount(account);
-	}
-
-	@Override
 	public User findByUnionid(String unionid) {
 		// TODO Auto-generated method stub
 		return userMapper.findByUnionid(unionid);
-	}
-
-	@Override
-	public UserVo findUserVoByUnionid(String unionid) {
-		// TODO Auto-generated method stub
-		return userMapper.findUserVoByUnionid(unionid);
 	}
 
 	@Override
@@ -67,21 +53,9 @@ public class AccountServiceImpl implements IAccountService {
 	}
 
 	@Override
-	public UserVo findUserVoByOpenid(String openid) {
-		// TODO Auto-generated method stub
-		return userMapper.findUserVoByOpenid(openid);
-	}
-
-	@Override
 	public User findByMobile(String mobile) {
 		// TODO Auto-generated method stub
 		return userMapper.findByMobile(mobile);
-	}
-
-	@Override
-	public UserVo findUserVoByMobile(String mobile) {
-		// TODO Auto-generated method stub
-		return userMapper.findUserVoByMobile(mobile);
 	}
 
 	@Override
@@ -91,15 +65,9 @@ public class AccountServiceImpl implements IAccountService {
 	}
 
 	@Override
-	public UserVo findUserVoById(String id) {
-		// TODO Auto-generated method stub
-		return userMapper.findUserVoById(id);
-	}
-
-	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
-	public void modifyBalance(String id, BigDecimal balance,
-			BigDecimal frozenMoney,TradeRecord tradeRecord) {
+	public void modifyBalance(String id, Integer balance,
+			Integer frozenMoney,TradeRecord tradeRecord) {
 		// TODO Auto-generated method stub
 		userMapper.modifyBalance(id, balance, frozenMoney);
 		tradeRecord.setUserId(id);

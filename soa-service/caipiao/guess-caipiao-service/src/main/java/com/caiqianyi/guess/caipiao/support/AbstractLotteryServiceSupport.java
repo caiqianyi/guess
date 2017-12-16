@@ -48,6 +48,12 @@ public abstract class AbstractLotteryServiceSupport implements ILotteryService{
 	}
 	
 	@Override
+	public List<LotteryIssue> findIssueByDay(String day) {
+		// TODO Auto-generated method stub
+		return lotteryIssueMapper.getIssusByKindOfAndStatus(getKindOf(), null, day);
+	}
+	
+	@Override
 	public LotteryIssue getLotteryNumByIssue(String issue){
 		return lotteryIssueMapper.getIssueByExpect(getKindOf(), issue);
 	}
@@ -159,9 +165,8 @@ public abstract class AbstractLotteryServiceSupport implements ILotteryService{
 			if (issue != null && iEndTime != null) {
 				qh = "" + (issue + ((istart.getTime() - iEndTime.getTime()) / 1000 / period));
 			}
-			if(isOver && i == total -1){
-				iend = DateUtils.addDays(startTime, 1);
-				//logger.debug("startTime{},iend={}", startTime,iend);
+			if(i == 0){
+				istart = DateUtils.addDays(endTime, -1);
 			}
 			LotteryIssue li = new LotteryIssue();
 			li.setStartTime(istart);

@@ -8,6 +8,6 @@ public interface IRabbitmqSender {
 	
 	public void sendContractTopic(String queue,Object message);
 	
-	public void sendContractFanout(Object message);
+	public void sendContractFanout(String queue,Object message);
 	
 }

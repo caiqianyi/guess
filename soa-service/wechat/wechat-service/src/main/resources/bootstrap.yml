@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: wechat-service
+  session:
+    store-type: none
+  cloud:
+    config:
+      name: ${GUESS_CONFIG_NAME}
+      profile: ${GUESS_CONFIG_PROFILE}
+      username: ${GUESS_CONFIG_USERNAME}
+      password: ${GUESS_CONFIG_PASSWORD}
+      uri: ${GUESS_CONFIG_URI}
+
+# Define the port where the Widget Foundry server would be running
+server:
+  port: 6688
+logging:
+  file: /www/logs/${spring.application.name}.log
+
+
+guess.appid=wx69823becfe6a7396
+guess.secret=e1633a5f86e846726551ef701f402225
+guess.mch_id=

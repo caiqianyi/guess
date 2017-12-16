@@ -2,6 +2,7 @@ package com.caiqianyi.guess.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 竞猜选项
@@ -12,7 +13,7 @@ CREATE TABLE `guess_topic_option` (
   	`name` varchar(500) NOT NULL COMMENT '选项名',
   	`value` varchar(500) NOT NULL COMMENT '选项值（程序用）',
   	`orderBy` int(10) NOT NULL COMMENT '排序值',
-  	`buyCount` int(10) NOT NULL COMMENT '购买时间',
+  	`buyCount` int(10) NOT NULL COMMENT '购买次数',
   	`buyAmount` float(10,2) DEFAULT '0.00' COMMENT '金币',
   	`isSelected` tinyint(1) DEFAULT 0 COMMENT '是否为中奖选项',
   	`odds` float(10,2) DEFAULT '0.00' COMMENT '赔率',
@@ -64,6 +65,9 @@ public class GuessTopicOption {
 	 */
 	private BigDecimal odds;
 	private Date createTime;
+	
+	private List<GuessTopicOption> options;
+	
 	public String getId() {
 		return id;
 	}
@@ -123,5 +127,11 @@ public class GuessTopicOption {
 	}
 	public void setBuyAmount(BigDecimal buyAmount) {
 		this.buyAmount = buyAmount;
+	}
+	public List<GuessTopicOption> getOptions() {
+		return options;
+	}
+	public void setOptions(List<GuessTopicOption> options) {
+		this.options = options;
 	}
 }

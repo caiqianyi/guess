@@ -163,26 +163,26 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public List<GuessTopic> createAll(GameMatch match, String createBy,
-			Integer roomId) {
+			Integer clubId) {
 		// TODO Auto-generated method stub
 		List<GuessTopic> all = new ArrayList<GuessTopic>();
-		GuessTopic sfTopic = this.createTopicForSF(match, createBy, roomId);
+		GuessTopic sfTopic = this.createTopicForSF(match, createBy, clubId);
 		if(sfTopic != null){
 			all.add(sfTopic);
 		}
-		GuessTopic bfTopic = this.createTopicForBF(match, createBy, roomId);
+		GuessTopic bfTopic = this.createTopicForBF(match, createBy, clubId);
 		if(bfTopic != null){
 			all.add(bfTopic);
 		}
-		List<GuessTopic> fbTopics = this.createTopicForFirstBlood(match, createBy, roomId);
+		List<GuessTopic> fbTopics = this.createTopicForFirstBlood(match, createBy, clubId);
 		if(fbTopics != null){
 			all.addAll(fbTopics);
 		}
-		List<GuessTopic> ftTopics = this.createTopicForFirstTurret(match, createBy, roomId);
+		List<GuessTopic> ftTopics = this.createTopicForFirstTurret(match, createBy, clubId);
 		if(ftTopics != null){
 			all.addAll(ftTopics);
 		}
-		List<GuessTopic> sodTopics = this.createTopicForSOD(match, createBy, roomId);
+		List<GuessTopic> sodTopics = this.createTopicForSOD(match, createBy, clubId);
 		if(sodTopics != null){
 			all.addAll(sodTopics);
 		}
@@ -191,7 +191,7 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 	
 	private List<GuessTopic> getGuessTopicByTwoOption(GameMatch match,String topicType,String subject,
 								String aOption,String bOption,
-								String createBy,Integer roomId){
+								String createBy,Integer clubId){
 		String groupId = "GM"+DateFormatUtils.format(match.getMatchTime(), "yyyy")+match.getMatchId();
 		if(gameMatchMapper != null){
 			GameMatch queryMatch = new GameMatch();
@@ -280,7 +280,7 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 	}
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
-	public GuessTopic createTopicForSF(GameMatch match,String createBy,Integer roomId) {
+	public GuessTopic createTopicForSF(GameMatch match,String createBy,Integer clubId) {
 		String topicType = "SF", groupId = "GM"+DateFormatUtils.format(match.getMatchTime(), "yyyy")+match.getMatchId();
 		Date overTime =  new Date(match.getMatchTime().getTime() - 3 * 60 * 1000);//BO1 提前3分钟封盘
 		Integer topicId = GenerateCode.gen(9);
@@ -306,7 +306,7 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 		
 		GuessTopic topic = new GuessTopic();
 		topic.setCreateBy(createBy);
-		topic.setRoomId(roomId);
+		topic.setClubId(clubId);
 		topic.setOverTime(overTime);
 		topic.setCreateTime(new Date());
 		topic.setGroupId(groupId);
@@ -345,7 +345,7 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
-	public GuessTopic createTopicForBF(GameMatch match,String createBy,Integer roomId) {
+	public GuessTopic createTopicForBF(GameMatch match,String createBy,Integer clubId) {
 		if(match.getBestOf() != 1){
 			
 			String topicType = "BF", groupId = "GM"+DateFormatUtils.format(match.getMatchTime(), "yyyy")+match.getMatchId();
@@ -376,7 +376,7 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 			}
 			GuessTopic topic = new GuessTopic();
 			topic.setCreateBy(createBy);
-			topic.setRoomId(roomId);
+			topic.setClubId(clubId);
 			topic.setOverTime(overTime);
 			topic.setCreateTime(new Date());
 			topic.setGroupId(groupId);
@@ -414,27 +414,27 @@ public class LoLGuessTopicServiceImpl implements ILoLGuessTopicService {
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
-	public GuessTopic createTopicForFirst(GameMatch match,String createBy,Integer roomId) {
+	public GuessTopic createTopicForFirst(GameMatch match,String createBy,Integer clubId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
-	public List<GuessTopic> createTopicForFirstBlood(GameMatch match,String createBy,Integer roomId) {
-		return getGuessTopicByTwoOption(match, "FirstBlood", "第#BestOf局比赛谁先获得一血？","#HostTeam","#GuestTeam",createBy,roomId);
+	public List<GuessTopic> createTopicForFirstBlood(GameMatch match,String createBy,Integer clubId) {
+		return getGuessTopicByTwoOption(match, "FirstBlood", "第#BestOf局比赛谁先获得一血？","#HostTeam","#GuestTeam",createBy,clubId);
 	}
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
-	public List<GuessTopic> createTopicForFirstTurret(GameMatch match,String createBy,Integer roomId) {
-		return getGuessTopicByTwoOption(match, "FirstTurret","第#BestOf局比赛谁先获得一塔？","#HostTeam","#GuestTeam",createBy,roomId);
+	public List<GuessTopic> createTopicForFirstTurret(GameMatch match,String createBy,Integer clubId) {
+		return getGuessTopicByTwoOption(match, "FirstTurret","第#BestOf局比赛谁先获得一塔？","#HostTeam","#GuestTeam",createBy,clubId);
 	}
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
-	public List<GuessTopic> createTopicForSOD(GameMatch match,String createBy,Integer roomId) {
+	public List<GuessTopic> createTopicForSOD(GameMatch match,String createBy,Integer clubId) {
 		// TODO Auto-generated method stub
-		return getGuessTopicByTwoOption(match, "SOD","第#BestOf局比赛总人头数之和为单数OR双数？","单","双",createBy,roomId);
+		return getGuessTopicByTwoOption(match, "SOD","第#BestOf局比赛总人头数之和为单数OR双数？","单","双",createBy,clubId);
 	}
 }

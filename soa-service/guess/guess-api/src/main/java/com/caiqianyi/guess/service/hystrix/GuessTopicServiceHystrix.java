@@ -31,7 +31,7 @@ public class GuessTopicServiceHystrix implements IGuessTopicService {
 	}
 
 	@Override
-	public Pager findGuessTopicByRoomIdForPager(Integer roomId, Integer status,
+	public Pager findGuessTopicByClubIdForPager(Integer ClubId, Integer status,
 			Date start, Date end, Pager pager) {
 		// TODO Auto-generated method stub
 		return null;

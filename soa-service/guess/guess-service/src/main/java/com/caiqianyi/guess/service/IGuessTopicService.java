@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.caiqianyi.commons.pager.Pager;
+import com.caiqianyi.guess.entity.GuessTemplate;
 import com.caiqianyi.guess.entity.GuessTopic;
 import com.caiqianyi.guess.entity.GuessTopicOption;
 
@@ -19,7 +20,7 @@ public interface IGuessTopicService {
 	
 	GuessTopic findOneGuessTopicByOptionId(String optionId);
 	
-	Pager findGuessTopicByRoomIdForPager(Integer roomId,
+	Pager findGuessTopicByClubIdForPager(Integer clubId,
 			Integer status,Date start,
 			Date end,Pager pager);
 	

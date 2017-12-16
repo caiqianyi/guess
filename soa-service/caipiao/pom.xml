@@ -11,8 +11,6 @@
 
   <modules>
 	<module>guess-caipiao-api</module>
-	<module>guess-caipiao-dao</module>
-	<module>guess-caipiao-model</module>
 	<module>guess-caipiao-service</module>
   </modules>
 
