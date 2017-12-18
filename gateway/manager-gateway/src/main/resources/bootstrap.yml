@@ -16,7 +16,27 @@ spring:
 
 # Define the port where the API gateway server would be running
 server:
-  port: 9994
+  port: 999
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 sms:
   cst_id: 58007

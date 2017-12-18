@@ -59,7 +59,7 @@
 	</dependency> -->
     <dependency>
     	<groupId>com.caiqianyi</groupId>
-    	<artifactId>guess-dao</artifactId>
+    	<artifactId>guess-caipiao-dao</artifactId>
     	<version>1.0.0-RELEASE</version>
     </dependency>
     <dependency>

@@ -40,7 +40,7 @@ CREATE TABLE `user` (
   `accountSign` varchar(50) NOT NULL COMMENT '账户签名',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
   `lastLoginTime` datetime DEFAULT NULL COMMENT '最后登录时间',
-  `lastBuyTime` datetime DEFAULT NULL '最后购买时间',
+  `lastBuyTime` datetime DEFAULT NULL COMMENT '最后购买时间',
   `lastUpdateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `userId` (`userId`),
