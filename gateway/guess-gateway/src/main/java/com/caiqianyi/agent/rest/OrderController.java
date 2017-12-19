@@ -48,7 +48,7 @@ public class OrderController {
 		}
 		return new SuccessMessage(guessOrderService.findByForPager(
 				oauth2SecuritySubject.getCurrentUser().getUserId(), null, null,
-				null, null, null, start, end, pager));
+				null, null, start, end, pager));
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class OrderController {
 		}
 		return new SuccessMessage(guessOrderService.findByForPager(
 				oauth2SecuritySubject.getCurrentUser().getUserId(), null, null,
-				null, null, null, start, end, pager));
+				null, null, start, end, pager));
 	}
 
 	/**
