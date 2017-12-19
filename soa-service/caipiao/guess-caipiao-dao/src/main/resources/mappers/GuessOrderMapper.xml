@@ -19,6 +19,12 @@
 			<if test="order.optionId != null">
 				and optionId = #{order.optionId}
 			</if>
+			<if test="order.kindOf != null">
+				and kindOf = #{order.kindOf}
+			</if>
+			<if test="order.expect != null">
+				and expect = #{order.expect}
+			</if>
 			<if test="order.bonus != null">
 				and bonus = #{order.bonus}
 			</if>
@@ -32,7 +38,7 @@
 	</sql>
 
 	<sql id="Base_Column_List">
-		id, orderNo, clubId, userId, optionId, diamond, bonus, amount, topicId, status,
+		id, orderNo, clubId, userId, optionId, kindOf, expect, diamond, bonus, amount, topicId, status,
 		createTime
 	</sql>
 
@@ -46,6 +52,12 @@
 		</if>
 		<if test="end != null and end !=''">
 			and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
+		</if>
+		<if test="size != null">
+			limit #{size}		    
+		</if>
+		<if test="offset != null">
+			,#{offset}
 		</if>
 	</select>
 
@@ -73,7 +85,7 @@
 		insert into guess_order (
 		<include refid="Base_Column_List" />
 		)
-		values (UUID(), #{order.clubId}, #{order.orderNo}, #{order.userId}, #{order.optionId},
+		values (UUID(), #{order.clubId}, #{order.orderNo}, #{order.userId}, #{order.optionId}, #{order.kindOf}, #{order.expect}
 		#{order.diamond}, NULL, #{order.amount}, #{order.topicId}, 0, now()
 	</insert>
 

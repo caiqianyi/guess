@@ -8,9 +8,11 @@ DROP TABLE IF EXISTS `guess_order`;
 CREATE TABLE `guess_order` (
 	`id` varchar(36) CHARACTER SET utf8mb4 NOT NULL COMMENT '主键',
   	`orderNo` varchar(200) NOT NULL COMMENT '订单号',
-  	`userId` varchar(200) NOT NULL COMMENT '购买玩家ID',
+  	`userId` int(11) NOT NULL COMMENT '用户ID',
   	`clubId` int(10) DEFAULT NULL COMMENT '房间ID',
   	`optionId` varchar(200) NOT NULL COMMENT '购买竞猜项ID',
+  	`kindOf` varchar(200) NOT NULL COMMENT '类别',
+  	`expect` varchar(200) NOT NULL COMMENT '期号ID',
   	`diamond` int(10) DEFAULT '0.00' COMMENT '金币',
   	`score` int(10) DEFAULT NULL COMMENT '奖金',
   	`amount` int(10) NOT NULL COMMENT '倍数',
@@ -22,6 +24,8 @@ CREATE TABLE `guess_order` (
   KEY `club` (`clubId`),
   KEY `user_index` (`userId`),
   KEY `option_index` (`optionId`),
+  KEY `kindOf` (`kindOf`),
+  KEY `expect` (`expect`),
   KEY `topic_index` (`topicId`),
   KEY `status_index` (`status`),
   KEY `time_index` (`createTime`)
@@ -34,9 +38,11 @@ public class GuessOrder {
 	private String id;
 	private String orderNo;
 	private Integer clubId;
-	private String userId;
+	private Integer userId;
 	private Integer topicId;
 	private String optionId;
+	private String kindOf;
+	private String expect;
 	private Integer diamond;
 	private Integer score;
 	private Integer amount;
@@ -60,10 +66,10 @@ public class GuessOrder {
 	public void setClubId(Integer clubId) {
 		this.clubId = clubId;
 	}
-	public String getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 	public Integer getTopicId() {
@@ -107,5 +113,17 @@ public class GuessOrder {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public String getKindOf() {
+		return kindOf;
+	}
+	public void setKindOf(String kindOf) {
+		this.kindOf = kindOf;
+	}
+	public String getExpect() {
+		return expect;
+	}
+	public void setExpect(String expect) {
+		this.expect = expect;
 	}
 }

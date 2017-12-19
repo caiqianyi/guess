@@ -1,12 +1,10 @@
 package com.caiqianyi.guess.core.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.guess.entity.GuessOrder;
 
 
@@ -14,10 +12,13 @@ import com.caiqianyi.guess.entity.GuessOrder;
 public interface IGuessOrderMapper {
 	
 	List<GuessOrder> findByForPager(@Param("order")GuessOrder order,
-			@Param("start")Date start,@Param("end")Date end,Pager pager);
+			@Param("start")String start,@Param("end")String end,Integer size,Integer offset);
+	
+	int countBy(@Param("order")GuessOrder order,
+			@Param("start")String start,@Param("end")String end);
 	
 	List<GuessOrder> findAllBy(@Param("order")GuessOrder order,
-			@Param("start")Date start,@Param("end")Date end);
+			@Param("start")String start,@Param("end")String end);
 	
 	GuessOrder findOneBy(@Param("order")GuessOrder order);
 	

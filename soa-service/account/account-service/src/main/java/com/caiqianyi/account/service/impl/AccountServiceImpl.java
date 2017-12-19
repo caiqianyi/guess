@@ -16,6 +16,7 @@ import com.caiqianyi.account.dao.IUserMapper;
 import com.caiqianyi.account.entity.TradeRecord;
 import com.caiqianyi.account.entity.User;
 import com.caiqianyi.account.service.IAccountService;
+import com.caiqianyi.commons.pager.Pager;
 
 @Service
 public class AccountServiceImpl implements IAccountService {
@@ -59,18 +60,18 @@ public class AccountServiceImpl implements IAccountService {
 	}
 
 	@Override
-	public User findById(String id) {
+	public User findById(Integer userId) {
 		// TODO Auto-generated method stub
-		return userMapper.findById(id);
+		return userMapper.findById(userId);
 	}
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
-	public void modifyBalance(String id, Integer balance,
+	public void modifyBalance(Integer userId, Integer balance,
 			Integer frozenMoney,TradeRecord tradeRecord) {
 		// TODO Auto-generated method stub
-		userMapper.modifyBalance(id, balance, frozenMoney);
-		tradeRecord.setUserId(id);
+		userMapper.modifyBalance(userId, balance, frozenMoney);
+		tradeRecord.setUserId(userId);
 		tradeRecordMapper.saveTradeRecord(tradeRecord);
 	}
 
@@ -89,23 +90,24 @@ public class AccountServiceImpl implements IAccountService {
 	}
 
 	@Override
-	public List<TradeRecord> findAllTradeRecordByUserid(String userId,Integer size,Integer offset) {
+	public Pager findTradeRecordByUserid(Integer userId, String tradeType, String start,
+			String end,Integer size,Integer offset) {
 		// TODO Auto-generated method stub
-		return tradeRecordMapper.findAllTradeRecordByUserid(userId,size,offset);
+		Pager pager = new Pager();
+		
+		List<TradeRecord> datas = tradeRecordMapper.findTradeRecordByUserid(userId, tradeType, start, end, size, offset);
+		pager.setDatas(datas);
+		pager.setOffset(offset);
+		pager.setSize(size);
+		tradeRecordMapper.countTradeRecordByUserid(userId, tradeType, start, end);
+		return pager;
 	}
 
 	@Override
-	public List<TradeRecord> findTradeRecordByUserid(String userId, Date start,
-			Date end,Integer size,Integer offset) {
-		// TODO Auto-generated method stub
-		return tradeRecordMapper.findTradeRecordByUserid(userId, start, end, size, offset);
-	}
-
-	@Override
-	public TradeRecord findTradeRecordByReferId(String referId,
+	public TradeRecord findTradeRecordByReferId(Integer userId,String referId,
 			String tradeType) {
 		// TODO Auto-generated method stub
-		return tradeRecordMapper.findTradeRecordByReferId(referId, tradeType);
+		return tradeRecordMapper.findTradeRecordByReferId(userId, referId, tradeType);
 	}
 	
 }

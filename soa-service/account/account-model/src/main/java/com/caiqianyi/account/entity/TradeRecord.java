@@ -1,6 +1,5 @@
 package com.caiqianyi.account.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -9,10 +8,10 @@ import java.util.Date;
 DROP TABLE IF EXISTS `trade_records`;
 CREATE TABLE `trade_records` (
   `id` varchar(36) CHARACTER SET utf8mb4 NOT NULL COMMENT '主键',
-  `userId` varchar(36) DEFAULT NULL COMMENT '用户ID',
+  `userId` int(11) NOT NULL COMMENT '用户ID',
   `referId` varchar(36) DEFAULT NULL COMMENT '涉及内部表关联ID',
-  `money` float(10,2) DEFAULT '0.00' COMMENT '交易金额',
-  `tradeMoney` float(10,2) DEFAULT '0.00' COMMENT '交易时余额',
+  `money` int(11) DEFAULT 0 COMMENT '交易账户余额',
+  `tradeMoney` int(11) DEFAULT 0 COMMENT '交易金额',
   `descr` varchar(200) DEFAULT NULL COMMENT '详情说明',
   `host` varchar(200) DEFAULT NULL COMMENT '交易host',
   `status` int(11) NOT NULL COMMENT '交易状态 0 失败 1成功 2回滚',
@@ -38,19 +37,19 @@ public class TradeRecord {
 	/**
 	 * 交易账户
 	 */
-	private String userId;
+	private Integer userId;
 	/**
 	 * 涉及ID
 	 */
 	private String referId;
 	/**
+	 * 交易账户余额
+	 */
+	private Integer money;
+	/**
 	 * 交易金额
 	 */
-	private BigDecimal money;
-	/**
-	 * 交易时余额
-	 */
-	private BigDecimal tradeMoney;
+	private Integer tradeMoney;
 	/**
 	 * 详情说明
 	 */
@@ -78,10 +77,10 @@ public class TradeRecord {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 	public String getReferId() {
@@ -90,16 +89,16 @@ public class TradeRecord {
 	public void setReferId(String referId) {
 		this.referId = referId;
 	}
-	public BigDecimal getMoney() {
+	public Integer getMoney() {
 		return money;
 	}
-	public void setMoney(BigDecimal money) {
+	public void setMoney(Integer money) {
 		this.money = money;
 	}
-	public BigDecimal getTradeMoney() {
+	public Integer getTradeMoney() {
 		return tradeMoney;
 	}
-	public void setTradeMoney(BigDecimal tradeMoney) {
+	public void setTradeMoney(Integer tradeMoney) {
 		this.tradeMoney = tradeMoney;
 	}
 	public String getDescr() {

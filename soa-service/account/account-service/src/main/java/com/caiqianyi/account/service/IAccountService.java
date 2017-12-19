@@ -1,10 +1,8 @@
 package com.caiqianyi.account.service;
 
-import java.util.Date;
-import java.util.List;
-
 import com.caiqianyi.account.entity.TradeRecord;
 import com.caiqianyi.account.entity.User;
+import com.caiqianyi.commons.pager.Pager;
 
 
 
@@ -20,21 +18,13 @@ public interface IAccountService {
 
 	User findByMobile(String mobile);
 	
-	User findById(String id);
+	User findById(Integer userId);
 	
-	void modifyBalance(String id,Integer balance,Integer frozenMoney,TradeRecord tradeRecord);
+	void modifyBalance(Integer userId,Integer balance,Integer frozenMoney,TradeRecord tradeRecord);
 	
 	void update(User user);
 	
 	void register(User user);
-	
-	/**
-	 * 查询用户所有账户交易记录
-	 * @param userId
-	 * @return
-	 */
-	List<TradeRecord> findAllTradeRecordByUserid(String userId,Integer size,Integer offset);
-	
 	/**
 	 * 查询用户时间内账户交易记录
 	 * @param userId
@@ -42,7 +32,7 @@ public interface IAccountService {
 	 * @param end
 	 * @return
 	 */
-	List<TradeRecord> findTradeRecordByUserid(String userId,Date start,Date end,Integer size,Integer offset);
+	Pager findTradeRecordByUserid(Integer userId,String tradeType,String start,String end,Integer size,Integer offset);
 	
 	/**
 	 * 通关用户关联记录 查询对应交易记录
@@ -50,6 +40,6 @@ public interface IAccountService {
 	 * @param tradeType
 	 * @return
 	 */
-	TradeRecord findTradeRecordByReferId(String referId,String tradeType);
+	TradeRecord findTradeRecordByReferId(Integer userId,String referId,String tradeType);
 	
 }

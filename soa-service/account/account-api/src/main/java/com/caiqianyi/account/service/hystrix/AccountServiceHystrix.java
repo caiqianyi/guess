@@ -1,9 +1,5 @@
 package com.caiqianyi.account.service.hystrix;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import com.caiqianyi.account.entity.TradeRecord;
@@ -11,6 +7,7 @@ import com.caiqianyi.account.entity.User;
 import com.caiqianyi.account.service.IAccountService;
 import com.caiqianyi.commons.exception.I18nMessageException;
 import com.caiqianyi.commons.exception.SuccessMessage;
+import com.caiqianyi.commons.pager.Pager;
 @Component
 public class AccountServiceHystrix implements IAccountService {
 
@@ -68,7 +65,7 @@ public class AccountServiceHystrix implements IAccountService {
 	}
 
 	@Override
-	public User findById(String id) {
+	public User findById(Integer userId) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
@@ -80,12 +77,12 @@ public class AccountServiceHystrix implements IAccountService {
 	}
 
 	@Override
-	public SuccessMessage modifyBalance(String id, Integer balance,
+	public SuccessMessage modifyBalance(Integer userId, Integer balance,
 			Integer frozen, TradeRecord tradeRecord) {
 		// TODO Auto-generated method stub
-		throw new I18nMessageException("502","服务器异常，请稍后重试");
+		return null;
 	}
-
+	
 	@Override
 	public SuccessMessage update(User user) {
 		// TODO Auto-generated method stub
@@ -99,24 +96,16 @@ public class AccountServiceHystrix implements IAccountService {
 	}
 
 	@Override
-	public List<TradeRecord> findAllTradeRecordByUserid(String id,
-			Integer size, Integer offset) {
-		// TODO Auto-generated method stub
-		throw new I18nMessageException("502","服务器异常，请稍后重试");
-	}
-
-	@Override
-	public List<TradeRecord> findTradeRecordByUserid(String id, Date start,
-			Date end, Integer size, Integer offset) {
-		// TODO Auto-generated method stub
-		throw new I18nMessageException("502","服务器异常，请稍后重试");
-	}
-
-	@Override
-	public TradeRecord findTradeRecordByReferId(String referId,
+	public TradeRecord findTradeRecordByReferId(Integer userId, String referId,
 			String tradeType) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
-
+	
+	@Override
+	public Pager findTradeRecordByUserid(Integer userId, String tradeType,
+			String start, String end, Integer size, Integer offset) {
+		// TODO Auto-generated method stub
+		throw new I18nMessageException("502","服务器异常，请稍后重试");
+	}
 }

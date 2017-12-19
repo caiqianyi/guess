@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,11 +32,28 @@ public class AccountController extends BaseController{
 	private DesUtils desUtils;
 	
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public SuccessMessage info() throws Exception{
+	SuccessMessage info() throws Exception{
 		User user = oauth2SecuritySubject.getCurrentUser();
 		user.setPassword(null);
 		user.setAccountSign(null);
 		return new SuccessMessage(user);
 	}
 	
+	/**
+	 * 房卡交易记录
+	 * @param size
+	 * @param offset
+	 * @param tradeType
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/transaction/record/{size}/{offset}/", method = RequestMethod.GET)
+	SuccessMessage transactionRecord(@PathVariable("size") Integer size,
+			@PathVariable("offset") Integer offset, 
+			String tradeType,String start,String end) throws Exception{
+		User user = oauth2SecuritySubject.getCurrentUser();
+		return new SuccessMessage(accountService.findTradeRecordByUserid(user.getUserId(), tradeType, start, end, size, offset));
+	}
 }

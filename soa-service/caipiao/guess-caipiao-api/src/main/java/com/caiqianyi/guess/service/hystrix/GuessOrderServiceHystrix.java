@@ -1,6 +1,6 @@
 package com.caiqianyi.guess.service.hystrix;
 
-import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,20 +27,29 @@ public class GuessOrderServiceHystrix implements IGuessOrderService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
-	public Pager findByUserIdForPager(String userId, Integer status,
-			Integer topicId, Date start, Date end, Pager pager) {
+	public List<GuessOrder> findAllBy(Integer userId, Integer clubId,
+			Integer status, Integer topicId, String kindOf, String expect) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public SuccessMessage buyGuessOption(GuessOrder order) {
+	public Pager findByForPager(Integer userId, Integer clubId, Integer status,
+			Integer topicId, String kindOf, String start,
+			String end, Pager pager) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public SuccessMessage joinGuess(Integer userId, String optionId,
+			Integer diamond) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public SuccessMessage update(GuessOrder order) {
 		// TODO Auto-generated method stub

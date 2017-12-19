@@ -1,6 +1,6 @@
 package com.caiqianyi.guess.service;
 
-import java.util.Date;
+import java.util.List;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,16 +23,28 @@ public interface IGuessOrderService {
 	@RequestMapping(value="/guess/order/findById/{id}/",method=RequestMethod.GET)
 	GuessOrder findById(@PathVariable("id")String id);
 	
-	@RequestMapping(value="/guess/order/findByUserIdForPager/{userId}/",method=RequestMethod.POST)
-	Pager findByUserIdForPager(@PathVariable("userId")String userId,
+	@RequestMapping(value="/guess/order/findAllBy/{userId}/",method=RequestMethod.POST)
+	List<GuessOrder> findAllBy(@PathVariable("userId")Integer userId,
+			@RequestParam(value="clubId",required=false)Integer clubId,
 			@RequestParam(value="status",required=false)Integer status,
 			@RequestParam(value="topicId",required=false)Integer topicId,
-			@RequestParam(value="start",required=false)Date start, 
-			@RequestParam(value="end",required=false)Date end, 
+			@RequestParam(value="kindOf",required=false)String kindOf,
+			@RequestParam(value="expect",required=false)String expect);
+	
+	@RequestMapping(value="/guess/order/findByForPager/",method=RequestMethod.POST)
+	Pager findByForPager(@RequestParam(value="userId",required=false)Integer userId,
+			@RequestParam(value="clubId",required=false)Integer clubId,
+			@RequestParam(value="status",required=false)Integer status,
+			@RequestParam(value="topicId",required=false)Integer topicId,
+			@RequestParam(value="kindOf",required=false)String kindOf,
+			@RequestParam(value="start",required=false)String start, 
+			@RequestParam(value="end",required=false)String end, 
 			@RequestBody(required=false) Pager pager);
 	
-	@RequestMapping(value="/guess/order/buyGuessOption/",method=RequestMethod.POST)
-	SuccessMessage buyGuessOption(@RequestBody GuessOrder order);
+	@RequestMapping(value="/guess/order/joinGuess/",method=RequestMethod.GET)
+	SuccessMessage joinGuess(@RequestParam(value="userId") Integer userId,
+			@RequestParam(value="optionId") String optionId,
+			@RequestParam(value="diamond") Integer diamond);
 	
 	@RequestMapping(value="/guess/order/update/",method=RequestMethod.POST)
 	SuccessMessage update(@RequestBody GuessOrder order);

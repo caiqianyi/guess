@@ -1,4 +1,4 @@
-package com.caiqianyi.guess.match.game.rest;
+package com.caiqianyi.guess.caipiao.controller;
 
 import javax.annotation.Resource;
 

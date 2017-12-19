@@ -1,8 +1,5 @@
 package com.caiqianyi.account.service;
 
-import java.util.Date;
-import java.util.List;
-
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +11,7 @@ import com.caiqianyi.account.entity.TradeRecord;
 import com.caiqianyi.account.entity.User;
 import com.caiqianyi.account.service.hystrix.AccountServiceHystrix;
 import com.caiqianyi.commons.exception.SuccessMessage;
+import com.caiqianyi.commons.pager.Pager;
 
 @FeignClient(value="account-service",fallback=AccountServiceHystrix.class)
 public interface IAccountService {
@@ -45,31 +43,21 @@ public interface IAccountService {
 	@RequestMapping(value="/account/findUserByMobile/{mobile}/",method=RequestMethod.GET)
 	User findUserByMobile(@PathVariable(value="mobile")String mobile);
 	
-	@RequestMapping(value="/account/findById/{id}/",method=RequestMethod.GET)
-	User findById(@PathVariable(value="id")String id);
+	@RequestMapping(value="/account/findById/{userId}/",method=RequestMethod.GET)
+	User findById(@PathVariable(value="userId")Integer userId);
 	
 	@RequestMapping(value="/account/findUserById/{id}/",method=RequestMethod.GET)
 	User findUserById(@PathVariable(value="id")String id);
 	
-	@RequestMapping(value="/account/modifyBalance/{id}/{balance}/{frozen}/",method=RequestMethod.POST)
-	SuccessMessage modifyBalance(@PathVariable(value="id")String id,@PathVariable(value="balance")Integer balance,
+	@RequestMapping(value="/modifyBalance/{userId}/{balance}/{frozen}/",method=RequestMethod.POST)
+	SuccessMessage modifyBalance(@PathVariable(value="userId")Integer userId,@PathVariable(value="balance")Integer balance,
 			@PathVariable(value="frozen")Integer frozen,@RequestBody TradeRecord tradeRecord);
 	
-	@RequestMapping(value="/account/update/",method=RequestMethod.POST)
+	@RequestMapping(value="/update/",method=RequestMethod.POST)
 	SuccessMessage update(@RequestBody User user);
 	
-	@RequestMapping(value="/account/register/",method=RequestMethod.POST)
+	@RequestMapping(value="/register/",method=RequestMethod.POST)
 	SuccessMessage register(@RequestBody User user);
-	
-	/**
-	 * 查询用户所有账户交易记录
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value="/account/findAllTradeRecordByUserid/{id}/",method=RequestMethod.GET)
-	List<TradeRecord> findAllTradeRecordByUserid(@PathVariable(value="id")String id,
-			@RequestParam(value="size")Integer size,
-			@RequestParam(value="offset")Integer offset);
 	
 	/**
 	 * 查询用户时间内账户交易记录
@@ -78,10 +66,12 @@ public interface IAccountService {
 	 * @param end
 	 * @return
 	 */
-	@RequestMapping(value="/account/findTradeRecordByUserid/{id}/",method=RequestMethod.GET)
-	List<TradeRecord> findTradeRecordByUserid(@PathVariable(value="id")String id,
-			@RequestParam(value="start")Date start,
-			@RequestParam(value="end")Date end,
+	@RequestMapping(value="/findTradeRecordByUserid/{userId}/",method=RequestMethod.GET)
+	Pager findTradeRecordByUserid(
+			@PathVariable(value="userId")Integer userId,
+			@PathVariable(value="tradeType",required=false)String tradeType,
+			@RequestParam(value="start",required=false)String start,
+			@RequestParam(value="end",required=false)String end,
 			@RequestParam(value="size")Integer size,
 			@RequestParam(value="offset")Integer offset);
 	
@@ -91,7 +81,8 @@ public interface IAccountService {
 	 * @param tradeType
 	 * @return
 	 */
-	@RequestMapping(value="/account/findTradeRecordByReferId/{referId}/{tradeType}",method=RequestMethod.GET)
-	TradeRecord findTradeRecordByReferId(@PathVariable(value="referId")String referId,
+	@RequestMapping(value="/findTradeRecordByReferId/{userId}/{referId}/{tradeType}",method=RequestMethod.GET)
+	TradeRecord findTradeRecordByReferId(@PathVariable(value="userId")Integer userId,
+			@PathVariable(value="referId")String referId,
 			@PathVariable(value="tradeType")String tradeType);
 }

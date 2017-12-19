@@ -20,11 +20,11 @@ public interface IUserMapper {
 	
 	User findByMobile(@Param(value = "mobile")String mobile);
 	
-	User findById(@Param(value = "id")String id);
+	User findById(@Param(value = "userId")Integer userId);
 	
-	User findAccountNormal(@Param(value = "id")String id);
+	User findAccountNormal(@Param(value = "userId")Integer userId);
 	
-	int modifyBalance(@Param(value = "id")String id,@Param(value = "balance")Integer balance,
+	int modifyBalance(@Param(value = "userId")Integer userId,@Param(value = "balance")Integer balance,
 			@Param(value = "frozen")Integer frozen);
 	
 	int update(User user);
