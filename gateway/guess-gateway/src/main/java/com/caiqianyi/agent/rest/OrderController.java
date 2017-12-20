@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.caiqianyi.account.entity.User;
 import com.caiqianyi.agent.security.Oauth2SecuritySubject;
 import com.caiqianyi.commons.exception.SuccessMessage;
 import com.caiqianyi.commons.pager.Pager;
@@ -23,7 +24,7 @@ public class OrderController {
 
 	@Resource
 	private IGuessOrderService guessOrderService;
-
+	
 	@Resource
 	private Oauth2SecuritySubject oauth2SecuritySubject;
 
@@ -91,6 +92,24 @@ public class OrderController {
 		return new SuccessMessage(guessOrderService.findAllBy(
 				oauth2SecuritySubject.getCurrentUser().getUserId(), clubId,
 				1, null, kindOf, expect));
+	}
+	/**
+	 * 查询每期的中奖记录
+	 * @param clubId 俱乐部ID
+	 * @param kindOf 彩种ID
+	 * @param expect 期号
+	 * @return
+	 */
+	@RequestMapping(value = "/guess/order/{clubId}/{kindOf}/{expect}/{status}", method = RequestMethod.POST)
+	SuccessMessage findOrderByExpect(
+			@RequestParam(value = "clubId") Integer clubId,
+			@RequestParam(value = "Integer") Integer status,
+			@RequestParam(value = "kindOf")String kindOf,
+			@RequestParam(value = "expect") String expect) {
+		User user = oauth2SecuritySubject.getCurrentUser();
+		return new SuccessMessage(guessOrderService.findAllBy(
+				null , clubId,
+				status , null, kindOf, expect));
 	}
 	
 	/**

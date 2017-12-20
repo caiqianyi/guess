@@ -4,7 +4,10 @@
   
 	
 	<select id="findTradeRecordByUserid" resultType="com.caiqianyi.account.entity.TradeRecord">
-		select * from trade_records where userId = #{userId} 
+		select * from trade_records where 1 = 1
+		<if test="userId != null">
+			and userId = #{userId}
+		</if>
 		<if test="tradeType != null">
 			and tradeType = #{tradeType}
 		</if>
@@ -19,8 +22,11 @@
 	    </if>
 	</select>
 	<select id="countTradeRecordByUserid">
-		select count(0) from trade_records where userId = #{userId} 
-		<<if test="tradeType != null">
+		select count(0) from trade_records where 1 = 1
+		<if test="userId != null">
+			and userId = #{userId}
+		</if>
+		<if test="tradeType != null">
 			and tradeType = #{tradeType}
 		</if>
 		<if test="start != null and start !=''">

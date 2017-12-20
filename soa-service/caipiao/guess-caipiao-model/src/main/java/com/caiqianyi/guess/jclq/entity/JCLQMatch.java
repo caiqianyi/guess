@@ -8,8 +8,8 @@ import java.util.List;
 DROP TABLE IF EXISTS `jclq_match`;
 CREATE TABLE `jclq_match` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `seq` varchar(500) NOT NULL COMMENT '唯一ID',
-  `matchId` varchar(500) NOT NULL COMMENT '比赛ID',
+  `seq` varchar(200) NOT NULL COMMENT '唯一ID',
+  `matchId` varchar(200) NOT NULL COMMENT '比赛ID',
   `league` varchar(200) DEFAULT NULL COMMENT '联赛',
   `hostTeam` varchar(200) NOT NULL COMMENT '主队名',
   `gustTeam` varchar(200) NOT NULL COMMENT '客队名',
@@ -21,8 +21,7 @@ CREATE TABLE `jclq_match` (
   `endTime` datetime NOT NULL COMMENT '竞猜结束时间',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `seq_league_matchTime` (`seq`,`league`,`matchTime`),
-  KEY `seq` (`seq`),
+  UNIQUE KEY `seq` (`seq`),
   KEY `league` (`league`),
   KEY `status` (`status`),
   KEY `matchTime` (`matchTime`),

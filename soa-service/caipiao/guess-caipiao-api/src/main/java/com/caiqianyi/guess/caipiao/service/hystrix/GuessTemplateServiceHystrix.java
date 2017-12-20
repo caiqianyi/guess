@@ -1,9 +1,12 @@
 package com.caiqianyi.guess.caipiao.service.hystrix;
 
+import org.springframework.stereotype.Component;
+
 import com.caiqianyi.commons.exception.SuccessMessage;
 import com.caiqianyi.guess.caipiao.service.IGuessTemplateService;
 import com.caiqianyi.guess.entity.GuessTemplate;
 
+@Component
 public class GuessTemplateServiceHystrix implements IGuessTemplateService {
 
 	@Override

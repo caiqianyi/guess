@@ -7,36 +7,16 @@ spring:
     store-type: none
   cloud:
     config:
-      name: ${GUESS_CONFIG_NAME}
-      profile: ${GUESS_CONFIG_PROFILE}
-      username: ${GUESS_CONFIG_USERNAME}
-      password: ${GUESS_CONFIG_PASSWORD}
-      uri: ${GUESS_CONFIG_URI}
+      name: guess
+      profile: test
+      username: guess
+      password: 123123
+      uri: http://47.95.7.11:7369/
       label: master
 
 # Define the port where the API gateway server would be running
 server:
-  port: 999
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  port: 9994
 
 sms:
   cst_id: 58007
