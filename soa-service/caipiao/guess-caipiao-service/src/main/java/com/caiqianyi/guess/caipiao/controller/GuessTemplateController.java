@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.caiqianyi.commons.exception.SuccessMessage;
+import com.caiqianyi.guess.caipiao.service.IGuessTemplateService;
 import com.caiqianyi.guess.entity.GuessTemplate;
-import com.caiqianyi.guess.service.IGuessTemplateService;
 
 @RestController
 public class GuessTemplateController {

@@ -1,4 +1,4 @@
-package com.caiqianyi.guess.match.game.spider.impl;
+package com.caiqianyi.guess.caipiao.match.game.spider.impl;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -21,12 +21,12 @@ import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.caiqianyi.guess.caipiao.match.game.service.ILoLGuessTopicService;
+import com.caiqianyi.guess.caipiao.match.game.service.impl.LoLGuessTopicServiceImpl;
+import com.caiqianyi.guess.caipiao.match.game.spider.ILoLMatchNetworkSpider;
 import com.caiqianyi.guess.game.entity.GameMatch;
 import com.caiqianyi.guess.game.lol.vo.BattleData;
 import com.caiqianyi.guess.game.lol.vo.LoLSMatch;
-import com.caiqianyi.guess.match.game.service.ILoLGuessTopicService;
-import com.caiqianyi.guess.match.game.service.impl.LoLGuessTopicServiceImpl;
-import com.caiqianyi.guess.match.game.spider.ILoLMatchNetworkSpider;
 import com.google.gson.Gson;
 
 @Repository

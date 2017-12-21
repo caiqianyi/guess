@@ -1,4 +1,4 @@
-package com.caiqianyi.guess.match.game.service.impl;
+package com.caiqianyi.guess.caipiao.match.game.service.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -8,9 +8,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.caiqianyi.commons.pager.Pager;
+import com.caiqianyi.guess.caipiao.match.game.service.IGameMatchService;
 import com.caiqianyi.guess.core.dao.IGameMatchMapper;
 import com.caiqianyi.guess.game.entity.GameMatch;
-import com.caiqianyi.guess.match.game.service.IGameMatchService;
 
 @Service
 public class GameMatchServiceImpl implements IGameMatchService {

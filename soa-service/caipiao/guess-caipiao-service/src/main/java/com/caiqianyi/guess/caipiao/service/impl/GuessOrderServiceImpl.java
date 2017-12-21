@@ -1,4 +1,4 @@
-package com.caiqianyi.guess.service.impl;
+package com.caiqianyi.guess.caipiao.service.impl;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,6 +16,7 @@ import com.caiqianyi.account.entity.User;
 import com.caiqianyi.commons.exception.I18nMessageException;
 import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.commons.utils.GenerateCode;
+import com.caiqianyi.guess.caipiao.service.IGuessOrderService;
 import com.caiqianyi.guess.core.dao.IGuessClubMemberMapper;
 import com.caiqianyi.guess.core.dao.IGuessOrderMapper;
 import com.caiqianyi.guess.core.dao.IGuessTopicMapper;
@@ -23,7 +24,6 @@ import com.caiqianyi.guess.entity.GuessClubMember;
 import com.caiqianyi.guess.entity.GuessOrder;
 import com.caiqianyi.guess.entity.GuessTopic;
 import com.caiqianyi.guess.entity.GuessTopicOption;
-import com.caiqianyi.guess.service.IGuessOrderService;
 
 @Service
 public class GuessOrderServiceImpl implements IGuessOrderService {

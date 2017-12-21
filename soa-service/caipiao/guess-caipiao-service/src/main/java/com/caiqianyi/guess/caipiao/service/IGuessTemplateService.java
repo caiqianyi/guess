@@ -1,4 +1,4 @@
-package com.caiqianyi.guess.service;
+package com.caiqianyi.guess.caipiao.service;
 
 import java.util.List;
 

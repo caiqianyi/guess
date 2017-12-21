@@ -1,4 +1,4 @@
-package com.caiqianyi.guess.jclq.match.service.impl;
+package com.caiqianyi.guess.caipiao.jclq.match.service.impl;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.guess.caipiao.core.dao.IJCLQMatchMapper;
+import com.caiqianyi.guess.caipiao.jclq.match.service.IJCLQMatchService;
 import com.caiqianyi.guess.jclq.entity.JCLQMatch;
-import com.caiqianyi.guess.jclq.match.service.IJCLQMatchService;
 import com.caiqianyi.guess.jclq.vo.JCLQMatchGuessTopic;
 
 @Service

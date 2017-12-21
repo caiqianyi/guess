@@ -1,4 +1,4 @@
-package com.caiqianyi.guess.service.impl;
+package com.caiqianyi.guess.caipiao.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -9,19 +9,17 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.caiqianyi.commons.pager.Pager;
-import com.caiqianyi.commons.utils.OddsMath;
+import com.caiqianyi.guess.caipiao.service.IGuessTopicService;
 import com.caiqianyi.guess.core.dao.IGuessTopicMapper;
 import com.caiqianyi.guess.entity.GuessTemplate;
 import com.caiqianyi.guess.entity.GuessTemplateOption;
 import com.caiqianyi.guess.entity.GuessTopic;
 import com.caiqianyi.guess.entity.GuessTopicOption;
-import com.caiqianyi.guess.service.IGuessTopicService;
 
 @Service
 public class GuessTopicServiceImpl implements IGuessTopicService {

@@ -1,4 +1,4 @@
-package com.caiqianyi.guess.jclq.match.service.impl;
+package com.caiqianyi.guess.caipiao.jclq.match.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,10 +29,10 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.caiqianyi.guess.caipiao.data.analysis.LotteryGuessTopicCreator;
+import com.caiqianyi.guess.caipiao.jclq.match.service.IJCLQMatchSyncService;
 import com.caiqianyi.guess.jclq.entity.JCLQMatch;
 import com.caiqianyi.guess.jclq.entity.JCLQMatchDatas;
 import com.caiqianyi.guess.jclq.entity.JCLQMatchOrder;
-import com.caiqianyi.guess.jclq.match.service.IJCLQMatchSyncService;
 import com.google.gson.Gson;
 
 @Service("JCLQMatch310WinService")

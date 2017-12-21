@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.caiqianyi.account.entity.User;
 import com.caiqianyi.agent.security.Oauth2SecuritySubject;
+import com.caiqianyi.commons.exception.I18nMessageException;
 import com.caiqianyi.commons.exception.SuccessMessage;
+import com.caiqianyi.commons.utils.FormulaCalculate;
 import com.caiqianyi.guess.caipiao.service.IGuessTemplateService;
 import com.caiqianyi.guess.entity.GuessTemplate;
 
@@ -48,7 +50,7 @@ public class GuessTemplateController {
 			@RequestParam(value = "kindOf",required = false) String kindOf,
 			@RequestParam(value = "topicType",required = false) String topicType){
 		User user = oauth2SecuritySubject.getCurrentUser();
-		return new SuccessMessage(guessTemplateService.findByClubId(user.getUserId(), clubId, kindOf, topicType));
+		return guessTemplateService.findByClubId(user.getUserId(), clubId, kindOf, topicType);
 	}
 	
 	/**
@@ -59,7 +61,7 @@ public class GuessTemplateController {
 	@RequestMapping(value="/guess/template/deleteBy/{id}/",method=RequestMethod.GET)
 	SuccessMessage deleteBy(@PathVariable("id") Integer id){
 		User user = oauth2SecuritySubject.getCurrentUser();
-		return new SuccessMessage(guessTemplateService.deleteBy(id, user.getUserId()));
+		return guessTemplateService.deleteBy(id, user.getUserId());
 	}
 	
 	/**
@@ -71,7 +73,7 @@ public class GuessTemplateController {
 	SuccessMessage create(GuessTemplate template){
 		User user = oauth2SecuritySubject.getCurrentUser();
 		template.setUserId(user.getUserId());
-		return new SuccessMessage(guessTemplateService.create(template));
+		return guessTemplateService.create(template);
 	}
 	
 	/**
@@ -81,7 +83,7 @@ public class GuessTemplateController {
 	 */
 	@RequestMapping(value="/guess/template/update/",method=RequestMethod.POST)
 	SuccessMessage update(GuessTemplate template){
-		return new SuccessMessage(guessTemplateService.update(template));
+		return guessTemplateService.update(template);
 	}
 	
 	/**
@@ -94,7 +96,22 @@ public class GuessTemplateController {
 	SuccessMessage copyTemplateToClub(@PathVariable("templateId") Integer[] templateId,
 			@PathVariable("clubId") Integer clubId){
 		User user = oauth2SecuritySubject.getCurrentUser();
-		return new SuccessMessage(guessTemplateService.copyTemplateToClub(user.getUserId(), templateId, clubId));
+		return guessTemplateService.copyTemplateToClub(user.getUserId(), templateId, clubId);
+	}
+	
+	/**
+	 * 检查选项公式是否可执行
+	 * @param formula
+	 * @return
+	 */
+	@RequestMapping(value="/guess/template/checkFormula/bjpk10/",method=RequestMethod.GET)
+	SuccessMessage checkFormulaForBjpk10(String formula){
+		try{
+			return new SuccessMessage(FormulaCalculate.check(new String[] { "01", "02", "03", "04", "05", "06", "07", "08",
+					"09", "10" }, formula));
+		}catch(Exception e){
+			throw new I18nMessageException("20102","选项公式错误,无法计算结果");
+		}
 	}
 	
 }

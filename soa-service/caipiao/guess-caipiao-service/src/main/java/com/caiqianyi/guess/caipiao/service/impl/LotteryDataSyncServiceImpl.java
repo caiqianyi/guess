@@ -19,6 +19,7 @@ import com.caiqianyi.guess.caipiao.core.dao.IJCLQMatchMapper;
 import com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper;
 import com.caiqianyi.guess.caipiao.data.analysis.YllrAnalysis;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
+import com.caiqianyi.guess.caipiao.jclq.match.service.IJCLQMatchSyncService;
 import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
 import com.caiqianyi.guess.caipiao.service.ILotteryDataSyncService;
 import com.caiqianyi.guess.caipiao.service.ILotteryGuessService;
@@ -27,7 +28,6 @@ import com.caiqianyi.guess.core.dao.GuessTemplateMapper;
 import com.caiqianyi.guess.entity.GuessTemplate;
 import com.caiqianyi.guess.jclq.entity.JCLQMatch;
 import com.caiqianyi.guess.jclq.entity.JCLQMatchDatas;
-import com.caiqianyi.guess.jclq.match.service.IJCLQMatchSyncService;
 import com.caiqianyi.soa.core.redis.IRedisCache;
 import com.google.gson.Gson;
 
