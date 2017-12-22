@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.guess.entity.GuessTemplate;
 import com.caiqianyi.guess.entity.GuessTopic;
@@ -33,6 +35,9 @@ public interface IGuessTopicService {
 			String league, String groupId,
 			Integer status, Integer orderBy,
 			Date start, Date end);
+	
+	List<GuessTopic> findCurrentTopicsLeftOptionsBy(Integer clubId,
+			String topicType);
 	
 	boolean insert(GuessTopic topic);
 	

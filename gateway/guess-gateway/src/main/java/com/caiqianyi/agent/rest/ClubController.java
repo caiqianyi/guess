@@ -2,6 +2,7 @@ package com.caiqianyi.agent.rest;
 
 import javax.annotation.Resource;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.caiqianyi.agent.security.Oauth2SecuritySubject;
 import com.caiqianyi.commons.exception.SuccessMessage;
 import com.caiqianyi.guess.caipiao.service.IGuessClubService;
+import com.caiqianyi.guess.service.IGuessTopicService;
 
 @RestController
 public class ClubController {
@@ -19,6 +21,9 @@ public class ClubController {
 
 	@Resource
 	private Oauth2SecuritySubject oauth2SecuritySubject;
+	
+	@Resource
+	private IGuessTopicService guessTopicService;
 
 	/**
 	 * 创建俱乐部
@@ -265,5 +270,17 @@ public class ClubController {
 			@RequestParam(value = "memberId") Integer memberId) {
 		return clubService.checkLiveness(clubId, oauth2SecuritySubject
 				.getCurrentUser().getUserId(), memberId);
+	}
+	
+	/**
+	 * 查询俱乐部当前可参与的竞猜话题
+	 * @param clubId 俱乐部ID
+	 * @param topicType 话题类型 可不传
+	 * @return
+	 */
+	@RequestMapping(value="/guess/topic/current/{clubId}/",method=RequestMethod.POST)
+	SuccessMessage findCurrentTopicsLeftOptionsBy(@PathVariable("clubId")Integer clubId,
+			@RequestParam(value="topicType",required=false) String topicType){
+		return guessTopicService.findCurrentTopicsLeftOptionsBy(clubId, topicType);
 	}
 }

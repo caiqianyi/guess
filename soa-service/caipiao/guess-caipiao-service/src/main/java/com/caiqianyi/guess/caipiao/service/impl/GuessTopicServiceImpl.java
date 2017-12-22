@@ -90,7 +90,14 @@ public class GuessTopicServiceImpl implements IGuessTopicService {
 		// TODO Auto-generated method stub
 		return guessTopicMapper.findAllGuessTopicBy(topicParam, start, end);
 	}
-
+	
+	@Override
+	public List<GuessTopic> findCurrentTopicsLeftOptionsBy(Integer clubId,
+			String topicType) {
+		// TODO Auto-generated method stub
+		return guessTopicMapper.findCurrentTopicsLeftOptionsBy(clubId, topicType);
+	}
+	
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public boolean insert(GuessTopic topic) {

@@ -33,6 +33,8 @@ public interface IGuessTopicMapper {
 			@Param("start")Date start,
 			@Param("end")Date end);
 	
+	List<GuessTopic> findCurrentTopicsLeftOptionsBy(@Param("clubId") Integer clubId, @Param("topicType") String topicType); 
+	
 	int insert(@Param("topic")GuessTopic topic);
 	
 	int update(@Param("topic")GuessTopic topic); 

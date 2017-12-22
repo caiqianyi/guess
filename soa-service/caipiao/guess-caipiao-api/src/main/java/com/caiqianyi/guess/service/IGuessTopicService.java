@@ -46,6 +46,10 @@ public interface IGuessTopicService {
 			@RequestParam(value="end",required=false)Date end,
 			@RequestBody(required=false) Pager pager);
 	
+	@RequestMapping(value="/guess/topic/findBy/current/{clubId}/",method=RequestMethod.POST)
+	SuccessMessage findCurrentTopicsLeftOptionsBy(@PathVariable("clubId")Integer clubId,
+			@RequestParam(value="topicType",required=false) String topicType);
+	
 	@RequestMapping(value="/guess/topic/insert/",method=RequestMethod.POST)
 	SuccessMessage insert(@RequestBody GuessTopic topic);
 	

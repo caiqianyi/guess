@@ -106,6 +106,10 @@ public class GuessTopic implements Serializable{
 	 */
 	private Date createTime;
 	/**
+	 * 竞猜开始时间
+	 */
+	private Date startTime;
+	/**
 	 * 终止竞猜时间
 	 */
 	private Date overTime;
@@ -227,5 +231,11 @@ public class GuessTopic implements Serializable{
 	}
 	public void setOrderBy(Integer orderBy) {
 		this.orderBy = orderBy;
+	}
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
 	}
 }

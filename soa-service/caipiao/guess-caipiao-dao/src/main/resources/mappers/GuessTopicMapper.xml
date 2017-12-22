@@ -159,6 +159,30 @@
 			and DATE_FORMAT(topic.createTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
 		</if>
 	</select>
+	
+	<select id="findCurrentTopicsLeftOptionsBy" resultMap="GuessOptionMap">
+		select
+		topic.id,topic.topicId,topic.createBy,
+		topic.clubId,topic.subject,topic.label,
+		topic.kind,topic.league,topic.groupId,
+		topic.topicType,topic.orderBy,topic.joinCount,
+		topic.status,topic.optionId,topic.createTime,
+		topic.overTime,topic.finishTime,
+		gt_option.id as optId,gt_option.topicId,gt_option.name,
+		gt_option.value,gt_option.orderBy as optOrderBy,gt_option.buyCount,
+		gt_option.buyAmount,gt_option.isSelected,gt_option.odds,
+		gt_option.createTime as optCreateTime
+		from guess_topic as topic left join guess_topic_option as
+		gt_option on
+		gt_option.topicId = topic.topicId
+		where topic.clubId = #{clubId} and topic.createTime &lt;= NOW() and topic.overTime &gt; NOW()
+		<if test="topic.league != null">
+			and topic.league = #{topic.league}
+		</if>
+		<if test="topic.topicType != null">
+			and topic.topicType = #{topic.topicType}
+		</if>
+	</select>
 
 	<select id="findAllGuessTopicBy" resultType="com.caiqianyi.guess.entity.GuessTopic">
 		select
@@ -182,7 +206,7 @@
 		values (UUID(), #{topic.topicId}, #{topic.clubId}, #{topic.subject},
 		#{topic.label}, #{topic.kind}, #{topic.league}, #{topic.groupId},
 		#{topic.topicType},
-		#{topic.orderBy}, 0, 0, #{topic.optionId}, now(),
+		#{topic.orderBy}, 0, 0, #{topic.optionId}, #{topic.createTime},
 		#{topic.overTime}, NULL ,
 		#{topic.createBy})
 	</insert>

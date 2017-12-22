@@ -19,6 +19,13 @@ public class GuessTopicServiceHystrix implements IGuessTopicService {
 	private Logger logger = LoggerFactory.getLogger(GuessTopicServiceHystrix.class);
 
 	@Override
+	public SuccessMessage findCurrentTopicsLeftOptionsBy(Integer clubId,
+			String topicType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
 	public GuessTopic findOneGuessTopicByTopicId(Integer topicId) {
 		// TODO Auto-generated method stub
 		return null;
