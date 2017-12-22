@@ -10,9 +10,13 @@ import com.caiqianyi.guess.entity.GuessClubMember;
 @Mapper
 public interface IGuessClubMemberMapper {
 	
-	int join(GuessClubMember member);
+	Integer applyJoin(GuessClubMember member);
 	
-	int quit(@Param("memberId")Integer memberId);
+	int join(@Param("memberId")Integer memberId,@Param("isCheck") Integer isCheck);
+	
+	int applyQuit(@Param("memberId")Integer memberId);
+	
+	int quit(@Param("memberId")Integer memberId,@Param("isCheck") Integer isCheck);
 	
 	int update(GuessClubMember member);
 	
@@ -20,7 +24,9 @@ public interface IGuessClubMemberMapper {
 	
 	GuessClubMember findByClubAndUserId(@Param("clubId")Integer clubId,@Param("userId")Integer userId);
 	
-	List<GuessClubMember> findByUserId(@Param("userId")Integer userId);
+	GuessClubMember findByClubAndId(@Param("clubId")Integer clubId,@Param("id")Integer id);
 	
-	List<GuessClubMember> findByClubId(@Param("clubId")Integer clubId);
+	List<GuessClubMember> findByClubIdForMember(@Param("clubId")Integer clubId);
+	
+	List<GuessClubMember> findByClubId(@Param("clubId")Integer clubId,@Param("orderBy") String orderBy);
 }

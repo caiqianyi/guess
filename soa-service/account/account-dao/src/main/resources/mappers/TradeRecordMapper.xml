@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.caiqianyi.account.dao.IUserMapper" >
+<mapper namespace="com.caiqianyi.account.dao.ITradeRecordMapper" >
   
 	
 	<select id="findTradeRecordByUserid" resultType="com.caiqianyi.account.entity.TradeRecord">
@@ -51,7 +51,7 @@
 			descr,
 			host,
 			status,
-			tradeype,
+			tradeType,
 			createTime
 		) values(
 			UUID(),

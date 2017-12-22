@@ -1,11 +1,18 @@
 package com.caiqianyi.word.rest;
 
+import java.nio.charset.Charset;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,6 +67,14 @@ public class WechatController {
 	@RequestMapping(value = "/wechat/userInfo/{openid}/{access_token}/", method = RequestMethod.GET)
 	WechatUserInfo getUserInfo(@PathVariable("access_token") String access_token,
 			@PathVariable("openid") String openid) {
+		
+		StringHttpMessageConverter m = new StringHttpMessageConverter(Charset.forName("UTF-8"));  
+        RestTemplate restTemplate = new RestTemplateBuilder().additionalMessageConverters(m).build();  
+        HttpHeaders headers = new HttpHeaders();  
+        MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");  
+        headers.setContentType(type);  
+        headers.add("Accept", MediaType.APPLICATION_JSON.toString());  
+          
 		String uri = "https://api.weixin.qq.com/sns/userinfo?access_token={access_token}&openid={openid}&lang=zh_CN";
 		String json = restTemplate.getForObject(uri, String.class, access_token, openid);
 		logger.debug("json={}",json);

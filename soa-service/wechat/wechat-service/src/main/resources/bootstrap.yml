@@ -11,7 +11,6 @@ spring:
       password: 123123
       uri: http://47.95.7.11:7369/
       label: master
-      
 # Define the port where the Widget Foundry server would be running
 server:
   port: 6688
@@ -19,6 +18,6 @@ logging:
   file: /www/logs/${spring.application.name}.log
 
 
-guess.appid=wx69823becfe6a7396
-guess.secret=e1633a5f86e846726551ef701f402225
-guess.mch_id=
+guess:
+  appid: wx69823becfe6a7396
+  secret: e1633a5f86e846726551ef701f402225

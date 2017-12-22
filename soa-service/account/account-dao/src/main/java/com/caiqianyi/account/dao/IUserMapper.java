@@ -25,7 +25,7 @@ public interface IUserMapper {
 	User findAccountNormal(@Param(value = "userId")Integer userId);
 	
 	int modifyBalance(@Param(value = "userId")Integer userId,@Param(value = "balance")Integer balance,
-			@Param(value = "frozen")Integer frozen);
+			@Param(value = "frozen")Integer frozen,@Param(value = "accountSign")String accountSign);
 	
 	int update(User user);
 	

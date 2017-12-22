@@ -1,25 +1,16 @@
-package com.caiqianyi.agent.rest;
+package com.caiqianyi.guess.caipiao.service;
 
-import javax.annotation.Resource;
-
+import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.caiqianyi.agent.security.Oauth2SecuritySubject;
 import com.caiqianyi.commons.exception.SuccessMessage;
-import com.caiqianyi.guess.caipiao.service.IGuessClubService;
+import com.caiqianyi.guess.caipiao.service.hystrix.GuessClubServiceHystrix;
 
-@RestController
-public class ClubController {
-
-	@Resource
-	private IGuessClubService clubService;
-
-	@Resource
-	private Oauth2SecuritySubject oauth2SecuritySubject;
-
+@FeignClient(value="guess-caipiao-service",fallback=GuessClubServiceHystrix.class)
+public interface IGuessClubService {
+	
 	/**
 	 * 创建俱乐部
 	 * 
@@ -39,14 +30,12 @@ public class ClubController {
 	 */
 	@RequestMapping(value = "/guess/club/create", method = RequestMethod.GET)
 	SuccessMessage create(
+			@RequestParam(value = "createId") Integer createId,
 			@RequestParam(value = "maxMember") Integer maxMember,
 			@RequestParam(value = "name") String name,
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "cardNum") Integer cardNum,
-			@RequestParam(value = "kindOf") String kindOf) {
-		return clubService.create(oauth2SecuritySubject.getCurrentUser()
-				.getUserId(), maxMember, name, password, cardNum, kindOf);
-	}
+			@RequestParam(value = "kindOf") String kindOf);
 
 	/**
 	 * 设置俱乐部信息
@@ -70,15 +59,12 @@ public class ClubController {
 	@RequestMapping(value = "/guess/club/modify", method = RequestMethod.GET)
 	SuccessMessage modify(
 			@RequestParam(value = "clubId") Integer clubId,
+			@RequestParam(value = "createId") Integer createId,
 			@RequestParam(value = "maxMember", required = false) Integer maxMember,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "icon", required = false) String icon,
-			@RequestParam(value = "notice", required = false) String notice) {
-		return clubService.modify(clubId, oauth2SecuritySubject
-				.getCurrentUser().getUserId(), maxMember, name, password, icon,
-				notice);
-	}
+			@RequestParam(value = "notice", required = false) String notice);
 
 	/**
 	 * 删除俱乐部
@@ -88,10 +74,8 @@ public class ClubController {
 	 * @return 返回处理成功俱乐部ID
 	 */
 	@RequestMapping(value = "/guess/club/delete", method = RequestMethod.GET)
-	SuccessMessage delete(@RequestParam(value = "clubId") Integer clubId) {
-		return clubService.delete(clubId, oauth2SecuritySubject
-				.getCurrentUser().getUserId());
-	}
+	SuccessMessage delete(@RequestParam(value = "clubId") Integer clubId,
+			@RequestParam(value = "createId") Integer createId);
 
 	/**
 	 * 申请加入
@@ -103,10 +87,8 @@ public class ClubController {
 	 * @return 返回处理成功玩家ID
 	 */
 	@RequestMapping(value = "/guess/club/applyJoin", method = RequestMethod.GET)
-	SuccessMessage applyJoin(@RequestParam(value = "clubId") Integer clubId) {
-		return clubService.applyJoin(clubId, oauth2SecuritySubject
-				.getCurrentUser().getUserId());
-	}
+	SuccessMessage applyJoin(@RequestParam(value = "clubId") Integer clubId,
+			@RequestParam(value = "userId") Integer userId);
 
 	/**
 	 * 审阅加入玩家
@@ -123,11 +105,9 @@ public class ClubController {
 	 */
 	@RequestMapping(value = "/guess/club/approvalJoin", method = RequestMethod.GET)
 	SuccessMessage approvalJoin(@RequestParam(value = "clubId") Integer clubId,
+			@RequestParam(value = "createId") Integer createId,
 			@RequestParam(value = "memberId") Integer memberId,
-			@RequestParam(value = "agree") int agree) {
-		return clubService.approvalJoin(clubId, oauth2SecuritySubject
-				.getCurrentUser().getUserId(), memberId, agree);
-	}
+			@RequestParam(value = "agree") int agree);
 
 	/**
 	 * 申请离开工会
@@ -139,10 +119,8 @@ public class ClubController {
 	 * @return 返回处理成功玩家ID
 	 */
 	@RequestMapping(value = "/guess/club/applyLeave", method = RequestMethod.GET)
-	SuccessMessage applyLeave(@RequestParam(value = "clubId") Integer clubId) {
-		return clubService.applyLeave(clubId, oauth2SecuritySubject
-				.getCurrentUser().getUserId());
-	}
+	SuccessMessage applyLeave(@RequestParam(value = "clubId") Integer clubId,
+			@RequestParam(value = "userId") Integer userId);
 
 	/**
 	 * 审阅申请离开工会
@@ -160,11 +138,10 @@ public class ClubController {
 	@RequestMapping(value = "/guess/club/approvalLeave", method = RequestMethod.GET)
 	SuccessMessage approvalLeave(
 			@RequestParam(value = "clubId") Integer clubId,
-			@RequestParam(value = "memberId") Integer memberId, int agree) {
-		return clubService.approvalLeave(clubId, oauth2SecuritySubject
-				.getCurrentUser().getUserId(), memberId, agree);
-	}
-
+			@RequestParam(value = "createId") Integer createId,
+			@RequestParam(value = "memberId") Integer memberId,
+			@RequestParam(value = "agree") int agree);
+	
 	/**
 	 * 删除成员
 	 * 
@@ -176,13 +153,11 @@ public class ClubController {
 	 *            玩家ID
 	 * @return 返回删除成功玩家ID
 	 */
-	@RequestMapping(value = "/guess/club/remove/memeber", method = RequestMethod.GET)
+	@RequestMapping(value = "/guess/club/removeMemeber", method = RequestMethod.GET)
 	SuccessMessage removeMemeber(
 			@RequestParam(value = "clubId") Integer clubId,
-			@RequestParam(value = "memberId") Integer memberId) {
-		return clubService.removeMemeber(clubId, oauth2SecuritySubject
-				.getCurrentUser().getUserId(), memberId);
-	}
+			@RequestParam(value = "createId") Integer createId,
+			@RequestParam(value = "memberId") Integer memberId);
 
 	/**
 	 * 充卡
@@ -197,10 +172,8 @@ public class ClubController {
 	 */
 	@RequestMapping(value = "/guess/club/recharge", method = RequestMethod.GET)
 	SuccessMessage recharge(@RequestParam(value = "clubId") Integer clubId,
-			Integer number) {
-		return clubService.recharge(clubId, oauth2SecuritySubject
-				.getCurrentUser().getUserId(), number);
-	}
+			@RequestParam(value = "createId") Integer createId,
+			@RequestParam(value = "number") Integer number);
 
 	/**
 	 * 查询我的所有俱乐部
@@ -209,11 +182,9 @@ public class ClubController {
 	 *            创建人
 	 * @return 返回俱乐部信息
 	 */
-	@RequestMapping(value = "/guess/club/myClubs", method = RequestMethod.GET)
-	SuccessMessage myClubs() {
-		return clubService.findAllMyClub(oauth2SecuritySubject.getCurrentUser()
-				.getUserId());
-	}
+	@RequestMapping(value = "/guess/club/findAllMyClub", method = RequestMethod.GET)
+	SuccessMessage findAllMyClub(
+			@RequestParam(value = "createId") Integer createId);
 
 	/**
 	 * 查询俱乐部信息，包括成员信息
@@ -224,11 +195,9 @@ public class ClubController {
 	 *            俱乐部ID
 	 * @return
 	 */
-	@RequestMapping(value = "/guess/club/info", method = RequestMethod.GET)
-	SuccessMessage findClubInfo(@RequestParam(value = "clubId") Integer clubId) {
-		return clubService.findClubInfo(clubId, oauth2SecuritySubject
-				.getCurrentUser().getUserId());
-	}
+	@RequestMapping(value = "/guess/club/findClubInfo", method = RequestMethod.GET)
+	SuccessMessage findClubInfo(@RequestParam(value = "clubId") Integer clubId,
+			@RequestParam(value = "createId") Integer createId);
 
 	/**
 	 * 查询俱乐部所有成员
@@ -241,12 +210,10 @@ public class ClubController {
 	 *            0=申请中，1=已加入，-1=申请退出中
 	 * @return 返回所有俱乐部成员，按活跃度排序
 	 */
-	@RequestMapping(value = "/guess/club/members", method = RequestMethod.GET)
+	@RequestMapping(value = "/guess/club/findAllMemberByClub", method = RequestMethod.GET)
 	SuccessMessage findAllMemberByClub(
-			@RequestParam(value = "clubId") Integer clubId,
-			@RequestParam(value = "status", required = false) Integer status) {
-		return clubService.findAllMemberByClub(clubId, status);
-	}
+			@RequestParam(value = "clubId") Integer clubId, 
+			@RequestParam(value = "status",required=false) Integer status);
 
 	/**
 	 * 审核成员活跃度
@@ -262,8 +229,6 @@ public class ClubController {
 	@RequestMapping(value = "/guess/club/checkLiveness", method = RequestMethod.GET)
 	SuccessMessage checkLiveness(
 			@RequestParam(value = "clubId") Integer clubId,
-			@RequestParam(value = "memberId") Integer memberId) {
-		return clubService.checkLiveness(clubId, oauth2SecuritySubject
-				.getCurrentUser().getUserId(), memberId);
-	}
+			@RequestParam(value = "createId") Integer createId,
+			@RequestParam(value = "memberId") Integer memberId);
 }

@@ -26,6 +26,7 @@ import com.caiqianyi.commons.utils.GenerateCode;
 import com.caiqianyi.commons.utils.PwdUtil;
 import com.caiqianyi.soa.core.redis.IRedisCache;
 import com.caiqianyi.wechat.service.IWechatService;
+import com.google.gson.Gson;
 import com.ylhy.wechat.vo.AccessToken;
 import com.ylhy.wechat.vo.WechatUserInfo;
 
@@ -114,17 +115,22 @@ public class Oauth2Controller extends BaseController{
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/oauth2/token/wechatOA", method = RequestMethod.GET)
-	SuccessMessage oauthTokenForWechatOA(String code,String state) throws Exception{
-		logger.info("wechatOA|code={},state={}",code,state);
-		AccessToken accessToken = wechatService.getAccessToken(code, state);
-		if(accessToken == null || StringUtils.isBlank(accessToken.getOpenid())){
-			throw new I18nMessageException("40001","微信授权失败");
+	SuccessMessage oauthTokenForWechatOA(String code,String state,
+			String openid, String access_token) throws Exception{
+		if(StringUtils.isNotBlank(code)){
+			logger.info("wechatOA|code={},state={}",code,state);
+			AccessToken accessToken = wechatService.getAccessToken(code, state);
+			if(accessToken == null || StringUtils.isBlank(accessToken.getOpenid())){
+				throw new I18nMessageException("40001","微信授权失败");
+			}
+			openid = accessToken.getOpenid();
+			access_token = accessToken.getAccess_token();
 		}
-		String openid = accessToken.getOpenid();
 		User user = accountService.findByOpenid(openid);
+		logger.debug("user={}",new Gson().toJson(user));
 		if(user == null){
-			WechatUserInfo userInfo = wechatService.getUserInfo(accessToken.getAccess_token(), openid);
-			Integer userId = GenerateCode.getRandom(8);
+			WechatUserInfo userInfo = wechatService.getUserInfo(access_token, openid);
+			Integer userId = GenerateCode.gen(8);
 			String account = "WX_"+userId;
 			String passwd = "R_"+GenerateCode.gen(6);
 			String password = PwdUtil.getMd5Password(account, passwd);
@@ -137,12 +143,12 @@ public class Oauth2Controller extends BaseController{
 			user.setCountry(userInfo.getCountry());
 			user.setGroupid(userInfo.getGroupid());
 			user.setHeadimgurl(userInfo.getHeadimgurl());
-			user.setLanguage(user.getLanguage());
-			user.setNickname(user.getNickname());
-			user.setOpenid(user.getOpenid());
+			user.setLanguage(userInfo.getLanguage());
+			user.setNickname(userInfo.getNickname());
+			user.setOpenid(userInfo.getOpenid());
 			user.setProvince(userInfo.getProvince());
-			user.setRemark(user.getRemark());
-			user.setSex(user.getSex());
+			user.setRemark(userInfo.getRemark());
+			user.setSex(userInfo.getSex());
 			user.setSource("wechatOA");
 			user.setSubscribe(userInfo.getSubscribe());
 			user.setSubscribeTime(userInfo.getSubscribe_time());

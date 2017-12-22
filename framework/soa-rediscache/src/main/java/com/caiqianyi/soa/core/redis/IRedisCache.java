@@ -115,6 +115,8 @@ public interface IRedisCache {
 	 * @return
 	 */
 	public Object get(String key);
+	
+	public Object getSys(String key);
 
 	/**
 	 * 设置超时时间

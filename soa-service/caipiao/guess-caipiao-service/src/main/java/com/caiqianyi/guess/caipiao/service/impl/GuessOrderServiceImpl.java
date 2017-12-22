@@ -16,10 +16,13 @@ import com.caiqianyi.account.entity.User;
 import com.caiqianyi.commons.exception.I18nMessageException;
 import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.commons.utils.GenerateCode;
+import com.caiqianyi.guess.caipiao.service.IClubService;
 import com.caiqianyi.guess.caipiao.service.IGuessOrderService;
+import com.caiqianyi.guess.core.dao.IGuessClubMapper;
 import com.caiqianyi.guess.core.dao.IGuessClubMemberMapper;
 import com.caiqianyi.guess.core.dao.IGuessOrderMapper;
 import com.caiqianyi.guess.core.dao.IGuessTopicMapper;
+import com.caiqianyi.guess.entity.GuessClub;
 import com.caiqianyi.guess.entity.GuessClubMember;
 import com.caiqianyi.guess.entity.GuessOrder;
 import com.caiqianyi.guess.entity.GuessTopic;
@@ -41,7 +44,13 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 	private ITradeRecordMapper tradeRecordMapper;
 	
 	@Resource
+	private IGuessClubMapper guessClubMapper;
+	
+	@Resource
 	private IGuessClubMemberMapper guessClubMemberMapper;
+	
+	@Resource
+	private IClubService clubService;
 
 	@Override
 	public GuessOrder findByOrderNo(String orderNo) {
@@ -91,7 +100,7 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
-	public GuessOrder joinGuess(Integer userId, String optionId, Integer diamond) {
+	public GuessOrder joinGuess(Integer memberId, String optionId, Integer diamond) {
 		// TODO Auto-generated method stub
 		
 		if(diamond == null || diamond < 1){
@@ -115,15 +124,24 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 			throw new I18nMessageException("21002","竞猜已结束！");
 		}
 		
-		User user = userMapper.findById(userId);
-		if(user == null){
-			throw new I18nMessageException("21005","玩家不存在！");
-		}
 		Integer clubId = topic.getClubId();
+		GuessClubMember member = null;
 		if(clubId != null){
-			GuessClubMember member = guessClubMemberMapper.findByClubAndUserId(clubId, userId);
-			if(member == null){
-				throw new I18nMessageException("21007","未加入房间，无权限参与");
+			GuessClub club = guessClubMapper.findById(null, clubId);
+			if(club == null){
+				throw new I18nMessageException("30001","俱乐部不存在");
+			}
+			member = guessClubMemberMapper.findByClubAndUserId(clubId, memberId);
+			if(member == null || !member.getStatus().equals(1)){
+				throw new I18nMessageException("30005","操作失败，成员不存在");
+			}
+			member.setGuessCount(member.getGuessCount()+1);
+			member.setUnauditedLiveness(member.getUnauditedLiveness()+1);
+			guessClubMemberMapper.update(member);//增加未审核活跃度、增加竞猜次数
+		}else{
+			User user = userMapper.findById(memberId);
+			if(user == null){
+				throw new I18nMessageException("21005","玩家不存在！");
 			}
 		}
 		String expect = topic.getGroupId(),
@@ -139,7 +157,7 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 		gt.setId(topic.getId());
 		gt.setJoinCount(topic.getJoinCount()+1);
 		
-		String orderNo = GenerateCode.genToolOrderNo("ONGUESS", userId+"");
+		String orderNo = GenerateCode.genToolOrderNo("ONGUESS", memberId+"");
 		
 		GuessOrder order = new GuessOrder();
 		order.setAmount(1);
@@ -152,7 +170,7 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 		order.setScore(0);
 		order.setStatus(0);
 		order.setTopicId(topic.getTopicId());
-		order.setUserId(userId);
+		order.setUserId(memberId);
 		int rows = 0;
 		
 		rows += guessTopicMapper.update(gt);
@@ -161,6 +179,10 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 		
 		if(rows != 3){
 			throw new I18nMessageException("500");
+		}
+		
+		if(clubId != null){
+			clubService.cacheMember(clubId, member, 1);
 		}
 		return order;
 	}

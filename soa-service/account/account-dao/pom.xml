@@ -30,5 +30,9 @@
   		<artifactId>account-model</artifactId>
   		<version>1.0.0-RELEASE</version>
   	</dependency>
+  	<dependency>
+  		<groupId>com.caiqianyi</groupId>
+  		<artifactId>common-utils</artifactId>
+  	</dependency>
   </dependencies>
 </project>

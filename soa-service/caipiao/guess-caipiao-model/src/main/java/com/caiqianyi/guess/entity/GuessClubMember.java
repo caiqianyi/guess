@@ -8,14 +8,15 @@ import java.util.List;
  * 竞猜房间成员
 DROP TABLE IF EXISTS `guess_club_member`;
 CREATE TABLE `guess_club_member` (
-	`id` bigint(20) NOT NULL COMMENT '主键',
+	`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
 	`clubId` int(10) DEFAULT NULL COMMENT '房间号',
 	`userId` int(10) NOT NULL COMMENT '成员ID',
 	`guessCount` int(10) DEFAULT 0 COMMENT '竞猜次数',
 	`winCount` int(10) DEFAULT 0 COMMENT '猜中次数',
-	`unauditedContribution` int(10) DEFAULT 0 COMMENT '未审核贡献度',
-	`totalContribution` int(10) DEFAULT 0 COMMENT '贡献度',
+	`unauditedLiveness` int(10) DEFAULT 0 COMMENT '未审核贡献度',
+	`totalLiveness` int(10) DEFAULT 0 COMMENT '贡献度',
 	`status` int(10) DEFAULT 0 COMMENT '成员状态',
+	`lastUnaudited` datetime DEFAULT NULL COMMENT '最后审核时间',
 	`joinTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 	`quitTime` datetime DEFAULT NULL COMMENT '退出时间',
   PRIMARY KEY (`id`),
@@ -34,20 +35,21 @@ public class GuessClubMember implements Serializable{
 	 */
 	private static final long serialVersionUID = 1453539391573679786L;
 	
-	private Long id;
+	private Integer id;
 	private Integer clubId;
 	private Integer userId;
 	private Integer status;
 	private Integer guessCount;//竞猜次数
 	private Integer winCount;//猜中次数
 	/**
-	 * 未审核贡献度
+	 * 未审核活跃度
 	 */
-	private Integer unauditedContribution;
+	private Integer unauditedLiveness;
 	/**
-	 * 贡献度
+	 * 活跃度
 	 */
-	private Integer totalContribution;
+	private Integer totalLiveness;
+	private Date lastUnaudited;
 	private Date joinTime;
 	private Date quitTime;
 	
@@ -56,11 +58,11 @@ public class GuessClubMember implements Serializable{
 	 */
 	private List<GuessOrder> orders;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -104,20 +106,20 @@ public class GuessClubMember implements Serializable{
 		this.winCount = winCount;
 	}
 
-	public Integer getUnauditedContribution() {
-		return unauditedContribution;
+	public Integer getUnauditedLiveness() {
+		return unauditedLiveness;
 	}
 
-	public void setUnauditedContribution(Integer unauditedContribution) {
-		this.unauditedContribution = unauditedContribution;
+	public void setUnauditedLiveness(Integer unauditedLiveness) {
+		this.unauditedLiveness = unauditedLiveness;
 	}
 
-	public Integer getTotalContribution() {
-		return totalContribution;
+	public Integer getTotalLiveness() {
+		return totalLiveness;
 	}
 
-	public void setTotalContribution(Integer totalContribution) {
-		this.totalContribution = totalContribution;
+	public void setTotalLiveness(Integer totalLiveness) {
+		this.totalLiveness = totalLiveness;
 	}
 
 	public Date getJoinTime() {
@@ -143,4 +145,13 @@ public class GuessClubMember implements Serializable{
 	public void setQuitTime(Date quitTime) {
 		this.quitTime = quitTime;
 	}
+
+	public Date getLastUnaudited() {
+		return lastUnaudited;
+	}
+
+	public void setLastUnaudited(Date lastUnaudited) {
+		this.lastUnaudited = lastUnaudited;
+	}
+	
 }

@@ -49,14 +49,14 @@ public interface IAccountService {
 	@RequestMapping(value="/account/findUserById/{id}/",method=RequestMethod.GET)
 	User findUserById(@PathVariable(value="id")String id);
 	
-	@RequestMapping(value="/modifyBalance/{userId}/{balance}/{frozen}/",method=RequestMethod.POST)
+	@RequestMapping(value="/account/modifyBalance/{userId}/{balance}/{frozen}/",method=RequestMethod.POST)
 	SuccessMessage modifyBalance(@PathVariable(value="userId")Integer userId,@PathVariable(value="balance")Integer balance,
 			@PathVariable(value="frozen")Integer frozen,@RequestBody TradeRecord tradeRecord);
 	
-	@RequestMapping(value="/update/",method=RequestMethod.POST)
+	@RequestMapping(value="/account/update/",method=RequestMethod.POST)
 	SuccessMessage update(@RequestBody User user);
 	
-	@RequestMapping(value="/register/",method=RequestMethod.POST)
+	@RequestMapping(value="/account/register/",method=RequestMethod.POST)
 	SuccessMessage register(@RequestBody User user);
 	
 	/**
@@ -66,7 +66,7 @@ public interface IAccountService {
 	 * @param end
 	 * @return
 	 */
-	@RequestMapping(value="/findTradeRecordByUserid/{userId}/",method=RequestMethod.GET)
+	@RequestMapping(value="/account/findTradeRecordByUserid/{userId}/",method=RequestMethod.GET)
 	Pager findTradeRecordByUserid(
 			@PathVariable(value="userId")Integer userId,
 			@PathVariable(value="tradeType",required=false)String tradeType,
@@ -81,7 +81,7 @@ public interface IAccountService {
 	 * @param tradeType
 	 * @return
 	 */
-	@RequestMapping(value="/findTradeRecordByReferId/{userId}/{referId}/{tradeType}",method=RequestMethod.GET)
+	@RequestMapping(value="/account/findTradeRecordByReferId/{userId}/{referId}/{tradeType}",method=RequestMethod.GET)
 	TradeRecord findTradeRecordByReferId(@PathVariable(value="userId")Integer userId,
 			@PathVariable(value="referId")String referId,
 			@PathVariable(value="tradeType")String tradeType);

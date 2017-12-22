@@ -3,8 +3,7 @@
 <mapper namespace="com.caiqianyi.guess.core.dao.IGuessClubMapper">
 
 	<sql id="Base_Column_List">
-		id, clubId, createId, maxMember, name, password, cardNum,
-		icon, notice, kindOf, currentMember, status ,createTime
+		id, clubId, createId, maxMember, name, password, cardNum, icon, notice, kindOf, currentMember, status ,createTime, totalLiveness
 	</sql>
 
 	<resultMap id="ClubMemberMap" type="com.caiqianyi.guess.entity.GuessClub">
@@ -20,6 +19,7 @@
 		<result column="kindOf" jdbcType="VARCHAR" property="kindOf" />
 		<result column="currentMember" jdbcType="INTEGER" property="currentMember" />
 		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="totalLiveness" jdbcType="INTEGER" property="totalLiveness" />
 		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
 		<collection property="members"
 			ofType="com.caiqianyi.guess.entity.GuessClubMember">
@@ -28,20 +28,21 @@
 			<result column="userId" jdbcType="INTEGER" property="userId" />
 			<result column="member_status" jdbcType="INTEGER" property="status" />
 			<result column="guessCount" jdbcType="INTEGER" property="guessCount" />
-			<result column="unauditedContribution" jdbcType="INTEGER"
-				property="unauditedContribution" />
-			<result column="totalContribution" jdbcType="INTEGER"
-				property="totalContribution" />
+			<result column="unauditedLiveness" jdbcType="INTEGER"
+				property="unauditedLiveness" />
+			<result column="totalLiveness" jdbcType="INTEGER"
+				property="totalLiveness" />
+			<result column="lastUnaudited" jdbcType="TIMESTAMP" property="lastUnaudited" />
 			<result column="joinTime" jdbcType="TIMESTAMP" property="joinTime" />
 			<result column="quitTime" jdbcType="TIMESTAMP" property="quitTime" />
 		</collection>
 	</resultMap>
 
 	<insert id="createClub" parameterType="com.caiqianyi.guess.entity.GuessClub">
-		insert into guess_club (clubId, createId, maxMember, name, password,
-		cardNum, kindOf) values (
-		#{clubId}, #{createId}, #{maxMember}, #{maxMember}, #{name}, #{password},
-		#{cardNum}, kindOf
+		insert into guess_club (id, clubId, createId, maxMember, name, password,
+		cardNum, kindOf) values (UUID(),
+		#{clubId}, #{createId}, #{maxMember}, #{name}, #{password},
+		#{cardNum}, #{kindOf}
 		);
 	</insert>
 
@@ -72,23 +73,45 @@
 		<if test="status != null">
 			,status = #{status}
 		</if>
+		<if test="totalLiveness != null">
+			,totalLiveness = #{totalLiveness}
+		</if>
 		where clubId = #{clubId} and createId = #{createId}
 	</update>
 
 	<select id="findById" resultType="com.caiqianyi.guess.entity.GuessClub">
-		selecet
+		select
 		<include refid="Base_Column_List" />
 		from guess_club where clubId = #{clubId} and status != -1
+		<if test="createId != null">
+		    and createId = #{createId}
+		</if>
 	</select>
 	
 	<select id="findByIdForAll" resultMap="ClubMemberMap">
-		selecet
+		select
 		club.id, club.clubId, club.createId, club.maxMember, club.name, club.password, club.cardNum,
-		club.icon, club.notice, club.kindOf, club.currentMember, club.status ,club.createTime,
-		member.id as template_id,member.userId,member.status as member_status,member.guessCount,
-		member.unauditedContribution,member.totalContribution,member.joinTime,member.quitTime 
+		club.icon, club.notice, club.kindOf, club.currentMember, club.status ,club.createTime,club.totalLiveness,
+		member.id as member_id,member.userId,member.status as member_status,member.guessCount,
+		member.unauditedLiveness,member.totalLiveness,member.joinTime,member.quitTime 
 		from guess_club as club 
 		left join guess_club_member as member on member.clubId = club.clubId 
-		where club.clubId = #{clubId} and club.status != -1
+		where club.clubId = #{clubId} and club.createId = #{createId} and club.status != -1
+	</select>
+	
+	<select id="findByCreateId" resultType="com.caiqianyi.guess.entity.GuessClub">
+		select
+		<include refid="Base_Column_List" />
+		from guess_club where createId = #{createId} and status != -1
+		<if test="kindOf != null">
+		    and kindOf = #{kindOf}
+		</if>
+	</select>
+	
+	<select id="countByCreateId">
+		select count(0) from guess_club where createId = #{createId} and status != -1
+		<if test="kindOf != null">
+		    and kindOf = #{kindOf}
+		</if>
 	</select>
 </mapper>

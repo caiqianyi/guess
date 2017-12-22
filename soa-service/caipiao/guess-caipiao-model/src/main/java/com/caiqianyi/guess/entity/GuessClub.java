@@ -12,6 +12,7 @@ CREATE TABLE `guess_club` (
 	`createId` int(10) NOT NULL COMMENT '创建人',
 	`maxMember` int(10) DEFAULT 50 COMMENT '最大成员数',
 	`currentMember` int(10) DEFAULT 0 COMMENT '当前玩家数',
+	`totalLiveness` int(10) DEFAULT 0 COMMENT '贡献度',
 	`name` varchar(50) NOT NULL COMMENT '房间名',
 	`password` varchar(50) DEFAULT NULL COMMENT '房间密码',
 	`cardNum` int(10) DEFAULT 0 COMMENT '房间剩余房卡数',
@@ -78,6 +79,11 @@ public class GuessClub {
 	 * 创建时间
 	 */
 	private Date createTime;
+	
+	/**
+	 * 活跃度
+	 */
+	private Integer totalLiveness;
 	
 	private List<GuessClubMember> members;
 	public String getId() {
@@ -158,10 +164,17 @@ public class GuessClub {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	public Integer getclubId() {
+	public Integer getClubId() {
 		return clubId;
 	}
-	public void setclubId(Integer clubId) {
+	public void setClubId(Integer clubId) {
 		this.clubId = clubId;
 	}
+	public Integer getTotalLiveness() {
+		return totalLiveness;
+	}
+	public void setTotalLiveness(Integer totalLiveness) {
+		this.totalLiveness = totalLiveness;
+	}
+	
 }

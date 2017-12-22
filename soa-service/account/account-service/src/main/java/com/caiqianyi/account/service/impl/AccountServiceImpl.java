@@ -70,7 +70,7 @@ public class AccountServiceImpl implements IAccountService {
 	public void modifyBalance(Integer userId, Integer balance,
 			Integer frozenMoney,TradeRecord tradeRecord) {
 		// TODO Auto-generated method stub
-		userMapper.modifyBalance(userId, balance, frozenMoney);
+		userMapper.modifyBalance(userId, balance , frozenMoney,balance+"c8993417ca184f89a8bd492d86c750d3"+frozenMoney);
 		tradeRecord.setUserId(userId);
 		tradeRecordMapper.saveTradeRecord(tradeRecord);
 	}

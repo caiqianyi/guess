@@ -39,12 +39,12 @@
       select <include refid="Base_User"/> from user where userId=#{userId,jdbcType=INTEGER}
   </select>
   <select id="findAccountNormal" resultType="com.caiqianyi.account.entity.User" >
-      select <include refid="Base_Show_User"/> from user where userId=#{userId,jdbcType=INTEGER} and accountSign=md5(balance+"c8993417ca184f89a8bd492d86c750d3"+frozen)
+      select <include refid="Base_Show_User"/> from user where userId=#{userId,jdbcType=INTEGER} and accountSign=md5(balance+'c8993417ca184f89a8bd492d86c750d3'+frozen)
   </select>
   
   <update id="modifyBalance">
-	  UPDATE user SET lastUpdateTime = now(),balance=#{balance,jdbcType=DECIMAL},
-	  		frozen=#{frozen,jdbcType=DECIMAL},accountSign=md5(#{balance}+"c8993417ca184f89a8bd492d86c750d3"+#{frozen}) WHERE userId=#{userId,jdbcType=INTEGER}
+	  UPDATE user SET lastUpdateTime = now(),balance=#{balance,jdbcType=INTEGER},
+	  		frozen=#{frozen,jdbcType=INTEGER},accountSign=#{accountSign} WHERE userId=#{userId,jdbcType=INTEGER}
   </update>
   
   <!-- 修改 -->

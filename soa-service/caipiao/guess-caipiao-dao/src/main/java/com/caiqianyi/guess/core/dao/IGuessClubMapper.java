@@ -14,10 +14,12 @@ public interface IGuessClubMapper {
 	
 	int update(GuessClub club);
 	
-	GuessClub findById(@Param("clubId") Integer clubId);
+	GuessClub findById(@Param("createId") Integer createId,@Param("clubId") Integer clubId);
 	
-	GuessClub findByIdForAll(@Param("clubId") Integer clubId);
+	GuessClub findByIdForAll(@Param("createId") Integer createId, @Param("clubId") Integer clubId);
 	
-	List<GuessClub> findByUserId(@Param("userId") Integer userId);
+	List<GuessClub> findByCreateId(@Param("createId") Integer createId,@Param("kindOf") String kindOf);
+	
+	int countByCreateId(@Param("createId") Integer createId,@Param("kindOf") String kindOf);
 	
 }

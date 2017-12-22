@@ -305,4 +305,5 @@ public class User implements Serializable{
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+	
 }

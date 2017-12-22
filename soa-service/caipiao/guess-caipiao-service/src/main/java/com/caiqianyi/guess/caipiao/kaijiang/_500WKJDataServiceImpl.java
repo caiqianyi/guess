@@ -42,7 +42,6 @@ public class _500WKJDataServiceImpl implements IKJDataService{
 	        }
 	        return nums;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 		return null;
 	}

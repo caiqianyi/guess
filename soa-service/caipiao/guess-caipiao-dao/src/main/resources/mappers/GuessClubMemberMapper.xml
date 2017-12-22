@@ -3,33 +3,51 @@
 <mapper namespace="com.caiqianyi.guess.core.dao.IGuessClubMemberMapper">
 
 	<sql id="Base_Column_List">
-		clubId,userId,status,guessCount,winCount,unauditedContribution,totalContribution,joinTime,quitTime
+		clubId,userId,status,guessCount,winCount,unauditedLiveness,totalLiveness,lastUnaudited,joinTime,quitTime
 	</sql>
 
-	<insert id="join" parameterType="com.caiqianyi.guess.entity.GuessClubMember">
+	<insert id="applyJoin" parameterType="com.caiqianyi.guess.entity.GuessClubMember" useGeneratedKeys="true" keyProperty="id">
 		insert into guess_club_member ( <include refid="Base_Column_List"></include> )
-		values (#{clubId},#{userId},0,0,0,0,0, NOW(),null)
+		values (#{clubId},#{userId},0,0,0,0,0, null,NOW(),null)
 	</insert>
 
+	<update id="join">
+		update guess_club_member set status = 1
+		<if test="isCheck != null">
+		    ,joinTime = NOW()
+		</if>
+		where id = #{memberId}
+	</update>
+	
+	<update id="applyQuit">
+		update guess_club_member set status = -1 where id = #{memberId}
+	</update>
+	
 	<update id="quit">
-		update guess_club_member set status = -1,quitTime = NOW() where id = #{memberId}
+		update guess_club_member set status = -2
+		<if test="isCheck != null">
+		    ,quitTime = NOW()
+		</if> where id = #{memberId}
 	</update>
 	
 	<update id="update" parameterType="com.caiqianyi.guess.entity.GuessClubMember">
-		update guess_club_member set status = 0
-		<if test="guessCount">
+		update guess_club_member set id = #{id}
+		<if test="guessCount != null">
 			,guessCount = #{guessCount}
 		</if>
-		<if test="winCount">
+		<if test="winCount != null">
 			,winCount = #{winCount}
 		</if>
-		<if test="unauditedContribution">
-			,unauditedContribution = #{unauditedContribution}
+		<if test="unauditedLiveness != null">
+			,unauditedLiveness = #{unauditedLiveness}
 		</if>
-		<if test="totalContribution">
-			,totalContribution = #{totalContribution}
+		<if test="totalLiveness != null">
+			,totalLiveness = #{totalLiveness}
 		</if>
-		where id = #{id} and status = 0
+		<if test="lastUnaudited != null">
+			,lastUnaudited = now()
+		</if>
+		where id = #{id} and status != -2
 	</update>
 	
 	<select id="findById" resultType="com.caiqianyi.guess.entity.GuessClubMember">
@@ -37,14 +55,17 @@
 	</select>
 	
 	<select id="findByClubAndUserId" resultType="com.caiqianyi.guess.entity.GuessClubMember">
-		select id,<include refid="Base_Column_List"/> from guess_club_member where clubId = #{clubId} and userId = #{userId} and status = 0
+		select id,<include refid="Base_Column_List"/> from guess_club_member where clubId = #{clubId} and userId = #{userId} and status != -2
+	</select>
+	<select id="findByClubAndId" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+		select id,<include refid="Base_Column_List"/> from guess_club_member where clubId = #{clubId} and id = #{id} and status != -2
 	</select>
 	
-	<select id="findByUserId" resultType="com.caiqianyi.guess.entity.GuessClubMember">
-	    select id,<include refid="Base_Column_List"/> from guess_club_member where userId = #{userId} and status = 0
+	<select id="findByClubIdForMember" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+	    select id,clubId,userId,totalLiveness,joinTime from guess_club_member where clubId = #{clubId} and status = 1
 	</select>
 	
 	<select id="findByClubId" resultType="com.caiqianyi.guess.entity.GuessClubMember">
-	    select id,<include refid="Base_Column_List"/> from guess_club_member where clubId = #{clubId} and status = 0
+	    select id,<include refid="Base_Column_List"/> from guess_club_member where clubId = #{clubId} and status !=-2 order by #{orderBy}
 	</select>
 </mapper>

@@ -13,4 +13,4 @@ spring:
       label: master
 # Define the port where the Widget Foundry server would be running
 server:
-  port: 9996
+  port: 9994

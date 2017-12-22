@@ -132,6 +132,21 @@ public class RedisCacheImpl implements IRedisCache {
 			}
 		});
 	}
+	
+	@Override
+	public Object getSys(String key) {
+		return redisTemplate.execute(new RedisCallback<Object>() {
+			public Object doInRedis(RedisConnection con)
+					throws DataAccessException {
+				byte[] k = redisTemplate.getStringSerializer().serialize(key);
+				if (con.exists(k)) {
+					byte[] bytes = con.get(k);
+					return redisTemplate.getValueSerializer().deserialize(bytes);
+				}
+				return null;
+			}
+		});
+	}
 
 	@Override
 	public Long ttl(final String ks) {
