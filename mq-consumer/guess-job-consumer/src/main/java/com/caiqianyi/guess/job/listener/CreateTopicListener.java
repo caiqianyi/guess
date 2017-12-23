@@ -14,7 +14,9 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
+import com.caiqianyi.guess.caipiao.service.ILotteryGuessService;
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
 
 /**
@@ -26,10 +28,14 @@ import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
 @RabbitListener(queues = JobDirectRabbitConfig.SYNC_LOTTERY_ISSUE_JOB)
 public class CreateTopicListener {
 
+	
 	private Logger logger = LoggerFactory.getLogger(CreateTopicListener.class);
 	
 	@Resource
 	private ILotteryCatService lotteryCatService;
+	
+	@Resource
+	private ILotteryGuessService lotteryGuessService;
 	
 	@Bean
     public Queue queueSyncLotteryIssueJob() {
@@ -49,7 +55,8 @@ public class CreateTopicListener {
 		String kindOfs[] = body.split("\\,");
 		for(String kindOf : kindOfs){
 			try {
-				lotteryCatService.getLotteryService(kindOf).getCurrentIssue();
+				LotteryIssue issue = lotteryCatService.getLotteryService(kindOf).getCurrentIssue();
+				lotteryGuessService.createTopicByIssueForClub(issue);
 			}  catch (Exception e) {
 				e.printStackTrace();
 			}
