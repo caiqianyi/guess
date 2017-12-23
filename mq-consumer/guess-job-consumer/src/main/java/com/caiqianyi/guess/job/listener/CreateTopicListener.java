@@ -14,30 +14,31 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import com.caiqianyi.guess.caipiao.service.ILotteryDataSyncService;
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
 
 /**
- * 同步LOL比赛赛果
+ * 同步生成期号
  * @author caiqianyi
  *
  */
 @Component
-@RabbitListener(queues = JobDirectRabbitConfig.SYNC_GUESS_GAME_LOL_MATCH_RESULT_JOB)
-public class SyncGuessGameLolMatchResultListener {
+@RabbitListener(queues = JobDirectRabbitConfig.SYNC_LOTTERY_ISSUE_JOB)
+public class CreateTopicListener {
 
-	private Logger logger = LoggerFactory.getLogger(SyncGuessGameLolMatchResultListener.class);
+	private Logger logger = LoggerFactory.getLogger(CreateTopicListener.class);
 	
-	//@Resource
-	//private ILolGuessTopicService lolGuessTopicService;
+	@Resource
+	private ILotteryDataSyncService lotteryDataSyncService;
 	
-	@Bean 
-    public Queue queueSyncGuessGameLolMatchResultJob() {
-        return new Queue(JobDirectRabbitConfig.SYNC_GUESS_GAME_LOL_MATCH_RESULT_JOB);
+	@Bean
+    public Queue queueSyncLotteryIssueJob() {
+        return new Queue(JobDirectRabbitConfig.SYNC_LOTTERY_ISSUE_JOB);
     }
 
     @Bean
-    Binding bindingDirectExchangeSyncGuessGameLolMatchResultJob(Queue queueSyncGuessGameLolMatchResultJob, DirectExchange directExchange) {
-        return BindingBuilder.bind(queueSyncGuessGameLolMatchResultJob).to(directExchange).with(JobDirectRabbitConfig.SYNC_GUESS_GAME_LOL_MATCH_RESULT_JOB);
+    Binding bindingDirectExchangeSyncLotteryIssueJob(Queue queueSyncLotteryIssueJob, DirectExchange directExchange) {
+        return BindingBuilder.bind(queueSyncLotteryIssueJob).to(directExchange).with(JobDirectRabbitConfig.SYNC_LOTTERY_ISSUE_JOB);
     }
 	
 	@RabbitHandler
@@ -45,10 +46,13 @@ public class SyncGuessGameLolMatchResultListener {
 		Message message = (Message) data;
 		String body = new String(message.getBody());
 		logger.debug("body={}",body);
-		try {
-			//lolGuessTopicService.announceResults();
-		}  catch (Exception e) {
-			e.printStackTrace();
+		String kindOfs[] = body.split("\\,");
+		for(String kindOf : kindOfs){
+			try {
+				lotteryDataSyncService.syncIssueforWeek(kindOf);
+			}  catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
     }
 }

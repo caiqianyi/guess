@@ -278,7 +278,7 @@ public class ClubController {
 	 * @param topicType 话题类型 可不传
 	 * @return
 	 */
-	@RequestMapping(value="/guess/topic/current/{clubId}/",method=RequestMethod.POST)
+	@RequestMapping(value="/guess/topic/current/{clubId}",method=RequestMethod.POST)
 	SuccessMessage findCurrentTopicsLeftOptionsBy(@PathVariable("clubId")Integer clubId,
 			@RequestParam(value="topicType",required=false) String topicType){
 		return guessTopicService.findCurrentTopicsLeftOptionsBy(clubId, topicType);

@@ -14,11 +14,11 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import com.caiqianyi.guess.caipiao.service.ILotteryDataService;
+import com.caiqianyi.guess.caipiao.service.ILotteryDataSyncService;
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
 
 /**
- * 每5秒更新一次 竞猜话题 状态 是否结束
+ * 同步生成期号
  * @author caiqianyi
  *
  */
@@ -29,7 +29,7 @@ public class SyncLotteryIssueListener {
 	private Logger logger = LoggerFactory.getLogger(SyncLotteryIssueListener.class);
 	
 	@Resource
-	private ILotteryDataService lotteryDataService;
+	private ILotteryDataSyncService lotteryDataSyncService;
 	
 	@Bean
     public Queue queueSyncLotteryIssueJob() {
@@ -49,7 +49,7 @@ public class SyncLotteryIssueListener {
 		String kindOfs[] = body.split("\\,");
 		for(String kindOf : kindOfs){
 			try {
-				lotteryDataService.syncIssueforWeek(kindOf);
+				lotteryDataSyncService.syncIssueforWeek(kindOf);
 			}  catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -8,13 +8,19 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
+
+import com.caiqianyi.soa.web.framework.datasource.DynamicDataSourceRegister;
 
 //springboot启动时会自动注入数据源和配置jpa
 //排除其注入
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
-@EnableDiscoveryClient
+@Import({ DynamicDataSourceRegister.class })
+@SpringBootApplication
 @EnableFeignClients
+@EnableDiscoveryClient
+@EnableTransactionManagement
 public class GuessJobConsumerApplication{
 	
 	@Bean

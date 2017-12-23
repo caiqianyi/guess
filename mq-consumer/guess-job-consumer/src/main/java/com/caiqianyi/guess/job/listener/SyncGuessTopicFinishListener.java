@@ -1,7 +1,5 @@
 package com.caiqianyi.guess.job.listener;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Binding;
@@ -15,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
-import com.caiqianyi.guess.service.IGuessTopicService;
 
 /**
  * 每5秒更新一次 竞猜话题 状态 是否结束
@@ -28,8 +25,8 @@ public class SyncGuessTopicFinishListener {
 
 	private Logger logger = LoggerFactory.getLogger(SyncGuessTopicFinishListener.class);
 	
-	@Resource
-	private IGuessTopicService guessTopicService;
+	//@Resource
+	//private IGuessTopicService guessTopicService;
 	
 	@Bean
     public Queue queueSyncGuessOverStateJob() {
@@ -47,7 +44,7 @@ public class SyncGuessTopicFinishListener {
 		String body = new String(message.getBody());
 		logger.debug("body={}",body);
 		try {
-			guessTopicService.finishGuess();
+			//guessTopicService.finishGuess();
 		}  catch (Exception e) {
 			e.printStackTrace();
 		}

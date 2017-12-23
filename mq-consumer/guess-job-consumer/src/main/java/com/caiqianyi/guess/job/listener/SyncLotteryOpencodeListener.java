@@ -17,7 +17,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import com.caiqianyi.guess.caipiao.service.ILotteryDataService;
+import com.caiqianyi.guess.caipiao.service.ILotteryDataSyncService;
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
 
 /**
@@ -32,7 +32,7 @@ public class SyncLotteryOpencodeListener {
 	private Logger logger = LoggerFactory.getLogger(SyncLotteryOpencodeListener.class);
 	
 	@Resource
-	private ILotteryDataService lotteryDataService;
+	private ILotteryDataSyncService lotteryDataSyncService;
 	
 	@Bean
     public Queue queueSyncLotteryOpencodeJob() {
@@ -50,7 +50,7 @@ public class SyncLotteryOpencodeListener {
 		String kindOf = new String(message.getBody());
 		logger.debug("kindOf={}",kindOf);
 		try {
-			lotteryDataService.syncOpenCodeForToday(kindOf, DateFormatUtils.format(new Date(), "yyyyMMdd"));
+			lotteryDataSyncService.syncOpenCodeForDay(kindOf, DateFormatUtils.format(new Date(), "yyyyMMdd"));
 		}  catch (Exception e) {
 			e.printStackTrace();
 		}

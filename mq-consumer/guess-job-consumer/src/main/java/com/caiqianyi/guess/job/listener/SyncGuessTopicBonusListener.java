@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
-import com.caiqianyi.guess.service.IGuessTopicService;
 
 /**
  * 每5分钟更新一次 竞猜话题 每项奖金
@@ -28,8 +27,8 @@ public class SyncGuessTopicBonusListener {
 
 	private Logger logger = LoggerFactory.getLogger(SyncGuessTopicBonusListener.class);
 	
-	@Resource
-	private IGuessTopicService guessTopicService;
+	//@Resource
+	//private IGuessTopicService guessTopicService;
 	
 	@Bean
     public Queue queueSyncBonusJob() {
@@ -47,7 +46,7 @@ public class SyncGuessTopicBonusListener {
 		String body = new String(message.getBody());
 		logger.debug("body={}",body);
 		try {
-			guessTopicService.calOdds(null);
+			//guessTopicService.calOdds(null);
 		}  catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -14,7 +14,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import com.caiqianyi.guess.game.service.ILolGuessTopicService;
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
 
 /**
@@ -28,8 +27,8 @@ public class SyncGuessGameLolMatchListener {
 
 	private Logger logger = LoggerFactory.getLogger(SyncGuessGameLolMatchListener.class);
 	
-	@Resource
-	private ILolGuessTopicService lolGuessTopicService;
+	//@Resource
+	//private ILolGuessTopicService lolGuessTopicService;
 	
 	@Bean 
     public Queue queueSyncGuessGameLolMatchJob() {
@@ -47,7 +46,7 @@ public class SyncGuessGameLolMatchListener {
 		String body = new String(message.getBody());
 		logger.debug("body={}",body);
 		try {
-			lolGuessTopicService.updatedLoLTopic(body);
+			//lolGuessTopicService.updatedLoLTopic(body);
 		}  catch (Exception e) {
 			e.printStackTrace();
 		}

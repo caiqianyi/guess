@@ -33,6 +33,7 @@ public class TemplateJob implements Job{
 			String message = datas.getString("message");
 			if(StringUtils.isNotBlank(queue) &&
 					StringUtils.isNotBlank(message)){
+				logger.debug("queue={},message={}",queue,message);
 				rabbitmqSender.sendContractDirect(queue, message);
 			}
 		}

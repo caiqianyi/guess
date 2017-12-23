@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
-import com.caiqianyi.guess.service.IGuessOrderService;
 
 /**
  * 每30秒检查是否有返奖订单，并进行返奖
@@ -28,8 +27,8 @@ public class SyncGuessOrderBackMoneyListener {
 
 	private Logger logger = LoggerFactory.getLogger(SyncGuessOrderBackMoneyListener.class);
 	
-	@Resource
-	private IGuessOrderService guessOrderService;
+	//@Resource
+	//private IGuessOrderService guessOrderService;
 	
 	@Bean
     public Queue queueSyncGuessOrderBackMoneyJob() {
@@ -47,7 +46,7 @@ public class SyncGuessOrderBackMoneyListener {
 		String body = new String(message.getBody());
 		logger.debug("body={}",body);
 		try {
-			guessOrderService.backBonus();
+			//guessOrderService.backBonus();
 		}  catch (Exception e) {
 			e.printStackTrace();
 		}
