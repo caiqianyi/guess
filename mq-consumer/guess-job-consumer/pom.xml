@@ -63,6 +63,11 @@
     	<artifactId>guess-caipiao-dao</artifactId>
     	<version>1.0.0-RELEASE</version>
     </dependency>
+    <dependency>
+    	<groupId>com.caiqianyi</groupId>
+    	<artifactId>account-dao</artifactId>
+    	<version>1.0.0-RELEASE</version>
+    </dependency>
   </dependencies>
   
   <build>

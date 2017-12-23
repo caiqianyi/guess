@@ -9,6 +9,7 @@ CREATE TABLE `guess_order` (
 	`id` varchar(36) CHARACTER SET utf8mb4 NOT NULL COMMENT '主键',
   	`orderNo` varchar(200) NOT NULL COMMENT '订单号',
   	`userId` int(11) NOT NULL COMMENT '用户ID',
+  	`memberId` int(11) NOT NULL COMMENT '成员ID',
   	`clubId` int(10) DEFAULT NULL COMMENT '房间ID',
   	`optionId` varchar(200) NOT NULL COMMENT '购买竞猜项ID',
   	`kindOf` varchar(200) NOT NULL COMMENT '类别',
@@ -23,6 +24,7 @@ CREATE TABLE `guess_order` (
   UNIQUE KEY `orderNo` (`orderNo`),
   KEY `club` (`clubId`),
   KEY `user_index` (`userId`),
+  KEY `memberId` (`memberId`),
   KEY `option_index` (`optionId`),
   KEY `kindOf` (`kindOf`),
   KEY `expect` (`expect`),
@@ -38,6 +40,7 @@ public class GuessOrder {
 	private String id;
 	private String orderNo;
 	private Integer clubId;
+	private Integer memberId;
 	private Integer userId;
 	private Integer topicId;
 	private String optionId;
@@ -125,5 +128,11 @@ public class GuessOrder {
 	}
 	public void setExpect(String expect) {
 		this.expect = expect;
+	}
+	public Integer getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
 	}
 }

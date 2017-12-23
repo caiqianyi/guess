@@ -86,6 +86,9 @@ public class GuessClub {
 	private Integer totalLiveness;
 	
 	private List<GuessClubMember> members;
+	
+	private List<GuessTemplate> templates;
+	
 	public String getId() {
 		return id;
 	}
@@ -176,5 +179,10 @@ public class GuessClub {
 	public void setTotalLiveness(Integer totalLiveness) {
 		this.totalLiveness = totalLiveness;
 	}
-	
+	public List<GuessTemplate> getTemplates() {
+		return templates;
+	}
+	public void setTemplates(List<GuessTemplate> templates) {
+		this.templates = templates;
+	}
 }

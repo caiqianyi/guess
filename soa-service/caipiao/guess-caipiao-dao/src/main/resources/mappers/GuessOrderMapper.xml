@@ -16,6 +16,9 @@
 			<if test="order.userId != null">
 				and userId = #{order.userId}
 			</if>
+			<if test="order.memberId != null">
+				and memberId = #{order.memberId}
+			</if>
 			<if test="order.optionId != null">
 				and optionId = #{order.optionId}
 			</if>
@@ -38,7 +41,7 @@
 	</sql>
 
 	<sql id="Base_Column_List">
-		id, orderNo, clubId, userId, optionId, kindOf, expect, diamond, bonus, amount, topicId, status,
+		id, orderNo, clubId, userId, memberId, optionId, kindOf, expect, diamond, bonus, amount, topicId, status,
 		createTime
 	</sql>
 
@@ -73,6 +76,10 @@
 			and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
 		</if>
 	</select>
+	
+	<select id="findAlByKindOfAndExpect" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	    select <include refid="Base_Column_List" /> from guess_order where kindOf = #{kindOf} and expect = #{expect};
+	</select>
 
 	<select id="findOneBy" resultType="com.caiqianyi.guess.entity.GuessOrder">
 		select
@@ -85,7 +92,7 @@
 		insert into guess_order (
 		<include refid="Base_Column_List" />
 		)
-		values (UUID(), #{order.clubId}, #{order.orderNo}, #{order.userId}, #{order.optionId}, #{order.kindOf}, #{order.expect}
+		values (UUID(), #{order.clubId}, #{order.orderNo}, #{order.userId}, #{order.memberId}, #{order.optionId}, #{order.kindOf}, #{order.expect}
 		#{order.diamond}, NULL, #{order.amount}, #{order.topicId}, 0, now()
 	</insert>
 
@@ -104,7 +111,7 @@
 	</delete>
 
 	<delete id="deleteByOrderNo">
-		delete from guess_topic_option where orderNo = #{orderNo}
+		delete from guess_order where orderNo = #{orderNo}
 	</delete>
 
 </mapper>

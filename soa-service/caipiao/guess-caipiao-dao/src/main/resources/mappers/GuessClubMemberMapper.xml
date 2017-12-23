@@ -50,6 +50,14 @@
 		where id = #{id} and status != -2
 	</update>
 	
+	<update id="addWinCount">
+	    update guess_club_member set winCount = winCount+1 where id in
+	    <foreach collection="memeberIds" item="item" index="index"   
+        open="(" separator="," close=")">  
+            #{item}  
+        </foreach>
+	</update>
+	
 	<select id="findById" resultType="com.caiqianyi.guess.entity.GuessClubMember">
 		select id,<include refid="Base_Column_List"/> from guess_club_member where id = #{id}
 	</select>

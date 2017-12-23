@@ -20,6 +20,8 @@ public interface IGuessClubMemberMapper {
 	
 	int update(GuessClubMember member);
 	
+	int addWinCount(@Param("memeberIds")Integer[] memeberIds);
+	
 	GuessClubMember findById(@Param("id")Integer id);
 	
 	GuessClubMember findByClubAndUserId(@Param("clubId")Integer clubId,@Param("userId")Integer userId);

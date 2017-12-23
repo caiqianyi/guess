@@ -162,11 +162,11 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 			issues.addAll(lotteryService.getIssueByDay(DateFormatUtils.format(c, "yyyyMMdd")));
 		}
 		if(!issues.isEmpty()){
-			List<GuessTemplate> templates = guessTemplateMapper.findAllByWhere(kindOf,null,null,null);
+			//List<GuessTemplate> templates = guessTemplateMapper.findAllByWhere(kindOf,null,null,null);
 			for(LotteryIssue issue : issues){
 				if(lotteryIssueMapper.getIssueByExpect(kindOf, issue.getExpect())==null){
 					success.add(issue);
-					lotteryGuessService.createGuessTopic(issue.getExpect(), null, issue.getEndTime(), templates);
+					//lotteryGuessService.createGuessTopic(issue.getExpect(), null, issue.getEndTime(), templates);
 					lotteryIssueMapper.insert(issue);
 				}
 			}

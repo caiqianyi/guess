@@ -126,12 +126,13 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 		
 		Integer clubId = topic.getClubId();
 		GuessClubMember member = null;
+		Integer userId = memberId;
 		if(clubId != null){
 			GuessClub club = guessClubMapper.findById(null, clubId);
 			if(club == null){
 				throw new I18nMessageException("30001","俱乐部不存在");
 			}
-			member = guessClubMemberMapper.findByClubAndUserId(clubId, memberId);
+			member = guessClubMemberMapper.findByClubAndId(clubId, memberId);
 			if(member == null || !member.getStatus().equals(1)){
 				throw new I18nMessageException("30005","操作失败，成员不存在");
 			}
@@ -170,7 +171,8 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 		order.setScore(0);
 		order.setStatus(0);
 		order.setTopicId(topic.getTopicId());
-		order.setUserId(memberId);
+		order.setUserId(userId);
+		order.setMemberId(memberId);
 		int rows = 0;
 		
 		rows += guessTopicMapper.update(gt);

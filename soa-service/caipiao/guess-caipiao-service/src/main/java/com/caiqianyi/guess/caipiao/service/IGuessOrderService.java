@@ -11,10 +11,10 @@ public interface IGuessOrderService {
 
 	GuessOrder findById(String id);
 
-	List<GuessOrder> findAllBy(Integer userId, Integer clubId, Integer status,
+	List<GuessOrder> findAllBy(Integer memberId, Integer clubId, Integer status,
 			Integer topicId, String kindOf, String expect);
 
-	Pager findByForPager(Integer userId, Integer clubId, Integer status,
+	Pager findByForPager(Integer memberId, Integer clubId, Integer status,
 			Integer topicId, String kindOf, String start,
 			String end, Pager pager);
 
