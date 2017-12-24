@@ -3,12 +3,12 @@
 <mapper namespace="com.caiqianyi.guess.core.dao.IGuessClubMemberMapper">
 
 	<sql id="Base_Column_List">
-		clubId,userId,status,guessCount,winCount,unauditedLiveness,totalLiveness,lastUnaudited,joinTime,quitTime
+		clubId,nickname,userId,status,guessCount,winCount,unauditedLiveness,totalLiveness,lastUnaudited,joinTime,quitTime
 	</sql>
 
 	<insert id="applyJoin" parameterType="com.caiqianyi.guess.entity.GuessClubMember" useGeneratedKeys="true" keyProperty="id">
 		insert into guess_club_member ( <include refid="Base_Column_List"></include> )
-		values (#{clubId},#{userId},0,0,0,0,0, null,NOW(),null)
+		values (#{clubId},#{nickname},#{userId},0,0,0,0,0, null,NOW(),null)
 	</insert>
 
 	<update id="join">
@@ -34,6 +34,9 @@
 		update guess_club_member set id = #{id}
 		<if test="guessCount != null">
 			,guessCount = #{guessCount}
+		</if>
+		<if test="nickname != null">
+			,nickname = #{nickname}
 		</if>
 		<if test="winCount != null">
 			,winCount = #{winCount}

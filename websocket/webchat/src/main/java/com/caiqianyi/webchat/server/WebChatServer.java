@@ -28,6 +28,11 @@ import com.caiqianyi.soa.amqp.core.sender.IRabbitmqSender;
 import com.caiqianyi.soa.core.redis.IRedisHash;
 import com.google.gson.Gson;
 
+/**
+ * 俱乐部聊天室
+ * @author caiqianyi
+ *
+ */
 @ServerEndpoint(value = "/chatServer/{clubId}/{userId}")
 @Component
 public class WebChatServer {

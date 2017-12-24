@@ -9,6 +9,7 @@ import java.util.List;
 DROP TABLE IF EXISTS `guess_club_member`;
 CREATE TABLE `guess_club_member` (
 	`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	`nickname` varchar(50) NOT NULL COMMENT '昵称',
 	`clubId` int(10) DEFAULT NULL COMMENT '房间号',
 	`userId` int(10) NOT NULL COMMENT '成员ID',
 	`guessCount` int(10) DEFAULT 0 COMMENT '竞猜次数',
@@ -36,6 +37,7 @@ public class GuessClubMember implements Serializable{
 	private static final long serialVersionUID = 1453539391573679786L;
 	
 	private Integer id;
+	private String nickname;
 	private Integer clubId;
 	private Integer userId;
 	private Integer status;
@@ -52,6 +54,11 @@ public class GuessClubMember implements Serializable{
 	private Date lastUnaudited;
 	private Date joinTime;
 	private Date quitTime;
+	
+	/**
+	 * 聊天室是否在线
+	 */
+	private boolean isOnline;
 	
 	/**
 	 * 在房间中竞猜战绩
@@ -152,6 +159,22 @@ public class GuessClubMember implements Serializable{
 
 	public void setLastUnaudited(Date lastUnaudited) {
 		this.lastUnaudited = lastUnaudited;
+	}
+
+	public boolean isOnline() {
+		return isOnline;
+	}
+
+	public void setOnline(boolean isOnline) {
+		this.isOnline = isOnline;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	
 }
