@@ -32,7 +32,7 @@ import com.caiqianyi.soa.core.redis.IRedisCache;
 import com.caiqianyi.soa.core.redis.IRedisHash;
 import com.google.gson.Gson;
 
-@ServerEndpoint(value = "/club/{clubId}/{memberId}")
+@ServerEndpoint(value = "/server/club/{clubId}/{memberId}")
 @Component
 public class ClubWebChatServer {
 	
@@ -48,7 +48,7 @@ public class ClubWebChatServer {
     	IRedisCache redisCache = (IRedisCache) SpringConfigTool.getBean("redisCache");
     	Set<String> keys = redisCache.searchKey("guess:club:info:*:"+clubId);
     	if(keys.size() == 1){
-    		return (GuessClub) redisCache.get(keys.iterator().next());
+    		return (GuessClub) redisCache.getSys(keys.iterator().next());
     	}
     	throw new I18nMessageException("-1","聚乐部不存在");
     }
@@ -71,7 +71,7 @@ public class ClubWebChatServer {
 			redisHash.hSet(key, ""+memberId , member);
 			return;
 		}
-		onClose();
+		//onClose();
     }
     
     /**
@@ -83,6 +83,7 @@ public class ClubWebChatServer {
             @PathParam("memberId") Integer memberId,
             Session session, EndpointConfig config){
     	try{
+    		logger.debug("clubId={},memberId={}",clubId,memberId);
     		GuessClub club = getClub(clubId);
 
     		this.clubId = clubId+"";
@@ -130,6 +131,7 @@ public class ClubWebChatServer {
 	        String msg = message.toJSONString();
 	        sendMessage(this.clubId, null, msg, "onOpen");//广播给俱乐部中在线成员
     	}catch(I18nMessageException e){
+    		e.printStackTrace();
     		this.clubId = null;
     		this.member = null;
     		this.memberId = null;

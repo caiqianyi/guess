@@ -123,7 +123,7 @@
         btn1: function (index,layero) {
         	roomId = $("#selectRoom",layero).val();
         	userId = $("#userId",layero).val();
-        	wsServer = "ws://localhost/server/club/"+roomId+"/"+userId;
+        	wsServer = "ws://localhost:8083/server/club/787072/1";
             ws = new WebSocket(wsServer); //创建WebSocket对象
             ws.onopen = function (evt) {
                 layer.msg("已经建立连接", { offset: 0});
