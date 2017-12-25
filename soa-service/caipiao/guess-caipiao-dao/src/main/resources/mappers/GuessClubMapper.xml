@@ -38,47 +38,10 @@
 		</collection>
 	</resultMap>
 	
-	<resultMap id="ClubTemplateMap" type="com.caiqianyi.guess.entity.GuessClub">
-	    <id column="id" jdbcType="VARCHAR" property="id" />
-		<result column="clubId" jdbcType="INTEGER" property="clubId" />
-		<result column="createId" jdbcType="INTEGER" property="createId" />
-		<result column="maxMember" jdbcType="INTEGER" property="maxMember" />
-		<result column="name" jdbcType="VARCHAR" property="name" />
-		<result column="password" jdbcType="VARCHAR" property="password" />
-		<result column="cardNum" jdbcType="INTEGER" property="cardNum" />
-		<result column="icon" jdbcType="VARCHAR" property="icon" />
-		<result column="notice" jdbcType="VARCHAR" property="notice" />
-		<result column="kindOf" jdbcType="VARCHAR" property="kindOf" />
-		<result column="currentMember" jdbcType="INTEGER" property="currentMember" />
-		<result column="status" jdbcType="INTEGER" property="status" />
-		<result column="totalLiveness" jdbcType="INTEGER" property="totalLiveness" />
-		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
-		<collection property="templates"
-			ofType="com.caiqianyi.guess.entity.GuessTemplate">
-			<id column="id" jdbcType="INTEGER" property="id" />
-			<result column="subject" jdbcType="VARCHAR" property="subject" />
-			<result column="label" jdbcType="VARCHAR" property="label" />
-			<result column="kindOf" jdbcType="VARCHAR" property="kindOf" />
-			<result column="topicType" jdbcType="VARCHAR" property="topicType" />
-			<result column="orderBy" jdbcType="INTEGER" property="orderBy" />
-			<result column="clubId" jdbcType="INTEGER" property="clubId" />
-			<result column="userId" jdbcType="INTEGER" property="userId" />
-			<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
-			<collection property="options" ofType="com.caiqianyi.guess.entity.GuessTemplateOption">
-			    <result column="templateId" property="templateId"/>
-			    <result column="name" property="name"/>
-			    <result column="formula" property="formula"/>
-			    <result column="orderBy" property="orderBy"/>
-			    <result column="odds" property="odds"/>
-			    <result column="createTime" property="createTime"/>
-			</collection>
-		</collection>
-	</resultMap>
-
 	<insert id="createClub" parameterType="com.caiqianyi.guess.entity.GuessClub">
-		insert into guess_club (id, clubId, createId, maxMember, name, password,
+		insert into guess_club (id, clubId, createId, currentMember, maxMember, name, password,
 		cardNum, kindOf) values (UUID(),
-		#{clubId}, #{createId}, #{maxMember}, #{name}, #{password},
+		#{clubId}, #{createId},#{currentMember}, #{maxMember}, #{name}, #{password},
 		#{cardNum}, #{kindOf}
 		);
 	</insert>
@@ -145,19 +108,58 @@
 		</if>
 	</select>
 	
+	
+	<resultMap id="ClubTemplateMap" type="com.caiqianyi.guess.entity.GuessClub">
+	    <id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="clubId" jdbcType="INTEGER" property="clubId" />
+		<result column="createId" jdbcType="INTEGER" property="createId" />
+		<result column="maxMember" jdbcType="INTEGER" property="maxMember" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="cardNum" jdbcType="INTEGER" property="cardNum" />
+		<result column="icon" jdbcType="VARCHAR" property="icon" />
+		<result column="notice" jdbcType="VARCHAR" property="notice" />
+		<result column="kindOf" jdbcType="VARCHAR" property="kindOf" />
+		<result column="currentMember" jdbcType="INTEGER" property="currentMember" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="totalLiveness" jdbcType="INTEGER" property="totalLiveness" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<collection property="templates"
+			ofType="com.caiqianyi.guess.entity.GuessTemplate" javaType="java.util.ArrayList" >
+			<id column="tmp_id" jdbcType="INTEGER" property="id" />
+			<result column="tmp_subject" jdbcType="VARCHAR" property="subject" />
+			<result column="tmp_label" jdbcType="VARCHAR" property="label" />
+			<result column="tmp_kindOf" jdbcType="VARCHAR" property="kindOf" />
+			<result column="tmp_topicType" jdbcType="VARCHAR" property="topicType" />
+			<result column="tmp_orderBy" jdbcType="INTEGER" property="orderBy" />
+			<result column="tmp_clubId" jdbcType="INTEGER" property="clubId" />
+			<result column="tmp_userId" jdbcType="INTEGER" property="userId" />
+			<result column="tmp_createTime" jdbcType="TIMESTAMP" property="createTime" />
+			<collection property="options" ofType="com.caiqianyi.guess.entity.GuessTemplateOption" javaType="java.util.ArrayList">
+			    <result column="tmp_id" property="templateId"/>
+			    <result column="opt_name" property="name"/>
+			    <result column="opt_formula" property="formula"/>
+			    <result column="opt_orderBy" property="orderBy"/>
+			    <result column="opt_odds" property="odds"/>
+			    <result column="opt_createTime" property="createTime"/>
+			</collection>
+		</collection>
+	</resultMap>
+	
 	<select id="findByKindOf" resultMap="ClubTemplateMap">
 	    select 
 		club.id, club.clubId, club.createId, club.maxMember, club.name, club.password, club.cardNum,
 		club.icon, club.notice, club.kindOf, club.currentMember, club.status ,club.createTime,club.totalLiveness,
-		tmp.id as tmp_id,tmp.subject,tmp.label,tmp.topicType,tmp.orderBy as tmp_orderBy,tmp.orderBy as tmp_orderBy,
-		tmp.userId,tmp.createTime as tmp_createTime,
-		opt.templateId,opt.name as opt_name,opt.formula,opt.orderBy as opt_orderBy,opt.odds,opt.createTime as opt_createTime
+		tmp.id as tmp_id,tmp.subject as tmp_subject,tmp.label as tmp_label,tmp.kindOf as tmp_kindOf,
+		tmp.topicType as tmp_topicType,tmp.orderBy as tmp_orderBy,tmp.clubId as tmp_clubId,tmp.userId as tmp_userId,
+		tmp.createTime as tmp_createTime,
+		opt.templateId,opt.name as opt_name,opt.formula as opt_formula,opt.orderBy as opt_orderBy,opt.odds as opt_odds,opt.createTime as opt_createTime
 		from guess_club AS club
 		LEFT JOIN guess_template AS tmp ON tmp.clubId = club.clubId
 		LEFT JOIN guess_template_option AS opt ON
 		tmp.id = opt.templateId
 		where club.kindOf = #{kindOf}
-		and club.balance <![CDATA[>=]]> #{minBlance}
+		and club.cardNum <![CDATA[>=]]> #{minBlance}
 		and club.status != -1
 		order by tmp.orderBy,opt.orderBy;
 	</select>

@@ -176,11 +176,8 @@
 		gt_option on
 		gt_option.topicId = topic.topicId
 		where topic.clubId = #{clubId} and topic.createTime &lt;= NOW() and topic.overTime &gt; NOW()
-		<if test="topic.league != null">
-			and topic.league = #{topic.league}
-		</if>
-		<if test="topic.topicType != null">
-			and topic.topicType = #{topic.topicType}
+		<if test="topicType != null">
+			and topic.topicType = #{topicType}
 		</if>
 	</select>
 

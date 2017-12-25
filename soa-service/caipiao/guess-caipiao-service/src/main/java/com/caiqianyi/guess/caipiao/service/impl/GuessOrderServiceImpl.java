@@ -114,7 +114,7 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 		}
 		
 		GuessTopic param = new GuessTopic();
-		param.setTopicId(option.getTopicId());
+		param.setTopicId(guessTopicOption.getTopicId());
 		GuessTopic topic = guessTopicMapper.findOneGuessTopicBy(param);
 		if(topic == null){
 			throw new I18nMessageException("21001","题目不存在！");

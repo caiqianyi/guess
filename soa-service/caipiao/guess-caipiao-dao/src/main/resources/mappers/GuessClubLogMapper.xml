@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caiqianyi.guess.core.dao.IGuessClubLogMapper">
+
+	<sql id="Base_Column_List">
+		id, clubId, seq, descr, cardNum, tradeType, createTime
+	</sql>
+	
+	<insert id="writerLog" parameterType="com.caiqianyi.guess.entity.GuessClubLog">
+		insert into guess_club_log (<include refid="Base_Column_List"/>) values (UUID(),
+		#{clubId}, #{seq}, #{descr}, #{cardNum}, #{tradeType}, NOW()
+		);
+	</insert>
+	
+	<select id="count" resultType="java.lang.Integer">
+		select count(0) from guess_club_log where seq = #{seq} 
+		<if test="clubId != null">
+		    and clubId = #{clubId}
+		</if>
+		limit 1;
+	</select>
+</mapper>

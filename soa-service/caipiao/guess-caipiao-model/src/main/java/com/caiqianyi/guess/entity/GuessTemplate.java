@@ -10,6 +10,7 @@ CREATE TABLE `guess_template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL COMMENT '用户ID',
   `clubId` int(10) DEFAULT NULL COMMENT '房间号',
+  `label` varchar(200) DEFAULT NULL COMMENT '标签分类 如联赛',
   `subject` varchar(500) NOT NULL COMMENT '竞猜题目',
   `kindOf` varchar(50) NOT NULL COMMENT '种类',
   `topicType` varchar(500) DEFAULT NULL COMMENT '话题类型',

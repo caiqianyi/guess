@@ -18,6 +18,7 @@ import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
 import com.caiqianyi.guess.caipiao.service.ILotteryGuessService;
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
+import com.google.gson.Gson;
 
 /**
  * 同步生成期号
@@ -25,7 +26,7 @@ import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
  *
  */
 @Component
-@RabbitListener(queues = JobDirectRabbitConfig.SYNC_LOTTERY_ISSUE_JOB)
+@RabbitListener(queues = JobDirectRabbitConfig.CREAT_LOTTERY_TOPIC)
 public class CreateTopicListener {
 
 	
@@ -38,13 +39,13 @@ public class CreateTopicListener {
 	private ILotteryGuessService lotteryGuessService;
 	
 	@Bean
-    public Queue queueSyncLotteryIssueJob() {
-        return new Queue(JobDirectRabbitConfig.SYNC_LOTTERY_ISSUE_JOB);
+    public Queue queuecreateLotteryTopicJob() {
+        return new Queue(JobDirectRabbitConfig.CREAT_LOTTERY_TOPIC);
     }
 
     @Bean
-    Binding bindingDirectExchangeSyncLotteryIssueJob(Queue queueSyncLotteryIssueJob, DirectExchange directExchange) {
-        return BindingBuilder.bind(queueSyncLotteryIssueJob).to(directExchange).with(JobDirectRabbitConfig.SYNC_LOTTERY_ISSUE_JOB);
+    Binding bindingDirectExchangecreateLotteryTopicJob(Queue queuecreateLotteryTopicJob, DirectExchange directExchange) {
+        return BindingBuilder.bind(queuecreateLotteryTopicJob).to(directExchange).with(JobDirectRabbitConfig.CREAT_LOTTERY_TOPIC);
     }
 	
 	@RabbitHandler
@@ -56,7 +57,10 @@ public class CreateTopicListener {
 		for(String kindOf : kindOfs){
 			try {
 				LotteryIssue issue = lotteryCatService.getLotteryService(kindOf).getCurrentIssue();
-				lotteryGuessService.createTopicByIssueForClub(issue);
+				logger.debug("issue={}",new Gson().toJson(issue));
+				if(issue != null){
+					lotteryGuessService.createTopicByIssueForClub(issue);
+				}
 			}  catch (Exception e) {
 				e.printStackTrace();
 			}

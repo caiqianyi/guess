@@ -9,8 +9,10 @@ import java.util.List;
 DROP TABLE IF EXISTS `guess_club_member`;
 CREATE TABLE `guess_club_member` (
 	`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-	`nickname` varchar(50) NOT NULL COMMENT '昵称',
+	`nickname` varchar(200) NOT NULL COMMENT '昵称',
+	`headimgurl` varchar(500) DEFAULT NULL COMMENT '户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。',
 	`clubId` int(10) DEFAULT NULL COMMENT '房间号',
+	`flag` int(10) NOT NULL COMMENT '身份标识，0=创建人，1=普通人',
 	`userId` int(10) NOT NULL COMMENT '成员ID',
 	`guessCount` int(10) DEFAULT 0 COMMENT '竞猜次数',
 	`winCount` int(10) DEFAULT 0 COMMENT '猜中次数',
@@ -38,8 +40,10 @@ public class GuessClubMember implements Serializable{
 	
 	private Integer id;
 	private String nickname;
+	private String headimgurl;
 	private Integer clubId;
 	private Integer userId;
+	private Integer flag;
 	private Integer status;
 	private Integer guessCount;//竞猜次数
 	private Integer winCount;//猜中次数
@@ -176,5 +180,20 @@ public class GuessClubMember implements Serializable{
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	
+
+	public String getHeadimgurl() {
+		return headimgurl;
+	}
+
+	public void setHeadimgurl(String headimgurl) {
+		this.headimgurl = headimgurl;
+	}
+
+	public Integer getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Integer flag) {
+		this.flag = flag;
+	}
 }

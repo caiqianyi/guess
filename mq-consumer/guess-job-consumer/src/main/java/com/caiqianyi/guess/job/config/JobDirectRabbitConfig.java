@@ -23,6 +23,8 @@ public class JobDirectRabbitConfig {
 	 */
 	public static final String SYNC_GUESS_ORDER_BACK_MONEY_JOB = "guess.sync.order.back.money.job";
 	
+	
+	public static final String CREAT_LOTTERY_TOPIC = "lottery.create.topic";
 	public static final String SYNC_LOTTERY_ISSUE_JOB = "lottery.sync.issue.job";
 	
 	public static final String SYNC_LOTTERY_OPENCODE_JOB = "lottery.sync.opencode.job";

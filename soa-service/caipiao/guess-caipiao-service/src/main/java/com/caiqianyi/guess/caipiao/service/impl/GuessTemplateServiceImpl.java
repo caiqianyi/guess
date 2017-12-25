@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ import com.caiqianyi.guess.entity.GuessTemplateOption;
 
 @Service
 public class GuessTemplateServiceImpl implements IGuessTemplateService {
+	
+	private Logger logger = LoggerFactory.getLogger(GuessTemplateServiceImpl.class);
 	
 	@Resource
 	private GuessTemplateMapper guessTemplateMappler;
@@ -89,7 +93,7 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 		createTemplate.setTopicType(template.getTopicType());
 		createTemplate.setUserId(template.getUserId());
 		
-		Integer templateId = guessTemplateMappler.insert(createTemplate);
+		guessTemplateMappler.insert(createTemplate);
 		
 		List<GuessTemplateOption> options = new ArrayList<GuessTemplateOption>();
 		for(int i=0;i<template.getOptions().size();i++){
@@ -98,11 +102,13 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 			option.setFormula(gto.getFormula());
 			option.setName(gto.getName());
 			option.setOrderBy(gto.getOrderBy());
-			option.setTemplateId(templateId);
+			option.setTemplateId(createTemplate.getId());
+			option.setOdds(gto.getOdds());
 			String lotters[] = KindOfCons.getLotterys(template.getKindOf());
 			try{
 				FormulaCalculate.check(lotters, option.getFormula());
 			}catch(Exception e){
+				logger.debug("option.getFormula={},lotters={}",option.getFormula(),lotters);
 				throw new I18nMessageException("20102","选项公式错误,无法计算结果");
 			}
 			guessTemplateOptionMapper.insert(option);

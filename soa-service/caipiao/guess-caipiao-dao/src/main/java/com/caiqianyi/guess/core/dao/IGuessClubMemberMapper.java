@@ -12,6 +12,8 @@ public interface IGuessClubMemberMapper {
 	
 	Integer applyJoin(GuessClubMember member);
 	
+	Integer addMember(GuessClubMember member);
+	
 	int join(@Param("memberId")Integer memberId,@Param("isCheck") Integer isCheck);
 	
 	int applyQuit(@Param("memberId")Integer memberId);
@@ -20,7 +22,7 @@ public interface IGuessClubMemberMapper {
 	
 	int update(GuessClubMember member);
 	
-	int addWinCount(@Param("memeberIds")Integer[] memeberIds);
+	int addWinCount(@Param("members")List<Integer> members);
 	
 	GuessClubMember findById(@Param("id")Integer id);
 	

@@ -218,7 +218,7 @@ public abstract class AbstractLotteryServiceSupport implements ILotteryService{
 	
 	public List<LotteryIssue> kaijiang(String day,String kindOf){
 		Map<String,LotteryIssue> nums = new LinkedHashMap<String,LotteryIssue>();
-		String sites[] = new String[]{"_500W","Cp9811","Apiplus","Cp8s"};
+		String sites[] = new String[]{"_500W","Apiplus","Cp8s"};
 		for(int i=0;i<sites.length;i++){
 			((IKJDataService) SpringConfigTool.getBean(sites[i]+"KJDataService")).kaijiang(kindOf, day, nums);
 		}

@@ -23,9 +23,11 @@ import com.caiqianyi.account.dao.UserTradeSupport;
 import com.caiqianyi.account.entity.User;
 import com.caiqianyi.commons.exception.I18nMessageException;
 import com.caiqianyi.guess.caipiao.service.IClubService;
+import com.caiqianyi.guess.core.dao.IGuessClubLogMapper;
 import com.caiqianyi.guess.core.dao.IGuessClubMapper;
 import com.caiqianyi.guess.core.dao.IGuessClubMemberMapper;
 import com.caiqianyi.guess.entity.GuessClub;
+import com.caiqianyi.guess.entity.GuessClubLog;
 import com.caiqianyi.guess.entity.GuessClubMember;
 import com.caiqianyi.soa.core.redis.IRedisCache;
 import com.caiqianyi.soa.core.redis.IRedisHash;
@@ -44,6 +46,9 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 	
 	@Resource
 	private IRedisHash redisHash;
+
+	@Resource
+	private IGuessClubLogMapper guessClubLogMapper;
 	
 	@Resource
 	private IRedisCache redisCache;
@@ -92,7 +97,7 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 		GuessClub club = new GuessClub();
 		club.setCardNum(cardNum);
 		club.setCreateId(createId);
-		club.setCurrentMember(0);
+		club.setCurrentMember(1);
 		club.setClubId(clubId);
 		club.setKindOf(kindOf);
 		club.setMaxMember(maxMember);
@@ -100,8 +105,33 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 		club.setPassword(password);
 		club.setStatus(0);
 		club.setTotalLiveness(0);
+		
+		GuessClubMember member = new GuessClubMember();
+		member.setFlag(0);
+		member.setNickname(create.getNickname());
+		member.setHeadimgurl(create.getHeadimgurl());
+		member.setClubId(clubId);
+		member.setUserId(create.getUserId());
+		member.setGuessCount(0);
+		member.setStatus(1);
+		member.setTotalLiveness(0);
+		member.setUnauditedLiveness(0);
+		member.setWinCount(0);
+		member.setJoinTime(new Date());
+		
+		GuessClubLog log = new GuessClubLog();
+		log.setCardNum(cardNum);
+		log.setClubId(clubId);
+		log.setDescr("俱乐部充卡");
+		log.setTradeType(1);
+		log.setSeq(""+createId);
+		
+		guessClubLogMapper.writerLog(log);
+		guessClubMemberMapper.addMember(member);
 		this.decrease(createId, cardNum, "CLUB_C", clubId+"", "创建俱乐部，扣除"+cardNum);
 		guessClubMapper.createClub(club);
+		
+		cacheMember(clubId, member, 1);
 		return club;
 	}
 
@@ -182,6 +212,8 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 		GuessClubMember member = guessClubMemberMapper.findByClubAndUserId(clubId, userId);
 		if(member == null){
 			member = new GuessClubMember();
+			member.setNickname(user.getNickname());
+			member.setHeadimgurl(user.getHeadimgurl());
 			member.setClubId(clubId);
 			member.setUserId(userId);
 			member.setGuessCount(0);
@@ -317,6 +349,15 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 		if(club == null){
 			throw new I18nMessageException("30001","俱乐部不存在");
 		}
+		
+		GuessClubLog log = new GuessClubLog();
+		log.setCardNum(number);
+		log.setClubId(clubId);
+		log.setDescr("俱乐部充卡");
+		log.setTradeType(1);
+		log.setSeq(""+createId);
+		
+		guessClubLogMapper.writerLog(log);
 		this.decrease(createId, number, "CLUB_R", clubId+"", "俱乐部充值，扣除"+number);
 		club.setCardNum(club.getCardNum()+number);
 		guessClubMapper.update(club);

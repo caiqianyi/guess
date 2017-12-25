@@ -17,11 +17,13 @@ import com.caiqianyi.commons.utils.FormulaCalculate;
 import com.caiqianyi.commons.utils.GenerateCode;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 import com.caiqianyi.guess.caipiao.service.ILotteryGuessService;
+import com.caiqianyi.guess.core.dao.IGuessClubLogMapper;
 import com.caiqianyi.guess.core.dao.IGuessClubMapper;
 import com.caiqianyi.guess.core.dao.IGuessClubMemberMapper;
 import com.caiqianyi.guess.core.dao.IGuessOrderMapper;
 import com.caiqianyi.guess.core.dao.IGuessTopicMapper;
 import com.caiqianyi.guess.entity.GuessClub;
+import com.caiqianyi.guess.entity.GuessClubLog;
 import com.caiqianyi.guess.entity.GuessOrder;
 import com.caiqianyi.guess.entity.GuessTemplate;
 import com.caiqianyi.guess.entity.GuessTemplateOption;
@@ -46,19 +48,37 @@ public class LotteryGuessServiceImpl implements ILotteryGuessService {
 	@Resource
 	private IGuessClubMemberMapper guessClubMemberMapper;
 	
+	@Resource
+	private IGuessClubLogMapper guessClubLogMapper;
+	
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
 	public List<GuessTopic> createTopicByIssueForClub(LotteryIssue issue) {
 		// TODO Auto-generated method stub
-		List<GuessClub> clubs = guessClubMapper.findByKindOf(issue.getKindOf(), 10);
+		String seq = issue.getKindOf()+"|"+issue.getExpect();
 		List<GuessTopic> topics = new ArrayList<GuessTopic>();
-		if(clubs != null && !clubs.isEmpty()){
-			for(GuessClub club : clubs){
-				club.setCardNum(club.getCardNum() - 10);
-				guessClubMapper.update(club);
-				List<GuessTemplate> templates = club.getTemplates();
-				if(templates != null && !templates.isEmpty()){
-					topics.addAll(createGuessTopic(issue.getExpect(), null, issue.getStartTime(), issue.getEndTime(), templates));
+		int count = guessClubLogMapper.count(null, seq);
+		if(count == 0){
+			int number = 1;
+			List<GuessClub> clubs = guessClubMapper.findByKindOf(issue.getKindOf(), number);
+			if(clubs != null && !clubs.isEmpty()){
+				for(GuessClub club : clubs){
+					List<GuessTemplate> templates = club.getTemplates();
+					logger.debug("templates.size={}",templates.size());
+					if(templates != null && !templates.isEmpty()){
+						GuessClubLog log = new GuessClubLog();
+						log.setCardNum(number);
+						log.setClubId(club.getClubId());
+						log.setDescr("创建话题扣卡");
+						log.setTradeType(0);
+						log.setSeq(seq);
+						
+						club.setCardNum(club.getCardNum() - number);
+						
+						guessClubLogMapper.writerLog(log);
+						guessClubMapper.update(club);
+						topics.addAll(createGuessTopic(issue.getExpect(), null, issue.getStartTime(), issue.getEndTime(), templates));
+					}
 				}
 			}
 		}
@@ -72,6 +92,8 @@ public class LotteryGuessServiceImpl implements ILotteryGuessService {
 			List<GuessTopic> topics = new ArrayList<GuessTopic>();
 			for(int i=0;i<templates.size();i++){
 				GuessTemplate temp = templates.get(i);
+				
+				logger.debug("template={}",new Gson().toJson(temp));
 				Integer topicId = GenerateCode.gen(9);
 				GuessTopic topic = new GuessTopic();
 				topic.setCreateTime(startTime);
@@ -95,6 +117,7 @@ public class LotteryGuessServiceImpl implements ILotteryGuessService {
 					option.setOrderBy(gto.getOrderBy());
 					option.setTopicId(topicId);
 					option.setValue(gto.getFormula());
+					option.setOdds(gto.getOdds());
 					options.add(option);
 				}
 				topic.setOptions(options);
@@ -150,28 +173,35 @@ public class LotteryGuessServiceImpl implements ILotteryGuessService {
 						guessTopicMapper.updateOption(option);
 					}
 				}
-				if(orders != null && !orders.isEmpty()){
-					for(GuessOrder order : orders){
-						if(order.getTopicId().equals(topic.getTopicId())){
-							Integer score = 0,status = -1;
-							if(order.getOptionId().equals(selectOption.getId())){
-								memberIds.add(order.getMemberId());
-								score = Integer.parseInt(selectOption.getOdds().multiply(new BigDecimal(order.getAmount()*100)).setScale(2,BigDecimal.ROUND_HALF_DOWN).toString());
-								status = 1;
-							}else{
-								
+				if(selectOption != null){
+					if(orders != null && !orders.isEmpty()){
+						for(GuessOrder order : orders){
+							if(order.getTopicId().equals(topic.getTopicId())){
+								Integer score = 0,status = -1;
+								if(order.getOptionId().equals(selectOption.getId())){
+									memberIds.add(order.getMemberId());
+									BigDecimal odds = selectOption.getOdds();
+									if(odds == null){
+										odds = new BigDecimal(1);
+									}
+									score = odds.multiply(new BigDecimal(order.getAmount()*100)).setScale(2,BigDecimal.ROUND_HALF_DOWN).intValue();
+									status = 1;
+								}else{
+									
+								}
+								order.setScore(score);
+								order.setStatus(status);
+								guessOrderMapper.update(order);
 							}
-							order.setScore(score);
-							order.setStatus(status);
-							guessOrderMapper.update(order);
 						}
 					}
+					topic.setOptionId(selectOption.getId());
 				}
 				topic.setStatus(2);
-				topic.setOptionId(selectOption.getId());
 				guessTopicMapper.update(topic);
 			}
-			guessClubMemberMapper.addWinCount(memberIds.toArray(new Integer[]{}));
+			if(!memberIds.isEmpty())
+				guessClubMemberMapper.addWinCount(memberIds);
 		}
 		return topics;
 	}

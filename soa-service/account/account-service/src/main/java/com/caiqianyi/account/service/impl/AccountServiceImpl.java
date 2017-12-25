@@ -86,6 +86,7 @@ public class AccountServiceImpl implements IAccountService {
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public void register(User user) {
 		// TODO Auto-generated method stub
+		user.setBalance(0);
 		userMapper.register(user);
 	}
 
