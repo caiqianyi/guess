@@ -19,6 +19,7 @@ import com.caiqianyi.guess.caipiao.core.dao.IJCLQMatchMapper;
 import com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 import com.caiqianyi.guess.caipiao.jclq.match.service.IJCLQMatchSyncService;
+import com.caiqianyi.guess.caipiao.lryl.Bjpk10LRAnalysis;
 import com.caiqianyi.guess.caipiao.lryl.YllrAnalysis;
 import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
 import com.caiqianyi.guess.caipiao.service.ILotteryDataSyncService;
@@ -222,8 +223,13 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 				}
 			}
 		}
+		
 		logger.debug("initData={}",new Gson().toJson(initData));
-		redisCache.set("lottery:yllr:"+kindOf, new YllrAnalysis(list,lotteryService.getLottery(),initData).doAnalysis());
+		redisCache.set("lottery:yl:"+kindOf, new YllrAnalysis(list,lotteryService.getLottery(),initData).doAnalysis());
+		
+		if("bjpk10".equals(kindOf)){
+			redisCache.set("lottery:lr:"+kindOf, new Bjpk10LRAnalysis(list).lr());
+		}
 		
 		List<Map<String, Object>> datas200 = new YllrAnalysis(list,lotteryService.getLottery()).doAnalysis();
 		List<Map<String, Object>> d200 = new ArrayList<Map<String, Object>>();
@@ -232,6 +238,6 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 		}else{
 			d200.addAll(datas200);
 		}
-		redisCache.set("lottery:yllr:"+kindOf+":200", d200);
+		redisCache.set("lottery:yl:"+kindOf+":200", d200);
 	}
 }

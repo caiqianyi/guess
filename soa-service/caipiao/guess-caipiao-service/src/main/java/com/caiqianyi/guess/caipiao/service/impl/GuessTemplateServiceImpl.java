@@ -96,6 +96,7 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 		guessTemplateMappler.insert(createTemplate);
 		
 		List<GuessTemplateOption> options = new ArrayList<GuessTemplateOption>();
+		boolean hasSelect = false;
 		for(int i=0;i<template.getOptions().size();i++){
 			GuessTemplateOption option = new GuessTemplateOption(),
 					gto = template.getOptions().get(i);
@@ -106,13 +107,18 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 			option.setOdds(gto.getOdds());
 			String lotters[] = KindOfCons.getLotterys(template.getKindOf());
 			try{
-				FormulaCalculate.check(lotters, option.getFormula());
+				if(FormulaCalculate.check(lotters, option.getFormula())){
+					hasSelect = true;
+				}
 			}catch(Exception e){
 				logger.debug("option.getFormula={},lotters={}",option.getFormula(),lotters);
 				throw new I18nMessageException("20102","选项公式错误,无法计算结果");
 			}
 			guessTemplateOptionMapper.insert(option);
 			options.add(option);
+		}
+		if(!hasSelect){
+			throw new I18nMessageException("20103","没有中奖项");
 		}
 		createTemplate.setOptions(options);
 		return createTemplate;

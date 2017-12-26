@@ -55,7 +55,7 @@ public class ClubTestCase {
 	@Test
 	public void applyJoin() {
 		Integer userId = 1;
-		clubService.applyJoin(clubId, userId);
+		clubService.applyJoin(clubId, 76801658);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class ClubTestCase {
 	 */
 	@Test
 	public void approvalJoin() {
-		Integer memberId = 4, agree = 1;
+		Integer memberId = 2, agree = 1;
 		clubService.approvalJoin(clubId, createId,
 				memberId, agree);
 	}

@@ -67,8 +67,8 @@ public class ClubWebChatBoat {
 		if (chat.containsKey("records")) {
 			chat.remove("records");
 		}
-		if (chat.containsKey("list")) {
-			chat.remove("list");
+		if (chat.containsKey("members")) {
+			chat.remove("members");
 		}
 		records.add(chat.toJSONString());
 		redisHash.hSet("webchat:club:" + clubId, field, records);

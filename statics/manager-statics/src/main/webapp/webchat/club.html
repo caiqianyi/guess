@@ -102,14 +102,6 @@
         area:['450px', 'auto'],  
         content: ' <div class="row" style="width: 420px;  margin-left:7px; margin-top:10px;">'  
             +'<div class="col-sm-12">'  
-            +'<div class="input-group">'  
-            +'<span class="input-group-addon">房间号 :</span>'  
-            +'<select id="selectRoom">'
-            +'	<option value="10001">10001</option>'
-            +'	<option value="10002">10002</option>'
-            +'	<option value="10003">10003</option>'
-            +'</select>'  
-            +'</div>'  
             +'</div>'  
               +'<div class="col-sm-12" style="margin-top: 10px">'  
               +'<div class="input-group">'  
@@ -121,9 +113,8 @@
         ,  
         btn:['保存','取消'],  
         btn1: function (index,layero) {
-        	roomId = $("#selectRoom",layero).val();
         	userId = $("#userId",layero).val();
-        	wsServer = "ws://localhost:8083/server/club/787072/1";
+        	wsServer = "ws://localhost:8083/server/club/787072/"+userId;
             ws = new WebSocket(wsServer); //创建WebSocket对象
             ws.onopen = function (evt) {
                 layer.msg("已经建立连接", { offset: 0});
@@ -207,13 +198,8 @@
         }
         $("#tuling").text() == "已上线"? tuling(message):console.log("图灵机器人未开启");  //检测是否加入图灵机器人
         ws.send(JSON.stringify({
-            message : {
-                content : message,
-                from : userId,
-                to : to,      //接收人,如果没有则置空,如果有多个接收人则用,分隔
-                time : getDateFull()
-            },
-            type : "message"
+           content : message,
+           to : to      //接收人,如果没有则置空,如果有多个接收人则用,分隔
         }));
     }
 
@@ -241,12 +227,12 @@
         if(message.type == "notice"){       //提示消息
             showNotice(message.message);
         }
-        if(message.type == "offline"){
+        if(message.type == "logout"){
         	alert(message.message);
         	closeConnection();
         }
-        if(message.list != null && message.list != undefined){      //在线列表
-            showOnline(message.list);
+        if(message.members != null && message.members != undefined){      //在线列表
+            showOnline(message.members);
         }
     }
 
@@ -263,10 +249,10 @@
      * 展示会话信息
      */
     function showChat(message){
-        var to = message.to == null || message.to == ""? "全体成员" : message.to;   //获取接收人
-        var isSef = '${userid}' == message.from ? "am-comment-flip" : "";   //如果是自己则显示在右边,他人信息显示在左边
+        var to = message.to == null || message.to == ""? "全体成员" : message.t_nickname;   //获取接收人
+        var isSef = '1' == message.from ? "am-comment-flip" : "";   //如果是自己则显示在右边,他人信息显示在左边
         var html = "<li class=\"am-comment "+isSef+" am-comment-primary\"><div class=\"am-comment-main\">\n" +
-                "<header class=\"am-comment-hd\"><div class=\"am-comment-meta\">   <a class=\"am-comment-author\" href=\"#link-to-user\">"+message.from+"</a> 发表于<time> "+message.time+"</time> 发送给: "+to+" </div></header><div class=\"am-comment-bd\"> <p>"+message.content+"</p></div></div></li>";
+                "<header class=\"am-comment-hd\"><div class=\"am-comment-meta\">   <a class=\"am-comment-author\" href=\"#link-to-user\">"+message.f_nickname+"</a> 发表于<time> "+message.time+"</time> 发送给: "+to+" </div></header><div class=\"am-comment-bd\"> <p>"+message.content+"</p></div></div></li>";
         $("#chat").append(html);
         $("#message").val("");  //清空输入区
         var chat = $("#chat-view");
@@ -279,10 +265,11 @@
     function showOnline(list){
         $("#list").html("");    //清空在线列表
         $.each(list, function(index, item){     //添加私聊按钮
-            var li = "<li>"+item+"</li>";
-            if('${userid}' != item){    //排除自己
-                li = "<li>"+item+" <button type=\"button\" class=\"am-btn am-btn-xs am-btn-primary am-round\" onclick=\"addChat('"+item+"');\"><span class=\"am-icon-phone\"><span> 私聊</button></li>";
-            }
+        	console.info(item);
+            //var li = "<li>"+item+"</li>";
+            
+           	var h = item.online ?  "<button type=\"button\" class=\"am-btn am-btn-xs am-btn-primary am-round\" onclick=\"addChat('"+item.id+"');\"><span class=\"am-icon-phone\"><span> 私聊</button>" : '<button class="am-btn am-btn-xs am-btn-danger" data-am-button="">未上线</button>';
+            var li = "<li><img src=\""+item.headimgurl+"\" style=\"width:30px;height:30px;border-radius:100px;\"/>"+item.nickname+h+"</li>";
             $("#list").append(li);
         });
         $("#onlinenum").text($("#list li").length);     //获取在线人数

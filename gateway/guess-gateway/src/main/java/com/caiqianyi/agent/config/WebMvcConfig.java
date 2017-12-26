@@ -52,6 +52,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     	.excludePathPatterns("/images/**")
     	.excludePathPatterns("/oauth2/**")
     	.excludePathPatterns("/common/**")
+    	.excludePathPatterns("/lottery/**")
     	;
     }
 

@@ -50,7 +50,7 @@ public class ClubWebChatServer {
     	if(keys.size() == 1){
     		return (GuessClub) redisCache.getSys(keys.iterator().next());
     	}
-    	throw new I18nMessageException("-1","聚乐部不存在");
+    	throw new I18nMessageException("-1","操作失败，聚乐部不存在");
     }
     
     private Map<String, Object> getCLubMembers(String clubId,String memberId){
@@ -59,7 +59,17 @@ public class ClubWebChatServer {
     	if(redisHash.hExists(key, memberId)){
     		return redisHash.hGetAll(key);
     	}
-    	throw new I18nMessageException("-1","无权限加入聚乐部");
+    	throw new I18nMessageException("-1","操作失败，成员不存在");
+    }
+    
+    private GuessClubMember getCLubMember(String clubId,String memberId){
+    	IRedisHash redisHash = (IRedisHash) SpringConfigTool.getBean("redisHash");
+    	String key = "guess:club:members:"+clubId;
+    	if(redisHash.hExists(key, memberId)){
+    		return (GuessClubMember) redisHash.hGet(key, memberId);
+    	}
+    	logger.debug("clubId={},memberId={}",clubId,memberId);
+    	throw new I18nMessageException("-1","操作失败，成员不存在");
     }
     
     private void online(boolean online){
@@ -71,7 +81,7 @@ public class ClubWebChatServer {
 			redisHash.hSet(key, ""+memberId , member);
 			return;
 		}
-		//onClose();
+		throw new I18nMessageException("-1","操作失败，成员不存在");
     }
     
     /**
@@ -96,10 +106,11 @@ public class ClubWebChatServer {
 	        if(routetab.containsKey(this.memberId)){
 	        	JSONObject member = new JSONObject();
 	            member.put("message", "对不起，您的ID在其他地方登录。");
-	            member.put("type", "offline");
+	            member.put("type", "logout");
 	            String message = member.toJSONString();
 	            sendMessage(this.clubId, this.memberId, message, "onOpen");
-	        	routetab.remove(this.memberId);
+	            return;
+	        	//routetab.remove(this.memberId);
 	        }
 	        routetab.put(this.memberId, session);   //将用户名和session绑定到路由表
 	        
@@ -120,7 +131,7 @@ public class ClubWebChatServer {
 	        JSONObject message = new JSONObject();
 	        message.put("message", "[" + this.member.getNickname() + "]进入["+club.getName()+"]俱乐部");
 	        message.put("type", "notice");
-	        message.put("list", members);
+	        message.put("members", members);
 	        
 	        String field = "records_"+DateFormatUtils.format(new Date(), "yyyyMMdd");
 	        if(redisHash.hExists("webchat:club:"+this.clubId, field)){//历史聊天纪录
@@ -136,8 +147,8 @@ public class ClubWebChatServer {
     		this.member = null;
     		this.memberId = null;
     		JSONObject member = new JSONObject();
-	        member.put("errcode", e.getCode());
-	        member.put("errmsg", e.getMessage());
+	        member.put("type", "error");
+	        member.put("message", e.getMessage());
     		try {
     			session.getBasicRemote().sendText(member.toJSONString());
     		} catch (IOException ex) {
@@ -164,7 +175,7 @@ public class ClubWebChatServer {
         JSONObject json = new JSONObject();
         json.put("message", "[" + this.member.getNickname() +"]离开了聊天室");
         json.put("type", "notice");
-        json.put("list", members);
+        json.put("members", members);
         String message = json.toJSONString();
         
         sendMessage(clubId, null, message, "onClose");//广播给所有人更新在线列表
@@ -180,19 +191,41 @@ public class ClubWebChatServer {
      */
     @OnMessage
     public void onMessage(String _message) {
-        JSONObject chat = JSON.parseObject(_message);
-        JSONObject message = JSON.parseObject(chat.get("message").toString());
-        if(message.get("to") == null || message.get("to").equals("")){      //如果to为空,则广播;如果不为空,则对指定的用户发送消息
-            sendMessage(clubId, null, _message, "onMessage");
-            return;
-        }
-        String [] userlist = message.get("to").toString().split(",");
-        sendMessage(clubId, message.getString("from"), _message, "onMessage");//发送给自己
-        for(String user : userlist){
-        	if(!user.equals(message.get("from"))){
-        		sendMessage(clubId, user, _message, "onMessage");
-        	}
-        }
+    	try{
+    		JSONObject msg = JSON.parseObject(_message);
+            JSONObject chat = new JSONObject(),
+            		message = new JSONObject();
+            
+            GuessClubMember member = getCLubMember(this.clubId, this.memberId);
+            
+            message.put("content", msg.get("content"));
+            message.put("to", msg.get("to"));
+            message.put("time", new Date().getTime());
+            message.put("from", this.memberId);
+            message.put("f_nickname", member.getNickname());
+            
+            chat.put("message", message);
+            chat.put("type", "message");
+            if(message.get("to") == null || message.get("to").equals("")){      //如果to为空,则广播;如果不为空,则对指定的用户发送消息
+                sendMessage(clubId, null, chat.toJSONString(), "onMessage");
+                return;
+            }
+            GuessClubMember toMember = getCLubMember(this.clubId, msg.getString("to"));
+            message.put("t_nickname", toMember.getNickname());
+            String [] userlist = message.get("to").toString().split(",");
+            sendMessage(clubId, this.memberId , chat.toJSONString(), "onMessage");//发送给自己
+            for(String user : userlist){
+            	if(!user.equals(this.memberId)){
+            		sendMessage(clubId, user, chat.toJSONString(), "onMessage");
+            	}
+            }
+    	}catch(I18nMessageException e){
+    		e.printStackTrace();
+    		JSONObject member = new JSONObject();
+	        member.put("type", "error");
+	        member.put("message", e.getMessage());
+	        sendMessage(clubId, this.memberId , member.toJSONString(), "onMessage");//发送给自己
+    	}
     }
 
     /**
@@ -213,7 +246,7 @@ public class ClubWebChatServer {
         message.put("to", to);
         message.put("message", msg);
         message.put("handle", handle);
-        
+        logger.debug("send|message={}",message);
         rabbitmaSender.sendContractFanout(WebChatQueueConfig.CHAT_ROOM_BROADCAST,message.toString());
     }
 }
