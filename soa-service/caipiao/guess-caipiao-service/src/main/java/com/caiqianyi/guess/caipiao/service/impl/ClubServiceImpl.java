@@ -91,9 +91,14 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 		
 		User create = userMapper.findById(createId);
 		if(create == null){
-			throw new I18nMessageException("500");
+			throw new I18nMessageException("30011");
 		}
-		//guessClubMapper.countByUserId(createId, kindOf);
+		
+		int count = guessClubMapper.countByCreateId(createId, name);
+		if(count > 0){
+			throw new I18nMessageException("30010","俱乐部名字重复");
+		}
+		
 		GuessClub club = new GuessClub();
 		club.setCardNum(cardNum);
 		club.setCreateId(createId);
@@ -206,7 +211,7 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 		}
 		User user = userMapper.findById(userId);
 		if(user == null){
-			throw new I18nMessageException("500");
+			throw new I18nMessageException("30011");
 		}
 		
 		GuessClubMember member = guessClubMemberMapper.findByClubAndUserId(clubId, userId);
@@ -286,7 +291,7 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 			cacheMember(clubId, member, 1);
 			return club;
 		}
-		throw new I18nMessageException("30007","申请失败");
+		throw new I18nMessageException("30007","申请失败，成员未加入俱乐中");
 	}
 
 	@Override
@@ -316,7 +321,7 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 			}
 			return club;
 		}
-		throw new I18nMessageException("30007","申请失败");
+		throw new I18nMessageException("30009","审核失败，成员未申请退出");
 	}
 
 	@Override

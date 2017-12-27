@@ -22,6 +22,6 @@ public interface IGuessClubMapper {
 	
 	List<GuessClub> findByKindOf(@Param("kindOf") String kindOf,@Param("minBlance") Integer minBlance);
 	
-	int countByCreateId(@Param("createId") Integer createId,@Param("kindOf") String kindOf);
+	int countByCreateId(@Param("createId") Integer createId,@Param("name") String name);
 	
 }

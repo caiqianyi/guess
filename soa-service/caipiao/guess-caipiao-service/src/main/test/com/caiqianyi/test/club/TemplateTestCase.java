@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.caiqianyi.GuessCaipiaoApplication;
@@ -78,8 +77,18 @@ public class TemplateTestCase {
 		guessTemplateService.create(template);
 	}
 
-	public void update(@RequestBody GuessTemplate template) {
+	public void update(GuessTemplate template) {
 		guessTemplateService.update(template);
+	}
+	
+	@Test
+	public void enabled(){
+		guessTemplateService.enabled(1, userId);
+	}
+	
+	@Test
+	public void disable(){
+		guessTemplateService.disable(1, userId);
 	}
 
 	public void copyTemplateToClub(@PathVariable("userId") Integer userId,

@@ -87,6 +87,22 @@ public class GuessTemplateController {
 	}
 	
 	/**
+	 * 启用禁用模板
+	 * @param id 模板ID
+	 * @param flag 0=禁用，1=启用
+	 * @return
+	 */
+	@RequestMapping(value="/guess/template/enabled/{id}",method=RequestMethod.POST)
+	SuccessMessage enabled(@PathVariable("id") Integer id,
+			@RequestParam(value = "flag") int flag){
+		User user = oauth2SecuritySubject.getCurrentUser();
+		if(flag == 0){
+			return guessTemplateService.disable(id, user.getUserId());
+		}
+		return guessTemplateService.enabled(id, user.getUserId());
+	}
+	
+	/**
 	 * 复制竞猜模板到俱乐部并创建
 	 * @param templateId
 	 * @param clubId

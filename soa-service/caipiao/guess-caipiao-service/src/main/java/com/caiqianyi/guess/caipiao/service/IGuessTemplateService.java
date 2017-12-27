@@ -16,5 +16,9 @@ public interface IGuessTemplateService {
 	
 	GuessTemplate update(GuessTemplate template);
 	
+	int enabled(Integer id,Integer userId);
+	
+	int disable(Integer id,Integer userId);
+	
 	List<GuessTemplate> copyTemplateToClub(Integer[] templateId,Integer clubId);
 }

@@ -14,6 +14,7 @@ CREATE TABLE `guess_template` (
   `subject` varchar(500) NOT NULL COMMENT '竞猜题目',
   `kindOf` varchar(50) NOT NULL COMMENT '种类',
   `topicType` varchar(500) DEFAULT NULL COMMENT '话题类型',
+  `status` int(10) DEFAULT 0 COMMENT '	0=禁用，1=启用 默认是禁用 当俱乐部没有可用模板，则不会开始计费',
   `orderBy` int(10) NOT NULL COMMENT '排序值',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
@@ -21,6 +22,7 @@ CREATE TABLE `guess_template` (
   KEY `clubId` (`clubId`),
   KEY `kindOf` (`kindOf`),
   KEY `topicType` (`topicType`),
+  KEY `status` (`status`),
   KEY `orderBy` (`orderBy`),
   KEY `createTime` (`createTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='竞猜模板表';
@@ -50,7 +52,10 @@ public class GuessTemplate {
 	 * 排序值
 	 */
 	private Integer orderBy;
-	
+	/**
+	 * 状态 0=未启用，1=启用
+	 */
+	private Integer status;
 	private Integer clubId;
 	private Integer userId;
 	/**
@@ -119,5 +124,11 @@ public class GuessTemplate {
 	}
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

@@ -62,6 +62,7 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 			template.setKindOf(templates.get(i).getKindOf());
 			template.setLabel(templates.get(i).getLabel());
 			template.setOptions(templates.get(i).getOptions());
+			template.setStatus(templates.get(i).getStatus());
 			template.setOrderBy(templates.get(i).getOrderBy());
 			template.setClubId(clubId);
 			template.setSubject(templates.get(i).getSubject());
@@ -92,6 +93,7 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 		createTemplate.setClubId(template.getClubId());
 		createTemplate.setTopicType(template.getTopicType());
 		createTemplate.setUserId(template.getUserId());
+		createTemplate.setStatus(template.getStatus());
 		
 		guessTemplateMappler.insert(createTemplate);
 		
@@ -138,5 +140,17 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 		// TODO Auto-generated method stub
 		guessTemplateMappler.updateByPrimaryKeySelective(template);
 		return template;
+	}
+	
+	@Override
+	public int disable(Integer id, Integer userId) {
+		// TODO Auto-generated method stub
+		return guessTemplateMappler.updateStatus(id, userId, 0);
+	}
+	
+	@Override
+	public int enabled(Integer id, Integer userId) {
+		// TODO Auto-generated method stub
+		return guessTemplateMappler.updateStatus(id, userId, 1);
 	}
 }

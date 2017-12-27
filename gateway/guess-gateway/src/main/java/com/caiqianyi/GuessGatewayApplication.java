@@ -44,13 +44,13 @@ public class GuessGatewayApplication extends WebMvcConfigurerAdapter{
         converters.add(fastJsonHttpMessageConverter);
     }
 	
-	@Bean
+	/*@Bean
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
         ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
         registration.getUrlMappings().clear();
-        registration.addUrlMappings("*.json");
+        registration.addUrlMappings("*.do");
         return registration;
-    }
+    }*/
 	
 	@Bean
 	@LoadBalanced

@@ -53,6 +53,15 @@ public class GuessTemplateController {
 	SuccessMessage update(@RequestBody GuessTemplate template) {
 		return new SuccessMessage(guessTemplateService.update(template));
 	}
+	
+	@RequestMapping(value = "/guess/template/enabled/{userId}/{id}/", method = RequestMethod.GET)
+	SuccessMessage enabled(@PathVariable("id") Integer id,@PathVariable("userId") Integer userId) {
+		return new SuccessMessage(guessTemplateService.enabled(id, userId));
+	}
+	@RequestMapping(value = "/guess/template/disable/{userId}/{id}/", method = RequestMethod.GET)
+	SuccessMessage disable(@PathVariable("id") Integer id,@PathVariable("userId") Integer userId) {
+		return new SuccessMessage(guessTemplateService.disable(id, userId));
+	}
 
 	@RequestMapping(value = "/guess/template/copyTemplateToClub/{userId}/{clubId}/{templateId}/", method = RequestMethod.GET)
 	SuccessMessage copyTemplateToClub(@PathVariable("userId") Integer userId,

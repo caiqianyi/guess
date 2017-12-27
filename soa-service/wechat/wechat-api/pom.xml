@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   
   <parent>
-  	<groupId>com.caiqianyi</groupId>
+  	<groupId>com.lebaoxun</groupId>
   	<artifactId>framework-parent</artifactId>
   	<version>1.0.0-RELEASE</version>
   </parent>
@@ -26,11 +26,11 @@
         <artifactId>spring-cloud-starter-feign</artifactId>
     </dependency>
     <dependency>
-		<groupId>com.caiqianyi</groupId>
+		<groupId>com.lebaoxun</groupId>
 		<artifactId>common-utils</artifactId>
 	</dependency>
     <dependency>
-    	<groupId>com.caiqianyi</groupId>
+    	<groupId>com.lebaoxun</groupId>
     	<artifactId>wechat-model</artifactId>
     	<version>1.0.0-RELEASE</version>
     </dependency>

@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   
   <parent>
-  	<groupId>com.caiqianyi</groupId>
+  	<groupId>com.lebaoxun</groupId>
   	<artifactId>service-parent</artifactId>
   	<version>1.0.0-RELEASE</version>
   </parent>
@@ -39,32 +39,32 @@
         <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
     </dependency>
     <dependency>
-		<groupId>com.caiqianyi</groupId>
+		<groupId>com.lebaoxun</groupId>
 		<artifactId>common-utils</artifactId>
    	</dependency>
    	<dependency>
-		<groupId>com.caiqianyi</groupId>
+		<groupId>com.lebaoxun</groupId>
 		<artifactId>soa-amqp</artifactId>
    	</dependency>
    	<dependency>
-		<groupId>com.caiqianyi</groupId>
+		<groupId>com.lebaoxun</groupId>
 		<artifactId>soa-exception</artifactId>
    	</dependency>
    	<dependency>
-		<groupId>com.caiqianyi</groupId>
+		<groupId>com.lebaoxun</groupId>
 		<artifactId>soa-web-framework</artifactId>
    	</dependency>
     <dependency>
-    	<groupId>com.caiqianyi</groupId>
+    	<groupId>com.lebaoxun</groupId>
     	<artifactId>soa-rediscache</artifactId>
     </dependency>
     <dependency>
-    	<groupId>com.caiqianyi</groupId>
+    	<groupId>com.lebaoxun</groupId>
     	<artifactId>guess-caipiao-dao</artifactId>
     	<version>1.0.0-RELEASE</version>
     </dependency>
     <dependency>
-    	<groupId>com.caiqianyi</groupId>
+    	<groupId>com.lebaoxun</groupId>
     	<artifactId>account-dao</artifactId>
     	<version>1.0.0-RELEASE</version>
     </dependency>

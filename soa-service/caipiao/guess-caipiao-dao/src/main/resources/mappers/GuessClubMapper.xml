@@ -161,6 +161,7 @@
 		where club.kindOf = #{kindOf}
 		and club.cardNum <![CDATA[>=]]> #{minBlance}
 		and club.status != -1
+		and tmp.status != 0
 		order by tmp.orderBy,opt.orderBy;
 	</select>
 	

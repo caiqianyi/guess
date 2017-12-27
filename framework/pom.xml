@@ -9,7 +9,7 @@
   </parent>
   
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.caiqianyi</groupId>
+  <groupId>com.lebaoxun</groupId>
   <artifactId>framework-parent</artifactId> 
   <version>1.0.0-RELEASE</version>
   <packaging>pom</packaging> 
@@ -63,32 +63,32 @@
   <dependencyManagement>
 	  <dependencies>
 	   <dependency>
-			<groupId>com.caiqianyi</groupId>
+			<groupId>com.lebaoxun</groupId>
 			<artifactId>soa-rediscache</artifactId>
 			<version>1.0.0-RELEASE</version>
 	   </dependency>
 	   <dependency>
-			<groupId>com.caiqianyi</groupId>
+			<groupId>com.lebaoxun</groupId>
 			<artifactId>common-utils</artifactId>
 			<version>1.0.0-RELEASE</version>
 	   </dependency>
 	   <dependency>
-			<groupId>com.caiqianyi</groupId>
+			<groupId>com.lebaoxun</groupId>
 			<artifactId>soa-amqp</artifactId>
 			<version>1.0.0-RELEASE</version>
 	   </dependency>
 	   <dependency>
-			<groupId>com.caiqianyi</groupId>
+			<groupId>com.lebaoxun</groupId>
 			<artifactId>soa-exception</artifactId>
 			<version>1.0.0-RELEASE</version>
 	   </dependency>
 	   <dependency>
-			<groupId>com.caiqianyi</groupId>
+			<groupId>com.lebaoxun</groupId>
 			<artifactId>soa-web-framework</artifactId>
 			<version>1.0.0-RELEASE</version>
 	   </dependency>
 	   <dependency>
-	    	<groupId>com.caiqianyi</groupId>
+	    	<groupId>com.lebaoxun</groupId>
 	    	<artifactId>soa-quartz-core</artifactId>
 	    	<version>1.0.0-RELEASE</version>
        </dependency>

@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.caiqianyi</groupId>
+	<groupId>com.lebaoxun</groupId>
 	<artifactId>guess-gateway</artifactId>
 	<version>1.0.0-RELEASE</version>
 	<packaging>jar</packaging>
@@ -16,7 +16,7 @@
 	</properties>
 
 	<parent>
-		<groupId>com.caiqianyi</groupId>
+		<groupId>com.lebaoxun</groupId>
 	  	<artifactId>gateway-parent</artifactId>
 	  	<version>1.0.0-RELEASE</version>
 	</parent>
@@ -61,32 +61,27 @@
 			<artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.caiqianyi</groupId>
+			<groupId>com.lebaoxun</groupId>
 			<artifactId>soa-exception</artifactId>
 			<version>1.0.0-RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>com.caiqianyi</groupId>
+			<groupId>com.lebaoxun</groupId>
 			<artifactId>soa-rediscache</artifactId>
 			<version>1.0.0-RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>com.caiqianyi</groupId>
-			<artifactId>sms-api</artifactId>
-			<version>1.0.0-RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>com.caiqianyi</groupId>
+			<groupId>com.lebaoxun</groupId>
 			<artifactId>account-api</artifactId>
 			<version>1.0.0-RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>com.caiqianyi</groupId>
+			<groupId>com.lebaoxun</groupId>
 			<artifactId>wechat-api</artifactId>
 			<version>1.0.0-RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>com.caiqianyi</groupId>
+			<groupId>com.lebaoxun</groupId>
 			<artifactId>guess-caipiao-api</artifactId>
 			<version>1.0.0-RELEASE</version>
 		</dependency>

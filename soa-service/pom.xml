@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-  	<groupId>com.caiqianyi</groupId>
+  	<groupId>com.lebaoxun</groupId>
   	<artifactId>framework-parent</artifactId>
   	<version>1.0.0-RELEASE</version>
   	<relativePath></relativePath>
   </parent>
  
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.caiqianyi</groupId>
+  <groupId>com.lebaoxun</groupId>
   <artifactId>service-parent</artifactId>
   <version>1.0.0-RELEASE</version>
   <packaging>pom</packaging>
   
   <name>service-parent</name>
-  
-  <modules>
-    <module>account-service</module>
-    <module>guess-caipiao-service</module>
-	<module>guess-game-service</module>
-	<module>guess-service</module>
-	<module>pay-service</module>
-	<module>sms-service</module>
-  </modules>
   
   <properties>
 	<spring.cloud.version>Brixton.RELEASE</spring.cloud.version>
@@ -54,23 +45,23 @@
         <artifactId>spring-cloud-starter-oauth2</artifactId>
     </dependency> -->
   	<dependency>
-		<groupId>com.caiqianyi</groupId>
+		<groupId>com.lebaoxun</groupId>
 		<artifactId>soa-rediscache</artifactId>
    	</dependency>
    	<dependency>
-		<groupId>com.caiqianyi</groupId>
+		<groupId>com.lebaoxun</groupId>
 		<artifactId>common-utils</artifactId>
    	</dependency>
    	<dependency>
-		<groupId>com.caiqianyi</groupId>
+		<groupId>com.lebaoxun</groupId>
 		<artifactId>soa-amqp</artifactId>
    	</dependency>
    	<dependency>
-		<groupId>com.caiqianyi</groupId>
+		<groupId>com.lebaoxun</groupId>
 		<artifactId>soa-exception</artifactId>
    	</dependency>
    	<dependency>
-		<groupId>com.caiqianyi</groupId>
+		<groupId>com.lebaoxun</groupId>
 		<artifactId>soa-web-framework</artifactId>
    	</dependency>
   </dependencies>

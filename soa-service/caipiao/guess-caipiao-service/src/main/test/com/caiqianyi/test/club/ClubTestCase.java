@@ -28,7 +28,7 @@ public class ClubTestCase {
 	@Test
 	public void create() {
 		clubService.create(GenerateCode.gen(6),
-				createId, maxMember, "角度考虑房价的", null, cardNum, kindOf);
+				createId, maxMember, "好莱坞", null, cardNum, kindOf);
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class ClubTestCase {
 	 */
 	@Test
 	public void approvalJoin() {
-		Integer memberId = 2, agree = 1;
+		Integer memberId = 3, agree = 1;
 		clubService.approvalJoin(clubId, createId,
 				memberId, agree);
 	}
@@ -106,7 +106,7 @@ public class ClubTestCase {
 	 */
 	@Test
 	public void recharge() {
-		Integer number = 1;
+		Integer number = 50;
 		clubService.recharge(clubId, createId, number);
 	}
 

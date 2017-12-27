@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   
   <parent>
-  	<groupId>com.caiqianyi</groupId>
+  	<groupId>com.lebaoxun</groupId>
   	<artifactId>gateway-parent</artifactId>
   	<version>1.0.0-RELEASE</version>
   </parent>
@@ -48,22 +48,17 @@
         <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
     </dependency>
     <dependency>
-    	<groupId>com.caiqianyi</groupId>
+    	<groupId>com.lebaoxun</groupId>
     	<artifactId>soa-exception</artifactId>
     	<version>1.0.0-RELEASE</version>
     </dependency>
     <dependency>
-    	<groupId>com.caiqianyi</groupId>
+    	<groupId>com.lebaoxun</groupId>
     	<artifactId>soa-rediscache</artifactId>
     	<version>1.0.0-RELEASE</version>
     </dependency>
     <dependency>
-    	<groupId>com.caiqianyi</groupId>
-    	<artifactId>game-api</artifactId>
-    	<version>1.0.0-RELEASE</version>
-    </dependency>
-    <dependency>
-    	<groupId>com.caiqianyi</groupId>
+    	<groupId>com.lebaoxun</groupId>
     	<artifactId>soa-amqp</artifactId>
     	<version>1.0.0-RELEASE</version>
     </dependency>

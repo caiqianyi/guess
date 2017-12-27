@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.caiqianyi</groupId>
+  <groupId>com.lebaoxun</groupId>
   <artifactId>account</artifactId> 
   <version>1.0.0-RELEASE</version>
   <packaging>pom</packaging> 
@@ -10,10 +10,10 @@
   <name>account</name>
 
   <modules>
-	<module>account-api</module>
-	<module>account-dao</module>
 	<module>account-model</module>
-	<module>account-servie</module>
+	<module>account-dao</module>
+	<module>account-api</module>
+	<module>account-service</module>
   </modules>
 
   <distributionManagement>    
