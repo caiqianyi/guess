@@ -41,6 +41,10 @@ public class SyncGuessJCLQMatchListener {
         return BindingBuilder.bind(queueSyncGuessJCLQMatchJob).to(directExchange).with(JobDirectRabbitConfig.SYNC_GUESS_JCLQ_MATCH_JOB);
     }
 	
+    /**
+     * JCQL.MATCH.SYNC 0 0/30 * * * ? {"queue":"guess.sync.jclq.match.job","message":"sync"}
+     * @param data
+     */
 	@RabbitHandler
     public void receive(Object data) {
 		Message message = (Message) data;

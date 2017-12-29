@@ -213,145 +213,151 @@ public class JCLQMatch310WinServiceImpl implements IJCLQMatchSyncService {
 				
 				
 				logger.debug("status={},match={}",matchTime,new Gson().toJson(match));
-				if(status == 0 || true){
-					Elements as = tds.get(tds.size()-4).getElementsByTag("a");
-					String ou = as.get(1).absUrl("href"),
-							xi = as.get(2).absUrl("href");
-					
-					Document ouDoc = Jsoup.connect(ou)
-							.ignoreContentType(true)
-							.userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3218.0 Safari/537.36")
-							.timeout(30000).get();
-					Document xiDoc = Jsoup.connect(xi)
-							.ignoreContentType(true)
-							.userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3218.0 Safari/537.36")
-							.timeout(30000).get();
-					
-					String oddsUrl = ouDoc.select("script[src^=/info/match/getfile.aspx?file=]").get(0).absUrl("src");
-					String oddsScriptStr = Jsoup.connect(oddsUrl)
-							.ignoreContentType(true)
-							.userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3218.0 Safari/537.36")
-							.timeout(30000).get().text();
-					
-					Elements leagueOrder = xiDoc.select("div[style={LeagueNoneOrBlock}] td[valign=top] tr:gt(1)");
-					List<JCLQMatchOrder> hostOrder = new ArrayList<JCLQMatchOrder>(),
-							guestOrder = new ArrayList<JCLQMatchOrder>();
-					for(int k=0;k<8;k++){
-						Elements loc = leagueOrder.get(k).children();
-						JCLQMatchOrder order = new JCLQMatchOrder();
+				
+				try{
+					if(status == 0 || true){
+						Elements as = tds.get(tds.size()-4).getElementsByTag("a");
+						String ou = as.get(1).absUrl("href"),
+								xi = as.get(2).absUrl("href");
 						
-						String loc1 = loc.get(1).text().trim().replaceAll(" ", ""),
-								loc2 = loc.get(2).text().trim().replaceAll(" ", ""),
-									loc3 = loc.get(3).text().trim().replaceAll(" ", ""),
-										loc4 = loc.get(4).text().trim().replaceAll(" ", ""),
-											loc5 = loc.get(5).text().trim().replaceAll(" ", ""),
-												loc7 = loc.get(7).text().trim().replaceAll(" ", ""),
-													loc8 = loc.get(8).text().trim().replaceAll(" ", ""),
-															loc0 = loc.get(0).text().replaceAll(" ", "");
-						Integer total = null, win = null, lose = null, orderBy = null;
-						Double attack = null, guard = null;
-						if(StringUtils.isNumeric(loc1)){
-							total = Integer.parseInt(loc1);
+						Document ouDoc = Jsoup.connect(ou)
+								.ignoreContentType(true)
+								.userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3218.0 Safari/537.36")
+								.timeout(30000).get();
+						Document xiDoc = Jsoup.connect(xi)
+								.ignoreContentType(true)
+								.userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3218.0 Safari/537.36")
+								.timeout(30000).get();
+						
+						String oddsUrl = ouDoc.select("script[src^=/info/match/getfile.aspx?file=]").get(0).absUrl("src");
+						String oddsScriptStr = Jsoup.connect(oddsUrl)
+								.ignoreContentType(true)
+								.userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3218.0 Safari/537.36")
+								.timeout(30000).get().text();
+						
+						Elements leagueOrder = xiDoc.select("div[style={LeagueNoneOrBlock}] td[valign=top] tr:gt(1)");
+						List<JCLQMatchOrder> hostOrder = new ArrayList<JCLQMatchOrder>(),
+								guestOrder = new ArrayList<JCLQMatchOrder>();
+						for(int k=0;k<8;k++){
+							Elements loc = leagueOrder.get(k).children();
+							JCLQMatchOrder order = new JCLQMatchOrder();
+							
+							String loc1 = loc.get(1).text().trim().replaceAll(" ", ""),
+									loc2 = loc.get(2).text().trim().replaceAll(" ", ""),
+										loc3 = loc.get(3).text().trim().replaceAll(" ", ""),
+											loc4 = loc.get(4).text().trim().replaceAll(" ", ""),
+												loc5 = loc.get(5).text().trim().replaceAll(" ", ""),
+													loc7 = loc.get(7).text().trim().replaceAll(" ", ""),
+														loc8 = loc.get(8).text().trim().replaceAll(" ", ""),
+																loc0 = loc.get(0).text().replaceAll(" ", "");
+							Integer total = null, win = null, lose = null, orderBy = null;
+							Double attack = null, guard = null;
+							if(StringUtils.isNotBlank(loc1) && StringUtils.isNumeric(loc1)){
+								total = Integer.parseInt(loc1);
+							}
+							if(StringUtils.isNotBlank(loc2) && StringUtils.isNumeric(loc2)){
+								win = Integer.parseInt(loc2);
+							}
+							if(StringUtils.isNotBlank(loc3) && StringUtils.isNumeric(loc3)){
+								lose = Integer.parseInt(loc3);
+							}
+							if(StringUtils.isNotBlank(loc7) && StringUtils.isNumeric(loc7)){
+								orderBy = Integer.parseInt(loc7);
+							}
+							if(StringUtils.isNotBlank(loc4) && StringUtils.isNotBlank(loc4)){
+								attack = Double.parseDouble(loc4);
+							}
+							if(StringUtils.isNotBlank(loc5) && StringUtils.isNotBlank(loc5)){
+								guard = Double.parseDouble(loc5);
+							}
+							order.setTotal(total);
+							order.setWin(win);
+							order.setLose(lose);
+							order.setAttack(attack);
+							order.setGuard(guard);
+							order.setOrderBy(orderBy);
+							order.setWinRate(loc8);
+							order.setKindOf(loc0);
+							order.setMatchId(seq);
+							if(k > 3){
+								order.setTeamName(match.getGustTeam());
+								order.setHost("guest");
+								guestOrder.add(order);
+							}else{
+								order.setTeamName(match.getHostTeam());
+								order.setHost("host");
+								hostOrder.add(order);
+							}
 						}
-						if(StringUtils.isNumeric(loc2)){
-							win = Integer.parseInt(loc2);
+						
+						JCLQMatchDatas datas = new JCLQMatchDatas();
+						datas.setGustTeam(match.getGustTeam());
+						datas.setHostTeam(match.getHostTeam());
+						datas.setLeague(match.getLeague());
+						datas.setMatchId(match.getMatchId());
+						datas.setMatchTime(match.getMatchTime());
+						datas.setHostOrder(hostOrder);
+						datas.setGuestOrder(guestOrder);
+						
+						Elements records = xiDoc.select("script[language=javascript]");
+						
+						String scriptVar = records.get(3).data().toString();
+						
+						ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
+						
+						
+						//4、js中未定义返回对象,这里需要将Class数据转换成字符串的数组返回，个人觉得很别扭，不知道是理解错误还是确实如此？
+						//如果不这样做则直接在js后加上arrclass，cScript.evel()则返回NativeObject对象的数组
+						
+						Compilable compilable = (Compilable) engine;
+						CompiledScript cScript = compilable.compile(scriptVar);
+						
+						cScript.eval();
+						
+						jdk.nashorn.api.scripting.ScriptObjectMirror vobj = (ScriptObjectMirror) engine.get("v_data"),
+								hobj = (ScriptObjectMirror) engine.get("h_data"),
+										aObj = (ScriptObjectMirror) engine.get("a_data");
+						
+						CompiledScript oddsScript = compilable.compile(oddsScriptStr);
+						
+						oddsScript.eval();
+						jdk.nashorn.api.scripting.ScriptObjectMirror oddsObj = (ScriptObjectMirror) engine.get("game");
+						
+						
+						if(oddsObj != null){
+							String oText = new Gson().toJson(oddsObj.entrySet());
+							JSONArray oArray = JSONArray.parseArray(oText);
+							ArrayList<Map<String, Object>> pls = parseOdds(oArray);
+							datas.setOdds(pls);
 						}
-						if(StringUtils.isNumeric(loc3)){
-							lose = Integer.parseInt(loc3);
+						
+						if(vobj != null){
+							String vText = new Gson().toJson(vobj.entrySet());
+							JSONArray vArray = JSONArray.parseArray(vText);
+							ArrayList<Map<String, String>> v_data = parseZj(vArray);
+							datas.setFightDatas(v_data);
 						}
-						if(StringUtils.isNumeric(loc7)){
-							orderBy = Integer.parseInt(loc7);
+						
+						if(hobj != null){
+							String hText = new Gson().toJson(hobj.entrySet());
+							JSONArray hArray = JSONArray.parseArray(hText);
+							ArrayList<Map<String, String>> h_data = parseZj(hArray);
+							datas.sethDatas(h_data);
 						}
-						if(StringUtils.isNotBlank(loc4)){
-							attack = Double.parseDouble(loc4);
+						
+						if(aObj != null){
+							String aText = new Gson().toJson(aObj.entrySet());
+							JSONArray aArray = JSONArray.parseArray(aText);
+							ArrayList<Map<String, String>> a_data = parseZj(aArray);
+							datas.setgDatas(a_data);
 						}
-						if(StringUtils.isNotBlank(loc5)){
-							guard = Double.parseDouble(loc5);
-						}
-						order.setTotal(total);
-						order.setWin(win);
-						order.setLose(lose);
-						order.setAttack(attack);
-						order.setGuard(guard);
-						order.setOrderBy(orderBy);
-						order.setWinRate(loc8);
-						order.setKindOf(loc0);
-						order.setMatchId(seq);
-						if(k > 3){
-							order.setTeamName(match.getGustTeam());
-							order.setHost("guest");
-							guestOrder.add(order);
-						}else{
-							order.setTeamName(match.getHostTeam());
-							order.setHost("host");
-							hostOrder.add(order);
-						}
+						match.setDatas(datas);
+						logger.debug("nodes[{}] ou={},xi={}",tds.size()-4,ou,xi);
 					}
+				}catch(Exception ex){
 					
-					JCLQMatchDatas datas = new JCLQMatchDatas();
-					datas.setGustTeam(match.getGustTeam());
-					datas.setHostTeam(match.getHostTeam());
-					datas.setLeague(match.getLeague());
-					datas.setMatchId(match.getMatchId());
-					datas.setMatchTime(match.getMatchTime());
-					datas.setHostOrder(hostOrder);
-					datas.setGuestOrder(guestOrder);
-					
-					Elements records = xiDoc.select("script[language=javascript]");
-					
-					String scriptVar = records.get(3).data().toString();
-					
-					ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
-					
-					
-					//4、js中未定义返回对象,这里需要将Class数据转换成字符串的数组返回，个人觉得很别扭，不知道是理解错误还是确实如此？
-					//如果不这样做则直接在js后加上arrclass，cScript.evel()则返回NativeObject对象的数组
-					
-					Compilable compilable = (Compilable) engine;
-					CompiledScript cScript = compilable.compile(scriptVar);
-					
-					cScript.eval();
-					
-					jdk.nashorn.api.scripting.ScriptObjectMirror vobj = (ScriptObjectMirror) engine.get("v_data"),
-							hobj = (ScriptObjectMirror) engine.get("h_data"),
-									aObj = (ScriptObjectMirror) engine.get("a_data");
-					
-					CompiledScript oddsScript = compilable.compile(oddsScriptStr);
-					
-					oddsScript.eval();
-					jdk.nashorn.api.scripting.ScriptObjectMirror oddsObj = (ScriptObjectMirror) engine.get("game");
-					
-					
-					if(oddsObj != null){
-						String oText = new Gson().toJson(oddsObj.entrySet());
-						JSONArray oArray = JSONArray.parseArray(oText);
-						ArrayList<Map<String, Object>> pls = parseOdds(oArray);
-						datas.setOdds(pls);
-					}
-					
-					if(vobj != null){
-						String vText = new Gson().toJson(vobj.entrySet());
-						JSONArray vArray = JSONArray.parseArray(vText);
-						ArrayList<Map<String, String>> v_data = parseZj(vArray);
-						datas.setFightDatas(v_data);
-					}
-					
-					if(hobj != null){
-						String hText = new Gson().toJson(hobj.entrySet());
-						JSONArray hArray = JSONArray.parseArray(hText);
-						ArrayList<Map<String, String>> h_data = parseZj(hArray);
-						datas.sethDatas(h_data);
-					}
-					
-					if(aObj != null){
-						String aText = new Gson().toJson(aObj.entrySet());
-						JSONArray aArray = JSONArray.parseArray(aText);
-						ArrayList<Map<String, String>> a_data = parseZj(aArray);
-						datas.setgDatas(a_data);
-					}
-					match.setDatas(datas);
-					logger.debug("nodes[{}] ou={},xi={}",tds.size()-4,ou,xi);
 				}
+				
 				nums.put(match.getSeq(), match);
 			}
 			//logger.debug("match={}",new Gson().toJson(matchDatas));

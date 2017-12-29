@@ -107,7 +107,7 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 			option.setOrderBy(gto.getOrderBy());
 			option.setTemplateId(createTemplate.getId());
 			option.setOdds(gto.getOdds());
-			String lotters[] = KindOfCons.getLotterys(template.getKindOf());
+			String lotters[] = "jclq".equals(template.getKindOf())? new String[]{"100","99"}:KindOfCons.getLotterys(template.getKindOf());
 			try{
 				if(FormulaCalculate.check(lotters, option.getFormula())){
 					hasSelect = true;

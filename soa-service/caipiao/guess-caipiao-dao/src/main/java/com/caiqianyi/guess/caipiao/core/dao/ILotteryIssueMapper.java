@@ -16,6 +16,8 @@ public interface ILotteryIssueMapper {
 	int update(@Param("issue") LotteryIssue issue);
 
 	LotteryIssue getCurrentIssue(@Param("kindOf") String kindOf);
+	
+	LotteryIssue getCurrentPrevIssue(@Param("kindOf") String kindOf);
 
 	LotteryIssue getIssueByExpect(@Param("kindOf") String kindOf,
 			@Param("expect") String expect);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,18 +31,21 @@ public class YllrAnalysis {
 	
 	private String lots[];
 	
-	public YllrAnalysis(List<LotteryIssue> lotterys,String lots[]) {
+	private String kindOf;
+	
+	public YllrAnalysis(String kindOf,List<LotteryIssue> lotterys,String lots[]) {
 		// TODO Auto-generated constructor stub
-		this(lotterys, lots, null);
+		this(kindOf,lotterys, lots, null);
 	}
-	public YllrAnalysis(List<LotteryIssue> lotterys,String lots[],Map<String,Object> initData) {
+	public YllrAnalysis(String kindOf,List<LotteryIssue> lotterys,String lots[],Map<String,Object> initData) {
 		// TODO Auto-generated constructor stub
+		this.kindOf = kindOf;
 		this.lotterys = lotterys;
 		this.lots = lots;
 		this.initData = initData;
 	}
 	
-	public List<Map<String, Object>> doAnalysis(){
+	public Map<String,Object> doAnalysis(){
 		this.datas = new LinkedHashMap<String,Map<String,Object>>();
 		Collections.sort(lotterys, new Comparator<LotteryIssue>(){
 			@Override
@@ -60,9 +64,14 @@ public class YllrAnalysis {
 			}
 			doAnalysisForZhi(i);
 		}
-		List<Map<String, Object>> datas = new ArrayList<Map<String, Object>>(this.datas.values());
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("yl_datas", new ArrayList<Map<String, Object>>(this.datas.values()));
 		logger.debug("datas={}",new Gson().toJson(datas));
-		return datas;
+		if("bjpk10".equals(kindOf)){
+			map.put("lr_datas", new Bjpk10LRAnalysis(lotterys).lr());
+		}
+		map.put("last_time", new Date().getTime());
+		return map;
 	}
 	private Integer getDataByIndex(LotteryIssue lotteryIssue,String type,Integer i){
 		Map<String,Object> data = new LinkedHashMap<String,Object>();
@@ -187,6 +196,6 @@ public class YllrAnalysis {
 		list.add(issue3);
 		list = bls.getOpencode(DateFormatUtils.format(new Date(), "yyyyMMdd"));
 		//list = _11x5LotteryService.getOpencode(DateFormatUtils.format(new Date(), "yyyyMMdd"));
-		new YllrAnalysis(list,new String[]{"01","02","03","04","05","06","07","08","09","10","11"}).doAnalysis();
+		new YllrAnalysis("bjpk10",list,new String[]{"01","02","03","04","05","06","07","08","09","10","11"}).doAnalysis();
 	}
 }

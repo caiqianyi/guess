@@ -2,9 +2,12 @@ package com.caiqianyi.guess.caipiao.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
@@ -19,14 +22,11 @@ import com.caiqianyi.guess.caipiao.core.dao.IJCLQMatchMapper;
 import com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 import com.caiqianyi.guess.caipiao.jclq.match.service.IJCLQMatchSyncService;
-import com.caiqianyi.guess.caipiao.lryl.Bjpk10LRAnalysis;
 import com.caiqianyi.guess.caipiao.lryl.YllrAnalysis;
 import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
 import com.caiqianyi.guess.caipiao.service.ILotteryDataSyncService;
 import com.caiqianyi.guess.caipiao.service.ILotteryGuessService;
 import com.caiqianyi.guess.caipiao.service.ILotteryService;
-import com.caiqianyi.guess.core.dao.GuessTemplateMapper;
-import com.caiqianyi.guess.entity.GuessTemplate;
 import com.caiqianyi.guess.jclq.entity.JCLQMatch;
 import com.caiqianyi.guess.jclq.entity.JCLQMatchDatas;
 import com.caiqianyi.soa.core.redis.IRedisCache;
@@ -53,9 +53,6 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 	private IJCLQMatchMapper jCLQMatchMapper;
 	
 	@Resource
-	private GuessTemplateMapper guessTemplateMapper;
-	
-	@Resource
 	private ILotteryGuessService lotteryGuessService;
 	
 	@Override
@@ -66,12 +63,10 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 		jCLQMatchService.pull(nums);
 		logger.debug("nums={}",new Gson().toJson(nums));
 		List<JCLQMatch> matchs = new ArrayList<JCLQMatch>();
-		List<GuessTemplate> templates = guessTemplateMapper.findAllByWhere("jclq",null,null,null);
 		for(String key : nums.keySet()){
 			JCLQMatch match = nums.get(key);
 			JCLQMatch lqMatch = jCLQMatchMapper.findMatch(match.getSeq());
 			
-			lotteryGuessService.createGuessTopic(match.getSeq(), match.getLeague(), match.getEndTime(), templates);
 			if("2".equals(match.getStatus())){
 				lotteryGuessService.updateTopicResult("jclq", match.getSeq(), match.getScore().split("\\-"));
 			}
@@ -120,12 +115,10 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 		jCLQMatchService.pull(nums,start,end);
 		logger.debug("nums={}",new Gson().toJson(nums));
 		List<JCLQMatch> matchs = new ArrayList<JCLQMatch>();
-		List<GuessTemplate> templates = guessTemplateMapper.findAllByWhere("jclq",null,null,null);
 		for(String key : nums.keySet()){
 			JCLQMatch match = nums.get(key);
 			JCLQMatch lqMatch = jCLQMatchMapper.findMatch(match.getSeq());
 			
-			lotteryGuessService.createGuessTopic(match.getSeq(), match.getLeague(), match.getEndTime(), templates);
 			if("2".equals(match.getStatus())){
 				lotteryGuessService.updateTopicResult("jclq", match.getSeq(), match.getScore().split("\\-"));
 			}
@@ -181,41 +174,73 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 		List<LotteryIssue> issues = new ArrayList<LotteryIssue>(),
 				success = new ArrayList<LotteryIssue>();
 		
-		ILotteryService lotteryService = lotteryCatService.getLotteryService(kindOf);
-		issues.addAll(lotteryService.getOpencode(day));
-		if(!issues.isEmpty()){
-			List<LotteryIssue> noOpenList = lotteryIssueMapper.getIssusByKindOfAndStatus(kindOf, 0, day);
-			for(LotteryIssue issue : issues){
-				for(LotteryIssue noOpen : noOpenList){
-					if(noOpen.getExpect().equals(issue.getExpect())){
-						logger.debug("issue={}",new Gson().toJson(issue));
-						noOpen.setOpenCode(issue.getOpenCode());
-						noOpen.setStatus(1);
-						noOpen.setOpenTime(issue.getOpenTime());
-						logger.debug("noOpen={}",new Gson().toJson(noOpen));
-						lotteryIssueMapper.update(noOpen);
-						lotteryGuessService.updateTopicResult(kindOf, noOpen.getExpect(), issue.getOpenCode().split("\\,"));
-						success.add(issue);
+		LotteryIssue prevIssue = lotteryIssueMapper.getCurrentPrevIssue(kindOf);
+		if(!(prevIssue == null || prevIssue.getStatus().equals(1))){
+			ILotteryService lotteryService = lotteryCatService.getLotteryService(kindOf);
+			issues.addAll(lotteryService.getOpencode(day));
+			if(!issues.isEmpty()){
+				List<LotteryIssue> noOpenList = lotteryIssueMapper.getIssusByKindOfAndStatus(kindOf, 0, day);
+				for(LotteryIssue issue : issues){
+					for(LotteryIssue noOpen : noOpenList){
+						if(noOpen.getExpect().equals(issue.getExpect())){
+							logger.debug("issue={}",new Gson().toJson(issue));
+							noOpen.setOpenCode(issue.getOpenCode());
+							noOpen.setStatus(1);
+							noOpen.setOpenTime(issue.getOpenTime());
+							logger.debug("noOpen={}",new Gson().toJson(noOpen));
+							lotteryIssueMapper.update(noOpen);
+							lotteryGuessService.updateTopicResult(kindOf, noOpen.getExpect(), issue.getOpenCode().split("\\,"));
+							success.add(issue);
+						}
 					}
 				}
-			}
-			if(!success.isEmpty()){
-				syncYllrData(kindOf);
+				if(!success.isEmpty()){
+					syncYllrData(kindOf);
+				}
 			}
 		}
 		return success;
 	}
 	
+	private int calOpenTime(String kindOf){
+		LotteryIssue prevIssue = lotteryIssueMapper.getCurrentPrevIssue(kindOf);
+		Integer openSecond = 45;
+		if(prevIssue != null){
+			openSecond = (int) ((System.currentTimeMillis() - prevIssue.getEndTime().getTime())/1000);
+		}
+		TreeMap<Integer,Integer> opens = new TreeMap<Integer,Integer>();
+		String opk = "lottery:open:"+kindOf;
+		if(redisCache.exists(opk)){
+			opens = (TreeMap<Integer,Integer>) redisCache.get(opk);
+		}
+		int count = 0;
+		if(opens.containsKey(openSecond)){
+			count = opens.get(openSecond);
+		}
+		count ++;
+		opens.put(openSecond,count);
+		redisCache.set(opk, opens);
+		List<Map.Entry<Integer, Integer>> entryArrayList = new ArrayList<>(opens.entrySet());
+        Collections.sort(entryArrayList, Comparator.comparing(Map.Entry::getValue));
+        Map.Entry<Integer, Integer> item = entryArrayList.get(entryArrayList.size()-1);
+		return item.getKey();
+	}
+	
 	@Override
 	public void syncYllrData(String kindOf) {
+		
+		Integer openSecond = calOpenTime(kindOf);
+		
 		// TODO Auto-generated method stub
 		ILotteryService lotteryService = lotteryCatService.getLotteryService(kindOf);
-		List<LotteryIssue> list = lotteryService.getLotteryNumBy(501);
 		
-		List<Map<String, Object>> datas = (List<Map<String, Object>>) redisCache.get("lottery:yllr:"+kindOf);
+		List<LotteryIssue> list = lotteryService.getLotteryNumBy(201);
+		
+		Map<String, Object> datas = (Map<String, Object>) redisCache.get("lottery:yllr:"+kindOf);
 		Map<String,Object> initData = null;
 		if(datas != null){
-			for(Map<String, Object> data : datas){
+			List<Map<String, Object>> yldatas = (List<Map<String, Object>>) datas.get("yl_datas"); 
+			for(Map<String, Object> data : yldatas){
 				String expect = (String) data.get("expect");
 				if(expect.equals(list.get(list.size()-1).getExpect())){
 					initData = data;
@@ -225,19 +250,19 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 		}
 		
 		logger.debug("initData={}",new Gson().toJson(initData));
-		redisCache.set("lottery:yl:"+kindOf, new YllrAnalysis(list,lotteryService.getLottery(),initData).doAnalysis());
 		
-		if("bjpk10".equals(kindOf)){
-			redisCache.set("lottery:lr:"+kindOf, new Bjpk10LRAnalysis(list).lr());
-		}
+		Map<String,Object> _500datas = new YllrAnalysis(kindOf,list,lotteryService.getLottery(),initData).doAnalysis();
+		_500datas.put("openSecond", openSecond);
+		redisCache.set("lottery:yllr:"+kindOf, _500datas);
 		
-		List<Map<String, Object>> datas200 = new YllrAnalysis(list,lotteryService.getLottery()).doAnalysis();
-		List<Map<String, Object>> d200 = new ArrayList<Map<String, Object>>();
-		if(datas200.size() > 200){
-			d200.addAll(datas200.subList(datas200.size()-200, datas200.size()));
+		List<LotteryIssue> d200 = new ArrayList<LotteryIssue>();
+		if(list.size() > 200){
+			d200.addAll(list.subList(list.size()-200, list.size()));
 		}else{
-			d200.addAll(datas200);
+			d200.addAll(list);
 		}
-		redisCache.set("lottery:yl:"+kindOf+":200", d200);
+		Map<String,Object> _200datas = new YllrAnalysis(kindOf,d200,lotteryService.getLottery()).doAnalysis();
+		_200datas.put("openSecond", openSecond);
+		redisCache.set("lottery:yllr:"+kindOf+":200", _200datas);
 	}
 }

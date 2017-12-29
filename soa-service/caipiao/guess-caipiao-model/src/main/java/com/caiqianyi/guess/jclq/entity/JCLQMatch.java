@@ -1,7 +1,6 @@
 package com.caiqianyi.guess.jclq.entity;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 
@@ -14,7 +13,7 @@ CREATE TABLE `jclq_match` (
   `hostTeam` varchar(200) NOT NULL COMMENT '主队名',
   `gustTeam` varchar(200) NOT NULL COMMENT '客队名',
   `score` varchar(100) DEFAULT NULL COMMENT '比分',
-  `status` varchar(100) NOT NULL COMMENT '状态',
+  `status` varchar(100) NOT NULL COMMENT '状态 0=未开始，1=进行中，2=已完场',
   `rf` varchar(100) NOT NULL COMMENT '让分',
   `dxf` varchar(100) NOT NULL COMMENT '大小分',
   `matchTime` datetime NOT NULL COMMENT '比赛时间',

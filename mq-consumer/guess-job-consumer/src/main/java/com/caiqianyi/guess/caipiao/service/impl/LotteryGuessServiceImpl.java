@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.caiqianyi.commons.utils.FormulaCalculate;
 import com.caiqianyi.commons.utils.GenerateCode;
-import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 import com.caiqianyi.guess.caipiao.service.ILotteryGuessService;
 import com.caiqianyi.guess.core.dao.IGuessClubLogMapper;
 import com.caiqianyi.guess.core.dao.IGuessClubMapper;
@@ -53,14 +52,13 @@ public class LotteryGuessServiceImpl implements ILotteryGuessService {
 	
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
-	public List<GuessTopic> createTopicByIssueForClub(LotteryIssue issue) {
+	public List<GuessTopic> createTopicByIssueForClub(
+			String seq,int number,String kindOf,String groupId,Date start,Date end) {
 		// TODO Auto-generated method stub
-		String seq = issue.getKindOf()+"|"+issue.getExpect();
 		List<GuessTopic> topics = new ArrayList<GuessTopic>();
 		int count = guessClubLogMapper.count(null, seq);
 		if(count == 0){
-			int number = 1;
-			List<GuessClub> clubs = guessClubMapper.findByKindOf(issue.getKindOf(), number);
+			List<GuessClub> clubs = guessClubMapper.findByKindOf(kindOf, number);
 			if(clubs != null && !clubs.isEmpty()){
 				for(GuessClub club : clubs){
 					List<GuessTemplate> templates = club.getTemplates();
@@ -77,7 +75,7 @@ public class LotteryGuessServiceImpl implements ILotteryGuessService {
 						
 						guessClubLogMapper.writerLog(log);
 						guessClubMapper.update(club);
-						topics.addAll(createGuessTopic(issue.getExpect(), null, issue.getStartTime(), issue.getEndTime(), templates));
+						topics.addAll(createGuessTopic(groupId, null, start, end, templates));
 					}
 				}
 			}

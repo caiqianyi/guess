@@ -1,7 +1,11 @@
 package com.caiqianyi.guess.job.listener;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Binding;
@@ -14,9 +18,11 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import com.caiqianyi.guess.caipiao.core.dao.IJCLQMatchMapper;
 import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
 import com.caiqianyi.guess.caipiao.service.ILotteryCatService;
 import com.caiqianyi.guess.caipiao.service.ILotteryGuessService;
+import com.caiqianyi.guess.jclq.entity.JCLQMatch;
 import com.caiqianyi.guess.job.config.JobDirectRabbitConfig;
 import com.google.gson.Gson;
 
@@ -38,6 +44,9 @@ public class CreateTopicListener {
 	@Resource
 	private ILotteryGuessService lotteryGuessService;
 	
+	@Resource
+	private IJCLQMatchMapper jCLQMatchMapper;
+	
 	@Bean
     public Queue queuecreateLotteryTopicJob() {
         return new Queue(JobDirectRabbitConfig.CREAT_LOTTERY_TOPIC);
@@ -56,10 +65,19 @@ public class CreateTopicListener {
 		String kindOfs[] = body.split("\\,");
 		for(String kindOf : kindOfs){
 			try {
-				LotteryIssue issue = lotteryCatService.getLotteryService(kindOf).getCurrentIssue();
-				logger.debug("issue={}",new Gson().toJson(issue));
-				if(issue != null){
-					lotteryGuessService.createTopicByIssueForClub(issue);
+				if("jclq".equals(kindOf)){
+					logger.debug("kindOf={}",kindOf);
+					List<JCLQMatch> matchs = jCLQMatchMapper.findAllMatchByDay(null, null, "0");
+					for(JCLQMatch match: matchs){
+						lotteryGuessService.createTopicByIssueForClub(match.getSeq(), 1, kindOf, match.getSeq(), null, match.getEndTime());
+					}
+				}else{
+					LotteryIssue issue = lotteryCatService.getLotteryService(kindOf).getCurrentIssue();
+					logger.debug("issue={}",new Gson().toJson(issue));
+					if(issue != null){
+						String seq = issue.getKindOf()+"|"+issue.getExpect();
+						lotteryGuessService.createTopicByIssueForClub(seq, 1, kindOf, issue.getExpect(), issue.getStartTime(), issue.getEndTime());
+					}
 				}
 			}  catch (Exception e) {
 				e.printStackTrace();

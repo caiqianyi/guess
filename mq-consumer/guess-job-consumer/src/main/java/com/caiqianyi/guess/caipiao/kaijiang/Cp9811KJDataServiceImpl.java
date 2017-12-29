@@ -24,7 +24,7 @@ public class Cp9811KJDataServiceImpl implements IKJDataService{
 		map.put("xyft", "xyft");
 		map.put("jspk10", "jspk10");
 		map.put("jsft", "jsft");
-		map.put("ssc", "cqssc");
+		map.put("cqssc", "cqssc");
 		map.put("jsssc", "jsssc");
 		map.put("jsssc", "jsssc");
 		map.put("cqxync", "cqxync");

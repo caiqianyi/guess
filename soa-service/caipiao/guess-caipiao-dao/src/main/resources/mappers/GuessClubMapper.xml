@@ -165,10 +165,10 @@
 		order by tmp.orderBy,opt.orderBy;
 	</select>
 	
-	<select id="countByCreateId">
+	<select id="countByCreateId" resultType="java.lang.Integer">
 		select count(0) from guess_club where createId = #{createId} and status != -1
-		<if test="kindOf != null">
-		    and kindOf = #{kindOf}
+		<if test="name != null">
+		    and name = #{name}
 		</if>
 	</select>
 </mapper>

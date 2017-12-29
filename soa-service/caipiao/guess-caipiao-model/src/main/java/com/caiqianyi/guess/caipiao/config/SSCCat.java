@@ -1,7 +1,7 @@
 package com.caiqianyi.guess.caipiao.config;
 
 public enum SSCCat {
-	SSC("ssc", new Integer[] { 5, 10, 5 }, new String[] {
+	SSC("cqssc", new Integer[] { 5, 10, 5 }, new String[] {
 			"00:00:00-02:00:00", "10:00:00-22:00:00", "22:00:00-24:00:00" },
 			"重庆时时彩", "cqssc"), //120期
 	TJSSC("tjssc", new Integer[] {10}, new String[] {"09:00:00-23:00:00"}, "天津时时彩", "tjssc"),//84期

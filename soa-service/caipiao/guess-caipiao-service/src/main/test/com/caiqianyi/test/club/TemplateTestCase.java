@@ -76,6 +76,36 @@ public class TemplateTestCase {
 		template.setOptions(options);
 		guessTemplateService.create(template);
 	}
+	@Test
+	public void createSf() {
+		
+		GuessTemplate template = new GuessTemplate();
+		template.setClubId(259589);
+		template.setKindOf("jclq");
+		template.setOrderBy(0);
+		template.setSubject("本场比赛谁将获得最终胜利？");
+		template.setTopicType("sf");
+		template.setUserId(userId);
+		template.setStatus(0);
+		
+		List<GuessTemplateOption> options = new ArrayList<GuessTemplateOption>();
+		
+		GuessTemplateOption option1 = new GuessTemplateOption();
+		option1.setFormula("#N1>#N2");
+		option1.setName("#HOST");
+		option1.setOdds(new BigDecimal(5));
+		option1.setOrderBy(0);
+		options.add(option1);
+		
+		GuessTemplateOption option2 = new GuessTemplateOption();
+		option2.setFormula("#N1<#N2");
+		option2.setName("#GUEST");
+		option2.setOdds(new BigDecimal(5));
+		option2.setOrderBy(1);
+		options.add(option2);
+		template.setOptions(options);
+		guessTemplateService.create(template);
+	}
 
 	public void update(GuessTemplate template) {
 		guessTemplateService.update(template);
@@ -83,7 +113,7 @@ public class TemplateTestCase {
 	
 	@Test
 	public void enabled(){
-		guessTemplateService.enabled(1, userId);
+		guessTemplateService.enabled(3, userId);
 	}
 	
 	@Test

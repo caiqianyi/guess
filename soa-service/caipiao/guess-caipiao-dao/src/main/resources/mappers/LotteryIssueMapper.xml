@@ -11,6 +11,11 @@
 		<include refid="Base_Column_List" />
 		from lottery_issue where kindOf=#{kindOf} and startTime &lt;= NOW() and endTime &gt; NOW() and status = 0
 	</select>
+	<select id="getCurrentPrevIssue" resultType="com.caiqianyi.guess.caipiao.entity.LotteryIssue">
+		select
+		<include refid="Base_Column_List" />
+		from lottery_issue where kindOf=#{kindOf} and endTime &lt; NOW() order by startTime desc limit 1;
+	</select>
 	
 	<select id="getIssueByExpect" resultType="com.caiqianyi.guess.caipiao.entity.LotteryIssue">
 		select

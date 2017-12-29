@@ -18,7 +18,7 @@ public class ClubTestCase {
 	@Resource
 	private IClubService clubService;
 	
-	private String kindOf = "bjpk10";
+	private String kindOf = "jclq";
 	private Integer createId = 88731584;
 	private Integer cardNum = 200;
 	private Integer maxMember = 1000;
@@ -28,7 +28,7 @@ public class ClubTestCase {
 	@Test
 	public void create() {
 		clubService.create(GenerateCode.gen(6),
-				createId, maxMember, "好莱坞", null, cardNum, kindOf);
+				createId, maxMember, "豆蔻年华", null, cardNum, kindOf);
 	}
 
 	@Test
@@ -106,7 +106,7 @@ public class ClubTestCase {
 	 */
 	@Test
 	public void recharge() {
-		Integer number = 50;
+		Integer number = 1000;
 		clubService.recharge(clubId, createId, number);
 	}
 

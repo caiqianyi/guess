@@ -44,6 +44,12 @@ public class SyncLotteryOpencodeListener {
         return BindingBuilder.bind(queueSyncLotteryOpencodeJob).to(directExchange).with(JobDirectRabbitConfig.SYNC_LOTTERY_OPENCODE_JOB);
     }
 	
+    /**
+     * bjpk10 0/5 * 9-23 * * ? *  {"queue":"lottery.sync.opencode.job","message":"bjpk10"}
+     * 
+     * cqssc 0/5 * * * * ? * {"queue":"lottery.sync.opencode.job","message":"cqssc"}
+     * @param data
+     */
 	@RabbitHandler
     public void receive(Object data) {
 		Message message = (Message) data;
