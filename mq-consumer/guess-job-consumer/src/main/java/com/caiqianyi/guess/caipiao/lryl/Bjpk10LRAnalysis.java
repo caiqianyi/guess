@@ -39,7 +39,7 @@ public class Bjpk10LRAnalysis {
 				int count = 0;
 				for(int j=0;j<lotterys.size();j++){
 					String lts[] = lotterys.get(j).getOpenCode().split("\\,");
-					if(lts[k].equals(lots[k])){
+					if(lts[i].equals(lots[k])){
 						count++;
 					}
 				}
@@ -79,7 +79,7 @@ public class Bjpk10LRAnalysis {
 	        item.put("r", r);
 	        item.put("w", w);
 	        item.put("l", l);
-	        //logger.debug("item={}",item);
+	        logger.debug("item={}",item);
 			datas.add(item);
 		}
 		return datas;
