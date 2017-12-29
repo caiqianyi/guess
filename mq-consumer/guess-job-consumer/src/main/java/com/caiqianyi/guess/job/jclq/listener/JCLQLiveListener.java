@@ -71,7 +71,7 @@ public class JCLQLiveListener {
 				}
 			}
 			if(isLive){
-				lotteryDataSyncService.syncJCLQMatch(today, yesday);
+				lotteryDataSyncService.syncJCLQMatch(yesday, today);
 			}
 		}  catch (Exception e) {
 			e.printStackTrace();

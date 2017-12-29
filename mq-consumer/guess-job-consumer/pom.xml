@@ -3,7 +3,7 @@
   
   <parent>
   	<groupId>com.lebaoxun</groupId>
-  	<artifactId>service-parent</artifactId>
+  	<artifactId>gateway-parent</artifactId>
   	<version>1.0.0-RELEASE</version>
   </parent>
   
@@ -22,41 +22,42 @@
   
   <dependencies>
     <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-ribbon</artifactId>
-    </dependency>
-    <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-test</artifactId>
         <scope>test</scope> 
     </dependency>
     <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-hystrix</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
-    </dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-config-client</artifactId>
+	</dependency>
     <dependency>
 		<groupId>com.lebaoxun</groupId>
 		<artifactId>common-utils</artifactId>
+		<version>1.0.0-RELEASE</version>
    	</dependency>
    	<dependency>
 		<groupId>com.lebaoxun</groupId>
 		<artifactId>soa-amqp</artifactId>
+		<version>1.0.0-RELEASE</version>
    	</dependency>
    	<dependency>
 		<groupId>com.lebaoxun</groupId>
 		<artifactId>soa-exception</artifactId>
+		<version>1.0.0-RELEASE</version>
    	</dependency>
    	<dependency>
 		<groupId>com.lebaoxun</groupId>
 		<artifactId>soa-web-framework</artifactId>
+		<version>1.0.0-RELEASE</version>
    	</dependency>
     <dependency>
     	<groupId>com.lebaoxun</groupId>
     	<artifactId>soa-rediscache</artifactId>
+    	<version>1.0.0-RELEASE</version>
     </dependency>
     <dependency>
     	<groupId>com.lebaoxun</groupId>

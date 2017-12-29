@@ -176,26 +176,29 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 		
 		LotteryIssue prevIssue = lotteryIssueMapper.getCurrentPrevIssue(kindOf);
 		if(!(prevIssue == null || prevIssue.getStatus().equals(1))){
-			ILotteryService lotteryService = lotteryCatService.getLotteryService(kindOf);
-			issues.addAll(lotteryService.getOpencode(day));
-			if(!issues.isEmpty()){
-				List<LotteryIssue> noOpenList = lotteryIssueMapper.getIssusByKindOfAndStatus(kindOf, 0, day);
-				for(LotteryIssue issue : issues){
-					for(LotteryIssue noOpen : noOpenList){
-						if(noOpen.getExpect().equals(issue.getExpect())){
-							logger.debug("issue={}",new Gson().toJson(issue));
-							noOpen.setOpenCode(issue.getOpenCode());
-							noOpen.setStatus(1);
-							noOpen.setOpenTime(issue.getOpenTime());
-							logger.debug("noOpen={}",new Gson().toJson(noOpen));
-							lotteryIssueMapper.update(noOpen);
-							lotteryGuessService.updateTopicResult(kindOf, noOpen.getExpect(), issue.getOpenCode().split("\\,"));
-							success.add(issue);
+			int openSecond = calOpenTime(kindOf);
+			if(System.currentTimeMillis() - prevIssue.getEndTime().getTime() >= openSecond * 1000 - 15000){
+				ILotteryService lotteryService = lotteryCatService.getLotteryService(kindOf);
+				issues.addAll(lotteryService.getOpencode(day));
+				if(!issues.isEmpty()){
+					List<LotteryIssue> noOpenList = lotteryIssueMapper.getIssusByKindOfAndStatus(kindOf, 0, day);
+					for(LotteryIssue issue : issues){
+						for(LotteryIssue noOpen : noOpenList){
+							if(noOpen.getExpect().equals(issue.getExpect())){
+								logger.debug("issue={}",new Gson().toJson(issue));
+								noOpen.setOpenCode(issue.getOpenCode());
+								noOpen.setStatus(1);
+								noOpen.setOpenTime(issue.getOpenTime());
+								logger.debug("noOpen={}",new Gson().toJson(noOpen));
+								lotteryIssueMapper.update(noOpen);
+								lotteryGuessService.updateTopicResult(kindOf, noOpen.getExpect(), issue.getOpenCode().split("\\,"));
+								success.add(issue);
+							}
 						}
 					}
-				}
-				if(!success.isEmpty()){
-					syncYllrData(kindOf);
+					if(!success.isEmpty()){
+						syncYllrData(prevIssue,kindOf);
+					}
 				}
 			}
 		}
@@ -203,7 +206,18 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 	}
 	
 	private int calOpenTime(String kindOf){
-		LotteryIssue prevIssue = lotteryIssueMapper.getCurrentPrevIssue(kindOf);
+		TreeMap<Integer,Integer> opens = new TreeMap<Integer,Integer>();
+		String opk = "lottery:open:"+kindOf;
+		if(redisCache.exists(opk)){
+			opens = (TreeMap<Integer,Integer>) redisCache.get(opk);
+		}
+		List<Map.Entry<Integer, Integer>> entryArrayList = new ArrayList<Map.Entry<Integer, Integer>>(opens.entrySet());
+        Collections.sort(entryArrayList, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
+        Map.Entry<Integer, Integer> item = entryArrayList.get(entryArrayList.size()-1);
+		return item.getKey();
+	}
+	
+	private int updateOpenTime(LotteryIssue prevIssue,String kindOf){
 		Integer openSecond = 45;
 		if(prevIssue != null){
 			openSecond = (int) ((System.currentTimeMillis() - prevIssue.getEndTime().getTime())/1000);
@@ -220,16 +234,16 @@ public class LotteryDataSyncServiceImpl implements ILotteryDataSyncService{
 		count ++;
 		opens.put(openSecond,count);
 		redisCache.set(opk, opens);
-		List<Map.Entry<Integer, Integer>> entryArrayList = new ArrayList<>(opens.entrySet());
-        Collections.sort(entryArrayList, Comparator.comparing(Map.Entry::getValue));
+		List<Map.Entry<Integer, Integer>> entryArrayList = new ArrayList<Map.Entry<Integer, Integer>>(opens.entrySet());
+        Collections.sort(entryArrayList, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
         Map.Entry<Integer, Integer> item = entryArrayList.get(entryArrayList.size()-1);
 		return item.getKey();
 	}
 	
 	@Override
-	public void syncYllrData(String kindOf) {
+	public void syncYllrData(LotteryIssue prevIssue,String kindOf) {
 		
-		Integer openSecond = calOpenTime(kindOf);
+		Integer openSecond = updateOpenTime(prevIssue,kindOf);
 		
 		// TODO Auto-generated method stub
 		ILotteryService lotteryService = lotteryCatService.getLotteryService(kindOf);

@@ -66,7 +66,7 @@ public class YllrAnalysis {
 		}
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("yl_datas", new ArrayList<Map<String, Object>>(this.datas.values()));
-		logger.debug("datas={}",new Gson().toJson(datas));
+		//logger.debug("datas={}",new Gson().toJson(datas));
 		if("bjpk10".equals(kindOf)){
 			map.put("lr_datas", new Bjpk10LRAnalysis(lotterys).lr());
 		}

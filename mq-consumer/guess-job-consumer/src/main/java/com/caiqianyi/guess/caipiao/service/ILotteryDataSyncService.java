@@ -15,5 +15,5 @@ public interface ILotteryDataSyncService {
 	
 	List<JCLQMatch> syncJCLQMatch(String start,String end);
 	
-	void syncYllrData(String kindOf);
+	void syncYllrData(LotteryIssue prevIssue,String kindOf);
 }

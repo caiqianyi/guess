@@ -79,7 +79,7 @@ public class Bjpk10LRAnalysis {
 	        item.put("r", r);
 	        item.put("w", w);
 	        item.put("l", l);
-	        logger.debug("item={}",item);
+	        //logger.debug("item={}",item);
 			datas.add(item);
 		}
 		return datas;
