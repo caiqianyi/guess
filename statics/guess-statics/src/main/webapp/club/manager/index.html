@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>俱乐部-英雄联盟</title>
+<script type="text/javascript" src="/js/version"></script>
+<script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
+<script type="text/javascript">
+importFiles[importFiles.length] = {src:"/js/club/manager/index.js",type:"script"};
+</script>
+</head>
+
+<body ontouchstart>
+	<header class="ui-header ui-header-positive ui-border-b">
+		<i class="ui-icon-return" onclick="history.back()"></i>
+		<h1 id="h-title">俱乐部</h1>
+		<button class="ui-btn" id="btn-club-entrance">进入</button>
+	</header>
+	<section class="ui-container">
+		<section id="layout">
+			<div class="ui-center" id="club-info">
+				<div class="ui-avatar-lg">
+                    <span style="background-image:url(http://placeholder.qiniudn.com/140x140)"></span>
+                </div>
+                <p>昵称：俱乐部</p>
+			</div>
+			
+			<ul class="ui-list ui-list-one ui-list-link ui-border-tb">
+                <li class="ui-border-t" id="btn-tomembers">
+                    <div class="" style="position: relative; margin: 10px 0px 10px 0;">
+	                    <i class="ui-icon-add-people"></i>
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">成员管理</h4>
+                        <div class="ui-reddot ui-reddot-static"></div>
+                    </div>
+                </li>
+                <li class="ui-border-t" id="btn-toliveness">
+                    <div class="" style="position: relative; margin: 10px 0px 10px 0;">
+	                    <i class="ui-icon-collected"></i>
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">活跃列表</h4>
+                        <div class="ui-reddot ui-reddot-static"></div>
+                    </div>
+                </li>
+                <li class="ui-border-t" id="btn-toorders">
+                    <div class="" style="position: relative; margin: 10px 0px 10px 0;">
+	                    <i class="ui-icon-search"></i>
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">战绩查询</h4>
+                        <div class="ui-reddot ui-reddot-static"></div>
+                    </div>
+                </li>
+                <li class="ui-border-t" id="btn-totemplates">
+                    <div class="" style="position: relative; margin: 10px 0px 10px 0;">
+	                    <i class="ui-icon-news"></i>
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">话题模板</h4>
+                        <div class="ui-reddot ui-reddot-static"></div>
+                    </div>
+                </li>
+                <li class="ui-border-t" id="btn-toclubInfo">
+                    <div class="" style="position: relative; margin: 10px 0px 10px 0;">
+	                    <i class="ui-icon-set"></i>
+                    </div>
+                    <div class="ui-list-info">
+                        <h4 class="ui-nowrap">信息设置</h4>
+                        <div class="ui-reddot ui-reddot-static"></div>
+                    </div>
+                </li>
+            </ul>
+            <div class="ui-btn-wrap"><button class="ui-btn-lg ui-btn-danger" id="btn-dissolution-toggle">解散</button></div>
+		</section>
+		<div class="ui-actionsheet">
+			<div class="ui-actionsheet-cnt">
+				<h4>是否解散此俱乐部？</h4> 
+				<button class="ui-actionsheet-del" id="btn-dissolution-confirm">确定</button>
+				<button onclick="$('.ui-actionsheet').removeClass('show');" id="btn-dissolution-cancel">取消</button> 
+			</div>
+		</div>
+	</section>
+	<!-- /.ui-container-->
+</body>
+</html>

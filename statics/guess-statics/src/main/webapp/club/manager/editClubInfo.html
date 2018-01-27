@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>修改俱乐部</title>
+<script type="text/javascript"
+	src="http://tajs.qq.com/stats?sId=37342703" charset="UTF-8"></script>
+<link rel="stylesheet" href="/css/frozen.css">
+<link rel="stylesheet" href="/css/basic.css">
+<link rel="stylesheet" href="/css/demo.css">
+<script src="/lib/zepto.min.js"></script>
+<script src="/js/frozen.js"></script>
+</head>
+
+<body ontouchstart>
+	<header class="ui-header ui-header-positive ui-border-b">
+		<i class="ui-icon-return" onclick="history.back()"></i>
+		<h1>修改俱乐部</h1>
+		<button class="ui-btn" id="btn-index">回首页</button>
+	</header>
+	<section class="ui-container">
+		<section id="layout">
+			<div class="demo-item">
+	            <div class="ui-form ui-border-t">
+                    <div class="ui-form-item ui-border-b">
+                        <label>名称</label>
+                        <input type="text" placeholder="由1-10个汉字数字字母组成">
+                        <a href="#" class="ui-icon-close"></a>
+                    </div>
+                    <div class="ui-form-item ui-border-b">
+                        <label>简介</label>
+                        <textarea placeholder="简单描述一下俱乐部"></textarea>
+                    </div>
+                    <div class="ui-form-item ui-border-b">
+                        <label>最大成员数</label>
+                        <input type="text" placeholder="最大可设置成员1000人">
+                        <a href="#" class="ui-icon-close"></a>
+                    </div>
+		        </div>
+		    </div>
+		    <div class="ui-tooltips ui-tooltips-warn">
+                <div class="ui-tooltips-cnt ui-tooltips-cnt-link ui-border-b">
+                    <i></i>无法完成创建
+                </div>
+            </div>
+		    <div class="ui-btn-wrap">
+                <button class="ui-btn-lg ui-btn-primary">创建</button>
+            </div>
+			<div class="ui-actionsheet">  
+				<div class="ui-actionsheet-cnt">
+					<h4>是否解散此俱乐部？</h4> 
+					<button class="ui-actionsheet-del" onclick="$('.ui-actionsheet').removeClass('show');">解散</button>
+					<button onclick="$('.ui-actionsheet').removeClass('show');">取消</button> 
+				</div>
+			</div>
+		</section>
+	</section>
+	<!-- /.ui-container-->
+	<script>
+	$("[id^='btn-']").click(function() {
+		var id = $(this).attr('id');
+		var s = id.substring(id.indexOf("-")+1,id.length).split("_");
+		var href = "/";
+		for(var i=0;i<s.length;i++){
+			href += s[i];
+			if(i<s.length-1){
+				href += "/";
+			}
+		}
+		href += ".html";
+		location.href = href;
+	});
+	</script>
+</body>
+</html>

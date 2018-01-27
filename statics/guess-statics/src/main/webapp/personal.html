@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>个人中心</title>
+<script type="text/javascript" src="/js/version"></script>
+<script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
+<script type="text/javascript">
+importFiles[importFiles.length] = {src:"/js/personal.js",type:"script"};
+</script>
+</head>
+
+<body ontouchstart>
+	<header class="ui-header ui-header-positive ui-border-b">
+		<i class="ui-icon-return" onclick="history.back()"></i>
+		<h1>我</h1>
+		<button class="ui-btn" id="btn-index">回首页</button>
+	</header>
+	<section class="ui-container">
+		<section id="layout">
+			<div class="ui-center">
+				<div class="ui-avatar-lg" style="position: relative;">
+                    <span style="background-image:url(http://placeholder.qiniudn.com/140x140)" id="info-headimgurl"></span>
+                </div>
+                <p><span id="info-nickname">一马平川丶</span></p>
+                <p>房卡：<span  id="info-balance"></span></p>
+			</div>
+			<div class="demo-desc ui-btn-group ui-border-t">
+                <button class="ui-btn-lg" id="btn-tocharge">充房卡</button>
+            </div>
+            <div class="ui-form ui-border-t">
+                <form action="#">
+                    <div class="ui-form-item ui-form-item-link ui-border-b" id="btn-orders">
+                        <a href="#">我的战绩</a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-link ui-border-b" id="btn-myclub">
+                        <a href="#">我的俱乐部</a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-link ui-border-b" >
+                        <a href="#">我的账户</a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-link ui-border-b">
+                        <a href="#">我的消息</a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-link ui-border-b">
+                        <a href="#">账户设置</a>
+                    </div>
+                </form>
+            </div>
+            <div class="ui-btn-wrap">
+                <button class="ui-btn-lg ui-btn-danger" id="btn-logout">注销</button>
+            </div>
+		</section>
+	</section>
+	<!-- /.ui-container-->
+</body>
+</html>

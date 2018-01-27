@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>俱乐部信息</title>
+<script type="text/javascript"
+	src="http://tajs.qq.com/stats?sId=37342703" charset="UTF-8"></script>
+<link rel="stylesheet" href="/css/frozen.css">
+<link rel="stylesheet" href="/css/basic.css">
+<link rel="stylesheet" href="/css/demo.css">
+<script src="/lib/zepto.min.js"></script>
+<script src="/js/frozen.js"></script>
+</head>
+
+<body ontouchstart>
+	<header class="ui-header ui-header-positive ui-border-b">
+		<i class="ui-icon-return" onclick="history.back()"></i>
+		<h1>俱乐部信息</h1>
+		<button class="ui-btn" id="btn-index">回首页</button>
+	</header>
+	<section class="ui-container">
+		<section id="layout">
+			<div class="ui-center">
+				<div class="ui-avatar-lg">
+                    <span style="background-image:url(http://placeholder.qiniudn.com/140x140)"></span>
+                </div>
+			</div>
+			<div class="demo-item">
+		        <ul class="ui-list ui-list-one ui-border-tb">
+	                <li>
+	                    <div class="ui-list-info ui-border-t" id="btn-club_manager_editClubInfo">
+	                        <h4 class="ui-nowrap">俱乐部名称</h4>
+	                        <div class="ui-txt-info">神之一族丶</div>
+	                        <i class="ui-icon-arrow"></i>
+	                    </div>
+	                </li>
+	                <li>
+	                    <div class="ui-list-info ui-border-t">
+	                        <h4 class="ui-nowrap">俱乐部ID</h4>
+	                        <div class="ui-txt-info">259589</div>
+	                    </div>
+	                </li>
+	                <li>
+	                    <div class="ui-list-info ui-border-t">
+	                        <h4 class="ui-nowrap">房卡</h4>
+	                        <div class="ui-txt-info">0</div>
+	                        <i class="ui-icon-arrow"></i>
+	                    </div>
+	                </li>
+	                <li>
+	                    <div class="ui-list-info ui-border-t">
+	                        <h4 class="ui-nowrap">类型</h4>
+	                        <div class="ui-txt-info">北京赛车</div>
+	                    </div>
+	                </li>
+	                <li>
+	                    <div class="ui-list-info ui-border-t" id="btn-club_manager_editClubInfo">
+	                        <h4 class="ui-nowrap">俱乐部简介</h4>
+	                        <div class="ui-txt-info">传说中，英雄最终都远走天涯</div>
+	                        <i class="ui-icon-arrow"></i>
+	                    </div>
+	                </li>
+	                <li>
+	                    <div class="ui-list-info ui-border-t" id="btn-club_manager_members">
+	                        <h4 class="ui-nowrap">当前玩家数</h4>
+	                        <div class="ui-txt-info">1</div>
+	                        <i class="ui-icon-arrow"></i>
+	                    </div>
+	                </li>
+	                <li>
+	                    <div class="ui-list-info ui-border-t" id="btn-club_manager_editClubInfo">
+	                        <h4 class="ui-nowrap">最大玩家数</h4>
+	                        <div class="ui-txt-info">1000</div>
+	                        <i class="ui-icon-arrow"></i>
+	                    </div>
+	                </li>
+	                <li>
+	                    <div class="ui-list-info ui-border-t" id="btn-club_manager_liveness">
+	                        <h4 class="ui-nowrap">成员活跃数</h4>
+	                        <div class="ui-txt-info">1000</div>
+	                        <i class="ui-icon-arrow"></i>
+	                    </div>
+	                </li>
+	            </ul>
+		    </div>
+		    <div class="ui-btn-wrap">
+                <button class="ui-btn-lg ui-btn-primary" id="btn-club_manager_editClubInfo">修改</button>
+            </div>
+		</section>
+	</section>
+	<!-- /.ui-container-->
+	<script>
+	$("[id^='btn-']").click(function() {
+		var id = $(this).attr('id');
+		var s = id.substring(id.indexOf("-")+1,id.length).split("_");
+		var href = "/";
+		for(var i=0;i<s.length;i++){
+			href += s[i];
+			if(i<s.length-1){
+				href += "/";
+			}
+		}
+		href += ".html";
+		location.href = href;
+	});
+	</script>
+</body>
+</html>

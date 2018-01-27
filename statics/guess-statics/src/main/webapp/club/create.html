@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>创建俱乐部</title>
+<script type="text/javascript"
+	src="http://tajs.qq.com/stats?sId=37342703" charset="UTF-8"></script>
+<script type="text/javascript" src="/js/version"></script>
+<script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
+<script type="text/javascript">
+importFiles[importFiles.length] = {src:"/js/club/create.js",type:"script"};
+</script>
+</head>
+
+<body ontouchstart>
+	<header class="ui-header ui-header-positive ui-border-b">
+		<i class="ui-icon-return" onclick="history.back()"></i>
+		<h1>填写信息</h1>
+		<button class="ui-btn" id="btn-index">回首页</button>
+	</header>
+	<section class="ui-container">
+		<section id="layout">
+			<div class="demo-item">
+	            <div class="ui-form ui-border-t">
+                    <div class="ui-form-item ui-border-b">
+                        <label>名称</label>
+                        <input type="text" placeholder="由1-10个汉字数字字母组成" name="name">
+                        <a href="#" class="ui-icon-close"></a>
+                    </div>
+                    <div class="ui-form-item ui-border-b">
+                        <label>类型</label>
+                        <div class="ui-select">
+                            <select name="kindOf">
+                                <option value="bjpk10">北京赛车</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="ui-form-item ui-border-b">
+                        <label>公告</label>
+                        <textarea placeholder="50字以内" name="notice"></textarea>
+                    </div>
+                    <div class="ui-form-item ui-border-b">
+                        <label>最大成员数</label>
+                        <input type="text" placeholder="最大可设置成员1000人" name="maxMember">
+                        <a href="#" class="ui-icon-close"></a>
+                    </div>
+		        </div>
+		    </div>
+		    <div id="errtips"></div>
+		    <div class="ui-btn-wrap">
+                <button class="ui-btn-lg ui-btn-primary" id="btn-create">创建</button>
+            </div>
+		</section>
+	</section>
+	<!-- /.ui-container-->
+</body>
+</html>
