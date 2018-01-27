@@ -34,6 +34,7 @@ public interface IGuessClubService {
 			@RequestParam(value = "maxMember") Integer maxMember,
 			@RequestParam(value = "name") String name,
 			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "notice", required = false) String notice,
 			@RequestParam(value = "cardNum") Integer cardNum,
 			@RequestParam(value = "kindOf") String kindOf);
 
@@ -186,6 +187,9 @@ public interface IGuessClubService {
 	SuccessMessage findAllMyClub(
 			@RequestParam(value = "createId") Integer createId);
 
+	@RequestMapping(value = "/guess/club/findAllMyJoinClub", method = RequestMethod.GET)
+	SuccessMessage findAllMyJoinClub(@RequestParam(value = "userId") Integer userId);
+	
 	/**
 	 * 查询俱乐部信息，包括成员信息
 	 * 
@@ -230,5 +234,5 @@ public interface IGuessClubService {
 	SuccessMessage checkLiveness(
 			@RequestParam(value = "clubId") Integer clubId,
 			@RequestParam(value = "createId") Integer createId,
-			@RequestParam(value = "memberId") Integer memberId);
+			@RequestParam(value = "memberId") Integer[] memberId);
 }

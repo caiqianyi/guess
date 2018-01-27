@@ -41,7 +41,7 @@
 	</sql>
 
 	<sql id="Base_Column_List">
-		id, orderNo, clubId, userId, memberId, optionId, kindOf, expect, diamond, score, amount, topicId, status,
+		id, orderNo, clubId, userId, memberId, optionId, kindOf, expect, diamond, score, amount, topicId, status, subject, optionName,
 		createTime
 	</sql>
 
@@ -51,16 +51,27 @@
 		from guess_order
 		<include refid="Base_Where_Clause" />
 		<if test="start != null and start !=''">
-			and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+			and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
 		</if>
 		<if test="end != null and end !=''">
-			and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
-		</if>
-		<if test="size != null">
-			limit #{size}		    
+			and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
 		</if>
 		<if test="offset != null">
-			,#{offset}
+			limit #{offset}
+		</if>
+		<if test="size != null">
+			,#{size}
+		</if>
+	</select>
+	
+	<select id="countBy" resultType="java.lang.Integer">
+		select count(0) from guess_order
+		<include refid="Base_Where_Clause" />
+		<if test="start != null and start !=''">
+			and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+		</if>
+		<if test="end != null and end !=''">
+			and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
 		</if>
 	</select>
 
@@ -70,10 +81,10 @@
 		from guess_order
 		<include refid="Base_Where_Clause" />
 		<if test="start != null and start !=''">
-			and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
+			and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[>=]]>#{start,jdbcType=VARCHAR}
 		</if>
 		<if test="end != null and end !=''">
-			and DATE_FORMAT(beginTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
+			and DATE_FORMAT(createTime,'%Y-%m-%d')<![CDATA[<=]]>#{end,jdbcType=VARCHAR}
 		</if>
 	</select>
 	
@@ -91,10 +102,10 @@
 	<insert id="insert">
 		insert into guess_order (
 		id, orderNo, clubId, userId, memberId, optionId, kindOf, expect, diamond, score, amount, topicId, status,
-		createTime
+		createTime, subject, optionName
 		)
 		values (UUID(), #{order.orderNo}, #{order.clubId}, #{order.userId}, #{order.memberId}, #{order.optionId}, #{order.kindOf}, #{order.expect},
-		#{order.diamond}, NULL, #{order.amount}, #{order.topicId}, 0, now());
+		#{order.diamond}, NULL, #{order.amount}, #{order.topicId}, 0, now(), #{order.subject} ,#{order.optionName});
 	</insert>
 
 	<update id="update">

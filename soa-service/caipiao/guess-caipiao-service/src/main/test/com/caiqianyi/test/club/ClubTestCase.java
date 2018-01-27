@@ -28,7 +28,7 @@ public class ClubTestCase {
 	@Test
 	public void create() {
 		clubService.create(GenerateCode.gen(6),
-				createId, maxMember, "豆蔻年华", null, cardNum, kindOf);
+				createId, maxMember, "豆蔻年华", null, "1111111", cardNum, kindOf);
 	}
 
 	@Test
@@ -55,7 +55,7 @@ public class ClubTestCase {
 	@Test
 	public void applyJoin() {
 		Integer userId = 1;
-		clubService.applyJoin(clubId, 76801658);
+		clubService.applyJoin(clubId, 88731584);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class ClubTestCase {
 	 */
 	@Test
 	public void approvalJoin() {
-		Integer memberId = 3, agree = 1;
+		Integer memberId = 6, agree = 1;
 		clubService.approvalJoin(clubId, createId,
 				memberId, agree);
 	}

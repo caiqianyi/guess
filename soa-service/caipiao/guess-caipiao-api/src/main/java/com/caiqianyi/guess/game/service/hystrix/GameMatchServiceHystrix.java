@@ -13,9 +13,9 @@ import com.caiqianyi.guess.game.entity.GameMatch;
 import com.caiqianyi.guess.game.service.IGameMatchService;
 
 @Component
-public class CopyOfGameMatchServiceHystrix implements IGameMatchService {
+public class GameMatchServiceHystrix implements IGameMatchService {
 	
-	private Logger logger = LoggerFactory.getLogger(CopyOfGameMatchServiceHystrix.class);
+	private Logger logger = LoggerFactory.getLogger(GameMatchServiceHystrix.class);
 
 	@Override
 	public GameMatch findByMatchId(String gameType, Integer matchId) {

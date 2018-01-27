@@ -1,4 +1,4 @@
-package com.caiqianyi.word.rest;
+package com.caiqianyi.wechat.service.impl;
 
 import java.nio.charset.Charset;
 
@@ -8,66 +8,66 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
 import com.caiqianyi.commons.exception.I18nMessageException;
+import com.caiqianyi.soa.core.redis.IRedisCache;
+import com.caiqianyi.soa.core.redis.lock.RedisLock;
+import com.caiqianyi.wechat.service.IWechatApiService;
 import com.ylhy.wechat.vo.AccessToken;
-import com.ylhy.wechat.vo.WechatOAConfig;
 import com.ylhy.wechat.vo.WechatUserInfo;
 
-@RestController
-public class WechatController {
-
-	private Logger logger = LoggerFactory.getLogger(WechatController.class);
+@Service
+public class WechatApiServiceImpl implements IWechatApiService {
 	
-	@Resource
-	private Environment env;
-
+	private Logger logger = LoggerFactory.getLogger(WechatApiServiceImpl.class);
+	
 	private RestTemplate restTemplate = new RestTemplate();
 	
-	@RequestMapping(value = "/wechat/OAConfig/{kindOf}/", method = RequestMethod.GET)
-	WechatOAConfig getOAConfig(@PathVariable("kindOf") String kindOf){
-		String app_id = env.getProperty(kindOf + ".appid"), secret = env
-				.getProperty(kindOf + ".secret"),mch_id = env.getProperty(kindOf+".mch_id");
-		if(StringUtils.isNotBlank(app_id)){
-			WechatOAConfig woaconfig = new WechatOAConfig();
-			woaconfig.setApp_id(app_id);
-			woaconfig.setSecret(secret);
-			woaconfig.setMch_id(mch_id);
-			return woaconfig;
-		}
-		return null;
-	}
+	@Resource
+	private IRedisCache redisCache;
 	
-	@RequestMapping(value = "/wechat/accessToken/{kindOf}/{code}/", method = RequestMethod.GET)
-	AccessToken getAccessToken(@PathVariable("code") String code,
-			@PathVariable("kindOf") String kindOf) {
-		WechatOAConfig woaconfig = getOAConfig(kindOf);
-		logger.debug("appid={},secret={},code={}",woaconfig.getApp_id(),woaconfig.getSecret(),code);
+	@Override
+	public AccessToken getAccessToken(String appid, String secret, String code) {
 		String uri = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={appid}&secret={secret}&code={code}&grant_type=authorization_code";
-		String json = restTemplate.getForObject(uri, String.class, woaconfig.getApp_id(), woaconfig.getSecret(), code);
+		String json = restTemplate.getForObject(uri, String.class, appid, secret, code);
 		logger.debug("json={}",json);
-		
 		JSONObject result = (JSONObject) JSONObject.parse(json);
 		if (result.containsKey("errcode")) {
 			throw new I18nMessageException("40001","error|"+result.getString("errorcode")+"="+result.getString("errmsg"));
 		}
 		return result.toJavaObject(AccessToken.class);
 	}
-	@RequestMapping(value = "/wechat/userInfo/{openid}/{access_token}/", method = RequestMethod.GET)
-	WechatUserInfo getUserInfo(@PathVariable("access_token") String access_token,
-			@PathVariable("openid") String openid) {
-		
+
+	@Override
+	@RedisLock(value="wechat:get:access_token:lock:#arg0")
+	public String getAccessToken(String appid, String secret) {
+		String key = String.format("wechat.%s.access_token", appid);
+		String access_token = (String) redisCache.get(key);
+		if(StringUtils.isBlank(access_token)){
+			String uri = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={}&secret={}";
+			String json = restTemplate.getForObject(uri, String.class, appid, secret);
+			logger.debug("json={}",json);
+			logger.debug("appid={},secret={}",appid,secret);
+			
+			JSONObject result = (JSONObject) JSONObject.parse(json);
+			if (result.containsKey("errcode")) {
+				throw new I18nMessageException("40001","error|"+result.getString("errorcode")+"="+result.getString("errmsg"));
+			}
+			access_token = result.getString("access_token");
+			Long expires_in = result.getLong("expires_in");
+			redisCache.set(key, access_token, expires_in);
+		}
+		return access_token;
+	}
+
+	@Override
+	public WechatUserInfo getUserInfo(String access_token, String openid) {
 		StringHttpMessageConverter m = new StringHttpMessageConverter(Charset.forName("UTF-8"));  
         RestTemplate restTemplate = new RestTemplateBuilder().additionalMessageConverters(m).build();  
         HttpHeaders headers = new HttpHeaders();  
@@ -85,4 +85,5 @@ public class WechatController {
 		}
 		return result.toJavaObject(WechatUserInfo.class);
 	}
+
 }

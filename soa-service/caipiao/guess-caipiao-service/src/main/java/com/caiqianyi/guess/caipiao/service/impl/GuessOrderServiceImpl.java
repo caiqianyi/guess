@@ -136,6 +136,7 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 			if(member == null || !member.getStatus().equals(1)){
 				throw new I18nMessageException("30005","操作失败，成员不存在");
 			}
+			userId = member.getUserId();
 			member.setGuessCount(member.getGuessCount()+1);
 			member.setUnauditedLiveness(member.getUnauditedLiveness()+1);
 			guessClubMemberMapper.update(member);//增加未审核活跃度、增加竞猜次数
@@ -144,6 +145,7 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 			if(user == null){
 				throw new I18nMessageException("21005","玩家不存在！");
 			}
+			userId = user.getUserId();
 		}
 		String expect = topic.getGroupId(),
 				kindOf = topic.getKind();
@@ -167,12 +169,15 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 		order.setExpect(expect);
 		order.setKindOf(kindOf);
 		order.setOptionId(optionId);
+		order.setOptionName(guessTopicOption.getName());
 		order.setOrderNo(orderNo);
 		order.setScore(0);
 		order.setStatus(0);
 		order.setTopicId(topic.getTopicId());
 		order.setUserId(userId);
 		order.setMemberId(memberId);
+		order.setSubject(topic.getSubject());
+		
 		int rows = 0;
 		
 		rows += guessTopicMapper.update(gt);

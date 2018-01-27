@@ -12,7 +12,7 @@ import com.caiqianyi.guess.entity.GuessOrder;
 public interface IGuessOrderMapper {
 	
 	List<GuessOrder> findByForPager(@Param("order")GuessOrder order,
-			@Param("start")String start,@Param("end")String end,Integer size,Integer offset);
+			@Param("start")String start,@Param("end")String end,@Param("size")Integer size,@Param("offset")Integer offset);
 	
 	int countBy(@Param("order")GuessOrder order,
 			@Param("start")String start,@Param("end")String end);

@@ -32,5 +32,7 @@ public interface IGuessClubMemberMapper {
 	
 	List<GuessClubMember> findByClubIdForMember(@Param("clubId")Integer clubId);
 	
+	List<GuessClubMember> findByUserIdForMember(@Param("userId")Integer userId);
+	
 	List<GuessClubMember> findByClubId(@Param("clubId")Integer clubId,@Param("orderBy") String orderBy);
 }

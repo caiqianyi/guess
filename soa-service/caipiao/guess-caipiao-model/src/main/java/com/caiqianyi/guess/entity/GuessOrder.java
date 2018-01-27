@@ -7,11 +7,13 @@ import java.util.Date;
 DROP TABLE IF EXISTS `guess_order`;
 CREATE TABLE `guess_order` (
 	`id` varchar(36) CHARACTER SET utf8mb4 NOT NULL COMMENT '主键',
+	`subject` longtext NOT NULL COMMENT '竞猜题目',
   	`orderNo` varchar(200) NOT NULL COMMENT '订单号',
   	`userId` int(11) NOT NULL COMMENT '用户ID',
   	`memberId` int(11) NOT NULL COMMENT '成员ID',
   	`clubId` int(10) DEFAULT NULL COMMENT '房间ID',
   	`optionId` varchar(200) NOT NULL COMMENT '购买竞猜项ID',
+  	`optionName` varchar(500) NOT NULL COMMENT '选项名',
   	`kindOf` varchar(200) NOT NULL COMMENT '类别',
   	`expect` varchar(200) NOT NULL COMMENT '期号ID',
   	`diamond` int(10) DEFAULT '0.00' COMMENT '金币',
@@ -38,12 +40,14 @@ CREATE TABLE `guess_order` (
 public class GuessOrder {
 	
 	private String id;
+	private String subject;
 	private String orderNo;
 	private Integer clubId;
 	private Integer memberId;
 	private Integer userId;
 	private Integer topicId;
 	private String optionId;
+	private String optionName;
 	private String kindOf;
 	private String expect;
 	private Integer diamond;
@@ -51,6 +55,7 @@ public class GuessOrder {
 	private Integer amount;
 	private Integer status;
 	private Date createTime;
+	
 	public String getId() {
 		return id;
 	}
@@ -134,5 +139,17 @@ public class GuessOrder {
 	}
 	public void setMemberId(Integer memberId) {
 		this.memberId = memberId;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public String getOptionName() {
+		return optionName;
+	}
+	public void setOptionName(String optionName) {
+		this.optionName = optionName;
 	}
 }

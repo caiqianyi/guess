@@ -1,5 +1,8 @@
 package com.caiqianyi.guess.caipiao.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.caiqianyi.commons.exception.SuccessMessage;
 import com.caiqianyi.commons.utils.GenerateCode;
 import com.caiqianyi.guess.caipiao.service.IClubService;
+import com.caiqianyi.guess.entity.GuessClub;
 
 @RestController
 public class ClubController {
@@ -39,10 +43,11 @@ public class ClubController {
 			@RequestParam(value = "maxMember") Integer maxMember,
 			@RequestParam(value = "name") String name,
 			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "notice", required = false) String notice,
 			@RequestParam(value = "cardNum") Integer cardNum,
 			@RequestParam(value = "kindOf") String kindOf) {
 		return new SuccessMessage(clubService.create(GenerateCode.gen(6),
-				createId, maxMember, name, password, cardNum, kindOf));
+				createId, maxMember, name, password, notice, cardNum, kindOf));
 	}
 
 	/**
@@ -216,6 +221,11 @@ public class ClubController {
 			@RequestParam(value = "createId") Integer createId) {
 		return new SuccessMessage(clubService.findAllMyClub(createId));
 	}
+	
+	@RequestMapping(value = "/guess/club/findAllMyJoinClub", method = RequestMethod.GET)
+	SuccessMessage findAllMyJoinClub(@RequestParam(value = "userId") Integer userId) {
+		return new SuccessMessage(clubService.findAllMyJoinClub(userId));
+	}
 
 	/**
 	 * 查询俱乐部信息，包括成员信息
@@ -266,8 +276,12 @@ public class ClubController {
 	SuccessMessage checkLiveness(
 			@RequestParam(value = "clubId") Integer clubId,
 			@RequestParam(value = "createId") Integer createId,
-			@RequestParam(value = "memberId") Integer memberId) {
-		return new SuccessMessage(clubService.checkLiveness(clubId, createId,
-				memberId));
+			@RequestParam(value = "memberId") Integer[] memberId) {
+		List<GuessClub> club = new ArrayList<GuessClub>();
+		for(Integer mem : memberId){
+			club.add(clubService.checkLiveness(clubId, createId,
+					mem));
+		}
+		return new SuccessMessage(club);
 	}
 }

@@ -34,7 +34,7 @@ public interface IClubService {
 	 * @return
 	 */
 	GuessClub create(Integer clubId, Integer createId, Integer maxMember, String name,
-			String password, Integer cardNum, String kindOf);
+			String password, String notice, Integer cardNum, String kindOf);
 
 	/**
 	 * 设置俱乐部信息
@@ -145,6 +145,13 @@ public interface IClubService {
 	 * @return 返回俱乐部信息
 	 */
 	List<GuessClub> findAllMyClub(Integer createId);
+	
+	/**
+	 * 查询我所有加入俱乐部
+	 * @param userId
+	 * @return
+	 */
+	List<GuessClub> findAllMyJoinClub(Integer userId);
 	
 	/**
 	 * 查询俱乐部信息，包括成员信息 

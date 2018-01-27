@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.caiqianyi.commons.exception.I18nMessageException;
 import com.caiqianyi.commons.exception.SuccessMessage;
 import com.caiqianyi.commons.pager.Pager;
 import com.caiqianyi.guess.entity.GuessOrder;
@@ -18,60 +19,51 @@ public class GuessOrderServiceHystrix implements IGuessOrderService {
 
 	@Override
 	public GuessOrder findByOrderNo(String orderNo) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new I18nMessageException("502");
 	}
 
 	@Override
 	public GuessOrder findById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new I18nMessageException("502");
 	}
 	
 	@Override
 	public List<GuessOrder> findAllBy(Integer userId, Integer clubId,
 			Integer status, Integer topicId, String kindOf, String expect) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new I18nMessageException("502");
 	}
 
 	@Override
 	public Pager findByForPager(Integer userId, Integer clubId, Integer status,
 			Integer topicId, String kindOf, String start,
 			String end, Pager pager) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new I18nMessageException("502");
 	}
 
 	@Override
 	public SuccessMessage joinGuess(Integer userId, String optionId,
 			Integer diamond) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new I18nMessageException("502");
 	}
 	
 	@Override
 	public SuccessMessage update(GuessOrder order) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new I18nMessageException("502");
 	}
 
 	@Override
 	public SuccessMessage delete(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new I18nMessageException("502");
 	}
 
 	@Override
 	public SuccessMessage deleteByOrderNo(String orderNo) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new I18nMessageException("502");
 	}
 
 	@Override
 	public SuccessMessage backBonus() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new I18nMessageException("502");
 	}
 
 }

@@ -82,6 +82,10 @@
 	    select id,clubId,nickname,headimgurl,userId,totalLiveness,joinTime from guess_club_member where clubId = #{clubId} and status = 1
 	</select>
 	
+	<select id="findByUserIdForMember" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+	    select clubId,userId from guess_club_member where userId = #{userId} and status = 1 and flag = 1
+	</select>
+	
 	<select id="findByClubId" resultType="com.caiqianyi.guess.entity.GuessClubMember">
 	    select id,<include refid="Base_Column_List"/> from guess_club_member where clubId = #{clubId} and status !=-2 order by #{orderBy}
 	</select>

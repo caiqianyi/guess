@@ -10,7 +10,8 @@ public class GuessClubServiceHystrix implements IGuessClubService {
 
 	@Override
 	public SuccessMessage create(Integer createId, Integer maxMember,
-			String name, String password, Integer cardNum, String kindOf) {
+			String name, String password, String notice, Integer cardNum, 
+			String kindOf) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -89,7 +90,13 @@ public class GuessClubServiceHystrix implements IGuessClubService {
 
 	@Override
 	public SuccessMessage checkLiveness(Integer clubId, Integer createId,
-			Integer memberId) {
+			Integer[] memberId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public SuccessMessage findAllMyJoinClub(Integer userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

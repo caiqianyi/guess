@@ -80,13 +80,13 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
                  return sb.toString();  
             }  
         };  
-    } 
+    }
 	
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	@CachePut(value = "guess:club:info", keyGenerator="guessClubInfoKeyGenerator")
 	public GuessClub create(Integer clubId, Integer createId, Integer maxMember, String name,
-			String password, Integer cardNum, String kindOf) {
+			String password, String notice, Integer cardNum, String kindOf) {
 		// TODO Auto-generated method stub
 		
 		User create = userMapper.findById(createId);
@@ -108,6 +108,7 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 		club.setMaxMember(maxMember);
 		club.setName(name);
 		club.setPassword(password);
+		club.setNotice(notice);
 		club.setStatus(0);
 		club.setTotalLiveness(0);
 		
@@ -376,6 +377,21 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 		List<GuessClub> clubs = new ArrayList<GuessClub>();
 		for(String key : keys){
 			clubs.add((GuessClub) redisCache.getSys(key));
+		}
+		return clubs;
+	}
+	
+	@Override
+	public List<GuessClub> findAllMyJoinClub(Integer userId) {
+		List<GuessClubMember> members = guessClubMemberMapper.findByUserIdForMember(userId);
+		List<GuessClub> clubs = new ArrayList<GuessClub>();
+		if(members != null){
+			for(GuessClubMember member : members){
+				Set<String> keys = redisCache.searchKey("guess:club:info:*:"+member.getClubId());
+				for(String key : keys){
+					clubs.add((GuessClub) redisCache.getSys(key));
+				}
+			}
 		}
 		return clubs;
 	}

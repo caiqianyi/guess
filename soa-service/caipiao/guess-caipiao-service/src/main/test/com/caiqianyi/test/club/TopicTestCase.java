@@ -29,7 +29,7 @@ public class TopicTestCase {
 	@Resource
 	private IGuessOrderService guessOrderService;
 	
-	private Integer clubId = 787072,memberId = 2;
+	private Integer clubId = 787072,memberId = 6;
 	
 	@Test
 	public void findCurrentTopicsLeftOptionsBy(){
