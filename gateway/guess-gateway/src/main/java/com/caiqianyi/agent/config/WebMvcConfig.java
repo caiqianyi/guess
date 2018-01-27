@@ -49,9 +49,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authorityInterceptor())
+        .excludePathPatterns("/encrypt")
+        .excludePathPatterns("/profile")
+        .excludePathPatterns("/now")
+        .excludePathPatterns("/js/version")
     	.excludePathPatterns("/images/**")
     	.excludePathPatterns("/oauth2/**")
-    	.excludePathPatterns("/common/**")
     	.excludePathPatterns("/lottery/**")
     	;
     }

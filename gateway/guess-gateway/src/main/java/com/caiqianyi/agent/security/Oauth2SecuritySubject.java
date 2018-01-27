@@ -5,8 +5,6 @@ import java.util.Arrays;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +18,6 @@ import com.caiqianyi.soa.core.redis.IRedisCache;
 @Component
 public class Oauth2SecuritySubject{
 	
-	private Logger logger = LoggerFactory.getLogger(Oauth2SecuritySubject.class);
 	@Resource
 	private Environment env;
 	
@@ -35,7 +32,6 @@ public class Oauth2SecuritySubject{
 		if(account != null){
 			try {
 				openid = new DesUtils(WebConstants.DES_OAUTH2_OPENID_KEY).encrypt(account);
-				logger.debug("openid={},account={}",openid,account);
 				return openid;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -47,7 +43,6 @@ public class Oauth2SecuritySubject{
 	public Oauth2 refreshToken(String openid){
 		try {
 			String account = new DesUtils(WebConstants.DES_OAUTH2_OPENID_KEY).decrypt(openid);
-			logger.debug("account={},openid={}",account,openid);
 			if(accountService.findByAccount(account) == null){
 				throw new I18nMessageException("500");
 			}
@@ -68,7 +63,6 @@ public class Oauth2SecuritySubject{
 	public boolean checkToken(String token){
 		try {
 			String openid = getOpenidByToken(token);
-			logger.debug("openid={},token={}",openid,token);
 			return redisCache.exists("oauth2:token:"+openid) && 
 					token.equals(redisCache.get("oauth2:token:"+openid));
 		} catch (Exception e) {
@@ -78,7 +72,6 @@ public class Oauth2SecuritySubject{
 	}
 	
 	private String getOpenidByToken(String token) throws Exception{
-		logger.debug("getOpenidByToken|token={}",token);
 		String str = new DesUtils(WebConstants.DES_OAUTH2_TOKEN_KEY).decrypt(token);
 		if(StringUtils.isBlank(str) || str.indexOf(",") < 0){
 			throw new I18nMessageException("500");
@@ -119,7 +112,6 @@ public class Oauth2SecuritySubject{
     	if(StringUtils.isNotBlank(names)){
     		String nms[] = names.split("\\,");
     		for(String nm : nms){
-    			logger.debug("path={},nm={}",path,nm);
     			String sta = "agent.accessWhite."+nm+".";
     			String pathPattern = env.getProperty(sta+"pathPattern");
     			if(StringUtils.isBlank(pathPattern)){
@@ -127,7 +119,6 @@ public class Oauth2SecuritySubject{
     			}
     			String pps[] = pathPattern.split(",");
     			for(String pp : pps){
-    				logger.debug("pp={},path={},matches={}",pp,path,pp.matches(path));
     				if(path.matches(pp)
     						&& !Arrays.asList(env.getProperty(sta+"whiteList").split(","))
     						.contains(account)){

@@ -16,10 +16,4 @@ spring:
 
 # Define the port where the API gateway server would be running
 server:
-  port: 8888
-
-sms:
-  cst_id: 58007
-  secret: 161dea687be947789169bbe13f0b6e25
-  template:
-    findPassword: fe694f4b87a74cfcba54712862625924
+  port: 8080

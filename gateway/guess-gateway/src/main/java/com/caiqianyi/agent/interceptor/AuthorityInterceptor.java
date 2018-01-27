@@ -41,7 +41,7 @@ public class AuthorityInterceptor implements HandlerInterceptor {
     		Object handler) throws Exception {
     	String token = request.getHeader("Authorization");
     	GlobalToken.setToken(token);
-    	logger.debug("token={}",token);
+    	//logger.debug("token={}",token);
     	User user = null;
     	if(StringUtils.isBlank(token) || "null".equals(token)
     			||  !oauth2SecuritySubject.checkToken(token) || 

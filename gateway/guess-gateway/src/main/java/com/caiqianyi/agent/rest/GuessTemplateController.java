@@ -31,7 +31,7 @@ public class GuessTemplateController {
 	 * @param topicType 话题类型
 	 * @return
 	 */
-	@RequestMapping(value="/guess/template/findByUserId/",method=RequestMethod.GET)
+	@RequestMapping(value="/guess/template/findByUserId",method=RequestMethod.GET)
 	SuccessMessage findByUserId(@RequestParam(value = "kindOf",required = false) String kindOf,
 			@RequestParam(value = "topicType",required = false) String topicType){
 		User user = oauth2SecuritySubject.getCurrentUser();
@@ -45,7 +45,7 @@ public class GuessTemplateController {
 	 * @param topicType 话题类型
 	 * @return
 	 */
-	@RequestMapping(value="/guess/template/findByClubId/{clubId}/",method=RequestMethod.GET)
+	@RequestMapping(value="/guess/template/findByClubId/{clubId}",method=RequestMethod.GET)
 	SuccessMessage findByClubId(@PathVariable("clubId") Integer clubId,
 			@RequestParam(value = "kindOf",required = false) String kindOf,
 			@RequestParam(value = "topicType",required = false) String topicType){
@@ -58,7 +58,7 @@ public class GuessTemplateController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="/guess/template/deleteBy/{id}/",method=RequestMethod.GET)
+	@RequestMapping(value="/guess/template/deleteBy/{id}",method=RequestMethod.GET)
 	SuccessMessage deleteBy(@PathVariable("id") Integer id){
 		User user = oauth2SecuritySubject.getCurrentUser();
 		return guessTemplateService.deleteBy(id, user.getUserId());
@@ -69,7 +69,7 @@ public class GuessTemplateController {
 	 * @param template
 	 * @return
 	 */
-	@RequestMapping(value="/guess/template/create/",method=RequestMethod.POST)
+	@RequestMapping(value="/guess/template/create",method=RequestMethod.POST)
 	SuccessMessage create(GuessTemplate template){
 		User user = oauth2SecuritySubject.getCurrentUser();
 		template.setUserId(user.getUserId());
@@ -81,7 +81,7 @@ public class GuessTemplateController {
 	 * @param template
 	 * @return
 	 */
-	@RequestMapping(value="/guess/template/update/",method=RequestMethod.POST)
+	@RequestMapping(value="/guess/template/update",method=RequestMethod.POST)
 	SuccessMessage update(GuessTemplate template){
 		return guessTemplateService.update(template);
 	}
@@ -108,7 +108,7 @@ public class GuessTemplateController {
 	 * @param clubId
 	 * @return
 	 */
-	@RequestMapping(value="/guess/template/copyTemplateToRoom/{clubId}/{templateId}/",method=RequestMethod.GET)
+	@RequestMapping(value="/guess/template/copyTemplateToRoom/{clubId}/{templateId}",method=RequestMethod.GET)
 	SuccessMessage copyTemplateToClub(@PathVariable("templateId") Integer[] templateId,
 			@PathVariable("clubId") Integer clubId){
 		User user = oauth2SecuritySubject.getCurrentUser();
@@ -120,7 +120,7 @@ public class GuessTemplateController {
 	 * @param formula
 	 * @return
 	 */
-	@RequestMapping(value="/guess/template/checkFormula/bjpk10/",method=RequestMethod.GET)
+	@RequestMapping(value="/guess/template/checkFormula/bjpk10",method=RequestMethod.GET)
 	SuccessMessage checkFormulaForBjpk10(String formula){
 		try{
 			return new SuccessMessage(FormulaCalculate.check(new String[] { "01", "02", "03", "04", "05", "06", "07", "08",

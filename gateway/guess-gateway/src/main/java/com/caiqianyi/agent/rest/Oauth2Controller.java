@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.caiqianyi.account.entity.User;
@@ -52,10 +53,9 @@ public class Oauth2Controller extends BaseController{
 	
 	@RequestMapping(value = "/oauth2/token/refresh", method = RequestMethod.GET)
 	SuccessMessage oauthToken(String username,String password,
-			String platform,
-			String verfiyCode,String openid){
+			String platform, String verfiyCode,String openid,
+			String wxopenid, String flag){
 		if(StringUtils.isBlank(openid)){
-			
 			if(!"app".equals(platform)
 					&& !"wechatOA".equals(platform)){
 				String verifycode = (String) request.getSession().getAttribute(WebConstants.SYS_VERIFYCODE);
@@ -103,6 +103,7 @@ public class Oauth2Controller extends BaseController{
 		Map<String,Object> json = new TreeMap<String,Object>();
 		json.put("access_token", oauth2.getAssess_token());
 		json.put("openid", oauth2.getOpenid());
+		json.put("wxopenid", wxopenid);
 		json.put("expires_in", oauth2.getExpires_in());
 		return new SuccessMessage(json);
 	}
@@ -116,7 +117,7 @@ public class Oauth2Controller extends BaseController{
 	 */
 	@RequestMapping(value = "/oauth2/token/wechatOA", method = RequestMethod.GET)
 	SuccessMessage oauthTokenForWechatOA(String code,String state,
-			String openid, String access_token) throws Exception{
+			String openid, String access_token, String flag) throws Exception{
 		if(StringUtils.isNotBlank(code)){
 			logger.info("wechatOA|code={},state={}",code,state);
 			AccessToken accessToken = wechatService.getAccessToken(code, state);
@@ -129,7 +130,12 @@ public class Oauth2Controller extends BaseController{
 		User user = accountService.findByOpenid(openid);
 		logger.debug("user={}",new Gson().toJson(user));
 		if(user == null){
-			WechatUserInfo userInfo = wechatService.getUserInfo(access_token, openid);
+			WechatUserInfo userInfo = null;
+			if(StringUtils.isBlank(access_token))
+				userInfo = wechatService.getUserInfoByKindOf("guess", openid);
+			else
+				userInfo = wechatService.getUserInfo(access_token, openid);
+			
 			Integer userId = GenerateCode.gen(8);
 			String account = "WX_"+userId;
 			String passwd = "R_"+GenerateCode.gen(6);
@@ -157,13 +163,12 @@ public class Oauth2Controller extends BaseController{
 			
 			accountService.register(user);
 		}
-		return oauthToken(user.getAccount(), user.getPassword(), "wechatOA", null, null);
+		return oauthToken(user.getAccount(), user.getPassword(), "wechatOA", null, null, openid, flag);
 	}
 	
-	@RequestMapping(value = "/token/clear", method = RequestMethod.GET)
-	SuccessMessage logout(){
-		oauth2SecuritySubject.logout();
-		return new SuccessMessage();
+	@RequestMapping(value = "/oauth2/wechat/snsapi_userinfo", method = RequestMethod.GET)
+	SuccessMessage getOuath2Url(@RequestParam(value="state") String state){
+		return wechatService.getOuath2Url("guess", "http://vip.dddbi.com/ouath2.html", state);
 	}
 	
 	private void IncrErrorCount(String account,String value) {

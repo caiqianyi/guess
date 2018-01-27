@@ -47,10 +47,11 @@ public class ClubController {
 			@RequestParam(value = "maxMember") Integer maxMember,
 			@RequestParam(value = "name") String name,
 			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "notice", required = false) String notice,
 			@RequestParam(value = "cardNum") Integer cardNum,
 			@RequestParam(value = "kindOf") String kindOf) {
 		return clubService.create(oauth2SecuritySubject.getCurrentUser()
-				.getUserId(), maxMember, name, password, cardNum, kindOf);
+				.getUserId(), maxMember, name, password, notice, cardNum, kindOf);
 	}
 
 	/**
@@ -214,9 +215,15 @@ public class ClubController {
 	 *            创建人
 	 * @return 返回俱乐部信息
 	 */
-	@RequestMapping(value = "/guess/club/myClubs", method = RequestMethod.GET)
-	SuccessMessage myClubs() {
+	@RequestMapping(value = "/guess/club/myCreateBy", method = RequestMethod.GET)
+	SuccessMessage myCreateBy() {
 		return clubService.findAllMyClub(oauth2SecuritySubject.getCurrentUser()
+				.getUserId());
+	}
+	
+	@RequestMapping(value = "/guess/club/myJoinBy", method = RequestMethod.GET)
+	SuccessMessage myJoinBy() {
+		return clubService.findAllMyJoinClub(oauth2SecuritySubject.getCurrentUser()
 				.getUserId());
 	}
 
@@ -267,7 +274,7 @@ public class ClubController {
 	@RequestMapping(value = "/guess/club/checkLiveness", method = RequestMethod.GET)
 	SuccessMessage checkLiveness(
 			@RequestParam(value = "clubId") Integer clubId,
-			@RequestParam(value = "memberId") Integer memberId) {
+			@RequestParam(value = "memberId") Integer[] memberId) {
 		return clubService.checkLiveness(clubId, oauth2SecuritySubject
 				.getCurrentUser().getUserId(), memberId);
 	}

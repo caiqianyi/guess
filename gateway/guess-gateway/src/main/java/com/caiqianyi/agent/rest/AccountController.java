@@ -56,4 +56,10 @@ public class AccountController extends BaseController{
 		User user = oauth2SecuritySubject.getCurrentUser();
 		return new SuccessMessage(accountService.findTradeRecordByUserid(user.getUserId(), tradeType, start, end, size, offset));
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	SuccessMessage logout(){
+		oauth2SecuritySubject.logout();
+		return new SuccessMessage();
+	}
 }
