@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>成员管理</title>
+<script type="text/javascript" src="/js/version"></script>
+<script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
+<script type="text/javascript">
+importFiles[importFiles.length] = {src:"/css/chats.css",type:"css"};
+importFiles[importFiles.length] = {src:"/css/demo.css",type:"css"};
+importFiles[importFiles.length] = {src:"/css/slide_pull_nav.css",type:"css"};
+importFiles[importFiles.length] = {src:"/lib/ktime.js",type:"script"};
+importFiles[importFiles.length] = {src:"/lib/issue.js",type:"script"};
+importFiles[importFiles.length] = {src:"/js/club/webchat.js",type:"script"};
+importFiles[importFiles.length] = {src:"/js/club/bjpk10.js",type:"script"};
+</script>
+<style type="text/css">
+.staticFoot{z-index: 889;background: none repeat scroll 0px center #fff;width: 100%;position: fixed;left: 0px;display: block;border-top:1px solid #ddd;box-shadow: #ccc 0 0px 4px;}
+
+.f-submit{background-color:#3b3b3b;line-height:3.25em;height:3.25em;}
+</style>
+</head>
+
+<body ontouchstart>
+	<header class="ui-header ui-header-positive ui-border-b">
+		<i class="ui-icon-return" onclick="history.back()"></i>
+		<h1>北京赛车</h1>
+		<button class="ui-btn" id="btn-index">回首页</button>
+	</header>
+	<section class="ui-container">
+		<section id="layout">
+			
+			<div class="ui-tab">
+				<ul class="ui-tab-nav ui-border-b">
+					<li class="current">答题</li>
+					<li class="">聊天</li>
+				</ul>
+				<ul class="ui-tab-content"
+					style="width: 300%; transition-property: transform; transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
+					<li class="current" style="height: auto;">
+						<div>
+							<div class="main">
+								<div class="demo-block">
+									<table class="ui-table ui-border-tb">
+						                <tbody>
+							                <tr class="td-data"><td>2014257777</td><td>01</td><td>02</td><td>03</td><td>04</td><td>05</td><td>06</td><td>07</td><td>08</td><td>09</td><td>10</td></tr>
+							                
+							                <tr id="prev" style="display:none"><td id="prev-issue"></td><td colspan="10" id="prev-counter"></td></tr>
+							                <tr id="current"><td id="current-issue"></td><td colspan="10" id="current-counter"></td></tr>
+						                </tbody>
+						            </table>
+								</div>
+								<div class="demo-block" id="showTopic">
+									<p class="demo-desc" id="topicSubject">本期冠军车号是？</p>
+									<div id="topicOption">
+									</div>
+						        </div>
+					            <!-- <div class="staticFoot">
+								    <div class="f-submit">
+								    </div>
+								</div> -->
+								<div class="demo-block">
+						            <section class="ui-input-wrap ui-border-t">
+						                <div class="ui-input ui-border-radius">
+						                    <input type="text" name="diamond" value="" placeholder="输入倍数">
+						                </div>
+						                <button class="ui-btn" id="btn-answer">答题</button>
+						                <button class="ui-btn" id="btn-reset">重置</button>
+						            </section>
+						         </div>
+							</div>
+						
+						    <a href="#cd-nav" class="cd-nav-trigger">
+						        Menu
+						        <span class="cd-nav-icon"></span>
+						        <svg x="0px" y="0px" width="54px" height="54px" viewBox="0 0 54 54">
+						            <circle fill="transparent" stroke="#656e79" stroke-width="1" cx="27" cy="27" r="25" stroke-dasharray="157 157" stroke-dashoffset="157"></circle>
+						        </svg>
+						    </a>
+						    <div id="cd-nav" class="cd-nav">
+						        <div class="cd-navigation-wrapper">
+						            <div class="demo-item">
+								        <p class="demo-desc">话题类型</p>
+								        <div class="demo-block">
+								            <div class="ui-form ui-border-t" id="topicTypes">
+								            </div>
+								        </div>
+								    </div>
+						        </div>
+						    </div>
+						</div>
+					</li>
+					<li class="" style="height: auto;">
+						<div class="ui-form-item ui-form-item-link ui-border-b" style="margin-top: 15px;" id="online">
+							<span class="ui-avatar-tiled"><span style="background-image:url(http://placeholder.qiniudn.com/60x60)"></span></span>
+	                        <span class="ui-avatar-tiled"><span style="background-image:url(http://placeholder.qiniudn.com/60x60)"></span></span>
+	                        <span class="ui-avatar-tiled"><span style="background-image:url(http://placeholder.qiniudn.com/60x60)"></span></span>
+	                        <span class="ui-avatar-tiled"><span style="background-image:url(http://placeholder.qiniudn.com/60x60)"></span></span>
+	                        <span class="ui-avatar-tiled"><span style="background-image:url(http://placeholder.qiniudn.com/60x60)"></span></span>
+                		</div>
+                		
+                		<ul class="ui-list ui-list-one ui-border-tb">
+			                <li class="ui-border-t">
+			                    <div class="ui-list-thumb" style="margin: 15px 0px 10px 0;width: 40px;">
+			                        <i class="ui-icon-bugle"></i>
+			                    </div>
+			                    <div class="ui-list-info" style="padding: 0px;">
+			                        <h4 class="ui-nowrap"><marquee>dfdsjlfkjdlkfjslkdf1111111111111111111111111111111111</marquee></h4>
+			                    </div>
+			                </li>
+			            </ul>
+				        <div class="demo-block"> 
+				            <div class="padd" style="height: 465px;overflow: scroll;margin-bottom: 5px;" id="chat-view" >
+			                    <ul class="chats" id="chat">
+			                    </ul>
+			                  </div>
+				        </div>
+				        <section class="ui-input-wrap ui-border-t">
+			                <div class="ui-input ui-border-radius">
+			                    <input type="text" name="content" value="" placeholder="我也说一句...">
+			                </div>
+			                <button class="ui-btn" id="btn-publish">发表</button>
+			            </section>
+					</li>
+				</ul>
+			</div>
+
+			<div class="ui-actionsheet">  
+				<div class="ui-actionsheet-cnt">
+					<h4>是否解散此俱乐部？</h4> 
+					<button class="ui-actionsheet-del" onclick="$('.ui-actionsheet').removeClass('show');">解散</button>
+					<button onclick="$('.ui-actionsheet').removeClass('show');">取消</button> 
+				</div>
+			</div>
+		</section>
+	</section>
+	<!-- /.ui-container-->
+</body>
+</html>

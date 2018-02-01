@@ -10,6 +10,10 @@ var oauth2 = {
 		    },
 			success: function(response){
 				loading.close();
+				if(!response){
+					alert("服务器异常，稍后重试！");
+					return;
+				}
 				if(response.errcode != 0){
 					//验证不通过 
 					alert(response.errmsg)
@@ -137,7 +141,7 @@ var oauth2 = {
 		if(oauth2.isLogin()){
 			$.ajax({
 				url:"/account/logout",
-				method: "GET",
+				type: "GET",
 				data:{},
 				beforeSend: function(request) {
 			        request.setRequestHeader("Authorization",window.storage.get('token'));
@@ -150,9 +154,13 @@ var oauth2 = {
 		}
 	},
 	ajax: function (param){
-		var ap = $.extend({beforeSend: function(request) {
-	        request.setRequestHeader("Authorization",window.storage.get('token'));
-	    }},param);
+		var ap = $.extend({
+				beforeSend: function(request) {
+					request.setRequestHeader("Authorization",window.storage.get('token'));
+				},
+				dataType: "json",
+				timeout : 30000
+			},param);
 		
 		ap["success"] = function(response){
 			if(response.errcode == 10003){

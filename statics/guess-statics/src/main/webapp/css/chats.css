@@ -1,0 +1,122 @@
+.padd, .modal-body {
+    padding: 13px 15px;
+}
+/* Widget css */
+
+/* Chat Widget starts */
+
+.chats{
+	list-style-type: none;
+	margin: 0px;
+}
+
+.chats li{
+	margin-bottom: 8px;
+	padding-bottom: 8px;
+}
+
+.chats .by-me img{
+	margin-top: 5px;
+	margin-right:10px;
+	padding: 1px;
+	background:#fff;
+	border: 1px solid #ccc;
+}
+
+.chats .by-me .chat-meta{
+	font-size: 10px;
+	color: #999;
+}
+
+.chats .by-me .chat-content{
+	word-wrap:break-word;
+	margin-left: 60px;
+	position: relative; 
+	background: #fff; 
+	border: 1px solid #ddd;
+	padding: 7px 10px;
+	border-radius: 5px;
+	font-size: 11px;
+}
+
+.chats .by-me .chat-content:after, .chats .by-me .chat-content:before { 
+	right: 100%; 
+	border: solid transparent; 
+	content: " "; 
+	height: 0; 
+	width: 0; 
+	position: absolute; 
+	pointer-events: none; 
+} 
+
+.chats .by-me .chat-content:after { 
+	border-color: rgba(255, 255, 255, 0); 
+	border-right-color: #fff; 
+	border-width: 10px; 
+	top: 30%; 
+	margin-top: -10px; 
+} 
+
+.chats .by-me .chat-content:before { 
+	border-color: rgba(238, 238, 238, 0); 
+	border-right-color: #ccc; 
+	border-width: 11px; 
+	top: 30%; 
+	margin-top: -11px; 
+}
+
+.chats .by-other img{
+	margin-top: 5px;
+	margin-left:10px;
+	padding: 1px;
+	background:#fff;
+	border: 1px solid #ccc;
+}
+
+.chats .by-other .chat-meta{
+	font-size: 10px;
+	color: #999;
+}
+
+.chats .by-other .chat-content{
+	word-wrap:break-word;
+	margin-right: 60px;
+	position: relative; 
+	background: #fff; 
+	border: 1px solid #ddd;
+	padding: 7px 10px;
+	border-radius: 5px;
+	font-size: 11px;
+}
+
+.chats .by-other .chat-content:after, .chats .by-other .chat-content:before { 
+	left: 100%; 
+	border: solid transparent; 
+	content: " "; 
+	height: 0; 
+	width: 0; 
+	position: absolute; 
+	pointer-events: none; 
+} 
+
+.chats .by-other .chat-content:after { 
+	border-color: rgba(255, 255, 255, 0); 
+	border-left-color: #fff; 
+	border-width: 10px; 
+	top: 30%; 
+	margin-top: -10px; 
+} 
+
+.chats .by-other .chat-content:before { 
+	border-color: rgba(238, 238, 238, 0); 
+	border-left-color: #ccc; 
+	border-width: 11px; 
+	top: 30%; 
+	margin-top: -11px; 
+}
+.pull-left {
+    float: left!important;
+}
+.pull-right {
+    float: right!important;
+}

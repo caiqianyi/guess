@@ -10,7 +10,7 @@
 <script type="text/javascript" src="/js/version"></script>
 <script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
 <script type="text/javascript">
-importFiles[importFiles.length] = {src:"/js/club/manager/templates.js",type:"script"};
+importFiles[importFiles.length] = {src:"/js/club/manager/topic/list.js",type:"script"};
 </script>
 </head>
 
@@ -21,46 +21,28 @@ importFiles[importFiles.length] = {src:"/js/club/manager/templates.js",type:"scr
 		<button class="ui-btn" id="btn-index">回首页</button>
 	</header>
 	<section class="ui-container">
-		<section id="form">
+		<section id="tab">
 			<div class="demo-item">
 				<div class="demo-block">
 					<div class="ui-tab">
 						<ul class="ui-tab-nav ui-border-b">
-							<li class="current">启用</li>
-							<li class="">禁用</li>
+							<li class="current" id="nav-btn-1">启用</li>
+							<li class="" id="nav-btn-2">禁用</li>
 						</ul>
 						<ul class="ui-tab-content"
 							style="width: 300%; transition-property: transform; transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
 							<li class="current" style="height: auto;">
-								<div class="ui-form ui-border-t">
-				                    <div class="ui-form-item ui-form-item-link ui-border-b" id="btn-club_manager_templateInfo">
-				                        <a href="#">展示链接</a>
-				                    </div>
-				                    <div class="ui-form-item ui-form-item-link ui-border-b" id="btn-club_manager_templateInfo">
-				                        <a href="#">展示链接</a>
-				                    </div>
-				                    <div class="ui-form-item ui-form-item-link ui-border-b" id="btn-club_manager_templateInfo">
-				                        <a href="#">展示链接</a>
-				                    </div>
+								<div class="ui-form ui-border-t" id="enabled_list">
 					            </div>
 							</li>
-							<li class="" style="height: auto;">
+							<li class="" style="height: auto;" id="disable_list">
 								<div class="ui-form ui-border-t">
-				                    <div class="ui-form-item ui-form-item-link ui-border-b" id="btn-club_manager_templateInfo">
-				                        <a href="#">展示链接</a>
-				                    </div>
-				                    <div class="ui-form-item ui-form-item-link ui-border-b" id="btn-club_manager_templateInfo">
-				                        <a href="#">展示链接</a>
-				                    </div>
-				                    <div class="ui-form-item ui-form-item-link ui-border-b" id="btn-club_manager_templateInfo">
-				                        <a href="#">展示链接</a>
-				                    </div>
 					            </div>
 							</li>
 						</ul>
 					</div>
 					<div class="ui-btn-wrap">
-		                <button class="ui-btn-lg ui-btn-primary" id="btn-club_manager_createTemplate">
+		                <button class="ui-btn-lg ui-btn-primary" id="btn-create">
 		                   	 创建
 		                </button>
 		            </div>

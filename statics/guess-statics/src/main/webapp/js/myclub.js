@@ -72,7 +72,7 @@ $(function(){
                 	}
                 	$('#createClubs').html(html);
                 }else{
-                	$("#btn-joinByClubs").click();
+                	//$("#btn-joinByClubs").click();
                 }
             }
         });
@@ -90,7 +90,7 @@ $(function(){
                 	for(var i=0;i<response.data.length;i++){
                 		var item = response.data[i];
                 		html += '<li>';
-                		html += '	<div class="ui-grid-halve-img ui-tag-svip" onclick="go(\'/club/manager/index.html?clubId='+item.clubId+'\');">';
+                		html += '	<div class="ui-grid-halve-img ui-tag-svip" onclick="go(\'/club/'+item.kindOf+'.html?clubId='+item.clubId+'\');">';
                 		if(item.icon){
                 			html += '		<span style="background-image: url(http://placeholder.qiniudn.com/290x160)"></span>';
                 		}else{

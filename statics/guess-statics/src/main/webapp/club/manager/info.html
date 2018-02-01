@@ -7,16 +7,14 @@
 	content="initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no">
 <title>俱乐部信息</title>
-<script type="text/javascript"
-	src="http://tajs.qq.com/stats?sId=37342703" charset="UTF-8"></script>
-<link rel="stylesheet" href="/css/frozen.css">
-<link rel="stylesheet" href="/css/basic.css">
-<link rel="stylesheet" href="/css/demo.css">
-<script src="/lib/zepto.min.js"></script>
-<script src="/js/frozen.js"></script>
+<script type="text/javascript" src="/js/version"></script>
+<script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
+<script type="text/javascript">
+importFiles[importFiles.length] = {src:"/js/club/manager/info.js",type:"script"};
+</script>
 </head>
 
-<body ontouchstart>
+<body ontouchstart> 
 	<header class="ui-header ui-header-positive ui-border-b">
 		<i class="ui-icon-return" onclick="history.back()"></i>
 		<h1>俱乐部信息</h1>
@@ -32,81 +30,66 @@
 			<div class="demo-item">
 		        <ul class="ui-list ui-list-one ui-border-tb">
 	                <li>
-	                    <div class="ui-list-info ui-border-t" id="btn-club_manager_editClubInfo">
+	                    <div class="ui-list-info ui-border-t" id="btn-toEdit1">
 	                        <h4 class="ui-nowrap">俱乐部名称</h4>
-	                        <div class="ui-txt-info">神之一族丶</div>
+	                        <div class="ui-txt-info" id="info-name"></div>
 	                        <i class="ui-icon-arrow"></i>
 	                    </div>
 	                </li>
 	                <li>
 	                    <div class="ui-list-info ui-border-t">
 	                        <h4 class="ui-nowrap">俱乐部ID</h4>
-	                        <div class="ui-txt-info">259589</div>
+	                        <div class="ui-txt-info" id="info-id">0</div>
 	                    </div>
 	                </li>
 	                <li>
 	                    <div class="ui-list-info ui-border-t">
-	                        <h4 class="ui-nowrap">房卡</h4>
-	                        <div class="ui-txt-info">0</div>
+	                        <h4 class="ui-nowrap">余额</h4>
+	                        <div class="ui-txt-info" id="info-balance">0</div>
 	                        <i class="ui-icon-arrow"></i>
 	                    </div>
 	                </li>
 	                <li>
 	                    <div class="ui-list-info ui-border-t">
 	                        <h4 class="ui-nowrap">类型</h4>
-	                        <div class="ui-txt-info">北京赛车</div>
+	                        <div class="ui-txt-info" id="info-kindOf">北京赛车</div>
 	                    </div>
 	                </li>
 	                <li>
-	                    <div class="ui-list-info ui-border-t" id="btn-club_manager_editClubInfo">
+	                    <div class="ui-list-info ui-border-t" id="btn-toEdit2">
 	                        <h4 class="ui-nowrap">俱乐部简介</h4>
-	                        <div class="ui-txt-info">传说中，英雄最终都远走天涯</div>
+	                        <div class="ui-txt-info" id="info-notice"></div>
 	                        <i class="ui-icon-arrow"></i>
 	                    </div>
 	                </li>
 	                <li>
-	                    <div class="ui-list-info ui-border-t" id="btn-club_manager_members">
+	                    <div class="ui-list-info ui-border-t" id="btn-toMembers">
 	                        <h4 class="ui-nowrap">当前玩家数</h4>
-	                        <div class="ui-txt-info">1</div>
+	                        <div class="ui-txt-info" id="info-currentMember">0</div>
 	                        <i class="ui-icon-arrow"></i>
 	                    </div>
 	                </li>
 	                <li>
-	                    <div class="ui-list-info ui-border-t" id="btn-club_manager_editClubInfo">
+	                    <div class="ui-list-info ui-border-t" id="btn-toEdit3">
 	                        <h4 class="ui-nowrap">最大玩家数</h4>
-	                        <div class="ui-txt-info">1000</div>
+	                        <div class="ui-txt-info" id="info-maxMember">0</div>
 	                        <i class="ui-icon-arrow"></i>
 	                    </div>
 	                </li>
 	                <li>
-	                    <div class="ui-list-info ui-border-t" id="btn-club_manager_liveness">
+	                    <div class="ui-list-info ui-border-t" id="btn-toLiveness">
 	                        <h4 class="ui-nowrap">成员活跃数</h4>
-	                        <div class="ui-txt-info">1000</div>
+	                        <div class="ui-txt-info" id="info-totalLiveness">0</div>
 	                        <i class="ui-icon-arrow"></i>
 	                    </div>
 	                </li>
 	            </ul>
 		    </div>
 		    <div class="ui-btn-wrap">
-                <button class="ui-btn-lg ui-btn-primary" id="btn-club_manager_editClubInfo">修改</button>
+                <button class="ui-btn-lg ui-btn-primary" id="btn-toEdit4">修改</button>
             </div>
 		</section>
 	</section>
 	<!-- /.ui-container-->
-	<script>
-	$("[id^='btn-']").click(function() {
-		var id = $(this).attr('id');
-		var s = id.substring(id.indexOf("-")+1,id.length).split("_");
-		var href = "/";
-		for(var i=0;i<s.length;i++){
-			href += s[i];
-			if(i<s.length-1){
-				href += "/";
-			}
-		}
-		href += ".html";
-		location.href = href;
-	});
-	</script>
 </body>
 </html>

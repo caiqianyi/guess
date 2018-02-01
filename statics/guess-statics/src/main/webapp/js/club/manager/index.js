@@ -1,10 +1,7 @@
 $(function(){
+	var club = null;
+	var clubId = GetQueryString("clubId");
 	
-	$("#btn-index").click(function(){
-		go("/index.html");
-	});
-	
-    var clubId = GetQueryString("clubId");
 	oauth2.ajax({
 		type: 'GET',
 		url: '/guess/club/info',
@@ -38,6 +35,10 @@ $(function(){
 	});
     
     $("#btn-club-entrance").click(function(){
+		if(club){
+			go('/club/'+club.kindOf+'.html?clubId='+clubId);
+			return;
+		}
 		go("/index.html");
 	});
     
@@ -54,11 +55,11 @@ $(function(){
     });
     
     $("#btn-totemplates").click(function(){
-    	go("/club/manager/templates.html?clubId="+clubId);
+    	go("/club/manager/topic/list.html?clubId="+clubId);
     });
     
     $("#btn-toclubInfo").click(function(){
-    	go("/club/manager/clubInfo.html?clubId="+clubId);
+    	go("/club/manager/info.html?clubId="+clubId);
     });
     
     $("#btn-dissolution-toggle").click(function(){

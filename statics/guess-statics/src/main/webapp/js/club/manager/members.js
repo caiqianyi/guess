@@ -137,6 +137,7 @@ $(function(){
 			},
 			dataType: 'json',
 			success: function(response){
+				$("#remove-actionsheet").removeClass("show");
 				$("#members1").click();
 				alert("操作成功");
 			}
@@ -154,6 +155,7 @@ $(function(){
 			},
 			dataType: 'json',
 			success: function(response){
+				$("#join-actionsheet").removeClass("show");
 				$("#members0").click();
 				alert("操作成功");
 			}
@@ -171,6 +173,7 @@ $(function(){
 			},
 			dataType: 'json',
 			success: function(response){
+				$("#quit-actionsheet").removeClass("show");
 				$("#members-1").click();
 				alert("操作成功");
 			}

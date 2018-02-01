@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>编辑模板</title>
+<script type="text/javascript" src="/js/version"></script>
+<script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
+<script type="text/javascript">
+importFiles[importFiles.length] = {src:"/css/demo.css",type:"css"};
+importFiles[importFiles.length] = {src:"/js/club/manager/topic/edit.js",type:"script"};
+</script>
+</head>
+
+<body >
+	<header class="ui-header ui-header-positive ui-border-b">
+		<i class="ui-icon-return" onclick="history.back()"></i>
+		<h1>编辑模板</h1>
+		<button class="ui-btn" id="btn-index">回首页</button>
+	</header>
+	<section class="ui-container">
+		<section id="layout">
+			<div class="demo-item">
+		        <p class="demo-desc">基础信息</p>
+	            <div class="ui-form ui-border-t">
+                    <div class="ui-form-item ui-border-b">
+                        <label>题目</label>
+                        <input type="text" placeholder="如：第#ISSUE#期冠军是？" name="subject">
+                        <a href="#" class="ui-icon-close"></a>
+                    </div>
+                    <div class="ui-form-item ui-border-b">
+                        <label>话题类型</label>
+                        <input type="text" placeholder="如：冠军" name="topicType">
+                        <a href="#" class="ui-icon-close"></a>
+                    </div>
+                    <div class="ui-form-item ui-border-b">
+                        <label>顺序数字</label>
+                        <input type="text" placeholder="数字越小排名越在前" name="orderBy">
+                        <a href="#" class="ui-icon-close"></a>
+                    </div>
+                    <div class="ui-form-item ui-form-item-switch ui-border-b">
+                        <p>是否启用</p>
+                        <label class="ui-switch">
+                            <input type="checkbox" name="status">
+                        </label>
+                    </div>
+		        </div>
+		        <div id="optionsDesc">
+		        
+		        </div>
+		        <div class="demo-block">
+		        	<i class="ui-icon-add" style="color: #18b4ed;font-size: 24px;" id="btn-addOption">新选项</i>
+		        </div>
+		    </div>
+		    <div class="ui-btn-wrap ui-btn-group">
+                <button class="ui-btn-lg ui-btn-primary ui-btn-danger" id="btn-remove">删除</button>
+                <button class="ui-btn-lg ui-btn-primary" id="btn-save">保存</button>
+            </div>
+			<div class="ui-actionsheet">  
+				<div class="ui-actionsheet-cnt">
+					<h4>是否删除此话题？</h4> 
+					<button class="ui-actionsheet-del" id="remove-topic">删除</button>
+					<button onclick="$('.ui-actionsheet').removeClass('show');">取消</button> 
+				</div>
+			</div>
+		</section>
+	</section>
+	<!-- /.ui-container-->
+</body>
+</html>
