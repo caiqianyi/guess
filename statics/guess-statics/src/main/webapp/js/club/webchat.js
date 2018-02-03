@@ -105,6 +105,7 @@ WebChat.prototype.connection = function(room,discovery){
         });*/
     };
     _this.ws.onclose = function (evt) {
+    	_this.connection(room,discovery); //递归轮询
     	var el=$.tips({
             content:'已经关闭连接!',
             stayTime:2000,

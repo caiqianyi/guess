@@ -369,6 +369,22 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 		guessClubMapper.update(club);
 		return club;
 	}
+	
+	@Override
+	public GuessClub findClubInfo(Integer clubId) {
+		// TODO Auto-generated method stub
+		Set<String> keys = redisCache.searchKey("guess:club:info:*:"+clubId);
+		for(String key : keys){
+			GuessClub club = (GuessClub) redisCache.getSys(key);
+			club.setCardNum(null);
+			club.setCreateId(null);
+			club.setId(null);
+			club.setMaxMember(null);
+			club.setPassword(null);
+			return club;
+		}
+		return null;
+	}
 
 	@Override
 	public List<GuessClub> findAllMyClub(Integer createId) {

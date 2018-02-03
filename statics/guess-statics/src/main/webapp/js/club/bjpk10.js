@@ -104,25 +104,16 @@ $(function(){
     	data: {clubId:clubId},
     	dataType: "json",
     	success: function(response){
-    		member = response.data;
+    		member = response.data.member;
+    		var club = response.data.club;
+    		$("#info-name").html(club.name);
+			$("marquee").html(club.notice);
     		webchat.connection({
     			id:clubId,
     			memberId:member.id
     		});
     	}
     });
-    
-    oauth2.ajax({
-		type: 'GET',
-		url: '/guess/club/info',
-		data: {clubId:clubId},
-		dataType: 'json',
-		success: function(response){
-			var club = response.data;
-			$("#info-name").html(club.name);
-			$("marquee").html(club.notice);
-		}
-	});
     
     var topics = null;
     function refreshTopic(){

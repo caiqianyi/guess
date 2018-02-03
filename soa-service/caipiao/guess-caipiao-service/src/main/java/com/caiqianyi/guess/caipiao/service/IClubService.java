@@ -161,6 +161,8 @@ public interface IClubService {
 	 */
 	GuessClub findClubInfo(Integer clubId, Integer createId);
 	
+	GuessClub findClubInfo(Integer clubId);
+	
 	/**
 	 * 查询俱乐部所有成员
 	 * @param createId 创建人

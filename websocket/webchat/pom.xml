@@ -60,12 +60,6 @@
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>7.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.lebaoxun</groupId>
 			<artifactId>guess-caipiao-model</artifactId>
 			<version>1.0.0-RELEASE</version>

@@ -61,11 +61,11 @@ public class CommonController {
 	@RequestMapping(value = "/js/version",produces="application/javascript;charset=UTF-8", method = RequestMethod.GET)
 	String version(){
 		String version = DateFormatUtils.format(new Date(), "yyyyMMDDHHmmss"),key = "agent:statics:version";
-		/*if(redisCache.exists(key)){
-			version = (String) redisCache.get(key);
+		if(redisCache.exists(key)){
+			version = (String) redisCache.getSys(key);
 		}else{
-			redisCache.set(key, version);
-		}*/
+			redisCache.setSys(key, version);
+		}
 		return "var static_version = \""+version+"\";";
 	}
 }

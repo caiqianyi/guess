@@ -40,7 +40,8 @@ public class ClubController {
 		List<String> url = new ArrayList<String>();
 		List<ServiceInstance> serviceInstances = discoveryClient.getInstances(application);
 		for(ServiceInstance si : serviceInstances){
-			String ws = "ws://"+si.getHost()+":"+si.getPort()+"/server/club/";
+			String host = "172.17.185.167".equals(si.getHost())?"47.95.7.11":si.getHost();
+			String ws = "ws://"+host+":"+si.getPort()+"/server/club/";
 			url.add(ws);
 		}
 	    return new SuccessMessage(url);

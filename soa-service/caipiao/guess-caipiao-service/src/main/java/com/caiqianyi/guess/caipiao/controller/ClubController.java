@@ -1,14 +1,12 @@
 package com.caiqianyi.guess.caipiao.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +16,7 @@ import com.caiqianyi.commons.exception.SuccessMessage;
 import com.caiqianyi.commons.utils.GenerateCode;
 import com.caiqianyi.guess.caipiao.service.IClubService;
 import com.caiqianyi.guess.entity.GuessClub;
+import com.caiqianyi.guess.entity.GuessClubMember;
 
 @RestController
 public class ClubController {
@@ -269,7 +268,12 @@ public class ClubController {
 	SuccessMessage findMemberByUserId(
 			@RequestParam(value = "clubId") Integer clubId, 
 			@RequestParam(value = "userId") Integer userId) {
-		return new SuccessMessage(clubService.findMemberByUserId(clubId, userId));
+		GuessClubMember member = clubService.findMemberByUserId(clubId, userId);
+		GuessClub club = clubService.findClubInfo(clubId);
+		Map<String,Object> datas = new HashMap<String,Object>();
+		datas.put("member", member);
+		datas.put("club", club);
+		return new SuccessMessage(datas);
 	}
 
 	/**
