@@ -5,6 +5,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +23,7 @@ import com.caiqianyi.guess.entity.GuessClub;
 public class ClubController {
 	@Resource
 	private IClubService clubService;
-
+	
 	/**
 	 * 创建俱乐部
 	 * 
@@ -259,6 +263,13 @@ public class ClubController {
 			@RequestParam(value = "status",required=false) Integer status) {
 		return new SuccessMessage(clubService.findAllMemberByClub(clubId,
 				status));
+	}
+	
+	@RequestMapping(value = "/guess/club/findMemberByUserId", method = RequestMethod.GET)
+	SuccessMessage findMemberByUserId(
+			@RequestParam(value = "clubId") Integer clubId, 
+			@RequestParam(value = "userId") Integer userId) {
+		return new SuccessMessage(clubService.findMemberByUserId(clubId, userId));
 	}
 
 	/**

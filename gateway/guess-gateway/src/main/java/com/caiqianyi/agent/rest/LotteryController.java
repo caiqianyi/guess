@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.caiqianyi.commons.exception.SuccessMessage;
+import com.caiqianyi.guess.caipiao.entity.LotteryIssue;
+import com.caiqianyi.guess.caipiao.service.IssueService;
 import com.caiqianyi.soa.core.redis.IRedisCache;
 
 @RestController
@@ -15,6 +17,15 @@ public class LotteryController {
 	
 	@Resource
 	private IRedisCache redisCache;
+	
+	@Resource
+	private IssueService issueService;
+	
+	@RequestMapping(value="/lottery/issue/{kindOf}",method=RequestMethod.GET)
+	SuccessMessage issue(@PathVariable("kindOf")String kindOf){
+		LotteryIssue issue = issueService.getCurrentIssue(kindOf);
+		return new SuccessMessage(issue);
+	}
 	
 	@RequestMapping(value="/lottery/yllr/{kindOf}/200",method=RequestMethod.GET)
 	SuccessMessage bjpk10yl(@PathVariable("kindOf")String kindOf){

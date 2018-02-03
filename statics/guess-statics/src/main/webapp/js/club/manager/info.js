@@ -46,4 +46,7 @@ $(function(){
     $("#btn-toLiveness").click(function(){
     	go("/club/manager/liveness.html?clubId="+clubId);
     });
+    $("#btn-toRecharge").click(function(){
+    	go("/club/manager/recharge.html?clubId="+clubId);
+    });
 });

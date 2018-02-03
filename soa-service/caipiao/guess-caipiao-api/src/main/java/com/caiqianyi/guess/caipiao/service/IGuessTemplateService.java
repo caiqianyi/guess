@@ -25,6 +25,10 @@ public interface IGuessTemplateService {
 			@RequestParam(value = "kindOf",required = false) String kindOf,
 			@RequestParam(value = "topicType",required = false) String topicType);
 	
+	@RequestMapping(value = "/guess/template/findById/{userId}/{id}/", method = RequestMethod.GET)
+	SuccessMessage findById(@PathVariable("id") Integer id,
+			@PathVariable("userId") Integer userId);
+			
 	@RequestMapping(value="/guess/template/deleteBy/{userId}/{id}/",method=RequestMethod.GET)
 	SuccessMessage deleteBy(@PathVariable("id") Integer id,
 			@PathVariable("userId") Integer userId);

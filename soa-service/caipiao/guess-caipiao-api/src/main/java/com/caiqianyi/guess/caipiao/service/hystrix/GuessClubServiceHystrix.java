@@ -89,6 +89,12 @@ public class GuessClubServiceHystrix implements IGuessClubService {
 	}
 
 	@Override
+	public SuccessMessage findMemberByUserId(Integer clubId, Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
 	public SuccessMessage checkLiveness(Integer clubId, Integer createId,
 			Integer[] memberId) {
 		// TODO Auto-generated method stub

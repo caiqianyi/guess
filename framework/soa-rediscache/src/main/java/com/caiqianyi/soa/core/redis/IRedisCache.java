@@ -22,6 +22,8 @@ public interface IRedisCache {
 	 * @return
 	 */
 	public boolean set(String key, Object obj);
+	
+	public boolean setSys(String key, Object obj);
 
 	/**
 	 * 

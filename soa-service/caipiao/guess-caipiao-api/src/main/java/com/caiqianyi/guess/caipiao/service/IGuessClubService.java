@@ -219,6 +219,10 @@ public interface IGuessClubService {
 			@RequestParam(value = "clubId") Integer clubId, 
 			@RequestParam(value = "status",required=false) Integer status);
 
+	@RequestMapping(value = "/guess/club/findMemberByUserId", method = RequestMethod.GET)
+	SuccessMessage findMemberByUserId(
+			@RequestParam(value = "clubId") Integer clubId, 
+			@RequestParam(value = "userId") Integer userId);
 	/**
 	 * 审核成员活跃度
 	 * 

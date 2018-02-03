@@ -37,6 +37,8 @@ public class LotteryIssue {
 	private Date startTime;
 	private Date endTime;
 	private Date createTime;
+	
+	private Integer timeRemaining;
 	public String getId() {
 		return id;
 	}
@@ -90,5 +92,11 @@ public class LotteryIssue {
 	}
 	public void setOpenTime(Date openTime) {
 		this.openTime = openTime;
+	}
+	public Integer getTimeRemaining() {
+		if(endTime != null){
+			timeRemaining = ((int)((endTime.getTime() - System.currentTimeMillis()) / 1000));
+		}
+		return timeRemaining;
 	}
 }

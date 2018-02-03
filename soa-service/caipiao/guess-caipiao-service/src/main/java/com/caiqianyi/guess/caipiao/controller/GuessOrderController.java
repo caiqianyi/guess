@@ -71,7 +71,7 @@ public class GuessOrderController {
 	
 	@RequestMapping(value="/guess/order/joinGuess/",method=RequestMethod.GET)
 	SuccessMessage joinGuess(@RequestParam(value="userId") Integer userId,
-			@RequestParam(value="optionId") String optionId,
+			@RequestParam(value="optionId") String[] optionId,
 			@RequestParam(value="diamond") Integer diamond){
 		return new SuccessMessage(guessOrderService.joinGuess(userId, optionId, diamond));
 	}

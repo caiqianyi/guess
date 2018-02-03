@@ -1,7 +1,13 @@
 package com.caiqianyi.agent.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +30,21 @@ public class ClubController {
 	
 	@Resource
 	private IGuessTopicService guessTopicService;
+	
+	@Autowired
+	private DiscoveryClient discoveryClient;
+	
+	@RequestMapping(method=RequestMethod.GET,value="/guess/club/webchat/discovery")
+	public SuccessMessage serviceUrl() {
+		String application = "web-chat";
+		List<String> url = new ArrayList<String>();
+		List<ServiceInstance> serviceInstances = discoveryClient.getInstances(application);
+		for(ServiceInstance si : serviceInstances){
+			String ws = "ws://"+si.getHost()+":"+si.getPort()+"/server/club/";
+			url.add(ws);
+		}
+	    return new SuccessMessage(url);
+	}
 
 	/**
 	 * 创建俱乐部
@@ -203,7 +224,7 @@ public class ClubController {
 	 */
 	@RequestMapping(value = "/guess/club/recharge", method = RequestMethod.GET)
 	SuccessMessage recharge(@RequestParam(value = "clubId") Integer clubId,
-			Integer number) {
+			@RequestParam(value = "number") Integer number) {
 		return clubService.recharge(clubId, oauth2SecuritySubject
 				.getCurrentUser().getUserId(), number);
 	}
@@ -258,6 +279,12 @@ public class ClubController {
 			@RequestParam(value = "clubId") Integer clubId,
 			@RequestParam(value = "status", required = false) Integer status) {
 		return clubService.findAllMemberByClub(clubId, status);
+	}
+	
+	@RequestMapping(value = "/guess/club/into", method = RequestMethod.GET)
+	SuccessMessage findMemberByUserId(@RequestParam(value = "clubId") Integer clubId){
+		return clubService.findMemberByUserId(clubId, oauth2SecuritySubject.getCurrentUser()
+				.getUserId());
 	}
 
 	/**

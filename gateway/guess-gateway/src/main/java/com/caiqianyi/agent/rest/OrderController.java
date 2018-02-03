@@ -73,7 +73,7 @@ public class OrderController {
 			end = DateUtils.formatDate(new Date(), "yyyy-MM-dd");
 		}
 		return new SuccessMessage(guessOrderService.findByForPager(
-				oauth2SecuritySubject.getCurrentUser().getUserId(), null, null,
+				oauth2SecuritySubject.getCurrentUser().getUserId(), clubId, null,
 				null, null, start, end, pager));
 	}
 
@@ -86,9 +86,9 @@ public class OrderController {
 	 */
 	@RequestMapping(value = "/guess/order/winning/{clubId}/{kindOf}/{expect}", method = RequestMethod.POST)
 	SuccessMessage findWinningByExpect(
-			@RequestParam(value = "clubId") Integer clubId,
-			@RequestParam(value = "kindOf")String kindOf,
-			@RequestParam(value = "expect") String expect) {
+			@PathVariable(value = "clubId") Integer clubId,
+			@PathVariable(value = "kindOf")String kindOf,
+			@PathVariable(value = "expect") String expect) {
 		return new SuccessMessage(guessOrderService.findAllBy(
 				oauth2SecuritySubject.getCurrentUser().getUserId(), clubId,
 				1, null, kindOf, expect));
@@ -119,7 +119,7 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping(value="/guess/order/joinGuess/",method=RequestMethod.GET)
-	SuccessMessage joinGuess(@RequestParam(value = "optionId") String optionId,@RequestParam(value = "diamond") Integer diamond){
+	SuccessMessage joinGuess(@RequestParam(value = "optionId") String[] optionId,@RequestParam(value = "diamond") Integer diamond){
 		return guessOrderService.joinGuess(oauth2SecuritySubject.getCurrentUser().getUserId(), optionId, diamond);
 	}
 	

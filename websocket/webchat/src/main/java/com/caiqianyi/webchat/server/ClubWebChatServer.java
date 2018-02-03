@@ -126,13 +126,19 @@ public class ClubWebChatServer {
 	        
 	        ClubWebChatBoat.put(this.clubId, routetab);
 	        
-	        logger.debug("2");
+	        JSONObject datas = new JSONObject();
+	        datas.put("nickname", this.member.getNickname());
+	        datas.put("userId", this.member.getUserId());
+	        datas.put("id", this.member.getId());
+	        datas.put("guessCount", this.member.getGuessCount());
+	        datas.put("joinTime", this.member.getJoinTime());
 	        
 	        JSONObject message = new JSONObject();
-	        message.put("message", "[" + this.member.getNickname() + "]进入["+club.getName()+"]俱乐部");
 	        message.put("type", "notice");
+	        message.put("action", "join");
+	        message.put("time", System.currentTimeMillis());
 	        message.put("members", members);
-	        
+	        message.put("datas", datas);
 	        String field = "records_"+DateFormatUtils.format(new Date(), "yyyyMMdd");
 	        if(redisHash.hExists("webchat:club:"+this.clubId, field)){//历史聊天纪录
 	        	List<String> records = (List<String>)redisHash.hGet("webchat:club:"+this.clubId, field);
@@ -148,6 +154,7 @@ public class ClubWebChatServer {
     		this.memberId = null;
     		JSONObject member = new JSONObject();
 	        member.put("type", "error");
+	        member.put("action", "join");
 	        member.put("message", e.getMessage());
     		try {
     			session.getBasicRemote().sendText(member.toJSONString());
@@ -173,9 +180,18 @@ public class ClubWebChatServer {
         Map<String, Object> members = getCLubMembers(this.clubId,memberId);
         
         JSONObject json = new JSONObject();
-        json.put("message", "[" + this.member.getNickname() +"]离开了聊天室");
+        JSONObject datas = new JSONObject();
+        datas.put("nickname", this.member.getNickname());
+        datas.put("userId", this.member.getUserId());
+        datas.put("id", this.member.getId());
+        datas.put("guessCount", this.member.getGuessCount());
+        datas.put("joinTime", this.member.getJoinTime());
+        
         json.put("type", "notice");
+        json.put("action", "quit");
         json.put("members", members);
+        json.put("datas", datas);
+        json.put("time", System.currentTimeMillis());
         String message = json.toJSONString();
         
         sendMessage(clubId, null, message, "onClose");//广播给所有人更新在线列表
@@ -198,20 +214,33 @@ public class ClubWebChatServer {
             
             GuessClubMember member = getCLubMember(this.clubId, this.memberId);
             
-            message.put("content", msg.get("content"));
-            message.put("to", msg.get("to"));
-            message.put("time", new Date().getTime());
-            message.put("from", this.memberId);
-            message.put("f_nickname", member.getNickname());
             
-            chat.put("message", message);
+            JSONObject fromJson = new JSONObject();
+            fromJson.put("id", member.getId());
+            fromJson.put("nickname", member.getNickname());
+            fromJson.put("headimgurl", member.getHeadimgurl());
+            
+            message.put("content", msg.get("content"));
+            message.put("from", fromJson);
+            
+            chat.put("datas", message);
             chat.put("type", "message");
-            if(message.get("to") == null || message.get("to").equals("")){      //如果to为空,则广播;如果不为空,则对指定的用户发送消息
+            chat.put("time", System.currentTimeMillis());
+            
+            if(msg.get("to") == null || msg.get("to").equals("")){      //如果to为空,则广播;如果不为空,则对指定的用户发送消息
+            	chat.put("action", "broadcast");
                 sendMessage(clubId, null, chat.toJSONString(), "onMessage");
                 return;
             }
             GuessClubMember toMember = getCLubMember(this.clubId, msg.getString("to"));
-            message.put("t_nickname", toMember.getNickname());
+            
+            JSONObject toJson = new JSONObject();
+            toJson.put("id", toMember.getId());
+            toJson.put("nickname", toMember.getNickname());
+            toJson.put("headimgurl", toMember.getHeadimgurl());
+            
+            message.put("to", toJson);
+            chat.put("action", "oto");
             String [] userlist = message.get("to").toString().split(",");
             sendMessage(clubId, this.memberId , chat.toJSONString(), "onMessage");//发送给自己
             for(String user : userlist){

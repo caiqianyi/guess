@@ -28,6 +28,7 @@ import com.caiqianyi.guess.entity.GuessTemplate;
 import com.caiqianyi.guess.entity.GuessTemplateOption;
 import com.caiqianyi.guess.entity.GuessTopic;
 import com.caiqianyi.guess.entity.GuessTopicOption;
+import com.caiqianyi.soa.core.redis.IRedisCache;
 import com.google.gson.Gson;
 
 @Service
@@ -49,6 +50,9 @@ public class LotteryGuessServiceImpl implements ILotteryGuessService {
 	
 	@Resource
 	private IGuessClubLogMapper guessClubLogMapper;
+	
+	@Resource
+	private IRedisCache redisCache;
 	
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW)
@@ -75,6 +79,13 @@ public class LotteryGuessServiceImpl implements ILotteryGuessService {
 						
 						guessClubLogMapper.writerLog(log);
 						guessClubMapper.update(club);
+						
+						String key = "guess:club:info:"+club.getCreateId()+":"+club.getClubId();
+						GuessClub gc = (GuessClub)redisCache.getSys(key);
+						if(gc != null){
+							gc.setCardNum(club.getCardNum());
+							redisCache.setSys(key, gc);
+						}
 						topics.addAll(createGuessTopic(groupId, null, start, end, templates));
 					}
 				}
@@ -171,29 +182,29 @@ public class LotteryGuessServiceImpl implements ILotteryGuessService {
 						guessTopicMapper.updateOption(option);
 					}
 				}
-				if(selectOption != null){
-					if(orders != null && !orders.isEmpty()){
-						for(GuessOrder order : orders){
-							if(order.getTopicId().equals(topic.getTopicId())){
-								Integer score = 0,status = -1;
-								if(order.getOptionId().equals(selectOption.getId())){
-									memberIds.add(order.getMemberId());
-									BigDecimal odds = selectOption.getOdds();
-									if(odds == null){
-										odds = new BigDecimal(1);
-									}
-									score = odds.multiply(new BigDecimal(order.getAmount()*100)).setScale(2,BigDecimal.ROUND_HALF_DOWN).intValue();
-									status = 1;
-								}else{
-									
+				if(orders != null && !orders.isEmpty()){
+					for(GuessOrder order : orders){
+						if(order.getTopicId().equals(topic.getTopicId())){
+							Integer score = 0,status = -1;
+							if(selectOption != null && order.getOptionId().equals(selectOption.getId())){
+								memberIds.add(order.getMemberId());
+								BigDecimal odds = selectOption.getOdds();
+								if(odds == null){
+									odds = new BigDecimal(1);
 								}
-								order.setScore(score);
-								order.setStatus(status);
-								guessOrderMapper.update(order);
+								score = odds.multiply(new BigDecimal(order.getAmount()*100)).setScale(2,BigDecimal.ROUND_HALF_DOWN).intValue();
+								status = 1;
+							}else{
+								
 							}
+							order.setScore(score);
+							order.setStatus(status);
+							guessOrderMapper.update(order);
 						}
 					}
-					topic.setOptionId(selectOption.getId());
+					if(selectOption != null){
+						topic.setOptionId(selectOption.getId());
+					}
 				}
 				topic.setStatus(2);
 				guessTopicMapper.update(topic);

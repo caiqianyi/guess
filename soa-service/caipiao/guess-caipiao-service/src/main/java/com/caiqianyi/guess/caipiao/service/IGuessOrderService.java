@@ -18,7 +18,9 @@ public interface IGuessOrderService {
 			Integer topicId, String kindOf, String start,
 			String end, Pager pager);
 
-	GuessOrder joinGuess(Integer userId, String optionId, Integer diamond);
+	List<GuessOrder> joinGuess(Integer userId, String optionId[], Integer diamond);
+	
+	GuessOrder joinGuess(Integer memberId, String optionId, Integer diamond);
 
 	boolean update(GuessOrder order);
 

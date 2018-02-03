@@ -10,6 +10,8 @@ public interface IGuessTemplateService {
 	
 	List<GuessTemplate> findByClubId(Integer clubId,String kindOf,String topicType);
 	
+	GuessTemplate findBy(Integer id,Integer userId);
+	
 	int deleteBy(Integer id,Integer userId);
 	
 	GuessTemplate create(GuessTemplate template);

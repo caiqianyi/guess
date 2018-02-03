@@ -53,6 +53,12 @@ public class GuessTemplateController {
 		return guessTemplateService.findByClubId(user.getUserId(), clubId, kindOf, topicType);
 	}
 	
+	@RequestMapping(value = "/guess/template/findById/{id}", method = RequestMethod.GET)
+	SuccessMessage findById(@PathVariable("id") Integer id){
+		User user = oauth2SecuritySubject.getCurrentUser();
+		return guessTemplateService.findById(id, user.getUserId());
+	}
+	
 	/**
 	 * 删除竞猜话题模板
 	 * @param id
@@ -83,6 +89,8 @@ public class GuessTemplateController {
 	 */
 	@RequestMapping(value="/guess/template/update",method=RequestMethod.POST)
 	SuccessMessage update(GuessTemplate template){
+		User user = oauth2SecuritySubject.getCurrentUser();
+		template.setUserId(user.getUserId());
 		return guessTemplateService.update(template);
 	}
 	

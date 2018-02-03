@@ -112,6 +112,18 @@ $(function(){
     	}
     });
     
+    oauth2.ajax({
+		type: 'GET',
+		url: '/guess/club/info',
+		data: {clubId:clubId},
+		dataType: 'json',
+		success: function(response){
+			var club = response.data;
+			$("#info-name").html(club.name);
+			$("marquee").html(club.notice);
+		}
+	});
+    
     var topics = null;
     function refreshTopic(){
     	oauth2.ajax({

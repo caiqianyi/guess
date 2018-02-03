@@ -418,6 +418,22 @@ public class ClubServiceImpl extends UserTradeSupport implements IClubService {
 		}
 		return mems;
 	}
+	
+	@Override
+	public GuessClubMember findMemberByUserId(Integer clubId, Integer userId) {
+		// TODO Auto-generated method stub
+		
+		Map<String, Object> members = cacheMember(clubId, null, null);
+		if(members != null && !members.isEmpty()){
+			for(String key : members.keySet()){
+				GuessClubMember member = (GuessClubMember) members.get(key);
+				if(member.getStatus().equals(1) && member.getUserId().equals(userId)){
+					return member; 
+				}
+			}
+		}
+		return null;
+	}
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)

@@ -37,6 +37,12 @@ public class GuessTemplateController {
 		return new SuccessMessage(guessTemplateService.findByClubId(clubId,
 				kindOf, topicType));
 	}
+	
+	@RequestMapping(value = "/guess/template/findById/{userId}/{id}/", method = RequestMethod.GET)
+	SuccessMessage findById(@PathVariable("id") Integer id,
+			@PathVariable("userId") Integer userId) {
+		return new SuccessMessage(guessTemplateService.findBy(id, userId));
+	}
 
 	@RequestMapping(value = "/guess/template/deleteBy/{userId}/{id}/", method = RequestMethod.GET)
 	SuccessMessage deleteBy(@PathVariable("id") Integer id,

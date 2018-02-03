@@ -60,7 +60,7 @@ public class GuessTopicController {
 		return guessTopicService.findGuessTopicByForPager(kind, league, groupId, orderBy, status, start, end, pager);
 	}
 	
-	@RequestMapping(value="/guess/topic/findBy/current/{clubId}/",method=RequestMethod.GET)
+	@RequestMapping(value="/guess/topic/findBy/current/{clubId}/",method=RequestMethod.POST)
 	SuccessMessage findCurrentTopicsLeftOptionsBy(@PathVariable("clubId")Integer clubId,
 			@RequestParam(value="topicType",required=false) String topicType){
 		return new SuccessMessage(guessTopicService.findCurrentTopicsLeftOptionsBy(clubId, topicType));

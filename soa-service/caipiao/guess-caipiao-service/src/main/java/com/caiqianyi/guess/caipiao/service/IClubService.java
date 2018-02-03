@@ -170,6 +170,8 @@ public interface IClubService {
 	 */
 	List<GuessClubMember> findAllMemberByClub(Integer clubId, Integer status);
 	
+	GuessClubMember findMemberByUserId(Integer clubId, Integer userId);
+	
 	/**
 	 * 审核成员活跃度
 	 * @param createId 创建人

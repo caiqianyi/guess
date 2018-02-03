@@ -138,6 +138,10 @@ var oauth2 = {
 		}
 	},
 	logout: function (){
+		window.storage.remove('token',false);
+		window.storage.remove('loginTime',false);
+		window.storage.remove('openid',false);
+		window.storage.remove('wxopenid',false);
 		if(oauth2.isLogin()){
 			$.ajax({
 				url:"/account/logout",
@@ -147,8 +151,6 @@ var oauth2 = {
 			        request.setRequestHeader("Authorization",window.storage.get('token'));
 			    },
 				success: function(data){
-					window.storage.remove('token',false);
-					window.storage.remove('loginTime',false);
 				}
 			});
 		}

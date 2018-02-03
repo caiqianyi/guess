@@ -43,7 +43,7 @@ public interface IGuessOrderService {
 	
 	@RequestMapping(value="/guess/order/joinGuess/",method=RequestMethod.GET)
 	SuccessMessage joinGuess(@RequestParam(value="userId") Integer userId,
-			@RequestParam(value="optionId") String optionId,
+			@RequestParam(value="optionId") String[] optionId,
 			@RequestParam(value="diamond") Integer diamond);
 	
 	@RequestMapping(value="/guess/order/update/",method=RequestMethod.POST)

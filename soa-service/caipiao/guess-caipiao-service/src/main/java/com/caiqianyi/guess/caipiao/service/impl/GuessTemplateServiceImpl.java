@@ -17,6 +17,8 @@ import com.caiqianyi.guess.caipiao.config.KindOfCons;
 import com.caiqianyi.guess.caipiao.service.IGuessTemplateService;
 import com.caiqianyi.guess.core.dao.GuessTemplateMapper;
 import com.caiqianyi.guess.core.dao.GuessTemplateOptionMapper;
+import com.caiqianyi.guess.core.dao.IGuessClubMapper;
+import com.caiqianyi.guess.entity.GuessClub;
 import com.caiqianyi.guess.entity.GuessTemplate;
 import com.caiqianyi.guess.entity.GuessTemplateOption;
 
@@ -30,6 +32,9 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 	
 	@Resource
 	private GuessTemplateOptionMapper guessTemplateOptionMapper;
+	
+	@Resource
+	private IGuessClubMapper guessClubMapper;
 	
 	@Override
 	public List<GuessTemplate> findByUserId(Integer userId, String kindOf,
@@ -76,19 +81,30 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 	}
 	
 	@Override
+	public GuessTemplate findBy(Integer id, Integer userId) {
+		// TODO Auto-generated method stub
+		return guessTemplateMappler.selectByPrimaryKey(id,userId);
+	}
+	
+	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public GuessTemplate create(GuessTemplate template) {
 		
 		if(template == null || template.getOptions() == null
-				|| template.getOptions().isEmpty()){
+				|| template.getOptions().isEmpty()
+				|| template.getClubId() == null){
 			throw new I18nMessageException("20101","参数错误");
 		}
 		
+		GuessClub club = guessClubMapper.findById(template.getUserId(), template.getClubId());
+		if(club == null){
+			throw new I18nMessageException("30001","俱乐部不存在");
+		}
 		// TODO Auto-generated method stub
 		GuessTemplate createTemplate = new GuessTemplate();
 		createTemplate.setSubject(template.getSubject());
 		createTemplate.setLabel(template.getLabel());
-		createTemplate.setKindOf(template.getKindOf());
+		createTemplate.setKindOf(club.getKindOf());
 		createTemplate.setOrderBy(template.getOrderBy());
 		createTemplate.setClubId(template.getClubId());
 		createTemplate.setTopicType(template.getTopicType());
@@ -107,7 +123,7 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 			option.setOrderBy(gto.getOrderBy());
 			option.setTemplateId(createTemplate.getId());
 			option.setOdds(gto.getOdds());
-			String lotters[] = "jclq".equals(template.getKindOf())? new String[]{"100","99"}:KindOfCons.getLotterys(template.getKindOf());
+			String lotters[] = "jclq".equals(club.getKindOf())? new String[]{"100","99"}:KindOfCons.getLotterys(club.getKindOf());
 			try{
 				if(FormulaCalculate.check(lotters, option.getFormula())){
 					hasSelect = true;
@@ -136,19 +152,73 @@ public class GuessTemplateServiceImpl implements IGuessTemplateService {
 	}
 	
 	@Override
+	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public GuessTemplate update(GuessTemplate template) {
+		
+		if(template.getId() == null){
+			return create(template);
+		}
+		
 		// TODO Auto-generated method stub
+		GuessTemplate naTemps = guessTemplateMappler.selectByPrimaryKey(template.getId(),template.getUserId());
+		
 		guessTemplateMappler.updateByPrimaryKeySelective(template);
+		
+		List<GuessTemplateOption> options = new ArrayList<GuessTemplateOption>();
+		boolean hasSelect = false;
+		for(int i=0;i<template.getOptions().size();i++){
+			GuessTemplateOption option = new GuessTemplateOption(),
+					gto = template.getOptions().get(i);
+			option.setId(gto.getId());
+			option.setFormula(gto.getFormula());
+			option.setName(gto.getName());
+			option.setOrderBy(gto.getOrderBy());
+			option.setTemplateId(template.getId());
+			option.setOdds(gto.getOdds());
+			String lotters[] = "jclq".equals(naTemps.getKindOf())? new String[]{"100","99"}:KindOfCons.getLotterys(naTemps.getKindOf());
+			try{
+				if(FormulaCalculate.check(lotters, option.getFormula())){
+					hasSelect = true;
+				}
+			}catch(Exception e){
+				logger.debug("option.getFormula={},lotters={}",option.getFormula(),lotters);
+				throw new I18nMessageException("20102","选项公式错误,无法计算结果");
+			}
+			if(option.getId() == null){
+				guessTemplateOptionMapper.insert(option);
+			}else{
+				guessTemplateOptionMapper.updateByPrimaryKey(option);
+			}
+			options.add(option);
+		}
+		
+		for(GuessTemplateOption ngto: naTemps.getOptions()){
+			boolean isdel = true;
+			for(int i=0;i<template.getOptions().size();i++){
+				GuessTemplateOption gto = template.getOptions().get(i);
+				if(ngto.getId().equals(gto.getId())){
+					isdel = false;
+				}
+			}
+			if(isdel){
+				guessTemplateOptionMapper.deleteByPrimaryKey(ngto.getId());
+			}
+		}
+		if(!hasSelect){
+			throw new I18nMessageException("20103","没有中奖项");
+		}
 		return template;
 	}
 	
 	@Override
+	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public int disable(Integer id, Integer userId) {
 		// TODO Auto-generated method stub
 		return guessTemplateMappler.updateStatus(id, userId, 0);
 	}
 	
 	@Override
+	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public int enabled(Integer id, Integer userId) {
 		// TODO Auto-generated method stub
 		return guessTemplateMappler.updateStatus(id, userId, 1);

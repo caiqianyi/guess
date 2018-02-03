@@ -37,7 +37,7 @@ public class TopicTestCase {
 		logger.debug("topics={}",new Gson().toJson(topics));
 		for(GuessTopic topic : topics){
 			for(GuessTopicOption option : topic.getOptions()){
-				guessOrderService.joinGuess(memberId, option.getId(), 1);
+				guessOrderService.joinGuess(memberId, new String[]{option.getId()}, 1);
 			}
 		}
 	}

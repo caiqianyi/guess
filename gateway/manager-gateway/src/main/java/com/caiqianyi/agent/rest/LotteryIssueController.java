@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.caiqianyi.commons.exception.SuccessMessage;
-import com.caiqianyi.guess.caipiao.service.ILotteryIssueService;
+import com.caiqianyi.guess.caipiao.service.IssueService;
 
 @RestController
 public class LotteryIssueController {
 	
 	@Resource
-	private ILotteryIssueService lotteryIssueService;
+	private IssueService lotteryIssueService;
 	
 	@RequestMapping(value="/issue/day/{kindOf}/{day}",method=RequestMethod.GET)
 	SuccessMessage findIssueByDay(@PathVariable("kindOf") String kindOf,@PathVariable("day") String day){

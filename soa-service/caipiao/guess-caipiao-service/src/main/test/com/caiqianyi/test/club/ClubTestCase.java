@@ -22,7 +22,7 @@ public class ClubTestCase {
 	private Integer createId = 88731584;
 	private Integer cardNum = 200;
 	private Integer maxMember = 1000;
-	private Integer clubId = 787072;
+	private Integer clubId = 982814;
 	
 	
 	@Test

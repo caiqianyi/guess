@@ -22,13 +22,19 @@ import com.caiqianyi.soa.core.redis.IRedisCache;
 public class RedisCacheImpl implements IRedisCache {
 
 	@Resource
-	private RedisTemplate<String,?> redisTemplate;
+	private RedisTemplate<String,Object> redisTemplate;
 
 	@Override
 	public boolean set(String key, final Object obj) {
 		return set(key, obj, null);
 	}
 
+	@Override
+	public boolean setSys(String key, Object obj) {
+		// TODO Auto-generated method stub
+		redisTemplate.opsForValue().set(key, obj);
+		return true;
+	}
 
 	@Override
 	public boolean set(final String ks, final Object obj,

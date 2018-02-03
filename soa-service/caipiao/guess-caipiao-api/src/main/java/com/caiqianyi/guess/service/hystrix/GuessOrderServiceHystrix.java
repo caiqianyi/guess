@@ -41,7 +41,7 @@ public class GuessOrderServiceHystrix implements IGuessOrderService {
 	}
 
 	@Override
-	public SuccessMessage joinGuess(Integer userId, String optionId,
+	public SuccessMessage joinGuess(Integer userId, String[] optionId,
 			Integer diamond) {
 		throw new I18nMessageException("502");
 	}

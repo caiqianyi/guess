@@ -1,6 +1,7 @@
 package com.caiqianyi.guess.caipiao.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -100,6 +101,108 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
+	public List<GuessOrder> joinGuess(Integer userId, String[] optionIds, Integer diamond) {
+		// TODO Auto-generated method stub
+		List<GuessOrder> orders = new ArrayList<GuessOrder>();
+		for(String optionId : optionIds){
+			orders.add(joinGuessForUserId(userId, optionId, diamond));
+		}
+		return orders;
+	}
+	
+	public GuessOrder joinGuessForUserId(Integer userId, String optionId, Integer diamond) {
+		// TODO Auto-generated method stub
+		
+		if(diamond == null || diamond < 1){
+			throw new I18nMessageException("21004","购买不得少于%s！","1");
+		}
+		GuessTopicOption option = new GuessTopicOption();
+		option.setId(optionId); 
+		GuessTopicOption guessTopicOption = guessTopicMapper.findOneGuessTopicOptionBy(option);
+		if(guessTopicOption == null){
+			throw new I18nMessageException("21003","竞猜项不存在！");
+		}
+		
+		GuessTopic param = new GuessTopic();
+		param.setTopicId(guessTopicOption.getTopicId());
+		GuessTopic topic = guessTopicMapper.findOneGuessTopicBy(param);
+		if(topic == null){
+			throw new I18nMessageException("21001","题目不存在！");
+		}
+		
+		if(topic.getStatus() != 0 || topic.getOverTime().before(new Date())){
+			throw new I18nMessageException("21002","竞猜已结束！");
+		}
+		
+		Integer clubId = topic.getClubId();
+		GuessClubMember member = null;
+		if(clubId != null){
+			GuessClub club = guessClubMapper.findById(null, clubId);
+			if(club == null){
+				throw new I18nMessageException("30001","俱乐部不存在");
+			}
+			member = guessClubMemberMapper.findByClubAndUserId(clubId, userId);
+			if(member == null || !member.getStatus().equals(1)){
+				throw new I18nMessageException("30005","操作失败，成员不存在");
+			}
+			userId = member.getUserId();
+			member.setGuessCount(member.getGuessCount()+1);
+			member.setUnauditedLiveness(member.getUnauditedLiveness()+1);
+			guessClubMemberMapper.update(member);//增加未审核活跃度、增加竞猜次数
+		}else{
+			User user = userMapper.findById(userId);
+			if(user == null){
+				throw new I18nMessageException("21005","玩家不存在！");
+			}
+			userId = user.getUserId();
+		}
+		String expect = topic.getGroupId(),
+				kindOf = topic.getKind();
+		//增加参与人数
+		GuessTopicOption gto = new GuessTopicOption();
+		gto.setId(guessTopicOption.getId());
+		gto.setBuyCount(guessTopicOption.getBuyCount()+1);
+		gto.setBuyAmount(guessTopicOption.getBuyAmount().add(new BigDecimal(diamond)));
+				
+		//增加参与人数
+		GuessTopic gt = new GuessTopic();
+		gt.setId(topic.getId());
+		gt.setJoinCount(topic.getJoinCount()+1);
+		
+		String orderNo = GenerateCode.genToolOrderNo("ONGUESS", userId+"");
+		
+		GuessOrder order = new GuessOrder();
+		order.setAmount(1);
+		order.setClubId(clubId);
+		order.setDiamond(diamond);
+		order.setExpect(expect);
+		order.setKindOf(kindOf);
+		order.setOptionId(optionId);
+		order.setOptionName(guessTopicOption.getName());
+		order.setOrderNo(orderNo);
+		order.setScore(0);
+		order.setStatus(0);
+		order.setTopicId(topic.getTopicId());
+		order.setUserId(userId);
+		if(member != null){
+			order.setMemberId(member.getId());
+		}
+		order.setSubject(topic.getSubject());
+		
+		int rows = 0;
+		
+		rows += guessTopicMapper.update(gt);
+		rows += guessTopicMapper.updateOption(gto);
+		rows += guessOrderMapper.insert(order);
+		
+		if(rows != 3){
+			throw new I18nMessageException("500");
+		}
+		return order;
+	}
+	
+	@Override
+	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public GuessOrder joinGuess(Integer memberId, String optionId, Integer diamond) {
 		// TODO Auto-generated method stub
 		
@@ -186,10 +289,6 @@ public class GuessOrderServiceImpl implements IGuessOrderService {
 		
 		if(rows != 3){
 			throw new I18nMessageException("500");
-		}
-		
-		if(clubId != null){
-			clubService.cacheMember(clubId, member, 1);
 		}
 		return order;
 	}

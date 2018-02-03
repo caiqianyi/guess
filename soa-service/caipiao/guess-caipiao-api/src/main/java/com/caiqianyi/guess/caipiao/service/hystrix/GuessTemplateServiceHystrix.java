@@ -22,6 +22,12 @@ public class GuessTemplateServiceHystrix implements IGuessTemplateService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public SuccessMessage findById(Integer id, Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public SuccessMessage deleteBy(Integer id, Integer userId) {
