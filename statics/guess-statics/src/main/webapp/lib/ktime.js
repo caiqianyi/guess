@@ -1,4 +1,5 @@
 function KTime(param) {
+	
 	this.timer = null, this.param = {
 		time : 0,
 		speed : 1000,
@@ -6,11 +7,10 @@ function KTime(param) {
 		},
 		onTimeOverCall : function() {
 		}
-	}
-
-	this.param = $.extend(this.param, param);
+	};
+	
+	this.endTime = null;
 	this.timer = null;
-
 	var _this = this;
 
 	this.restart = function() {
@@ -26,10 +26,15 @@ function KTime(param) {
 	};
 
 	this.run = function() {
+		
+		var time = parseInt((_this.endTime - new Date().getTime())/1000);
+		if(time != _this.param.time){
+			_this.param.time = time;
+		}
 		if (_this.param.time > 0) {
 			_this.param.onPerSecondCall(_this.format(_this.param.time));
 		} else {
-			_this.stop();
+			_this.pause();
 			_this.param.onTimeOverCall();
 		}
 		_this.param.time--;
@@ -49,6 +54,7 @@ function KTime(param) {
 
 	this.setTime = function(time) {
 		_this.param.time = time;
+		_this.endTime = new Date().getTime() + (_this.param.time *1000);
 	};
 
 	this.format = function(a) {
@@ -72,4 +78,7 @@ function KTime(param) {
 		}
 		return b
 	};
+	
+	this.param = $.extend(this.param, param);
+	this.setTime(this.param.time);
 }

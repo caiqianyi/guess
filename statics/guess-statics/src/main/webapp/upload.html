@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>FrozenUI Demo</title>
+<script type="text/javascript" src="/js/version"></script>
+<script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
+<script type="text/javascript">
+	importFiles[importFiles.length] = { src : "/lib/mobileFix.mini.js", type : "script" };
+	importFiles[importFiles.length] = { src : "/lib/exif.js", type : "script" };
+	importFiles[importFiles.length] = { src : "/lib/lrz.js", type : "script" };
+	importFiles[importFiles.length] = { src : "/lib/voice.js", type : "script" };
+	importFiles[importFiles.length] = { src : "/js/upload.js", type : "script" };
+</script>
+<style>
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.text-cyan {
+    color: cyan;
+}
+
+.text-muted {
+    color: #999;
+}
+
+.item {
+    position: relative;
+    margin: 8px 0;
+}
+
+.item ul {
+    font-size: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
+    text-shadow: 1px 1px 5px #000;
+    border:1px dotted rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.item ul li {
+    margin: 10px 15px;
+}
+
+.item img {
+    max-width: 100%;
+    box-shadow: 1px 1px 5px #ccc;
+}
+
+footer {
+    width: 100%;
+    font-size: 12px;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin: 20px 0;
+}
+
+footer a {
+    color: #777;
+}
+
+</style>
+</head>
+
+<body ontouchstart>
+	<header class="ui-header ui-header-positive ui-border-b">
+		<i class="ui-icon-personal" id="btn-personal"
+			style="position: absolute; left: 0;"></i>
+		<h1>乐宝</h1>
+	</header>
+	<section class="ui-container">
+		<section id="list">
+			<input type="file" capture="camera" />
+			<!--<input type="file" accept="image/*" capture="camera" /> 部分手机无法正确限制图片格式 -->
+			
+			<hr/>
+			<div id="tip"><!-- 演示提示 --></div>
+			<ul id="report"><!-- 演示报告 --></ul>
+			
+			<span style="white-space:pre"></span><audio controls autoplay></audio>  
+	        <input type="button" value="开始录音" id="btn-startVoice"/>  
+	        <input type="button" value="获取录音" id="btn-showVoice"/>  
+	        <input type="button" value="停止录音" id="btn-stopVoice"/>  
+	        <input type="button" value="播放录音" id="btn-playVoice"/>  
+	          
+		</section>
+	</section>
+	<!-- /.ui-container-->
+</body>
+</html>

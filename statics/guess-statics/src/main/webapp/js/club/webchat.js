@@ -144,8 +144,21 @@ WebChat.prototype.send = function(to,message){
 		return false;
 	}
 	this.ws.send(JSON.stringify({
+		type : "text",
         content : message,
         to : to      //接收人,如果没有则置空,如果有多个接收人则用,分隔
     }));
 	return true;
-}
+};
+
+WebChat.prototype.sendImages = function(to,uri){
+	if(!this.check()){
+		return false;
+	}
+	this.ws.send(JSON.stringify({
+		type : "images",
+        content : uri,
+        to : to      //接收人,如果没有则置空,如果有多个接收人则用,分隔
+    }));
+	return true;
+};

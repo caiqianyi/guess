@@ -41,7 +41,11 @@ $(function(){
 
     				html += '	<div class="chat-content">';
     				html += '  		<div class="chat-meta">'+new Date(message.time).format("hh:mm:ss")+' <span class="pull-right">'+message.datas.from.nickname+'</span></div>';
-    				html += '  			'+message.datas.content;
+    				if(message.datas.type=='images'){
+    					html += '  			<img src="'+message.datas.content+'"/>';
+    				}else{
+    					html += '  			'+message.datas.content;
+    				}
     				html += '  		<div class="clearfix"></div>';
     				html += '	</div>';
     				html += '</li>';
@@ -54,7 +58,11 @@ $(function(){
 
     				html += '	<div class="chat-content">';
     				html += '  		<div class="chat-meta">'+message.datas.from.nickname+' <span class="pull-right">'+new Date(message.time).format("hh:mm:ss")+'</span></div>';
-    				html += '  			'+message.datas.content;
+    				if(message.datas.type=='images'){
+    					html += '  			<img src="'+message.datas.content+'"/>';
+    				}else{
+    					html += '  			'+message.datas.content;
+    				}
     				html += '  		<div class="clearfix"></div>';
     				html += '	</div>';
     				html += '</li>';
@@ -98,6 +106,36 @@ $(function(){
     	}
     });
     
+    var wen  = document.getElementById('wenwen');
+	function _touch_start(event){
+        event.preventDefault();
+        $('.wenwen_text').css('background','#c1c1c1');
+        $('.wenwen_text span').css('color','#fff');
+        $('.saying').show();
+    }
+
+    function _touch_end(event){
+        event.preventDefault();
+        $('.wenwen_text').css('background','#fff');
+        $('.wenwen_text .circle-button').css('color','#666');    
+        $('.saying').hide();
+    }
+    wen.addEventListener("touchstart", _touch_start, false);
+    wen.addEventListener("touchend", _touch_end, false);
+    
+    $("#btn-yuyin-toggle").click(function(){
+    	if($('.wenwen_btn img').attr('src') == '/img/webchat/yy_btn.png'){
+    		$('.wenwen_btn img').attr('src','/img/webchat/jp_btn.png');
+    	    $('.write_box,#btn-publish').hide();
+    	    $('.circle-button,#btn-menun').show();
+    	}else{
+    		$('.wenwen_btn img').attr('src','/img/webchat/yy_btn.png');
+    	    $('.write_box,#btn-publish').show();
+    	    $('.circle-button,#btn-menun').hide();
+    	    $('.write_box input').focus();
+    	}
+    })
+
     oauth2.ajax({
     	url: "/guess/club/into",
     	type: 'GET',
@@ -168,10 +206,14 @@ $(function(){
 			refreshTopic();
 		},
 		onCounterPerSecond : function(date){
-			$("#current-counter").html('距截至：<span class="red">'+date.minute+'</span>分<span class="red">'+date.second+'</span>秒');
+			if(date.hour > 0){
+				$("#current-counter").html('距截至：<span class="red">'+date.hour+'</span>时<span class="red">'+date.minute+'</span>分<span class="red">'+date.second+'</span>秒');
+			}else{
+				$("#current-counter").html('距截至：<span class="red">'+date.minute+'</span>分<span class="red">'+date.second+'</span>秒');
+			}
 		},
 		onCounterOver : function(expect){
-			console.info("onCounterOver.expect="+expect);
+			//console.info("onCounterOver.expect="+expect);
 		},
 		onRefCounterBefore : function(expect){
 			$("#prev-issue").html(expect);
@@ -249,6 +291,34 @@ $(function(){
     
     $("#btn-reset").click(function(){
     	$("input[name=diamond]").val("");
+    });
+    
+    
+    $("input[type=file]").change(function(){
+    	lrz(this.files[0], {width: 280}, function (results) {
+    		loading.show("图片发送中...");
+            // 你需要的数据都在这里，可以以字符串的形式传送base64给服务端转存为图片。
+            var fileType = results.origin.name.substring(results.origin.name.indexOf(".")+1);
+            oauth2.ajax({
+            	url: "/upload/img",
+            	type: 'POST',
+            	data: {
+            		namespace : "webchat/"+member.id,
+            		fileType : fileType,
+            		imgStr : results.base64
+            	},
+            	dataType: "json",
+            	success: function(response){
+            		loading.close();
+            		console.info(response.data.uri);
+            		var re = webchat.sendImages(null,response.data.uri);
+            		console.info(re);
+            	},
+            	error: function(){
+            		loading.close();
+            	}
+            });
+        });
     });
     
 });
