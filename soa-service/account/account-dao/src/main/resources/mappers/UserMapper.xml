@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.caiqianyi.account.dao.IUserMapper" >
+<mapper namespace="com.lebaoxun.account.dao.IUserMapper" >
   
   <sql id="Base_User">
       id,userId,account,password,mobile,source,type,status,payOrderNo,payCount,
@@ -18,27 +18,27 @@
   </sql>
   
   <!-- 根据账号和密码获得代理  -->
-  <select id="login" resultType="com.caiqianyi.account.entity.User">
+  <select id="login" resultType="com.lebaoxun.account.entity.User">
 	SELECT <include refid="Base_User"/> FROM user WHERE account=#{account,jdbcType=VARCHAR} AND password=#{password,jdbcType=VARCHAR}
   </select>
   
-  <select id="findByAccount" resultType="com.caiqianyi.account.entity.User"  parameterType="java.lang.String" >
+  <select id="findByAccount" resultType="com.lebaoxun.account.entity.User"  parameterType="java.lang.String" >
     select <include refid="Base_User"/> from user where account = #{account,jdbcType=VARCHAR}
   </select>
   
-  <select id="findByUnionid" resultType="com.caiqianyi.account.entity.User" parameterType="java.lang.String">
+  <select id="findByUnionid" resultType="com.lebaoxun.account.entity.User" parameterType="java.lang.String">
 	  SELECT <include refid="Base_User"/> FROM user WHERE unionid=#{unionid,jdbcType=VARCHAR}	
   </select>
-  <select id="findByOpenid" resultType="com.caiqianyi.account.entity.User" parameterType="java.lang.String">
+  <select id="findByOpenid" resultType="com.lebaoxun.account.entity.User" parameterType="java.lang.String">
 	  SELECT <include refid="Base_User"/> FROM user WHERE openid=#{openid,jdbcType=VARCHAR}	
   </select>
-  <select id="findByMobile" resultType="com.caiqianyi.account.entity.User" parameterType="java.lang.String">
+  <select id="findByMobile" resultType="com.lebaoxun.account.entity.User" parameterType="java.lang.String">
 	  SELECT <include refid="Base_User"/> FROM user WHERE mobile=#{mobile,jdbcType=VARCHAR}	
   </select>  
-  <select id="findById" resultType="com.caiqianyi.account.entity.User" >
+  <select id="findById" resultType="com.lebaoxun.account.entity.User" >
       select <include refid="Base_User"/> from user where userId=#{userId,jdbcType=INTEGER}
   </select>
-  <select id="findAccountNormal" resultType="com.caiqianyi.account.entity.User" >
+  <select id="findAccountNormal" resultType="com.lebaoxun.account.entity.User" >
       select <include refid="Base_Show_User"/> from user where userId=#{userId,jdbcType=INTEGER} and accountSign=md5(balance+'c8993417ca184f89a8bd492d86c750d3'+frozen)
   </select>
   

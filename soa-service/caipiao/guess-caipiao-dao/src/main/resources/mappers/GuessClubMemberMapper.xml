@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.caiqianyi.guess.core.dao.IGuessClubMemberMapper">
+<mapper namespace="com.lebaoxun.guess.core.dao.IGuessClubMemberMapper">
 
 	<sql id="Base_Column_List">
 		clubId,nickname,headimgurl,userId,flag,status,guessCount,winCount,unauditedLiveness,totalLiveness,lastUnaudited,joinTime,quitTime
 	</sql>
 
-	<insert id="applyJoin" parameterType="com.caiqianyi.guess.entity.GuessClubMember" useGeneratedKeys="true" keyProperty="id">
+	<insert id="applyJoin" parameterType="com.lebaoxun.guess.entity.GuessClubMember" useGeneratedKeys="true" keyProperty="id">
 		insert into guess_club_member ( <include refid="Base_Column_List"></include> )
 		values (#{clubId},#{nickname},#{headimgurl},#{userId},1,0,0,0,0,0, null,NOW(),null)
 	</insert>
 	
-	<insert id="addMember" parameterType="com.caiqianyi.guess.entity.GuessClubMember" useGeneratedKeys="true" keyProperty="id">
+	<insert id="addMember" parameterType="com.lebaoxun.guess.entity.GuessClubMember" useGeneratedKeys="true" keyProperty="id">
 		insert into guess_club_member ( <include refid="Base_Column_List"></include> )
 		values (#{clubId},#{nickname},#{headimgurl},#{userId},#{flag},#{status},0,0,0,0, null,NOW(),null)
 	</insert>
@@ -35,7 +35,7 @@
 		</if> where id = #{memberId}
 	</update>
 	
-	<update id="update" parameterType="com.caiqianyi.guess.entity.GuessClubMember">
+	<update id="update" parameterType="com.lebaoxun.guess.entity.GuessClubMember">
 		update guess_club_member set id = #{id}
 		<if test="guessCount != null">
 			,guessCount = #{guessCount}
@@ -67,26 +67,26 @@
         </foreach>
 	</update>
 	
-	<select id="findById" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+	<select id="findById" resultType="com.lebaoxun.guess.entity.GuessClubMember">
 		select id,<include refid="Base_Column_List"/> from guess_club_member where id = #{id}
 	</select>
 	
-	<select id="findByClubAndUserId" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+	<select id="findByClubAndUserId" resultType="com.lebaoxun.guess.entity.GuessClubMember">
 		select id,<include refid="Base_Column_List"/> from guess_club_member where clubId = #{clubId} and userId = #{userId} and status != -2
 	</select>
-	<select id="findByClubAndId" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+	<select id="findByClubAndId" resultType="com.lebaoxun.guess.entity.GuessClubMember">
 		select id,<include refid="Base_Column_List"/> from guess_club_member where clubId = #{clubId} and id = #{id} and status != -2
 	</select>
 	
-	<select id="findByClubIdForMember" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+	<select id="findByClubIdForMember" resultType="com.lebaoxun.guess.entity.GuessClubMember">
 	    select id,clubId,nickname,headimgurl,userId,totalLiveness,joinTime from guess_club_member where clubId = #{clubId} and status = 1
 	</select>
 	
-	<select id="findByUserIdForMember" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+	<select id="findByUserIdForMember" resultType="com.lebaoxun.guess.entity.GuessClubMember">
 	    select clubId,userId from guess_club_member where userId = #{userId} and status = 1 and flag = 1
 	</select>
 	
-	<select id="findByClubId" resultType="com.caiqianyi.guess.entity.GuessClubMember">
+	<select id="findByClubId" resultType="com.lebaoxun.guess.entity.GuessClubMember">
 	    select id,<include refid="Base_Column_List"/> from guess_club_member where clubId = #{clubId} and status !=-2 order by #{orderBy}
 	</select>
 </mapper>

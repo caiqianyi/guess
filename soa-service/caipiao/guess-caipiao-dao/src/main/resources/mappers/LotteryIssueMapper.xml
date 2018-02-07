@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.caiqianyi.guess.caipiao.core.dao.ILotteryIssueMapper">
+<mapper namespace="com.lebaoxun.guess.caipiao.core.dao.ILotteryIssueMapper">
 
 	<sql id="Base_Column_List">
 		expect, openCode, kindOf, status, openTime, startTime, endTime, createTime
 	</sql>
 
-	<select id="getCurrentIssue" resultType="com.caiqianyi.guess.caipiao.entity.LotteryIssue">
+	<select id="getCurrentIssue" resultType="com.lebaoxun.guess.caipiao.entity.LotteryIssue">
 		select
 		<include refid="Base_Column_List" />
 		from lottery_issue where kindOf=#{kindOf} and startTime &lt;= NOW() and endTime &gt; NOW() and status = 0
 	</select>
-	<select id="getCurrentPrevIssue" resultType="com.caiqianyi.guess.caipiao.entity.LotteryIssue">
+	<select id="getCurrentPrevIssue" resultType="com.lebaoxun.guess.caipiao.entity.LotteryIssue">
 		select
 		<include refid="Base_Column_List" />
 		from lottery_issue where kindOf=#{kindOf} and endTime &lt; NOW() order by startTime desc limit 1;
 	</select>
 	
-	<select id="getIssueByExpect" resultType="com.caiqianyi.guess.caipiao.entity.LotteryIssue">
+	<select id="getIssueByExpect" resultType="com.lebaoxun.guess.caipiao.entity.LotteryIssue">
 		select
 		<include refid="Base_Column_List" />
 		from lottery_issue where kindOf=#{kindOf} and expect = #{expect}
 	</select>
 
-	<select id="getHistoryOpenCode" resultType="com.caiqianyi.guess.caipiao.entity.LotteryIssue">
+	<select id="getHistoryOpenCode" resultType="com.lebaoxun.guess.caipiao.entity.LotteryIssue">
 		select
 		<include refid="Base_Column_List" />
 		from lottery_issue
@@ -44,7 +44,7 @@
 		</if>
 	</select>
 	
-	<select id="getIssusByKindOfAndStatus" resultType="com.caiqianyi.guess.caipiao.entity.LotteryIssue">
+	<select id="getIssusByKindOfAndStatus" resultType="com.lebaoxun.guess.caipiao.entity.LotteryIssue">
 		select
 		<include refid="Base_Column_List" />
 		from lottery_issue

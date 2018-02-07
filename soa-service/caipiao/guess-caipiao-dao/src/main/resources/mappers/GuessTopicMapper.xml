@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.caiqianyi.guess.core.dao.IGuessTopicMapper">
+<mapper namespace="com.lebaoxun.guess.core.dao.IGuessTopicMapper">
 
-	<resultMap id="GuessOptionMap" type="com.caiqianyi.guess.entity.GuessTopic">
+	<resultMap id="GuessOptionMap" type="com.lebaoxun.guess.entity.GuessTopic">
 		<id column="id" jdbcType="VARCHAR" property="id" />
 		<result column="topicId" jdbcType="INTEGER" property="topicId" />
 		<result column="createBy" jdbcType="VARCHAR" property="createBy" />
@@ -21,7 +21,7 @@
 		<result column="overTime" jdbcType="TIMESTAMP" property="overTime" />
 		<result column="finishTime" jdbcType="TIMESTAMP" property="finishTime" />
 		<collection property="options"
-			ofType="com.caiqianyi.guess.entity.GuessTopicOption">
+			ofType="com.lebaoxun.guess.entity.GuessTopicOption">
 			<id column="optId" jdbcType="VARCHAR" property="id" />
 			<result column="topicId" property="topicId" />
 			<result column="name" property="name" />
@@ -80,14 +80,14 @@
 		overTime, finishTime ,createBy
 	</sql>
 
-	<select id="findOneGuessTopicBy" resultType="com.caiqianyi.guess.entity.GuessTopic">
+	<select id="findOneGuessTopicBy" resultType="com.lebaoxun.guess.entity.GuessTopic">
 		select
 		<include refid="Base_Column_List" />
 		from guess_topic
 		<include refid="Base_Where_Clause" />
 	</select>
 
-	<select id="findGuessTopicByForPager" resultType="com.caiqianyi.guess.entity.GuessTopic">
+	<select id="findGuessTopicByForPager" resultType="com.lebaoxun.guess.entity.GuessTopic">
 		select
 		<include refid="Base_Column_List" />
 		from guess_topic
@@ -181,7 +181,7 @@
 		</if>
 	</select>
 
-	<select id="findAllGuessTopicBy" resultType="com.caiqianyi.guess.entity.GuessTopic">
+	<select id="findAllGuessTopicBy" resultType="com.lebaoxun.guess.entity.GuessTopic">
 		select
 		<include refid="Base_Column_List" />
 		from guess_topic
@@ -196,7 +196,7 @@
 		order by orderBy,createTime;
 	</select>
 
-	<insert id="insert" parameterType="com.caiqianyi.guess.entity.GuessTopic">
+	<insert id="insert" parameterType="com.lebaoxun.guess.entity.GuessTopic">
 		insert into guess_topic (
 		<include refid="Base_Column_List" />
 		)
@@ -208,7 +208,7 @@
 		#{topic.createBy})
 	</insert>
 
-	<update id="update" parameterType="com.caiqianyi.guess.entity.GuessTopic">
+	<update id="update" parameterType="com.lebaoxun.guess.entity.GuessTopic">
 		update guess_topic
 		<set>
 			<if test="topic.subject != null">
@@ -266,14 +266,14 @@
 		</trim>
 	</sql>
 
-	<select id="findOneGuessTopicOptionBy" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
+	<select id="findOneGuessTopicOptionBy" resultType="com.lebaoxun.guess.entity.GuessTopicOption">
 		select
 		<include refid="Guess_Topic_Option_Column_List" />
 		from guess_topic_option
 		<include refid="Option_Base_Where_Clause" />
 	</select>
 
-	<select id="findAllGuessTopicOptionBy" resultType="com.caiqianyi.guess.entity.GuessTopicOption">
+	<select id="findAllGuessTopicOptionBy" resultType="com.lebaoxun.guess.entity.GuessTopicOption">
 		select
 		<include refid="Guess_Topic_Option_Column_List" />
 		from guess_topic_option

@@ -16,4 +16,4 @@ spring:
 
 # Define the port where the API gateway server would be running
 server:
-  port: 8888
+  port: 8080

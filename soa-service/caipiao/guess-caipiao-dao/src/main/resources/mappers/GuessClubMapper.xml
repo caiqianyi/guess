@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.caiqianyi.guess.core.dao.IGuessClubMapper">
+<mapper namespace="com.lebaoxun.guess.core.dao.IGuessClubMapper">
 
 	<sql id="Base_Column_List">
 		id, clubId, createId, maxMember, name, password, cardNum, icon, notice, kindOf, currentMember, status ,createTime, totalLiveness
 	</sql>
 
-	<resultMap id="ClubMemberMap" type="com.caiqianyi.guess.entity.GuessClub">
+	<resultMap id="ClubMemberMap" type="com.lebaoxun.guess.entity.GuessClub">
 		<id column="id" jdbcType="VARCHAR" property="id" />
 		<result column="clubId" jdbcType="INTEGER" property="clubId" />
 		<result column="createId" jdbcType="INTEGER" property="createId" />
@@ -22,7 +22,7 @@
 		<result column="totalLiveness" jdbcType="INTEGER" property="totalLiveness" />
 		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
 		<collection property="members"
-			ofType="com.caiqianyi.guess.entity.GuessClubMember">
+			ofType="com.lebaoxun.guess.entity.GuessClubMember">
 			<result column="member_id" jdbcType="INTEGER" property="id" />
 			<result column="clubId" jdbcType="INTEGER" property="clubId" />
 			<result column="userId" jdbcType="INTEGER" property="userId" />
@@ -38,7 +38,7 @@
 		</collection>
 	</resultMap>
 	
-	<insert id="createClub" parameterType="com.caiqianyi.guess.entity.GuessClub">
+	<insert id="createClub" parameterType="com.lebaoxun.guess.entity.GuessClub">
 		insert into guess_club (id, clubId, createId, currentMember, maxMember, name, password,
 		cardNum, kindOf) values (UUID(),
 		#{clubId}, #{createId},#{currentMember}, #{maxMember}, #{name}, #{password},
@@ -46,7 +46,7 @@
 		);
 	</insert>
 
-	<update id="update" parameterType="com.caiqianyi.guess.entity.GuessClub">
+	<update id="update" parameterType="com.lebaoxun.guess.entity.GuessClub">
 		update guess_club set
 		clubId = #{clubId}
 		<if test="maxMember != null">
@@ -79,7 +79,7 @@
 		where clubId = #{clubId} and createId = #{createId}
 	</update>
 
-	<select id="findById" resultType="com.caiqianyi.guess.entity.GuessClub">
+	<select id="findById" resultType="com.lebaoxun.guess.entity.GuessClub">
 		select
 		<include refid="Base_Column_List" />
 		from guess_club where clubId = #{clubId} and status != -1
@@ -99,7 +99,7 @@
 		where club.clubId = #{clubId} and club.createId = #{createId} and club.status != -1
 	</select>
 	
-	<select id="findByCreateId" resultType="com.caiqianyi.guess.entity.GuessClub">
+	<select id="findByCreateId" resultType="com.lebaoxun.guess.entity.GuessClub">
 		select
 		<include refid="Base_Column_List" />
 		from guess_club where createId = #{createId} and status != -1
@@ -109,7 +109,7 @@
 	</select>
 	
 	
-	<resultMap id="ClubTemplateMap" type="com.caiqianyi.guess.entity.GuessClub">
+	<resultMap id="ClubTemplateMap" type="com.lebaoxun.guess.entity.GuessClub">
 	    <id column="id" jdbcType="VARCHAR" property="id" />
 		<result column="clubId" jdbcType="INTEGER" property="clubId" />
 		<result column="createId" jdbcType="INTEGER" property="createId" />
@@ -125,7 +125,7 @@
 		<result column="totalLiveness" jdbcType="INTEGER" property="totalLiveness" />
 		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
 		<collection property="templates"
-			ofType="com.caiqianyi.guess.entity.GuessTemplate" javaType="java.util.ArrayList" >
+			ofType="com.lebaoxun.guess.entity.GuessTemplate" javaType="java.util.ArrayList" >
 			<id column="tmp_id" jdbcType="INTEGER" property="id" />
 			<result column="tmp_subject" jdbcType="VARCHAR" property="subject" />
 			<result column="tmp_label" jdbcType="VARCHAR" property="label" />
@@ -135,7 +135,7 @@
 			<result column="tmp_clubId" jdbcType="INTEGER" property="clubId" />
 			<result column="tmp_userId" jdbcType="INTEGER" property="userId" />
 			<result column="tmp_createTime" jdbcType="TIMESTAMP" property="createTime" />
-			<collection property="options" ofType="com.caiqianyi.guess.entity.GuessTemplateOption" javaType="java.util.ArrayList">
+			<collection property="options" ofType="com.lebaoxun.guess.entity.GuessTemplateOption" javaType="java.util.ArrayList">
 			    <result column="tmp_id" property="templateId"/>
 			    <result column="opt_name" property="name"/>
 			    <result column="opt_formula" property="formula"/>

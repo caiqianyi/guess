@@ -19,5 +19,7 @@ logging:
 
 
 guess:
-  appid: wx69823becfe6a7396
-  secret: e1633a5f86e846726551ef701f402225
+#  appid: wx69823becfe6a7396
+#  secret: e1633a5f86e846726551ef701f402225
+  appid: wx0e166638419ae925
+  secret: eb96b52d4606ef4cc25b9db116d91d88

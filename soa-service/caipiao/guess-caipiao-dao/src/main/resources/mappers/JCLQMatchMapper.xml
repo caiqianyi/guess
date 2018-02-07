@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.caiqianyi.guess.caipiao.core.dao.IJCLQMatchMapper">
+<mapper namespace="com.lebaoxun.guess.caipiao.core.dao.IJCLQMatchMapper">
 
 	<sql id="Base_Column_List">
 		id, seq, matchId, league, hostTeam, gustTeam, score, status, rf,
 		dxf, matchTime, endTime, createTime
 	</sql>
 	
-	<resultMap id="JCLQMatchGuessTopic" type="com.caiqianyi.guess.jclq.vo.JCLQMatchGuessTopic">
+	<resultMap id="JCLQMatchGuessTopic" type="com.lebaoxun.guess.jclq.vo.JCLQMatchGuessTopic">
 		<id property="id" column="match_id"/>  
 		<result property="seq" column="seq"/>  
 		<result property="matchId" column="matchId"/>  
@@ -21,7 +21,7 @@
 		<result property="matchTime" column="matchTime"/>  
 		<result property="endTime" column="endTime"/>  
 		<result property="createTime" column="m_createTime"/>  
-		<association property="topic" column="topic_id" javaType="com.caiqianyi.guess.entity.GuessTopic">  
+		<association property="topic" column="topic_id" javaType="com.lebaoxun.guess.entity.GuessTopic">  
 			<id property="id" column="topic_id"/>  
 			<result column="topicId" jdbcType="INTEGER" property="topicId" />
 			<result column="createBy" jdbcType="VARCHAR" property="createBy" />
@@ -41,7 +41,7 @@
 			<result column="finishTime" jdbcType="TIMESTAMP" property="finishTime" />
 		</association>  
 		<collection property="options"
-			ofType="com.caiqianyi.guess.entity.GuessTopicOption">
+			ofType="com.lebaoxun.guess.entity.GuessTopicOption">
 			<id column="opt_id" jdbcType="VARCHAR" property="id" />
 			<result column="topicId" property="topicId" />
 			<result column="name" property="name" />
@@ -70,7 +70,7 @@
 		</if>
 	</select>
 	
-	<select id="findAllMatchByDay" resultType="com.caiqianyi.guess.jclq.entity.JCLQMatch">
+	<select id="findAllMatchByDay" resultType="com.lebaoxun.guess.jclq.entity.JCLQMatch">
 		select
 		<include refid="Base_Column_List" />
 		from jclq_match where 
@@ -107,7 +107,7 @@
 		WHERE topic.kind = "jclq" and DATE_FORMAT(m.matchTime,'%Y%m%d') = #{day};
 	</select>
 	
-	<select id="findAllMatchByTime" resultType="com.caiqianyi.guess.jclq.entity.JCLQMatch">
+	<select id="findAllMatchByTime" resultType="com.lebaoxun.guess.jclq.entity.JCLQMatch">
 		select
 		<include refid="Base_Column_List" />
 		from jclq_match where 
@@ -130,13 +130,13 @@
 		</if>
 	</select>
 	
-	<select id="findMatch" resultType="com.caiqianyi.guess.jclq.entity.JCLQMatch">
+	<select id="findMatch" resultType="com.lebaoxun.guess.jclq.entity.JCLQMatch">
 		select
 		<include refid="Base_Column_List" />
 		from jclq_match where seq = #{seq}
 	</select>
 
-	<insert id="insert" parameterType="com.caiqianyi.guess.jclq.entity.JCLQMatch">
+	<insert id="insert" parameterType="com.lebaoxun.guess.jclq.entity.JCLQMatch">
 		insert into jclq_match (
 		seq, matchId, league, hostTeam, gustTeam, score, status, rf, dxf, matchTime,
 		endTime
@@ -145,7 +145,7 @@
 		#{status}, #{rf}, #{dxf}, #{matchTime}, #{endTime})
 	</insert>
 
-	<update id="update" parameterType="com.caiqianyi.guess.jclq.entity.JCLQMatch">
+	<update id="update" parameterType="com.lebaoxun.guess.jclq.entity.JCLQMatch">
 		update jclq_match
 		<set>
 			<if test="score != null">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.caiqianyi.guess.core.dao.IGuessOrderMapper">
+<mapper namespace="com.lebaoxun.guess.core.dao.IGuessOrderMapper">
 
 	<sql id="Base_Where_Clause">
 		<trim prefix="where" prefixOverrides="and|or">
@@ -45,7 +45,7 @@
 		createTime
 	</sql>
 
-	<select id="findByForPager" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	<select id="findByForPager" resultType="com.lebaoxun.guess.entity.GuessOrder">
 		select
 		<include refid="Base_Column_List" />
 		from guess_order
@@ -76,7 +76,7 @@
 		</if>
 	</select>
 
-	<select id="findAllBy" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	<select id="findAllBy" resultType="com.lebaoxun.guess.entity.GuessOrder">
 		select
 		<include refid="Base_Column_List" />
 		from guess_order
@@ -89,11 +89,11 @@
 		</if>
 	</select>
 	
-	<select id="findAlByKindOfAndExpect" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	<select id="findAlByKindOfAndExpect" resultType="com.lebaoxun.guess.entity.GuessOrder">
 	    select <include refid="Base_Column_List" /> from guess_order where kindOf = #{kindOf} and expect = #{expect};
 	</select>
 
-	<select id="findOneBy" resultType="com.caiqianyi.guess.entity.GuessOrder">
+	<select id="findOneBy" resultType="com.lebaoxun.guess.entity.GuessOrder">
 		select
 		<include refid="Base_Column_List" />
 		from guess_order
