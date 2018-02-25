@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lebaoxun.bbs.core.dao.IThemeMapper">
+
+	<sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="kw != null">
+				and kw = #{kw}
+			</if>
+			<if test="kindOf != null">
+				and kindOf = #{kindOf}
+			</if>
+			<if test="lables != null">
+				and lables = #{lables}
+			</if>
+			<if test="flag != null">
+				and flag = #{flag}
+			</if>
+			<if test="creator != null">
+				and creator = #{creator}
+			</if>
+			<if test="owner != null">
+				and owner = #{owner}
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="Base_Column_List">
+		id, kw, descr, subscribes, pasteCount, kindOf, lables, logo,
+		flag, creator, owner, createTime, lastPublishTime
+	</sql>
+	
+	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.Theme">
+		insert into theme (
+		<include refid="Base_Column_List" />
+		)
+		values (
+		NULL, #{kw}, #{descr}, 0, 0, #{kindOf}, #{lables}, #{logo},
+		#{flag}, #{creator}, #{owner}, NOW(), NULL
+		)
+	</insert>
+	
+	<update id="updateBy" parameterType="com.lebaoxun.bbs.core.entity.Theme">
+		update theme
+		<set>
+			<if test="subscribes != null">
+				subscribes = #{subscribes}
+			</if>
+			<if test="pasteCount != null">
+				pasteCount = #{pasteCount}
+			</if>
+			<if test="kindOf != null">
+				kindOf = #{kindOf}
+			</if>
+			<if test="lables != null">
+				lables = #{lables}
+			</if>
+			<if test="descr != null">
+				descr = #{descr}
+			</if>
+			<if test="logo != null">
+				logo = #{logo}
+			</if>
+			<if test="flag != null">
+				flag = #{flag}
+			</if>
+			<if test="owner != null">
+				owner = #{owner}
+			</if>
+			<if test="lastPublishTime != null">
+				lastPublishTime = #{lastPublishTime}
+			</if>
+		</set>
+		<include refid="Base_Where_Clause" />
+	</update>
+
+	<select id="search" resultType="com.lebaoxun.bbs.core.entity.Theme">
+		select
+		<include refid="Base_Column_List"/>
+		from theme where kw like '%#{kw}%'
+		limit #{size},#{offset}
+	</select>
+	
+	<select id="findByKw" resultType="com.lebaoxun.bbs.core.entity.Theme">
+		select
+		<include refid="Base_Column_List"/>
+		from theme where kw =#{kw} limit 1;
+	</select>
+	
+	<select id="findById" resultType="com.lebaoxun.bbs.core.entity.Theme">
+		select
+		<include refid="Base_Column_List"/>
+		from theme where id =#{id} limit 1;
+	</select>
+	
+	<select id="countByKw" resultType="java.lang.Integer">
+		select count(kw) from theme where kw =#{kw};
+	</select>
+	
+	<select id="findAllKindOf" resultType="java.lang.String">
+		select kindOf from theme group by kindOf;
+	</select>
+	
+	<select id="findByKindOf" resultType="com.lebaoxun.bbs.core.entity.Theme">
+		select
+		<include refid="Base_Column_List"/>
+		from theme where kindOf =#{kindOf}
+		order by pasteCount desc ,subscribes desc
+		<if test="size != null">
+			limit #{size} <if test="offset != null">,offset = #{offset}</if>
+		</if>
+	</select>
+	
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lebaoxun.bbs.core.dao.IPastePostMapper">
+
+	<sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="userId != null">
+				and userId = #{userId}
+			</if>
+			<if test="pasteId != null">
+				and pasteId = #{pasteId}
+			</if>
+			<if test="isCreator != null">
+				and isCreator = #{isCreator}
+			</if>
+			<if test="tier != null">
+				and tier = #{tier}
+			</if>
+			<if test="lastReplyId != null">
+				and lastReplyId = #{lastReplyId}
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="Base_Column_List">
+		id, content, userId, pasteId, source,
+		isCreator, tier, praiseCount, replyCount, 
+		createTime, lastReplyId, lastReplyTime
+	</sql>
+	
+	<sql id="Base_Order_By">
+	    <if test="orderBy != null">
+			order by #{orderBy}
+	    </if>
+	</sql>
+
+	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.PastePost">
+		insert into paste_post_${submeter} (
+		<include refid="Base_Column_List" />
+		)
+		values (
+		NULL, #{content}, #{userId}, #{pasteId}, #{source}, 
+		#{isCreator}, #{tier}, 0, 0,
+		NOW(), NULL, NULL)
+	</insert>
+
+	<update id="updateBy" parameterType="com.lebaoxun.bbs.core.entity.PastePost">
+		update paste_post_${submeter}
+		<set>
+			<if test="praiseCount != null">
+				praiseCount = #{praiseCount}
+			</if>
+			<if test="replyCount != null">
+				replyCount = #{replyCount}
+			</if>
+			<if test="lastReplyId != null">
+				lastReplyId = #{lastReplyId}
+			</if>
+			<if test="lastReplyTime != null">
+				lastReplyTime = #{lastReplyTime}
+			</if>
+		</set>
+		<include refid="Base_Where_Clause" />
+	</update>
+
+	<delete id="deleteBy">
+		delete from paste_post_${submeter} <include refid="Base_Where_Clause" />
+	</delete>
+
+	<select id="findTier" resultType="java.lang.Integer">
+		select count(id) from paste_post_${submeter}
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<select id="findPostByPasteAndTier" resultType="com.lebaoxun.bbs.core.entity.PastePost">
+		select
+		<include refid="Base_Column_List" />
+		from paste_post_${submeter}
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<select id="findPostById" resultType="com.lebaoxun.bbs.core.entity.PastePost">
+		select
+		<include refid="Base_Column_List" />
+		from paste_post_${submeter}
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<select id="findByPasteId" resultType="com.lebaoxun.bbs.core.entity.PastePost">
+		select
+		<include refid="Base_Column_List" />
+		from paste_post_${submeter}
+		<include refid="Base_Where_Clause" />
+		order by tier, createTime
+		<if test="size != null">
+			limit #{size} <if test="offset != null">,offset = #{offset}</if>
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lebaoxun.bbs.core.dao.IPasteMapper">
+
+	<sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="userId != null">
+				and userId = #{userId}
+			</if>
+			<if test="lastPostId != null">
+				and lastPostId = #{lastPostId}
+			</if>
+			<if test="plateId != null">
+				and plateId = #{plateId}
+			</if>
+			<if test="top != null">
+				and top = #{top}
+			</if>
+			<if test="highlight != null">
+				and highlight = #{highlight}
+			</if>
+			and deleted = 0
+		</trim>
+	</sql>
+
+	<sql id="Base_Column_List">
+		id, title, content, pictures, source, userId,
+		lastPostId, plateId, collectCount, transpondCount, 
+		praiseCount, replyPasteCount, scanCount, top,
+		highlight, createTime, lastPostTime, lastReplyTime
+	</sql>
+	
+	<sql id="Base_Order_By">
+		order by #{orderBy}
+	</sql>
+
+	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.Paste">
+		insert into paste (
+		<include refid="Base_Column_List" />
+		)
+		values (
+		NULL, #{title}, #{content}, #{pictures}, #{source}, #{userId}, 
+		#{lastPostId}, #{plateId}, 0, 0,
+		0, 0, 0, 0,
+		0, NOW(), NULL, NULL)
+	</insert>
+
+	<update id="update" parameterType="com.lebaoxun.bbs.core.entity.Paste">
+		update paste
+		<set>
+			<if test="lastPostId != null">
+				lastPostId = #{lastPostId},
+			</if>
+			<if test="collectCount != null">
+				collectCount = #{collectCount}
+			</if>
+			<if test="transpondCount != null">
+				transpondCount = #{transpondCount}
+			</if>
+			<if test="praiseCount != null">
+				praiseCount = #{praiseCount}
+			</if>
+			<if test="replyPasteCount != null">
+				replyPasteCount = #{replyPasteCount}
+			</if>
+			<if test="scanCount != null">
+				scanCount = #{scanCount}
+			</if>
+			<if test="top != null">
+				top = #{top}
+			</if>
+			<if test="highlight != null">
+				highlight = #{highlight}
+			</if>
+			<if test="deleted != null">
+				deleted = #{deleted}
+			</if>
+			<if test="lastPostTime != null">
+				lastPostTime = #{lastPostTime}
+			</if>
+			<if test="lastReplyTime != null">
+				lastReplyTime = #{lastReplyTime}
+			</if>
+		</set>
+		<include refid="Base_Where_Clause" />
+	</update>
+
+	<delete id="deleteBy">
+		delete from paste <include refid="Base_Where_Clause" />
+	</delete>
+
+	<select id="findByUserId" resultType="com.lebaoxun.bbs.core.entity.Paste">
+		select
+		<include refid="Base_Column_List" />
+		from paste
+		<include refid="Base_Where_Clause" />
+		<include refid="Base_Order_By"/>
+		<if test="size != null">
+			limit #{size} <if test="offset != null">,offset = #{offset}</if>
+		</if>
+	</select>
+	
+	<select id="findByPlateId" resultType="com.lebaoxun.bbs.core.entity.Paste">
+		select
+		<include refid="Base_Column_List" />
+		from paste
+		<include refid="Base_Where_Clause" />
+		order by top desc, lastUpdateTime desc, highlight desc
+		<if test="size != null">
+			limit #{size} <if test="offset != null">,offset = #{offset}</if>
+		</if>
+	</select>
+	
+	<select id="findById" resultType="com.lebaoxun.bbs.core.entity.Paste">
+		select
+		<include refid="Base_Column_List" />
+		from paste
+		<include refid="Base_Where_Clause" />
+	</select>
+</mapper>

@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <parent>
+  	<groupId>com.lebaoxun</groupId>
+  	<artifactId>framework-parent</artifactId>
+  	<version>1.0.0-RELEASE</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>bbs-api</artifactId>
+  <version>1.0.0-RELEASE</version>
+  <packaging>jar</packaging>
+
+  <name>bbs-api</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <dependencies>
+	<dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-feign</artifactId>
+    </dependency>
+    <dependency>
+		<groupId>com.lebaoxun</groupId>
+		<artifactId>common-utils</artifactId>
+	</dependency>
+    <dependency>
+    	<groupId>com.lebaoxun</groupId>
+    	<artifactId>guess-caipiao-model</artifactId>
+    	<version>1.0.0-RELEASE</version>
+    </dependency>
+  </dependencies>
+  
+  <build>
+  	<finalName>bbs-api</finalName>
+  </build>
+</project>

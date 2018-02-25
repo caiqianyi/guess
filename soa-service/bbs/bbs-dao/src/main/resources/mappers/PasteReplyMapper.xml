@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lebaoxun.bbs.core.dao.IPasteReplyMapper">
+
+	<sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="userId != null">
+				and userId = #{userId}
+			</if>
+			<if test="pasteId != null">
+				and pasteId = #{pasteId}
+			</if>
+			<if test="postId != null">
+				and postId = #{postId}
+			</if>
+			<if test="postIds != null">
+				and postId in 
+				<foreach item="item" index="index" collection="postIds"
+                open="(" separator="," close=")"> 
+                #{item}
+                </foreach>
+			</if>
+			<if test="toReplyId != null">
+				and toReplyId = #{toReplyId}
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="Base_Column_List">
+		id, content, userId, pasteId, postId, 
+		toReplyId, source, praiseCount, createTime
+	</sql>
+	
+	<sql id="Base_Order_By">
+	    <if test="orderBy != null">
+			order by #{orderBy}
+	    </if>
+	</sql>
+
+	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.PasteReply">
+		insert into paste_reply_${submeter} (
+		<include refid="Base_Column_List" />
+		)
+		values (
+		NULL, #{content}, #{userId}, #{pasteId}, #{postId}, 
+		#{toReplyId}, #{source}, 0, NOW())
+	</insert>
+
+	<update id="updateBy" parameterType="com.lebaoxun.bbs.core.entity.PasteReply">
+		update paste_reply_${submeter}
+		<set>
+			<if test="praiseCount != null">
+				praiseCount = #{praiseCount}
+			</if>
+		</set>
+		<include refid="Base_Where_Clause" />
+	</update>
+
+	<delete id="deleteBy">
+		delete from paste_reply_${submeter} <include refid="Base_Where_Clause" />
+	</delete>
+
+	<select id="findByPasteId" resultType="com.lebaoxun.bbs.core.entity.PasteReply">
+		select
+		<include refid="Base_Column_List" />
+		from paste_reply_${submeter}
+		<include refid="Base_Where_Clause" />
+		order by createTime
+		<if test="size != null">
+			limit #{size} <if test="offset != null">,offset = #{offset}</if>
+		</if>
+	</select>
+	
+	<select id="findByPasteIdForTops" resultType="com.lebaoxun.bbs.core.entity.PasteReply">
+		select
+		<include refid="Base_Column_List" />
+		from paste_reply_${submeter} as pr1
+		<include refid="Base_Where_Clause" />
+		<if test="replySize != null">
+			and (
+				select count(id) from paste_reply_${submeter} as pr2
+				where pr2.pasteId = #{pasteId} 
+				and pr2.postId = pr1.postId
+				and pr2.createTime &lt; pr1.createTime
+			) &lt; #{replySize}
+		</if>
+		order by createTime
+		<if test="size != null">
+			limit #{size}
+		</if>
+	</select>
+</mapper>

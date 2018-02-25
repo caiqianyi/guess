@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lebaoxun.bbs.core.dao.IPraiseLogMapper">
+
+	<sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="userId != null">
+				and userId = #{userId}
+			</if>
+			<if test="logType != null">
+				and logType = #{logType}
+			</if>
+			<if test="recordId != null">
+				and recordId = #{recordId}
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="Base_Column_List">
+		id, userId, logType, hostIp, source, recordId, createTime
+	</sql>
+	
+	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.PasteReply">
+		insert into praise_log_${submeter} (
+		<include refid="Base_Column_List" />
+		)
+		values (NULL, #{userId}, #{logType}, #{hostIp}, #{source}, #{recordId}, NOW())
+	</insert>
+
+	<delete id="deleteBy">
+		delete from praise_log_${submeter} <include refid="Base_Where_Clause" />
+	</delete>
+
+	<select id="countByUser" resultType="java.lang.Integer">
+		select
+		count(id)
+		from praise_log_${submeter}
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<select id="countBy" resultType="java.lang.Integer">
+		select
+		count(id)
+		from praise_log_${submeter}
+		<include refid="Base_Where_Clause" />
+	</select>
+</mapper>
