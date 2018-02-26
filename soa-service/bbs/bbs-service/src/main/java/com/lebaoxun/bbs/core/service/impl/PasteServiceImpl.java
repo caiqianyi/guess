@@ -71,36 +71,79 @@ public class PasteServiceImpl implements IPasteService {
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
-	public Paste updateBy(Paste paste) {
+	public Paste setHighlight(Integer id, Integer userId, boolean highlight) {
 		// TODO Auto-generated method stub
-		return null;
+		Paste paste = pasteMapper.findById(id);
+		if(paste == null){
+			throw new I18nMessageException("","");
+		}
+		paste.setHighlight(highlight);
+		Paste update = new Paste();
+		update.setId(id);
+		update.setHighlight(highlight);
+		pasteMapper.updateBy(update);
+		return paste;
 	}
-
+	
+	@Override
+	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
+	public Paste setTop(Integer id, Integer userId, boolean top) {
+		// TODO Auto-generated method stub
+		Paste paste = pasteMapper.findById(id);
+		if(paste == null){
+			throw new I18nMessageException("","");
+		}
+		paste.setTop(top);
+		Paste update = new Paste();
+		update.setId(id);
+		update.setTop(top);
+		pasteMapper.updateBy(update);
+		return paste;
+	}
+	
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
 	public Integer deleteBy(Integer id, Integer userId) {
 		// TODO Auto-generated method stub
-		return null;
+		Paste paste = pasteMapper.findById(id);
+		if(paste == null){
+			throw new I18nMessageException("","");
+		}
+		paste.setDeleted(true);
+		Paste update = new Paste();
+		update.setId(id);
+		update.setDeleted(true);
+		
+		int row = pasteMapper.updateBy(update);
+		
+		Theme theme = themeMapper.findById(paste.getPlateId());
+		
+		Theme updateTheme = new Theme();
+		updateTheme.setId(paste.getPlateId());
+		updateTheme.setPasteCount(theme.getPasteCount()-1);
+		//updateTheme.setLastPublishTime(new Date());
+		themeMapper.updateBy(updateTheme);
+		return row;
 	}
 
 	@Override
 	public List<Paste> findByUserId(Integer userId, String orderBy,
 			Integer size, Integer offset) {
 		// TODO Auto-generated method stub
-		return null;
+		return pasteMapper.findByUserId(userId, orderBy, size, offset);
 	}
 
 	@Override
 	public List<Paste> findByPlateId(Integer plateId, Integer size,
 			Integer offset) {
 		// TODO Auto-generated method stub
-		return null;
+		return pasteMapper.findByPlateId(plateId, size, offset);
 	}
 
 	@Override
 	public Paste findById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		return pasteMapper.findById(id);
 	}
 
 }

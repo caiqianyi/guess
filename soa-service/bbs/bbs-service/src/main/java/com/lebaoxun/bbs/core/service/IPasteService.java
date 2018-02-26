@@ -24,11 +24,22 @@ public interface IPasteService {
 			boolean top, boolean highlight);
 	
 	/**
-	 * 修改贴信息
-	 * @param paste
+	 * 置顶
+	 * @param id
+	 * @param userId
+	 * @param top
 	 * @return
 	 */
-	Paste updateBy(Paste paste);
+	Paste setTop(Integer id, Integer userId, boolean top);
+	
+	/**
+	 * 加精，高亮
+	 * @param id
+	 * @param userId
+	 * @param highlight
+	 * @return
+	 */
+	Paste setHighlight(Integer id, Integer userId, boolean highlight);
 	
 	/**
 	 * 删除贴
