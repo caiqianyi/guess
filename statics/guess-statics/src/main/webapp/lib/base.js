@@ -70,6 +70,7 @@ var importFiles = [
 	{src:"/css/frozen.css",type:"css"},
 	{src:"/css/basic.css",type:"css"},
 	{src:"/lib/zepto.min.js",type:"script"},
+	{src:"/lib/zepto.animate.slide.js",type:"script"},
 	{src:"/lib/frozen.js",type:"script"},
 	{src:"/lib/storge.js",type:"script"},
 	{src:"/lib/myfrozen.js",type:"script"},

@@ -1,0 +1,639 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>乐宝贴吧</title>
+<script type="text/javascript" src="/js/version"></script>
+<script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
+<script type="text/javascript">
+importFiles[importFiles.length] = {src:"/css/bbs/bar.css",type:"css"};
+importFiles[importFiles.length] = {src:"/css/bbs/publish.css",type:"css"};
+importFiles[importFiles.length] = {src:"/lib/dropload.min.js",type:"script"};
+importFiles[importFiles.length] = {src:"/js/bbs/post.js",type:"script"};
+</script>
+<style type="text/css">
+.NormalHeader {
+    overflow: hidden;
+    position: relative;
+    height: auto;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+.NormalHeader .header-cover-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    -webkit-filter: blur(5px);
+    filter: blur(5px);
+}
+.NormalHeader .header-wrap {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-size: 100% 125px;
+}
+.NormalHeader .header-wrap:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0);
+    content: "";
+}
+.NormalHeader .header-wrap .cover.mask-gray {
+    z-index: 2;
+    background-color: rgba(0,0,0,.5);
+}
+.NormalHeader .header-wrap .cover {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 100% 125px;
+}
+.NormalHeader .header-wrap .info {
+    display: -moz-box;
+    display: -webkit-box;
+    display: box;
+    position: relative;
+    z-index: 5;
+    margin-top: 30px;
+    margin-bottom: 3px;
+    width: 100%;
+    height: 78px;
+}
+.NormalHeader .header-wrap .info .logo-container {
+    position: absolute;
+    left: 12px;
+    z-index: 1;
+    border-radius: 5px;
+    height: 60px;
+}
+.NormalHeader .header-wrap .info .logo {
+    border-radius: 2px;
+    width: 60px;
+    height: 60px;
+}
+.NormalHeader .header-wrap .logo-rank {
+    overflow: hidden;
+    position: absolute;
+    top: 45px;
+    left: 13px;
+    z-index: 2;
+    border-radius: 0 0 3px 3px;
+    padding: 0 1px;
+    width: 58px;
+    height: 15px;
+    font-size: 10px;
+    line-height: 15px;
+    text-align: center;
+    color: #777;
+    background-color: #f3f3f3;
+    -webkit-transform: translate(-1px);
+}
+.NormalHeader .header-wrap .logo-rank div {
+    display: block;
+    width: 125%;
+    -webkit-transform: scale(.8);
+    -webkit-transform-origin: 0 center;
+}
+.NormalHeader .header-wrap .logo-rank div .remain {
+    color: #FFB800;
+}
+.NormalHeader .header-wrap .logo-rank div .change {
+    margin-left: 3px;
+}
+.NormalHeader .header-wrap .info .name-info {
+    position: relative;
+    z-index: 2;
+    margin-left: 85px;
+    font-size: 11px;
+    color: #fff;
+    line-height: 1;
+}
+.NormalHeader .header-wrap .info .name-info .labels {
+    overflow: hidden;
+}
+@media (min-width: 321px)
+.NormalHeader .header-wrap .info .name-info .name {
+    padding-top: 1px;
+    padding-bottom: 2px;
+    text-shadow: 0 0 2px #000;
+}
+.NormalHeader .header-wrap .info .name-info .name {
+    display: block;
+    float: left;
+    overflow: hidden;
+    max-width: 240px;
+    font-size: 21px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.NormalHeader .header-wrap .info .name-info .info-num {
+    display: inline-block;
+    margin-top: 4px;
+    border-radius: 3px;
+    padding: 0;
+    font-size: 80%;
+    font-size: 14px;
+    line-height: 1;
+    color: #fff;
+}
+.NormalHeader .header-wrap .info .name-info .info-num label {
+    float: left;
+    margin: -1px 0 0;
+}
+.NormalHeader .header-wrap .info .name-info .info-num span.number {
+    float: left;
+    margin: -1px 5px 0 0;
+}
+.GradeInfo {
+    position: absolute;
+    left: 85px;
+    bottom: 19px;
+    z-index: 5;
+}
+.GradeInfo .info-grade-wrap {
+    position: relative;
+    box-sizing: border-box;
+    border-width: 2px;
+    border-radius: 2px;
+    max-width: 175px;
+    height: 14px;
+    line-height: 14px;
+    background-color: rgba(0,0,0,.3);
+}
+.GradeInfo .info-grade-wrap .l-level {
+    position: relative;
+    top: 0;
+    margin-left: 1px;
+    font-size: 12px;
+    color: #fff;
+    vertical-align: bottom;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 2;
+}
+.l-level {
+    top: -2px;
+    padding: 0 5px;
+    margin-right: 3px;
+    height: 14px;
+    position: relative;
+}
+.l-level:after {
+    content: attr(data-lcontent);
+    font-size: 20px;
+    padding: 4px 0;
+    height: 20px;
+    position: absolute;
+    line-height: 20px;
+    color: #fff;
+    -webkit-transform: scale(.5) translate(-50%,-50%);
+    top: 0;
+    left: 0;
+    width: 200%;
+}
+.l-level, .l-level:after {
+    min-width: 25px;
+    font-family: Helvetica,sans-serif;
+    border-radius: 1.5px;
+    text-align: center;
+}
+.GradeInfo .info-grade-wrap .l-inner-bar {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 14px;
+    background-color: #ffb800;
+    background-size: 100%;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    transition: width 1s;
+    -webkit-transition: width 1s;
+    z-index: 1;
+}
+.Operation.single-button {
+    top: 16px;
+}
+.Operation {
+    position: absolute;
+    top: 0;
+    right: 13px;
+    font-size: 0;
+    height: auto;
+}
+.Operation.single-button .btn {
+    display: inline-block;
+    margin-left: 0;
+    box-sizing: border-box;
+    border-radius: 3px;
+    min-width: 60px;
+    height: 30px;
+    font-size: 14px;
+    line-height: 30px;
+    text-align: center;
+    color: #000;
+    background-color: #fff;
+    padding: 0 8px;
+    float: right;
+    position: relative;
+}
+.scale-1px-bottom {
+	margin-bottom: 0px;
+    position: relative;
+    border: 0; 
+}
+.scale-1px-bottom:before {
+    content: " ";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #F0F0F0;
+    width: 100%;
+    height: 1px;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+.tl_top {
+    background-color: #fff;
+    padding: 0 17px;
+}
+.tl_gap {
+    height: 1px;
+    margin-top: -1px;
+}
+.tl_shadow, .tl_gap {
+    margin-bottom: 6px;
+    background-color: #fff;
+}
+.tl_top .ti_title span {
+    font-size: 13px;
+}
+.tl_top .ti_title_icon {
+    top: 0;
+    padding: 0;
+    margin-right: 11px;
+}
+.ti_title_icon {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 24px;
+    height: 24px;
+    margin-right: 9px;
+    color: #3D6299;
+}
+.tl_top .ti_title {
+    font-size: 0;
+    margin: 0;
+    color: #000;
+    height: 40px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0;
+    line-height: 40px;
+}
+.ti_title {
+    word-break: break-all;
+    color: #000;
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 4px;
+}
+</style>
+</head>
+
+<body ontouchstart>
+	<div id="main">
+		<header class="ui-header ui-header-positive ui-border-b">
+			<i class="ui-icon-return" onclick="history.back()"></i>
+			<h1>NBA吧</h1>
+			<button class="ui-btn ui-icon-add" id="btn-tohome">回首页</button>
+		</header>
+		<section class="ui-container">
+			<div class="Header">
+				<div class="NormalHeader">
+					<div class="header-cover-img"
+						style="background-image: url(&quot;https://p.qpic.cn/qqconadmin/0/83d373b6c67348f186fd424e29d60f0b/0&quot;);"></div>
+					<div class="header-wrap">
+						<div class="cover mask-gray"></div>
+						<div class="info" id="js_bar_info">
+							<div class="logo-container">
+								<img class="logo"
+									src="https://p.qpic.cn/qqconadmin/0/0145aabfce27470997f5cc2d9a9fcee1/0">
+							</div>
+							<div class="logo-rank">
+								<div>
+									<span>NO.5</span><span class="change remain"></span>
+								</div>
+							</div>
+							<div class="name-info">
+								<div class="labels">
+									<span class="name">海贼王</span>
+								</div>
+								<div class="info-num">
+									<span><label>关注 </label><span class="number">341万</span></span><span
+										class="charm-wrapper"><label>帖子</label><span
+										class="number meili">324524</span></span>
+								</div>
+							</div>
+							<div class="GradeInfo">
+								<div class="info-grade-wrap">
+									<span class="l-level">LV.1 初入东海</span><span class="l-inner-bar"
+										style="width: 0%;"></span>
+								</div>
+							</div>
+							<div class="Operation single-button">
+								<div>
+									<a class="sign-btn btn">签到</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="publish-btn" id="btn-publish"></div>
+			<div class="ui-tab">
+				<ul class="ui-tab-nav ui-border-b">
+					<li>最新</li>
+					<li class="current">精华</li>
+				</ul>
+				<div class="PasteList">
+					<ul class="ui-border-tb" style="background: #f5f5f5;">
+						<li class="tl_top scale-1px-bottom">
+							<a href="/p/5071225635?lp=5028&amp;mo_device=1&amp;is_jingpost=0"
+							class="j_common ti_item no_border" tid="5071225635">
+								<div class="ti_title">
+									<span class="ti_title_icon ti_icon_zhiding">置顶</span> <span>【NBA吧视频大楼】近30年NBA比赛视频整理帖</span>
+								</div>
+							</a>
+						</li>
+						<li class="tl_top">
+							<a href="/p/5071225635?lp=5028&amp;mo_device=1&amp;is_jingpost=0"
+							class="j_common ti_item no_border" tid="5071225635">
+								<div class="ti_title">
+									<span class="ti_title_icon ti_icon_zhiding">置顶</span> <span>【NBA吧视频大楼】近30年NBA比赛视频整理帖</span>
+								</div>
+							</a>
+						</li>
+						<li class="tl_gap"></li>
+					</ul>
+					<ul class="scroll-view post-list">
+						<li class="feeds-li feeds-li-normal">
+							<div class="detail-top">
+								<div class="item-user">
+									<div class="item-user-wrap">
+										<div class="item-user-avator">
+											<img class="avator-img img-ph"
+												src="https://q.qlogo.cn/g?b=qq&amp;k=WBFIzuCK3dPC8OwtnQrvrw&amp;s=100">
+										</div>
+										<span class="item-user-text"><span
+											class="item-user-name">菇凉的霸气う你不懂</span><span class=""></span></span><span
+											class="item-user-time">刚刚</span><i class="icon-cf-close"></i>
+									</div>
+								</div>
+							</div>
+							<div class="detail-bottom">
+								<div class="report-content">
+									<p class="groupbrief feed-two-line">
+										<label class="new">新</label><span
+											style="word-break: break-all;">最后一击对拼，路飞躲开了，卡二被打中，但路飞先到了极限，先倒下了，随后跟路飞说完话后也倒下了。问题来了，这算谁赢，下楼发漫画情报</span>
+									</p>
+								</div>
+								<div class="img-wrap clearfix">
+									<div class="feed-img img-ph"
+										style="width: 130px; height: 130px; margin-right: 2px;">
+										<img
+											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2S6dlib8bsgQH0MCGkqibxR85E7G3ep8dJww/320"
+											class=""
+											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;">
+									</div>
+									<div class="feed-img img-ph"
+										style="width: 130px; height: 130px; margin-right: 2px;">
+										<img
+											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2QqdaGvauRFcqB16rHFoENX4GoqxwDib14w/320"
+											class=""
+											style="margin-left: -31.3393px; margin-top: 0px; width: 192.679px; height: 130px;">
+									</div>
+									<div class="feed-img img-ph"
+										style="width: 130px; height: 130px;">
+										<img
+											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2YBo89DdxfRcSrBReib2szicz8Z6JRNKib8UQ/320"
+											class=""
+											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;"><span
+											class="img-count-flag">+2</span>
+									</div>
+								</div>
+								<div class="post-bottom-v3">
+									<div class="post-btn-v3 btn-like">
+										<i class="ui-icon-like" style="display: inline-block;"></i>
+										<h4 style="display: inline-block;">10</h4>
+									</div>
+									<div class="post-btn-v3 btn-comment">
+										<i class="ui-icon-comment"></i>
+										<h4>0</h4>
+									</div>
+									<div class="post-btn-v3 btn-share">
+										<i class="ui-icon-share"></i>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="feeds-li feeds-li-normal"><div class="detail-top">
+								<div class="item-user">
+									<div class="item-user-wrap">
+										<div class="item-user-avator">
+											<img class="avator-img img-ph"
+												src="https://q.qlogo.cn/g?b=qq&amp;k=WBFIzuCK3dPC8OwtnQrvrw&amp;s=100">
+										</div>
+										<span class="item-user-text"><span
+											class="item-user-name">菇凉的霸气う你不懂</span><span class=""></span></span><span
+											class="item-user-time">刚刚</span><i class="icon-cf-close"></i>
+									</div>
+								</div>
+							</div>
+							<div class="detail-bottom">
+								<div class="report-content">
+									<p class="groupbrief feed-two-line">
+										<label class="new">新</label><span
+											style="word-break: break-all;">最后一击对拼，路飞躲开了，卡二被打中，但路飞先到了极限，先倒下了，随后跟路飞说完话后也倒下了。问题来了，这算谁赢，下楼发漫画情报</span>
+									</p>
+								</div>
+								<div class="img-wrap clearfix">
+									<div class="feed-img img-ph"
+										style="width: 130px; height: 130px; margin-right: 2px;">
+										<img
+											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2S6dlib8bsgQH0MCGkqibxR85E7G3ep8dJww/320"
+											class=""
+											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;">
+									</div>
+									<div class="feed-img img-ph"
+										style="width: 130px; height: 130px; margin-right: 2px;">
+										<img
+											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2QqdaGvauRFcqB16rHFoENX4GoqxwDib14w/320"
+											class=""
+											style="margin-left: -31.3393px; margin-top: 0px; width: 192.679px; height: 130px;">
+									</div>
+									<div class="feed-img img-ph"
+										style="width: 130px; height: 130px;">
+										<img
+											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2YBo89DdxfRcSrBReib2szicz8Z6JRNKib8UQ/320"
+											class=""
+											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;"><span
+											class="img-count-flag">+2</span>
+									</div>
+								</div>
+								<div class="post-bottom-v3">
+									<div class="post-btn-v3 btn-like">
+										<i class="ui-icon-like" style="display: inline-block;"></i>
+										<h4 style="display: inline-block;">10</h4>
+									</div>
+									<div class="post-btn-v3 btn-comment">
+										<i class="ui-icon-comment"></i>
+										<h4>0</h4>
+									</div>
+									<div class="post-btn-v3 btn-share">
+										<i class="ui-icon-share"></i>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="feeds-li feeds-li-normal"><div class="detail-top">
+								<div class="item-user">
+									<div class="item-user-wrap">
+										<div class="item-user-avator">
+											<img class="avator-img img-ph"
+												src="https://q.qlogo.cn/g?b=qq&amp;k=WBFIzuCK3dPC8OwtnQrvrw&amp;s=100">
+										</div>
+										<span class="item-user-text"><span
+											class="item-user-name">菇凉的霸气う你不懂</span><span class=""></span></span><span
+											class="item-user-time">刚刚</span><i class="icon-cf-close"></i>
+									</div>
+								</div>
+							</div>
+							<div class="detail-bottom">
+								<div class="report-content">
+									<p class="groupbrief feed-two-line">
+										<label class="new">新</label><span
+											style="word-break: break-all;">最后一击对拼，路飞躲开了，卡二被打中，但路飞先到了极限，先倒下了，随后跟路飞说完话后也倒下了。问题来了，这算谁赢，下楼发漫画情报</span>
+									</p>
+								</div>
+								<div class="img-wrap clearfix">
+									<div class="feed-img img-ph"
+										style="width: 130px; height: 130px; margin-right: 2px;">
+										<img
+											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2S6dlib8bsgQH0MCGkqibxR85E7G3ep8dJww/320"
+											class=""
+											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;">
+									</div>
+									<div class="feed-img img-ph"
+										style="width: 130px; height: 130px; margin-right: 2px;">
+										<img
+											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2QqdaGvauRFcqB16rHFoENX4GoqxwDib14w/320"
+											class=""
+											style="margin-left: -31.3393px; margin-top: 0px; width: 192.679px; height: 130px;">
+									</div>
+									<div class="feed-img img-ph"
+										style="width: 130px; height: 130px;">
+										<img
+											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2YBo89DdxfRcSrBReib2szicz8Z6JRNKib8UQ/320"
+											class=""
+											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;"><span
+											class="img-count-flag">+2</span>
+									</div>
+								</div>
+								<div class="post-bottom-v3">
+									<div class="post-btn-v3 btn-like">
+										<i class="ui-icon-like" style="display: inline-block;"></i>
+										<h4 style="display: inline-block;">10</h4>
+									</div>
+									<div class="post-btn-v3 btn-comment">
+										<i class="ui-icon-comment"></i>
+										<h4>0</h4>
+									</div>
+									<div class="post-btn-v3 btn-share">
+										<i class="ui-icon-share"></i>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</div>
+	<div id="pulishPost" style="top: 0px; left: 100%; transform: translate3d(0px, 0px, 0px);width: 100%;height: 100%;position: fixed;z-index: 99998;    background: #fff;overflow: hidden;    -webkit-tap-highlight-color: rgba(0,0,0,0);flex-flow: column;    display: flex;">
+		<header class="ui-header ui-header-positive ui-border-b">
+			<i class="ui-icon-return" id="btn-publish-return"></i>
+			<h1>发贴</h1>
+			<button class="ui-btn ui-icon-add" id="btn-index">发布</button>
+		</header>
+		<section class="ui-container" id="j_main_editor_container">
+			<div class="editor_panel overthrow">
+				<div class="j_editor_title_panel editor_title_panel">
+					<input type="text" value="" placeholder="加个标题哟~"
+						class="j_editor_input editor_input editor_title">
+				</div>
+				<div class="j_editor_content_panel editor_content_panel">
+					<div class="j_savedraft_panel savedraft_panel">20:14 自动保存</div>
+					<div class="lay_hide">
+						<div class="j_lay_top lay_top"></div>
+						<textarea placeholder="也来说两句" style="height: 80px; width: 100%"
+							class="j_editor_content editor_input editor_content"></textarea>
+					</div>
+				</div>
+				<div class="demo-block">
+		            <ul class="ui-grid-trisect ui-border-b image-list">
+		                <li>
+		                	<div data-v-8edeee54="" draggable="true" class="m-box-center m-box-center-a image-wrap m-trans img3 none" style="transform: translate(0px, 0px); touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+		                		<div data-v-8edeee54="" class="image-placeholder"></div> 
+		                		<img data-v-8edeee54="" src="http://localhost:81/test/1517838931211.jpg" class="compose-image">
+		                		<i class="ui-icon-close-page m-repic-close"></i>  
+		                	</div>
+		                </li>
+		                <li>
+		                	<div data-v-8edeee54="" draggable="true" class="m-box-center m-box-center-a image-wrap m-trans img3 none" style="transform: translate(0px, 0px); touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+		                		<div data-v-8edeee54="" class="image-placeholder"></div> 
+		                		<img data-v-8edeee54="" src="http://localhost:81/test/1517838931211.jpg" class="compose-image"> 
+		                		<i class="ui-icon-close-page m-repic-close"></i> 
+		                	</div>
+		                </li>
+		                <li>
+		                	<div data-v-8edeee54="" draggable="true" class="m-box-center m-box-center-a image-wrap m-trans img3 none" style="transform: translate(0px, 0px); touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+		                		<div data-v-8edeee54="" class="image-placeholder"></div> 
+		                		<img data-v-8edeee54="" src="http://localhost:81/test/1517838931211.jpg" class="compose-image">
+		                		<i class="ui-icon-close-page m-repic-close"></i> 
+		                	</div>
+		                </li>
+		                <li>
+		                	<label data-v-8edeee54="" for="selectphoto"
+								class="m-box-center m-box-center-a image-wrap more-image img3"><div
+										data-v-8edeee54="" class="image-placeholder"><input class="upload-input" type="file" accept="image/*"></div></label>
+							</li>
+		            </ul>
+		        </div>
+		    </div>
+		</section>
+	</div>
+	<!-- /.ui-container-->
+</body>
+</html>

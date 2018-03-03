@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>FrozenUI Demo</title>
+<script type="text/javascript" src="/js/version"></script>
+<script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
+<script type="text/javascript">
+importFiles[importFiles.length] = {src:"/css/bbs/basic.css",type:"css"};
+importFiles[importFiles.length] = {src:"/css/bbs/publish.css",type:"css"};
+importFiles[importFiles.length] = {src:"/css/bbs/paste.css",type:"css"};
+importFiles[importFiles.length] = {src:"/js/bbs/paste.js",type:"script"};
+</script>
+<style type="text/css">
+#main {
+	background: #fff;
+}
+#list_pager {
+	height: 44px;
+	line-height: 44px;
+	background: #fff;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	border-top: 1px solid #f0f0f0;
+	position: relative;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+}
+
+.bottom_pager_btn {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-flex: 1;
+	-ms-flex-positive: 1;
+	flex-grow: 1;
+	text-align: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	height: 100%;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+.pager_num {
+	position: absolute;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+	padding: 0;
+	width: 100px;
+}
+
+.bottom_pager_btn input {
+	font-size: 14px;
+	line-height: 24px;
+	border: 0;
+	background: transparent;
+	color: #333;
+	text-align: center;
+	width: 100px;
+}
+
+
+</style>
+</head>
+
+<body ontouchstart>
+	<div id="main" style="">
+		<header class="ui-header ui-header-positive ui-border-b">
+			<i class="ui-icon-return" onclick="history.back()"></i>
+			<h1>NBA吧</h1>
+			<button class="ui-btn ui-icon-add" id="btn-toreply">回复</button>
+		</header>
+		<section class="ui-container">
+			<section>
+				<div id="po_list">
+					<ul id="pblist" class="list">
+						<li tid="118404549588" fn="1"
+							data-info="{&quot;un&quot;:&quot;N\u5427\u51b3\u7b56\u7ec4&quot;,&quot;is_annoy&quot;:0,&quot;pid&quot;:118404549588,&quot;floor_num&quot;:1}"
+							class="list_item post_list_item default_feedback j_post_list_item    no_border"
+							is_inner_floor=""><div class="list_item_wrapper">
+								<div class="list_main">
+									<div class="post_title_embed">『免费』NBA直播--比赛录像</div>
+									<div class="list_item_top clearfix">
+										<div class="list_item_top_avatar">
+											<a
+												href="/home/main?un=N%E5%90%A7%E5%86%B3%E7%AD%96%E7%BB%84&amp;tj=1"><span><img
+													src="http://gss3.bdstatic.com/84oSdTum2Q5BphGlnYG/timg?mowebapp&amp;quality=80&amp;size=b72_72&amp;cut_x=0&amp;cut_w=0&amp;cut_y=0&amp;cut_h=0&amp;sec=1369815402&amp;di=829a6c6823280d6be2291244cdf4a6b0&amp;wh_rate=null&amp;src=http%3A%2F%2Ftb.himg.baidu.com%2Fsys%2Fportrait%2Fitem%2F54f94eb0c9bef6b2dfd7e9464a%3Ft%3D1516069675.jpg"
+													alt="头像" width="36" height="36" class="user_img"></span></a>
+										</div>
+										<div class="list_item_top_name">
+											<span class="user_name red_name"
+												style="background-image: url(https://imgsa.baidu.com/forum/pic/item/6afa80cb39dbb6fdf9de234d0b24ab18962b37f0.jpg)"><a
+												href="/home/main?un=N%E5%90%A7%E5%86%B3%E7%AD%96%E7%BB%84&amp;tj=1"
+												class="user_name">N吧决策组</a></span> <span class="level level_13">13</span>
+											<br>
+											<span class="list_item_floor_num">第1楼</span><span
+												class="list_item_pipe"></span><span class="list_item_time">2-28
+												19:23</span>
+										</div>
+										<div class="content" lz="1">
+											A8体育：<a
+												href="/mo/q/checkurl?url=http%3A%2F%2Fwww.a8sport.com%2Fm%2Findex.html%3Fsrc%3Dnbab">http://www.a8sport.com/m/index.html?src=nbab</a><img
+												src="https://tb2.bdstatic.com/tb/editor/images/client/image_emoticon2.png"><img
+												src="https://tb2.bdstatic.com/tb/editor/images/client/image_emoticon2.png"><img
+												src="https://tb2.bdstatic.com/tb/editor/images/client/image_emoticon2.png"><img
+												src="https://tb2.bdstatic.com/tb/editor/images/client/image_emoticon20.png"><img
+												src="https://tb2.bdstatic.com/tb/editor/images/client/image_emoticon20.png"><span
+												class="wrap pbimgwapper"><img class="BDE_Image"
+												data-load-start="1519890816402"
+												src="http://c.hiphotos.baidu.com/forum/w%3D394%3Bq%3D100%3Bg%3D0/sign=2e63603b9bdda144da096abb868ca19f/22338744ebf81a4c73bb28e1db2a6059252da609.jpg?&amp;src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F22338744ebf81a4c73bb28e1db2a6059252da609.jpg"></span>
+										</div>
+									</div>
+									<div class="post-rcmdlables"><div class="lable-item">海贼王</div></div>
+									
+									<div class="demo-block">
+							            <ul class="ui-grid-halve" style="padding-left: 80px;padding-right: 80px;">
+							                <li>
+							                    <div class="post-actions" style="line-height: 44px;text-align: center;"><span class="read-num">阅读</span> <span class="num">4611</span></span></div>
+							                </li>
+							                <li>
+							                	<div style="text-align: center;">
+								                	<i class="ui-icon-like" style="display: inline-block;"></i>
+													<h4 style="display: inline-block;">10</h4>
+												</div>
+							                </li>
+							            </ul>
+							        </div>
+								</div>
+							</div>
+						</li>
+						<li tid="118419370434" fn="2010"
+							data-info="{&quot;un&quot;:&quot;Love\u59dc\u5fd7\u5a1f&quot;,&quot;is_annoy&quot;:0,&quot;pid&quot;:118419370434,&quot;floor_num&quot;:2010}"
+							class="list_item post_list_item default_feedback j_post_list_item    "
+							is_inner_floor=""><div class="list_item_wrapper">
+								<div class="list_main">
+									<div class="list_item_top clearfix">
+										<div class="list_item_top_avatar">
+											<a
+												href="/home/main?un=Love%E5%A7%9C%E5%BF%97%E5%A8%9F&amp;tj=1"><span><img
+													src="http://gss3.bdstatic.com/84oSdTum2Q5BphGlnYG/timg?mowebapp&amp;quality=80&amp;size=b72_72&amp;cut_x=0&amp;cut_w=0&amp;cut_y=0&amp;cut_h=0&amp;sec=1369815402&amp;di=f403ac35bf2924a4638608331434315d&amp;wh_rate=null&amp;src=http%3A%2F%2Ftb.himg.baidu.com%2Fsys%2Fportrait%2Fitem%2Fdfcc4c6f7665bdaad6bebeea1f6c.jpg"
+													alt="头像" width="36" height="36" class="user_img"></span></a>
+										</div>
+										<div class="list_item_top_name">
+											<span class="user_name"><a
+												href="/home/main?un=Love%E5%A7%9C%E5%BF%97%E5%A8%9F&amp;tj=1"
+												class="user_name">萌大叔<img
+													src="//tb1.bdstatic.com/tb/cms/nickemoji/1-25.png"
+													class="nicknameEmoji"
+													style="width: 13px; height: 13px; vertical-align: middle;"></a></span>
+											<span class="level level_8">8</span> <br>
+											<span class="list_item_floor_num">第2010楼</span><span
+												class="list_item_pipe"></span><span class="list_item_time">今天
+												11:14</span>
+										</div>
+										<div class="content" lz="0">
+											<span class="wrap pbimgwapper"><img class="BDE_Image"
+												data-load-start="1519890816403"
+												src="http://c.hiphotos.baidu.com/forum/w%3D394%3Bq%3D100%3Bg%3D0/sign=2dae1aa773f0f736d8fe4a083e6ec224/b3de9c82d158ccbfea4b99e212d8bc3eb0354176.jpg?&amp;src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2Fb3de9c82d158ccbfea4b99e212d8bc3eb0354176.jpg"></span>
+										</div>
+										<div class="fr_list 2010 j_floor_panel" style="display: none;"
+											data-list-count="0"></div>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li tid="118420044681" fn="2071"
+							data-info="{&quot;un&quot;:&quot;\u5f90\u51cc\u767d\u7532&quot;,&quot;is_annoy&quot;:0,&quot;pid&quot;:118420044681,&quot;floor_num&quot;:2071}"
+							class="list_item post_list_item default_feedback j_post_list_item    "
+							is_inner_floor=""><div class="list_item_wrapper">
+								<div class="list_main">
+									<div class="list_item_top clearfix">
+										<div class="list_item_top_avatar">
+											<a
+												href="/home/main?un=%E5%BE%90%E5%87%8C%E7%99%BD%E7%94%B2&amp;tj=1"><span><img
+													src="http://gss3.bdstatic.com/84oSdTum2Q5BphGlnYG/timg?mowebapp&amp;quality=80&amp;size=b72_72&amp;cut_x=0&amp;cut_w=0&amp;cut_y=0&amp;cut_h=0&amp;sec=1369815402&amp;di=bb894c57cdd94439e333989f1df2a5c6&amp;wh_rate=null&amp;src=http%3A%2F%2Ftb.himg.baidu.com%2Fsys%2Fportrait%2Fitem%2Fa5a2d0ecc1e8b0d7bcd7b839%3Ft%3D1483196067.jpg"
+													alt="头像" width="36" height="36" class="user_img"></span></a>
+										</div>
+										<div class="list_item_top_name">
+											<span class="user_name"><a
+												href="/home/main?un=%E5%BE%90%E5%87%8C%E7%99%BD%E7%94%B2&amp;tj=1"
+												class="user_name">徐凌白甲</a></span> <span class="level level_7">7</span>
+											<br>
+											<span class="list_item_floor_num">第2071楼</span><span
+												class="list_item_pipe"></span><span class="list_item_time">今天
+												11:45</span>
+										</div>
+										<div class="content" lz="0">这是什么服装啊 喜欢这种服装的 挺好看的</div>
+										<div class="fr_list 2071 j_floor_panel" data-list-count="2">
+											<ul class="flist">
+												<li pid="118421426238"
+													data-info="{&quot;pid&quot;:118421426238,&quot;un&quot;:&quot;萱萱姐姐是我&quot;}"
+													class="list_item_floor j_list_item_floor"><div
+														class="fmain j_floor_main">
+														<div class="floor_footer_item">
+															<a href="/home/main?un=萱萱姐姐是我" class="user_name ">萱萱姐姐是我:</a><span
+																class="floor_content"> ol</span>
+														</div>
+													</div></li>
+												<li pid="118424286085"
+													data-info="{&quot;pid&quot;:118424286085,&quot;un&quot;:&quot;徐凌白甲&quot;}"
+													class="list_item_floor j_list_item_floor"><div
+														class="fmain j_floor_main">
+														<div class="floor_footer_item">
+															<a href="/home/main?un=徐凌白甲" class="user_name ">徐凌白甲:</a><span
+																class="floor_content"> 回复 <a
+																href="/home/main?un=萱萱姐姐是我">萱萱姐姐是我</a> :什么意思
+															</span>
+														</div>
+													</div></li>
+											</ul>
+											<a href="javascript:void(0);" pid="118424286085" class="pb_floow_load j_fload_more fload_more_btn">查看全部22条评论</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+					
+					<div id="list_pager">
+						<a href="#"
+							class="j_pager_prev bottom_pager_btn pager_prev disabled"><span
+							class="pager_per_icon"></span></a><span
+							class="bottom_pager_btn pager_num"><input
+							class="j_pager_input" type="text" pattern="[0-9]*" value="1/1"></span><a
+							href="#" class="j_pager_next bottom_pager_btn pager_next disabled"
+							id="next"><span class="pager_next_icon"></span></a>
+					</div>
+				</div>
+			</section>
+	
+		</section>
+	</div>
+	<div id="pb_poster_layer" style="top: 0px; left: 100%; transform: translate3d(0px, 0px, 0px);width: 100%;height: 100%;position: fixed;z-index: 99998;    background: #fff;overflow: hidden;    -webkit-tap-highlight-color: rgba(0,0,0,0);flex-flow: column;    display: flex;">
+		<header class="ui-header ui-header-positive ui-border-b">
+			<i class="ui-icon-return" id="btn-reply-return"></i>
+			<h1>发表回复</h1>
+			<button class="ui-btn ui-icon-add" id="btn-index">发布</button>
+		</header>
+		<section class="ui-container" id="j_main_editor_container">
+			<div class="editor_panel overthrow">
+				<div class="j_editor_content_panel editor_content_panel">
+					<div class="j_savedraft_panel savedraft_panel">20:14 自动保存</div>
+					<div class="lay_hide">
+						<div class="j_lay_top lay_top"></div>
+						<textarea placeholder="也来说两句" style="height: 80px; width: 100%"
+							class="j_editor_content editor_input editor_content"></textarea>
+					</div>
+				</div>
+				<div class="demo-block">
+		            <ul class="ui-grid-trisect ui-border-b image-list">
+		                <li>
+		                	<div data-v-8edeee54="" draggable="true" class="m-box-center m-box-center-a image-wrap m-trans img3 none" style="transform: translate(0px, 0px); touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+		                		<div data-v-8edeee54="" class="image-placeholder"></div> 
+		                		<img data-v-8edeee54="" src="http://localhost:81/test/1517838931211.jpg" class="compose-image">
+		                		<i class="ui-icon-close-page m-repic-close"></i>  
+		                	</div>
+		                </li>
+		                <li>
+		                	<div data-v-8edeee54="" draggable="true" class="m-box-center m-box-center-a image-wrap m-trans img3 none" style="transform: translate(0px, 0px); touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+		                		<div data-v-8edeee54="" class="image-placeholder"></div> 
+		                		<img data-v-8edeee54="" src="http://localhost:81/test/1517838931211.jpg" class="compose-image"> 
+		                		<i class="ui-icon-close-page m-repic-close"></i> 
+		                	</div>
+		                </li>
+		                <li>
+		                	<div data-v-8edeee54="" draggable="true" class="m-box-center m-box-center-a image-wrap m-trans img3 none" style="transform: translate(0px, 0px); touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+		                		<div data-v-8edeee54="" class="image-placeholder"></div> 
+		                		<img data-v-8edeee54="" src="http://localhost:81/test/1517838931211.jpg" class="compose-image">
+		                		<i class="ui-icon-close-page m-repic-close"></i> 
+		                	</div>
+		                </li>
+		                <li>
+		                	<label data-v-8edeee54="" for="selectphoto"
+								class="m-box-center m-box-center-a image-wrap more-image img3"><div
+										data-v-8edeee54="" class="image-placeholder"><input class="upload-input" type="file" accept="image/*"></div></label>
+							</li>
+		            </ul>
+		        </div>
+		    </div>
+		</section>
+	</div>
+	<!-- /.ui-container-->
+</body>
+</html>
