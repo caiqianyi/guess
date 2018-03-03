@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lebaoxun.bbs.core.dao.ISubscriberMapper">
+
+    <sql id="Base_Where_Clause">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="themeId != null">
+				and themeId = #{themeId}
+			</if>
+			<if test="userId != null">
+				and userId = #{userId}
+			</if>
+			and isEnabled = '1'
+		</trim>
+	</sql>
+    
+	<sql id="Base_Column_List">
+		id, userId, themeId, score, pos, pasteCount, type, isEnabled, createTime
+	</sql>
+	
+	<insert id="subscribeFor" parameterType="com.lebaoxun.bbs.core.entity.Subscriber" useGeneratedKeys="true" keyProperty="id">
+		insert into subscriber (
+		<include refid="Base_Column_List" />
+		)
+		values (
+		NULL, #{userId}, #{themeId}, #{score}, #{pos}, #{pasteCount}, #{type}, #{isEnabled}, NOW()
+		)
+	</insert>
+	
+	<update id="unsubscribe">
+		update subscriber set isEnabled = '0' <include refid="Base_Where_Clause" />
+	</update>
+	
+	<update id="incrPasteCount">
+		update subscriber set pasteCount = pasteCount + 1 <include refid="Base_Where_Clause" />
+	</update>
+	
+	<update id="incrScore">
+		update subscriber set score = score + 1 <include refid="Base_Where_Clause" />
+	</update>
+	
+	<update id="reducePasteCount">
+		update subscriber set pasteCount = pasteCount - 1 <include refid="Base_Where_Clause" />
+	</update>
+	
+	<update id="reduceScore">
+		update subscriber set score = score - 1 <include refid="Base_Where_Clause" />
+	</update>
+	
+	<update id="setPos">
+		update subscriber set pos = #{pos} <include refid="Base_Where_Clause" />
+	</update>
+
+	<select id="findByUserId" resultType="com.lebaoxun.bbs.core.entity.Subscriber">
+		select
+		<include refid="Base_Column_List"/>
+		from subscriber <include refid="Base_Where_Clause" />
+	</select>
+	
+	<select id="countByThemeId" resultType="java.lang.Integer">
+		select count(id) from subscriber <include refid="Base_Where_Clause" />
+	</select>
+	
+	<select id="findByUserIdForAll" resultType="com.lebaoxun.bbs.core.entity.Subscriber">
+		select <include refid="Base_Column_List"/> from subscriber <include refid="Base_Where_Clause" />
+	</select>
+	
+</mapper>

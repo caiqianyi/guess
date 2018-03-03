@@ -40,7 +40,7 @@
 	    </if>
 	</sql>
 
-	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.PasteReply">
+	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.PasteReply" useGeneratedKeys="true" keyProperty="id">
 		insert into paste_reply_${submeter} (
 		<include refid="Base_Column_List" />
 		)

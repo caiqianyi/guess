@@ -1,0 +1,25 @@
+DROP TABLE IF EXISTS `theme`;
+CREATE TABLE `theme` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`kw` varchar(50) NOT NULL COMMENT '类型',
+`subscribes` int(11) DEFAULT '0' COMMENT '订阅人数',
+`pasteCount` int(11) DEFAULT '0' COMMENT '发帖数',
+`kindOf` varchar(200) NOT NULL COMMENT '分类',
+`lables` varchar(500) NOT NULL COMMENT '标签',
+`descr` varchar(500) NOT NULL COMMENT '说明',
+`logo` varchar(500) NOT NULL COMMENT '图标',
+`flag` int(11) DEFAULT '0' COMMENT '标识，1=正常，2=未开放，0=申请中',
+`creator` int(11) NOT NULL COMMENT '创建人',
+`owner` int(11) NOT NULL COMMENT '吧主',
+`lastPublishTime` datetime DEFAULT NULL COMMENT '最后发布时间',
+`createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+PRIMARY KEY (`id`),
+UNIQUE KEY `uuid` (`kw`) USING BTREE,
+KEY `kw` (`kw`) USING BTREE,
+KEY `kindOf` (`kindOf`) USING BTREE,
+KEY `lables` (`lables`) USING BTREE,
+KEY `creator` (`creator`) USING BTREE,
+KEY `owner` (`owner`) USING BTREE,
+KEY `lastPublishTime` (`lastPublishTime`) USING BTREE,
+KEY `createTime` (`createTime`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='主题';

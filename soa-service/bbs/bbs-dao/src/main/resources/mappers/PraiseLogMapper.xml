@@ -23,7 +23,7 @@
 		id, userId, logType, hostIp, source, recordId, createTime
 	</sql>
 	
-	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.PasteReply">
+	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.PasteReply" useGeneratedKeys="true" keyProperty="id">
 		insert into praise_log_${submeter} (
 		<include refid="Base_Column_List" />
 		)
@@ -41,10 +41,4 @@
 		<include refid="Base_Where_Clause" />
 	</select>
 	
-	<select id="countBy" resultType="java.lang.Integer">
-		select
-		count(id)
-		from praise_log_${submeter}
-		<include refid="Base_Where_Clause" />
-	</select>
 </mapper>

@@ -33,7 +33,7 @@
 		flag, creator, owner, createTime, lastPublishTime
 	</sql>
 	
-	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.Theme">
+	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.Theme" useGeneratedKeys="true" keyProperty="id">
 		insert into theme (
 		<include refid="Base_Column_List" />
 		)

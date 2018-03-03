@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lebaoxun.bbs.core.dao.IPasteMapper;
 import com.lebaoxun.bbs.core.dao.IPastePostMapper;
+import com.lebaoxun.bbs.core.dao.IThemeMapper;
 import com.lebaoxun.bbs.core.entity.Paste;
 import com.lebaoxun.bbs.core.entity.PastePost;
+import com.lebaoxun.bbs.core.entity.Theme;
 import com.lebaoxun.bbs.core.service.IPastePostService;
 import com.lebaoxun.commons.exception.I18nMessageException;
 
@@ -29,6 +31,9 @@ public class PastePostServiceImpl implements IPastePostService {
 	
 	@Resource
 	private IPasteMapper pasteMapper;
+	
+	@Resource
+	private IThemeMapper themeMapper;
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
@@ -62,6 +67,16 @@ public class PastePostServiceImpl implements IPastePostService {
 		updatePaste.setLastPostId(lastPostId);
 		pasteMapper.updateBy(updatePaste);
 		
+		/**
+		 * 修改贴吧相关数据
+		 */
+		Theme theme = themeMapper.findById(paste.getPlateId());
+		Theme updateTheme = new Theme();
+		updateTheme.setId(paste.getPlateId());
+		updateTheme.setPasteCount(theme.getPasteCount()+1);
+		updateTheme.setLastPublishTime(new Date());
+		themeMapper.updateBy(updateTheme);
+		
 		return pastePost;
 	}
 
@@ -90,6 +105,16 @@ public class PastePostServiceImpl implements IPastePostService {
 					updatePaste.setLastPostId(lastPost.getId());
 				}
 			}
+			
+			/**
+			 * 修改贴吧相关数据
+			 */
+			Theme theme = themeMapper.findById(paste.getPlateId());
+			Theme updateTheme = new Theme();
+			updateTheme.setId(paste.getPlateId());
+			updateTheme.setPasteCount(theme.getPasteCount()-1);
+			
+			themeMapper.updateBy(updateTheme);
 			pasteMapper.updateBy(updatePaste);
 		}
 		return row;

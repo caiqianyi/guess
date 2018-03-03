@@ -37,7 +37,7 @@
 	    </if>
 	</sql>
 
-	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.PastePost">
+	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.PastePost" useGeneratedKeys="true" keyProperty="id">
 		insert into paste_post_${submeter} (
 		<include refid="Base_Column_List" />
 		)

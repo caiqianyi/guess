@@ -37,7 +37,7 @@
 		order by #{orderBy}
 	</sql>
 
-	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.Paste">
+	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.Paste" useGeneratedKeys="true" keyProperty="id">
 		insert into paste (
 		<include refid="Base_Column_List" />
 		)

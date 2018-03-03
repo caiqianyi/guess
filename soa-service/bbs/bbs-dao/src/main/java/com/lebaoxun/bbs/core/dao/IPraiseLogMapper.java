@@ -12,15 +12,11 @@ public interface IPraiseLogMapper {
 	
 	int deleteBy(@Param("submeter") String submeter,
 			@Param("logType") String logType,
-			@Param("recordId") Integer recordId,
+			@Param("recordId") String recordId,
 			@Param("userId") Integer userId);
 	
 	int countByUser(@Param("submeter") String submeter,
 			@Param("logType") String logType,
-			@Param("recordId") Integer recordId,
+			@Param("recordId") String recordId,
 			@Param("userId") Integer userId);
-	
-	int countBy(@Param("submeter") String submeter,
-			@Param("logType") String logType,
-			@Param("recordId") Integer recordId);
 }
