@@ -23,7 +23,7 @@ import com.lebaoxun.soa.web.framework.datasource.DynamicDataSourceRegister;
 @EnableFeignClients
 @EnableDiscoveryClient
 @EnableTransactionManagement
-public class BBsApplication extends WebMvcConfigurerAdapter {
+public class BbsApplication extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void configureMessageConverters(
@@ -53,7 +53,7 @@ public class BBsApplication extends WebMvcConfigurerAdapter {
 	 * registration.addUrlMappings("*.json"); return registration; }
 	 */
 	public static void main(String[] args) {
-		SpringApplication.run(BBsApplication.class, args);
+		SpringApplication.run(BbsApplication.class, args);
 	}
 
 }
