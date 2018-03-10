@@ -37,6 +37,7 @@ public interface IPasteReplyMapper {
 	List<PasteReply> findByPasteId(@Param("submeter") String submeter,
 			@Param("pasteId") Integer pasteId,
 			@Param("postId") Integer postId,
+			@Param("orderBy")String orderBy,
 			@Param("size") Integer size,
 			@Param("offset") Integer offset);
 	

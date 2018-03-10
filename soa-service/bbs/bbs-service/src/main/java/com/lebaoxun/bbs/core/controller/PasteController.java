@@ -31,7 +31,7 @@ public class PasteController {
 	@RequestMapping(value="/paste/publish",method=RequestMethod.POST)
 	SuccessMessage publish(@RequestParam("title") String title, 
 			@RequestParam("content") String content,
-			@RequestParam("pictures") String pictures, 
+			@RequestParam(value="pictures",required=false) String pictures, 
 			@RequestParam("source") String source,
 			@RequestParam("userId") Integer userId, 
 			@RequestParam("plateId") Integer plateId,
@@ -106,10 +106,12 @@ public class PasteController {
 	 * @return
 	 */
 	@RequestMapping(value="/paste/findByPlateId",method=RequestMethod.GET)
-	SuccessMessage findByPlateId(@RequestParam("plateId") Integer plateId, 
+	SuccessMessage findByPlateId(
+			@RequestParam(value="userId",required=false) Integer userId, 
+			@RequestParam("plateId") Integer plateId, 
 			@RequestParam("size") Integer size, 
 			@RequestParam("offset") Integer offset){
-		return new SuccessMessage(pasteService.findByPlateId(plateId, size, offset));
+		return new SuccessMessage(pasteService.findByPlateId(userId,plateId, size, offset));
 	}
 	
 	/**
@@ -118,7 +120,9 @@ public class PasteController {
 	 * @return
 	 */
 	@RequestMapping(value="/paste/findById",method=RequestMethod.GET)
-	SuccessMessage findById(@RequestParam("id") Integer id){
-		return new SuccessMessage(pasteService.findById(id));
+	SuccessMessage findById(
+			@RequestParam(value="userId",required=false) Integer userId,
+			@RequestParam("id") Integer id){
+		return new SuccessMessage(pasteService.findById(userId,id));
 	}
 }

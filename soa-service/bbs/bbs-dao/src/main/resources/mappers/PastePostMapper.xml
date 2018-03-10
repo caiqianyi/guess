@@ -26,7 +26,7 @@
 	</sql>
 
 	<sql id="Base_Column_List">
-		id, content, userId, pasteId, source,
+		id, content, pictures, userId, pasteId, source,
 		isCreator, tier, praiseCount, replyCount, 
 		createTime, lastReplyId, lastReplyTime
 	</sql>
@@ -42,7 +42,7 @@
 		<include refid="Base_Column_List" />
 		)
 		values (
-		NULL, #{content}, #{userId}, #{pasteId}, #{source}, 
+		NULL, #{content}, #{pictures}, #{userId}, #{pasteId}, #{source}, 
 		#{isCreator}, #{tier}, 0, 0,
 		NOW(), NULL, NULL)
 	</insert>
@@ -50,53 +50,57 @@
 	<update id="updateBy" parameterType="com.lebaoxun.bbs.core.entity.PastePost">
 		update paste_post_${submeter}
 		<set>
+		    id = id
 			<if test="praiseCount != null">
-				praiseCount = #{praiseCount}
+				,praiseCount = #{praiseCount}
 			</if>
 			<if test="replyCount != null">
-				replyCount = #{replyCount}
+				,replyCount = #{replyCount}
 			</if>
 			<if test="lastReplyId != null">
-				lastReplyId = #{lastReplyId}
+				,lastReplyId = #{lastReplyId}
 			</if>
 			<if test="lastReplyTime != null">
-				lastReplyTime = #{lastReplyTime}
+				,lastReplyTime = #{lastReplyTime}
 			</if>
 		</set>
-		<include refid="Base_Where_Clause" />
+		where id = #{id}
 	</update>
 
 	<delete id="deleteBy">
-		delete from paste_post_${submeter} <include refid="Base_Where_Clause" />
+		delete from paste_post_${submeter} where id = #{id} and userId = #{userId}
 	</delete>
 
 	<select id="findTier" resultType="java.lang.Integer">
 		select count(id) from paste_post_${submeter}
-		<include refid="Base_Where_Clause" />
+		where pasteId = #{pasteId}
 	</select>
 	
 	<select id="findPostByPasteAndTier" resultType="com.lebaoxun.bbs.core.entity.PastePost">
 		select
 		<include refid="Base_Column_List" />
 		from paste_post_${submeter}
-		<include refid="Base_Where_Clause" />
+		where tier = #{tier} and pasteId = #{pasteId}
 	</select>
 	
 	<select id="findPostById" resultType="com.lebaoxun.bbs.core.entity.PastePost">
 		select
 		<include refid="Base_Column_List" />
 		from paste_post_${submeter}
-		<include refid="Base_Where_Clause" />
+		where id = #{id}
 	</select>
 	
 	<select id="findByPasteId" resultType="com.lebaoxun.bbs.core.entity.PastePost">
 		select
 		<include refid="Base_Column_List" />
 		from paste_post_${submeter}
-		<include refid="Base_Where_Clause" />
-		order by tier, createTime
+		where pasteId = #{pasteId} 
+		<if test="isCreator != null">
+		    and isCreator = #{isCreator}
+		</if>
+		${orderBy}
 		<if test="size != null">
-			limit #{size} <if test="offset != null">,offset = #{offset}</if>
+			limit <if test="offset != null">#{offset},</if>#{size}
 		</if>
 	</select>
 </mapper>

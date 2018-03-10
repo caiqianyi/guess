@@ -19,6 +19,10 @@ public class PastePost implements Serializable{
 	 */
 	private String content;
 	/**
+	 * 封面图片
+	 */
+	private String pictures;
+	/**
 	 * 回帖人
 	 */
 	private Integer userId;
@@ -58,6 +62,12 @@ public class PastePost implements Serializable{
 	 * 最后回复时间
 	 */
 	private Date lastReplyTime;
+	
+	private String nickName;
+	
+	private String headimgurl;
+	
+	private boolean isPraise;
 	
 	private final static int DENOMINATOR = 100;
 	
@@ -136,6 +146,12 @@ public class PastePost implements Serializable{
 	public String getSubmeter() {
 		return modulo(pasteId);
 	}
+	public String getPictures() {
+		return pictures;
+	}
+	public void setPictures(String pictures) {
+		this.pictures = pictures;
+	}
 	/**
 	 * 分表取模
 	 * @param agentId
@@ -158,6 +174,7 @@ public class PastePost implements Serializable{
 			"CREATE TABLE `paste_post_"+flag+"` (\n"+
 			"`id` int(11) NOT NULL AUTO_INCREMENT,\n"+
 			"`content` varchar(500) NOT NULL COMMENT '内容',\n"+
+			"`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',\n"+
 			"`userId` int(11) NOT NULL COMMENT '回帖人',\n"+
 			"`pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',\n"+
 			"`source` varchar(500) NOT NULL COMMENT '来源',\n"+
@@ -182,5 +199,23 @@ public class PastePost implements Serializable{
 			") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='回帖表';\n";
 			System.out.println(sql);
 		}
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	public String getHeadimgurl() {
+		return headimgurl;
+	}
+	public void setHeadimgurl(String headimgurl) {
+		this.headimgurl = headimgurl;
+	}
+	public boolean isPraise() {
+		return isPraise;
+	}
+	public void setPraise(boolean isPraise) {
+		this.isPraise = isPraise;
 	}
 }

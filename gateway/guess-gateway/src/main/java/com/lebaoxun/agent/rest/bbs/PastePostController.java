@@ -1,6 +1,7 @@
 package com.lebaoxun.agent.rest.bbs;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,7 @@ import com.lebaoxun.account.entity.User;
 import com.lebaoxun.agent.security.Oauth2SecuritySubject;
 import com.lebaoxun.bbs.core.service.IPastePostService;
 import com.lebaoxun.commons.exception.SuccessMessage;
+import com.lebaoxun.commons.utils.UAgentInfo;
 
 @RestController
 @RequestMapping("/bbs")
@@ -32,10 +34,21 @@ public class PastePostController {
 	 */
 	@RequestMapping(value="/paste/post/reply",method=RequestMethod.POST)
 	SuccessMessage replyPaste(@RequestParam("content") String content, 
+			@RequestParam(value="pictures",required=false) String pictures,
 			@RequestParam("pasteId") Integer pasteId, 
-			@RequestParam("source") String source){
+			HttpServletRequest request){
+		UAgentInfo detector = new UAgentInfo(request.getHeader("User-Agent"), request.getHeader("Accept"));
+		String source = "";
+		if(detector.isWechat()){
+			source = "微信公众号";
+		}else if (detector.detectMobileQuick()) {
+			source = "移动浏览器";
+		} else {
+		    //PC浏览器
+			source = "PC浏览器";
+		}
 		User user = oauth2SecuritySubject.getCurrentUser();
-		return pastePostService.replyPaste(content, user.getUserId(), pasteId, source);
+		return pastePostService.replyPaste(content, pictures, user.getUserId(), pasteId, source);
 	}
 	
 	/**
@@ -54,7 +67,6 @@ public class PastePostController {
 	
 	/**
 	 * 分页原帖的所有回帖
-	 * @param pasteId 原帖ID
 	 * @param orderBy 排序方式
 	 * @param size 分页大小
 	 * @param offset 偏移值
@@ -62,9 +74,17 @@ public class PastePostController {
 	 */
 	@RequestMapping(value="/paste/post/findByPasteId",method=RequestMethod.GET)
 	SuccessMessage findByPasteId(@RequestParam("pasteId") Integer pasteId,
-			@RequestParam("orderBy") String orderBy, 
+			@RequestParam("flag") Integer flag,
 			@RequestParam("size") Integer size, 
 			@RequestParam("offset") Integer offset){
-		return pastePostService.findByPasteId(pasteId, orderBy, size, offset);
+		User user = oauth2SecuritySubject.getCurrentUser();
+		return pastePostService.findByPasteId(user.getUserId(), flag, pasteId, size, offset);
+	}
+	
+	@RequestMapping(value="/paste/post/findById",method=RequestMethod.GET)
+	SuccessMessage findById(@RequestParam("pasteId") Integer pasteId,
+			@RequestParam("id") Integer id){
+		User user = oauth2SecuritySubject.getCurrentUser();
+		return pastePostService.findById(user.getUserId(), pasteId, id);
 	}
 }

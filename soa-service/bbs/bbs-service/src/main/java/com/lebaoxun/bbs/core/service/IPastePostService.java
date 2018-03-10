@@ -14,7 +14,8 @@ public interface IPastePostService {
 	 * @param source 来源
 	 * @return
 	 */
-	PastePost replyPaste(String content, Integer userId,
+	PastePost replyPaste(String content,
+			String pictures, Integer userId,
 			Integer pasteId, String source);
 	
 	/**
@@ -29,12 +30,12 @@ public interface IPastePostService {
 	/**
 	 * 分页原帖的所有回帖
 	 * @param pasteId 原帖ID
-	 * @param orderBy 排序方式
 	 * @param size 分页大小
 	 * @param offset 偏移值
 	 * @return
 	 */
-	List<PastePost> findByPasteId(Integer pasteId,
-			String orderBy, Integer size, 
+	List<PastePost> findByPasteId(Integer userId, Integer flag, Integer pasteId, Integer size, 
 			Integer offset);
+	
+	PastePost findById(Integer userId,Integer pasteId,Integer id);
 }

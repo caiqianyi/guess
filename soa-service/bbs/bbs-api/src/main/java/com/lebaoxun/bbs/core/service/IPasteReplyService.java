@@ -49,8 +49,11 @@ public interface IPasteReplyService {
 	 * @return
 	 */
 	@RequestMapping(value="/paste/replay/findByPasteId",method=RequestMethod.GET)
-	SuccessMessage findByPasteId(@RequestParam("pasteId") Integer pasteId,
-			@RequestParam("pasteId") Integer postId, 
+	SuccessMessage findByPasteId(
+			@RequestParam("userId") Integer userId, 
+			@RequestParam("pasteId") Integer pasteId,
+			@RequestParam("postId") Integer postId, 
+			@RequestParam("flag") Integer flag, 
 			@RequestParam("size") Integer size,
 			@RequestParam("offset") Integer offset);
 	

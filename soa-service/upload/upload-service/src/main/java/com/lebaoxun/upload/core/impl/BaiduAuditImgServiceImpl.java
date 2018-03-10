@@ -91,10 +91,12 @@ public class BaiduAuditImgServiceImpl implements IAuditImgService {
 			//"{\"conclusion\":\"不合规\",\"log_id\":151151263352688,\"data\":[{\"msg\":\"存在水印码内容\",\"probability\":0.8874121,\"type\":5},{\"msg\":\"命中黑名单:自定义涉政事件敏感词\",\"probability\":0.998,\"words\":\"法轮,法轮功,法轮大法,轮功,轮功法\",\"type\":9}]}";
 			String response = HttpUtil.post(url, getAccessToken(), param);
 			return check(response);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new I18nMessageException("-1","系统异常");
-		}
+		} catch (I18nMessageException e) {
+			throw e;
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	throw new I18nMessageException("-1","系统异常");
+	    }
 		
     }
 	
@@ -115,8 +117,9 @@ public class BaiduAuditImgServiceImpl implements IAuditImgService {
 	    	for(int i =0;i<data.size();i++){
 	    		String type = data.get(i).getAsJsonObject().get("type").getAsString();
 	    		String msg = data.get(i).getAsJsonObject().get("msg").getAsString();
-	    		if(!("5".equals(type) || "6".equals(type) || "7".equals(type)) 
+	    		if(!("2".equals(type) || "5".equals(type) || "6".equals(type) || "7".equals(type)) 
 	    				&& !("9".equals(type) && "广告内容".equals(msg))){
+	    			logger.info("check|type={}",type);
 	    			res++;
 	    			result = msg;
 	    		}

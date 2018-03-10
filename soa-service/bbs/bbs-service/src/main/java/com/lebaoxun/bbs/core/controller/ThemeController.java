@@ -1,16 +1,22 @@
 package com.lebaoxun.bbs.core.controller;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lebaoxun.bbs.core.entity.Theme;
 import com.lebaoxun.bbs.core.service.IThemeService;
 import com.lebaoxun.commons.exception.SuccessMessage;
 
 @RestController
 public class ThemeController {
 	
+	@Resource
 	private IThemeService themeService;
 
 	/**
@@ -150,5 +156,16 @@ public class ThemeController {
 			@RequestParam("size") Integer size,
 			@RequestParam("offset") Integer offset){
 		return new SuccessMessage(themeService.findByKindOf(kindOf, size, offset));
+	}
+	
+	@RequestMapping(value="/theme/findByRecommend",method=RequestMethod.GET)
+	SuccessMessage findByRecommend(@RequestParam(value="userId",required=false) Integer userId, 
+			@RequestParam("size") Integer size){
+		return new SuccessMessage(themeService.findByRecommend(userId, size));
+	}
+	
+	@RequestMapping(value="/theme/findByUserSubscriber",method=RequestMethod.GET)
+	SuccessMessage findByUserSubscriber(@RequestParam("userId") Integer userId){
+		return new SuccessMessage(themeService.findByUserSubscriber(userId));
 	}
 }

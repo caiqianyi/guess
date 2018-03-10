@@ -46,32 +46,33 @@
 	<update id="updateBy" parameterType="com.lebaoxun.bbs.core.entity.Theme">
 		update theme
 		<set>
+		    id = id
 			<if test="subscribes != null">
-				subscribes = #{subscribes}
+				,subscribes = #{subscribes}
 			</if>
 			<if test="pasteCount != null">
-				pasteCount = #{pasteCount}
+				,pasteCount = #{pasteCount}
 			</if>
 			<if test="kindOf != null">
-				kindOf = #{kindOf}
+				,kindOf = #{kindOf}
 			</if>
 			<if test="lables != null">
-				lables = #{lables}
+				,lables = #{lables}
 			</if>
 			<if test="descr != null">
-				descr = #{descr}
+				,descr = #{descr}
 			</if>
 			<if test="logo != null">
-				logo = #{logo}
+				,logo = #{logo}
 			</if>
 			<if test="flag != null">
-				flag = #{flag}
+				,flag = #{flag}
 			</if>
 			<if test="owner != null">
-				owner = #{owner}
+				,owner = #{owner}
 			</if>
 			<if test="lastPublishTime != null">
-				lastPublishTime = #{lastPublishTime}
+				,lastPublishTime = #{lastPublishTime}
 			</if>
 		</set>
 		<include refid="Base_Where_Clause" />
@@ -80,8 +81,36 @@
 	<select id="search" resultType="com.lebaoxun.bbs.core.entity.Theme">
 		select
 		<include refid="Base_Column_List"/>
-		from theme where kw like '%#{kw}%'
-		limit #{size},#{offset}
+		from theme where kw like CONCAT('%',#{kw},'%') 
+		or kindOf like CONCAT('%',#{kw},'%') 
+		or lables like CONCAT('%',#{kw},'%') 
+		limit #{offset, jdbcType=INTEGER},#{size, jdbcType=INTEGER}
+	</select>
+	
+	<select id="findByRecommend" resultType="com.lebaoxun.bbs.core.entity.Theme">
+		select
+		<include refid="Base_Column_List"/>
+		from theme where 
+		id >= (SELECT floor(RAND() * (SELECT MAX(id) FROM `theme`)))
+		<if test="kws != null">
+			and kw not in 
+			<foreach item="kw" index="index" collection="kws"
+                open="(" separator="," close=")">
+                #{kw}
+			</foreach>
+		</if>
+		<if test="likeKindOfs != null">
+			and kindOf in 
+			<foreach item="kindOf" index="index" collection="likeKindOfs"
+                open="(" separator="," close=")">
+                #{kindOf}
+			</foreach>
+		</if>
+		ORDER BY id LIMIT #{size};
+	</select>
+	
+	<select id="findByUserSubscriber" resultType="com.lebaoxun.bbs.core.entity.Theme">
+	    select t.* from theme as t left join subscriber as sub on sub.themeId = t.id WHERE sub.userId = #{userId} and sub.isEnabled = '1';
 	</select>
 	
 	<select id="findByKw" resultType="com.lebaoxun.bbs.core.entity.Theme">
@@ -110,7 +139,7 @@
 		from theme where kindOf =#{kindOf}
 		order by pasteCount desc ,subscribes desc
 		<if test="size != null">
-			limit #{size} <if test="offset != null">,offset = #{offset}</if>
+			limit <if test="offset != null">#{offset} ,</if>#{size}
 		</if>
 	</select>
 	

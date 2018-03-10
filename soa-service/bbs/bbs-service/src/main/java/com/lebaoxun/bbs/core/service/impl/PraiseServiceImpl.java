@@ -4,7 +4,8 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
-import org.springframework.data.annotation.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,9 @@ import com.lebaoxun.commons.exception.I18nMessageException;
 @Service
 public class PraiseServiceImpl implements IPraiseService {
 	
-	@Reference
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Resource
 	private IPraiseLogMapper praiseLogMapper;
 	
 	@Resource
@@ -46,6 +49,8 @@ public class PraiseServiceImpl implements IPraiseService {
 	public PraiseLog praise(Integer userId, String hostIp, String source,
 			Integer pasteId, String recordId, PraiseLogType logType) {
 		// TODO Auto-generated method stub
+		logger.info("pasteId={}",pasteId);
+		
 		Paste paste = pasteMapper.findById(pasteId);
 		if(paste == null){
 			throw new I18nMessageException("-1","贴子不存在，操作失败！");
@@ -84,6 +89,7 @@ public class PraiseServiceImpl implements IPraiseService {
 			PastePost update = new PastePost();
 			update.setId(post.getId());
 			update.setPraiseCount(post.getPraiseCount()+1);
+			update.setPasteId(pasteId);
 			pastePostMapper.updateBy(update);
 		}else if(logType.equals(PraiseLogType.REPLY)){
 			PasteReply reply = pasteReplyMapper.findBy(PasteReply.modulo(pasteId), Integer.parseInt(recordId));
@@ -92,6 +98,7 @@ public class PraiseServiceImpl implements IPraiseService {
 			}
 			PasteReply update = new PasteReply();
 			update.setId(reply.getId());
+			update.setPasteId(pasteId);
 			update.setPraiseCount(reply.getPraiseCount()+1);
 			pasteReplyMapper.updateBy(update);
 		}
@@ -126,6 +133,7 @@ public class PraiseServiceImpl implements IPraiseService {
 					PastePost update = new PastePost();
 					update.setId(post.getId());
 					update.setPraiseCount(post.getPraiseCount()-1);
+					update.setPasteId(pasteId);
 					pastePostMapper.updateBy(update);
 				}
 			}else if(logType.equals(PraiseLogType.REPLY)){
@@ -134,6 +142,7 @@ public class PraiseServiceImpl implements IPraiseService {
 					PasteReply update = new PasteReply();
 					update.setId(reply.getId());
 					update.setPraiseCount(reply.getPraiseCount()-1);
+					update.setPasteId(pasteId);
 					pasteReplyMapper.updateBy(update);
 				}
 			}
@@ -148,4 +157,5 @@ public class PraiseServiceImpl implements IPraiseService {
 		return praiseLogMapper.countByUser(PraiseLog.modulo(userId), logType.name(), recordId, userId);
 	}
 
+	
 }

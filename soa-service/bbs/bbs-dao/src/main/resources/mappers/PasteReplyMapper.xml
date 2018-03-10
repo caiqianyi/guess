@@ -56,21 +56,29 @@
 				praiseCount = #{praiseCount}
 			</if>
 		</set>
-		<include refid="Base_Where_Clause" />
+		where id = #{id};
 	</update>
 
 	<delete id="deleteBy">
-		delete from paste_reply_${submeter} <include refid="Base_Where_Clause" />
+		delete from paste_reply_${submeter} where id = #{id} and userId = #{userId}
 	</delete>
 
+	<select id="findBy" resultType="com.lebaoxun.bbs.core.entity.PasteReply">
+		select
+		<include refid="Base_Column_List" />
+		from paste_reply_${submeter}
+		where id = #{id}
+	</select>
+	
 	<select id="findByPasteId" resultType="com.lebaoxun.bbs.core.entity.PasteReply">
 		select
 		<include refid="Base_Column_List" />
 		from paste_reply_${submeter}
-		<include refid="Base_Where_Clause" />
-		order by createTime
+		where pasteId = #{pasteId}
+		and postId = #{postId}
+		${orderBy}
 		<if test="size != null">
-			limit #{size} <if test="offset != null">,offset = #{offset}</if>
+			limit <if test="offset != null">#{offset},</if>#{size}
 		</if>
 	</select>
 	
@@ -78,7 +86,17 @@
 		select
 		<include refid="Base_Column_List" />
 		from paste_reply_${submeter} as pr1
-		<include refid="Base_Where_Clause" />
+		where 1=1 
+		<if test="pasteId != null">
+			and pasteId = #{pasteId}
+		</if>
+		<if test="postIds != null">
+			and postId in 
+			<foreach item="item" index="index" collection="postIds"
+               open="(" separator="," close=")"> 
+               #{item}
+               </foreach>
+		</if>
 		<if test="replySize != null">
 			and (
 				select count(id) from paste_reply_${submeter} as pr2

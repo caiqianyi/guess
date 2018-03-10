@@ -33,42 +33,46 @@
 		)
 	</insert>
 	
+	<update id="resubscribe">
+		update subscriber set isEnabled = '1' where type = #{type} and themeId = #{themeId} and userId = #{userId}
+	</update>
+	
 	<update id="unsubscribe">
-		update subscriber set isEnabled = '0' <include refid="Base_Where_Clause" />
+		update subscriber set isEnabled = '0' where type = #{type} and themeId = #{themeId} and userId = #{userId}
 	</update>
 	
 	<update id="incrPasteCount">
-		update subscriber set pasteCount = pasteCount + 1 <include refid="Base_Where_Clause" />
+		update subscriber set pasteCount = pasteCount + 1 where type = #{type} and themeId = #{themeId} and userId = #{userId}
 	</update>
 	
 	<update id="incrScore">
-		update subscriber set score = score + 1 <include refid="Base_Where_Clause" />
+		update subscriber set score = score + #{score} where type = #{type} and themeId = #{themeId} and userId = #{userId}
 	</update>
 	
 	<update id="reducePasteCount">
-		update subscriber set pasteCount = pasteCount - 1 <include refid="Base_Where_Clause" />
+		update subscriber set pasteCount = pasteCount - 1 where type = #{type} and themeId = #{themeId} and userId = #{userId}
 	</update>
 	
 	<update id="reduceScore">
-		update subscriber set score = score - 1 <include refid="Base_Where_Clause" />
+		update subscriber set score = score - #{score} where type = #{type} and themeId = #{themeId} and userId = #{userId}
 	</update>
 	
 	<update id="setPos">
-		update subscriber set pos = #{pos} <include refid="Base_Where_Clause" />
+		update subscriber set pos = #{pos} where type = #{type} and themeId = #{themeId} and userId = #{userId}
 	</update>
 
 	<select id="findByUserId" resultType="com.lebaoxun.bbs.core.entity.Subscriber">
 		select
 		<include refid="Base_Column_List"/>
-		from subscriber <include refid="Base_Where_Clause" />
+		from subscriber where type = #{type} and themeId = #{themeId} and userId = #{userId}
 	</select>
 	
 	<select id="countByThemeId" resultType="java.lang.Integer">
-		select count(id) from subscriber <include refid="Base_Where_Clause" />
+		select count(id) from subscriber where type = #{type} and themeId = #{themeId}
 	</select>
 	
 	<select id="findByUserIdForAll" resultType="com.lebaoxun.bbs.core.entity.Subscriber">
-		select <include refid="Base_Column_List"/> from subscriber <include refid="Base_Where_Clause" />
+		select <include refid="Base_Column_List"/> from subscriber where type = #{type} and userId = #{userId}
 	</select>
 	
 </mapper>

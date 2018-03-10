@@ -12,6 +12,8 @@
 <script type="text/javascript">
 importFiles[importFiles.length] = {src:"/css/bbs/bar.css",type:"css"};
 importFiles[importFiles.length] = {src:"/css/bbs/publish.css",type:"css"};
+importFiles[importFiles.length] = {src:"/lib/exif.js",type:"script" };
+importFiles[importFiles.length] = {src:"/lib/lrz.js",type:"script" };
 importFiles[importFiles.length] = {src:"/lib/dropload.min.js",type:"script"};
 importFiles[importFiles.length] = {src:"/js/bbs/post.js",type:"script"};
 </script>
@@ -326,7 +328,7 @@ importFiles[importFiles.length] = {src:"/js/bbs/post.js",type:"script"};
 	<div id="main">
 		<header class="ui-header ui-header-positive ui-border-b">
 			<i class="ui-icon-return" onclick="history.back()"></i>
-			<h1>NBA吧</h1>
+			<h1 id="barName"></h1>
 			<button class="ui-btn ui-icon-add" id="btn-tohome">回首页</button>
 		</header>
 		<section class="ui-container">
@@ -339,7 +341,7 @@ importFiles[importFiles.length] = {src:"/js/bbs/post.js",type:"script"};
 						<div class="info" id="js_bar_info">
 							<div class="logo-container">
 								<img class="logo"
-									src="https://p.qpic.cn/qqconadmin/0/0145aabfce27470997f5cc2d9a9fcee1/0">
+									src="#">
 							</div>
 							<div class="logo-rank">
 								<div>
@@ -351,18 +353,18 @@ importFiles[importFiles.length] = {src:"/js/bbs/post.js",type:"script"};
 									<span class="name">海贼王</span>
 								</div>
 								<div class="info-num">
-									<span><label>关注 </label><span class="number">341万</span></span><span
+									<span><label>关注 </label><span class="number subscribes">341万</span></span><span
 										class="charm-wrapper"><label>帖子</label><span
-										class="number meili">324524</span></span>
+										class="number pasteCount">324524</span></span>
 								</div>
 							</div>
 							<div class="GradeInfo">
 								<div class="info-grade-wrap">
-									<span class="l-level">LV.1 初入东海</span><span class="l-inner-bar"
+									<span class="l-level">LV.1 </span><span class="l-inner-bar"
 										style="width: 0%;"></span>
 								</div>
 							</div>
-							<div class="Operation single-button">
+							<div class="Operation single-button" style="display: none;">
 								<div>
 									<a class="sign-btn btn">签到</a>
 								</div>
@@ -374,209 +376,17 @@ importFiles[importFiles.length] = {src:"/js/bbs/post.js",type:"script"};
 			<div class="publish-btn" id="btn-publish"></div>
 			<div class="ui-tab">
 				<ul class="ui-tab-nav ui-border-b">
-					<li>最新</li>
-					<li class="current">精华</li>
+					<li id="tab-new">最新</li>
+					<li id="tab-highlight" class="current">精华</li>
 				</ul>
 				<div class="PasteList">
-					<ul class="ui-border-tb" style="background: #f5f5f5;">
-						<li class="tl_top scale-1px-bottom">
-							<a href="/p/5071225635?lp=5028&amp;mo_device=1&amp;is_jingpost=0"
-							class="j_common ti_item no_border" tid="5071225635">
-								<div class="ti_title">
-									<span class="ti_title_icon ti_icon_zhiding">置顶</span> <span>【NBA吧视频大楼】近30年NBA比赛视频整理帖</span>
-								</div>
-							</a>
-						</li>
-						<li class="tl_top">
-							<a href="/p/5071225635?lp=5028&amp;mo_device=1&amp;is_jingpost=0"
-							class="j_common ti_item no_border" tid="5071225635">
-								<div class="ti_title">
-									<span class="ti_title_icon ti_icon_zhiding">置顶</span> <span>【NBA吧视频大楼】近30年NBA比赛视频整理帖</span>
-								</div>
-							</a>
-						</li>
+					<ul class="ui-border-tb" style="background: #f5f5f5;" id="topList">
 						<li class="tl_gap"></li>
 					</ul>
-					<ul class="scroll-view post-list">
-						<li class="feeds-li feeds-li-normal">
-							<div class="detail-top">
-								<div class="item-user">
-									<div class="item-user-wrap">
-										<div class="item-user-avator">
-											<img class="avator-img img-ph"
-												src="https://q.qlogo.cn/g?b=qq&amp;k=WBFIzuCK3dPC8OwtnQrvrw&amp;s=100">
-										</div>
-										<span class="item-user-text"><span
-											class="item-user-name">菇凉的霸气う你不懂</span><span class=""></span></span><span
-											class="item-user-time">刚刚</span><i class="icon-cf-close"></i>
-									</div>
-								</div>
-							</div>
-							<div class="detail-bottom">
-								<div class="report-content">
-									<p class="groupbrief feed-two-line">
-										<label class="new">新</label><span
-											style="word-break: break-all;">最后一击对拼，路飞躲开了，卡二被打中，但路飞先到了极限，先倒下了，随后跟路飞说完话后也倒下了。问题来了，这算谁赢，下楼发漫画情报</span>
-									</p>
-								</div>
-								<div class="img-wrap clearfix">
-									<div class="feed-img img-ph"
-										style="width: 130px; height: 130px; margin-right: 2px;">
-										<img
-											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2S6dlib8bsgQH0MCGkqibxR85E7G3ep8dJww/320"
-											class=""
-											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;">
-									</div>
-									<div class="feed-img img-ph"
-										style="width: 130px; height: 130px; margin-right: 2px;">
-										<img
-											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2QqdaGvauRFcqB16rHFoENX4GoqxwDib14w/320"
-											class=""
-											style="margin-left: -31.3393px; margin-top: 0px; width: 192.679px; height: 130px;">
-									</div>
-									<div class="feed-img img-ph"
-										style="width: 130px; height: 130px;">
-										<img
-											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2YBo89DdxfRcSrBReib2szicz8Z6JRNKib8UQ/320"
-											class=""
-											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;"><span
-											class="img-count-flag">+2</span>
-									</div>
-								</div>
-								<div class="post-bottom-v3">
-									<div class="post-btn-v3 btn-like">
-										<i class="ui-icon-like" style="display: inline-block;"></i>
-										<h4 style="display: inline-block;">10</h4>
-									</div>
-									<div class="post-btn-v3 btn-comment">
-										<i class="ui-icon-comment"></i>
-										<h4>0</h4>
-									</div>
-									<div class="post-btn-v3 btn-share">
-										<i class="ui-icon-share"></i>
-									</div>
-								</div>
-							</div>
-						</li>
-						<li class="feeds-li feeds-li-normal"><div class="detail-top">
-								<div class="item-user">
-									<div class="item-user-wrap">
-										<div class="item-user-avator">
-											<img class="avator-img img-ph"
-												src="https://q.qlogo.cn/g?b=qq&amp;k=WBFIzuCK3dPC8OwtnQrvrw&amp;s=100">
-										</div>
-										<span class="item-user-text"><span
-											class="item-user-name">菇凉的霸气う你不懂</span><span class=""></span></span><span
-											class="item-user-time">刚刚</span><i class="icon-cf-close"></i>
-									</div>
-								</div>
-							</div>
-							<div class="detail-bottom">
-								<div class="report-content">
-									<p class="groupbrief feed-two-line">
-										<label class="new">新</label><span
-											style="word-break: break-all;">最后一击对拼，路飞躲开了，卡二被打中，但路飞先到了极限，先倒下了，随后跟路飞说完话后也倒下了。问题来了，这算谁赢，下楼发漫画情报</span>
-									</p>
-								</div>
-								<div class="img-wrap clearfix">
-									<div class="feed-img img-ph"
-										style="width: 130px; height: 130px; margin-right: 2px;">
-										<img
-											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2S6dlib8bsgQH0MCGkqibxR85E7G3ep8dJww/320"
-											class=""
-											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;">
-									</div>
-									<div class="feed-img img-ph"
-										style="width: 130px; height: 130px; margin-right: 2px;">
-										<img
-											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2QqdaGvauRFcqB16rHFoENX4GoqxwDib14w/320"
-											class=""
-											style="margin-left: -31.3393px; margin-top: 0px; width: 192.679px; height: 130px;">
-									</div>
-									<div class="feed-img img-ph"
-										style="width: 130px; height: 130px;">
-										<img
-											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2YBo89DdxfRcSrBReib2szicz8Z6JRNKib8UQ/320"
-											class=""
-											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;"><span
-											class="img-count-flag">+2</span>
-									</div>
-								</div>
-								<div class="post-bottom-v3">
-									<div class="post-btn-v3 btn-like">
-										<i class="ui-icon-like" style="display: inline-block;"></i>
-										<h4 style="display: inline-block;">10</h4>
-									</div>
-									<div class="post-btn-v3 btn-comment">
-										<i class="ui-icon-comment"></i>
-										<h4>0</h4>
-									</div>
-									<div class="post-btn-v3 btn-share">
-										<i class="ui-icon-share"></i>
-									</div>
-								</div>
-							</div>
-						</li>
-						<li class="feeds-li feeds-li-normal"><div class="detail-top">
-								<div class="item-user">
-									<div class="item-user-wrap">
-										<div class="item-user-avator">
-											<img class="avator-img img-ph"
-												src="https://q.qlogo.cn/g?b=qq&amp;k=WBFIzuCK3dPC8OwtnQrvrw&amp;s=100">
-										</div>
-										<span class="item-user-text"><span
-											class="item-user-name">菇凉的霸气う你不懂</span><span class=""></span></span><span
-											class="item-user-time">刚刚</span><i class="icon-cf-close"></i>
-									</div>
-								</div>
-							</div>
-							<div class="detail-bottom">
-								<div class="report-content">
-									<p class="groupbrief feed-two-line">
-										<label class="new">新</label><span
-											style="word-break: break-all;">最后一击对拼，路飞躲开了，卡二被打中，但路飞先到了极限，先倒下了，随后跟路飞说完话后也倒下了。问题来了，这算谁赢，下楼发漫画情报</span>
-									</p>
-								</div>
-								<div class="img-wrap clearfix">
-									<div class="feed-img img-ph"
-										style="width: 130px; height: 130px; margin-right: 2px;">
-										<img
-											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2S6dlib8bsgQH0MCGkqibxR85E7G3ep8dJww/320"
-											class=""
-											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;">
-									</div>
-									<div class="feed-img img-ph"
-										style="width: 130px; height: 130px; margin-right: 2px;">
-										<img
-											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2QqdaGvauRFcqB16rHFoENX4GoqxwDib14w/320"
-											class=""
-											style="margin-left: -31.3393px; margin-top: 0px; width: 192.679px; height: 130px;">
-									</div>
-									<div class="feed-img img-ph"
-										style="width: 130px; height: 130px;">
-										<img
-											src="https://gpic.qpic.cn/gbar_pic/xtSZibV74FIzjsFWs3C0L2YBo89DdxfRcSrBReib2szicz8Z6JRNKib8UQ/320"
-											class=""
-											style="margin-left: -21.6667px; margin-top: 0px; width: 173.333px; height: 130px;"><span
-											class="img-count-flag">+2</span>
-									</div>
-								</div>
-								<div class="post-bottom-v3">
-									<div class="post-btn-v3 btn-like">
-										<i class="ui-icon-like" style="display: inline-block;"></i>
-										<h4 style="display: inline-block;">10</h4>
-									</div>
-									<div class="post-btn-v3 btn-comment">
-										<i class="ui-icon-comment"></i>
-										<h4>0</h4>
-									</div>
-									<div class="post-btn-v3 btn-share">
-										<i class="ui-icon-share"></i>
-									</div>
-								</div>
-							</div>
-						</li>
-					</ul>
+					<div id="paste-main">
+						<ul class="scroll-view post-list">
+						</ul>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -585,50 +395,29 @@ importFiles[importFiles.length] = {src:"/js/bbs/post.js",type:"script"};
 		<header class="ui-header ui-header-positive ui-border-b">
 			<i class="ui-icon-return" id="btn-publish-return"></i>
 			<h1>发贴</h1>
-			<button class="ui-btn ui-icon-add" id="btn-index">发布</button>
+			<button class="ui-btn ui-icon-add" id="btn-post-publish">发布</button>
 		</header>
 		<section class="ui-container" id="j_main_editor_container">
 			<div class="editor_panel overthrow">
 				<div class="j_editor_title_panel editor_title_panel">
 					<input type="text" value="" placeholder="加个标题哟~"
-						class="j_editor_input editor_input editor_title">
+						class="j_editor_input editor_input editor_title" name="title">
 				</div>
 				<div class="j_editor_content_panel editor_content_panel">
-					<div class="j_savedraft_panel savedraft_panel">20:14 自动保存</div>
+					<!-- <div class="j_savedraft_panel savedraft_panel">20:14 自动保存</div> -->
 					<div class="lay_hide">
 						<div class="j_lay_top lay_top"></div>
-						<textarea placeholder="也来说两句" style="height: 80px; width: 100%"
-							class="j_editor_content editor_input editor_content"></textarea>
+						<textarea placeholder="也来说两句，10-700个字" style="height: 80px; width: 100%"
+							class="j_editor_content editor_input editor_content" name="content"></textarea>
 					</div>
 				</div>
 				<div class="demo-block">
 		            <ul class="ui-grid-trisect ui-border-b image-list">
-		                <li>
-		                	<div data-v-8edeee54="" draggable="true" class="m-box-center m-box-center-a image-wrap m-trans img3 none" style="transform: translate(0px, 0px); touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-		                		<div data-v-8edeee54="" class="image-placeholder"></div> 
-		                		<img data-v-8edeee54="" src="http://localhost:81/test/1517838931211.jpg" class="compose-image">
-		                		<i class="ui-icon-close-page m-repic-close"></i>  
-		                	</div>
-		                </li>
-		                <li>
-		                	<div data-v-8edeee54="" draggable="true" class="m-box-center m-box-center-a image-wrap m-trans img3 none" style="transform: translate(0px, 0px); touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-		                		<div data-v-8edeee54="" class="image-placeholder"></div> 
-		                		<img data-v-8edeee54="" src="http://localhost:81/test/1517838931211.jpg" class="compose-image"> 
-		                		<i class="ui-icon-close-page m-repic-close"></i> 
-		                	</div>
-		                </li>
-		                <li>
-		                	<div data-v-8edeee54="" draggable="true" class="m-box-center m-box-center-a image-wrap m-trans img3 none" style="transform: translate(0px, 0px); touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-		                		<div data-v-8edeee54="" class="image-placeholder"></div> 
-		                		<img data-v-8edeee54="" src="http://localhost:81/test/1517838931211.jpg" class="compose-image">
-		                		<i class="ui-icon-close-page m-repic-close"></i> 
-		                	</div>
-		                </li>
-		                <li>
+		                <li id="addImg">
 		                	<label data-v-8edeee54="" for="selectphoto"
 								class="m-box-center m-box-center-a image-wrap more-image img3"><div
 										data-v-8edeee54="" class="image-placeholder"><input class="upload-input" type="file" accept="image/*"></div></label>
-							</li>
+						</li>
 		            </ul>
 		        </div>
 		    </div>

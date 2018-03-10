@@ -12,6 +12,10 @@ public interface ISubscriberMapper {
 	
 	int subscribeFor(Subscriber subscriber);
 	
+	int resubscribe(@Param("type") String type,
+			@Param("themeId") Integer themeId,
+			@Param("userId") Integer userId);
+	
 	int unsubscribe(@Param("type") String type,
 			@Param("themeId") Integer themeId,
 			@Param("userId") Integer userId);

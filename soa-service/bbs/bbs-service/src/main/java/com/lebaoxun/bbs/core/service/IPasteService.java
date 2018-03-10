@@ -67,14 +67,14 @@ public interface IPasteService {
 	 * @param offset 偏移量
 	 * @return
 	 */
-	List<Paste> findByPlateId(Integer plateId, Integer size, 
-			Integer offset);
+	List<Paste> findByPlateId(Integer userId, Integer plateId, 
+			Integer size, Integer offset);
 	
 	/**
 	 * 查询某个帖子详情
 	 * @param id 帖子ID
 	 * @return
 	 */
-	Paste findById(Integer id);
+	Paste findById(Integer userId,Integer id);
 	
 }

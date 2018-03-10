@@ -73,4 +73,16 @@ public class ThemeServiceHystrix implements IThemeService {
 		throw new I18nMessageException("502");
 	}
 
+	@Override
+	public SuccessMessage findByRecommend(Integer userId,
+			Integer size) {
+		// TODO Auto-generated method stub
+		throw new I18nMessageException("502");
+	}
+	
+	@Override
+	public SuccessMessage findByUserSubscriber(Integer userId) {
+		// TODO Auto-generated method stub
+		throw new I18nMessageException("502");
+	}
 }

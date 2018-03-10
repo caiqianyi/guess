@@ -85,4 +85,7 @@ public interface IAccountService {
 	TradeRecord findTradeRecordByReferId(@PathVariable(value="userId")Integer userId,
 			@PathVariable(value="referId")String referId,
 			@PathVariable(value="tradeType")String tradeType);
+	
+	@RequestMapping(value="/account/findCacheInfoByUserId/",method=RequestMethod.GET)
+	User findCacheInfoByUserId(@RequestParam("userId") Integer userId);
 }

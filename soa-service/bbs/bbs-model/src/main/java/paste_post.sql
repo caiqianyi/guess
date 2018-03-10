@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS `paste_post_000`;
 CREATE TABLE `paste_post_000` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -29,6 +30,7 @@ DROP TABLE IF EXISTS `paste_post_001`;
 CREATE TABLE `paste_post_001` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -56,6 +58,7 @@ DROP TABLE IF EXISTS `paste_post_002`;
 CREATE TABLE `paste_post_002` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -83,6 +86,7 @@ DROP TABLE IF EXISTS `paste_post_003`;
 CREATE TABLE `paste_post_003` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -110,6 +114,7 @@ DROP TABLE IF EXISTS `paste_post_004`;
 CREATE TABLE `paste_post_004` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -137,6 +142,7 @@ DROP TABLE IF EXISTS `paste_post_005`;
 CREATE TABLE `paste_post_005` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -164,6 +170,7 @@ DROP TABLE IF EXISTS `paste_post_006`;
 CREATE TABLE `paste_post_006` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -191,6 +198,7 @@ DROP TABLE IF EXISTS `paste_post_007`;
 CREATE TABLE `paste_post_007` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -218,6 +226,7 @@ DROP TABLE IF EXISTS `paste_post_008`;
 CREATE TABLE `paste_post_008` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -245,6 +254,7 @@ DROP TABLE IF EXISTS `paste_post_009`;
 CREATE TABLE `paste_post_009` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -272,6 +282,7 @@ DROP TABLE IF EXISTS `paste_post_010`;
 CREATE TABLE `paste_post_010` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -299,6 +310,7 @@ DROP TABLE IF EXISTS `paste_post_011`;
 CREATE TABLE `paste_post_011` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -326,6 +338,7 @@ DROP TABLE IF EXISTS `paste_post_012`;
 CREATE TABLE `paste_post_012` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -353,6 +366,7 @@ DROP TABLE IF EXISTS `paste_post_013`;
 CREATE TABLE `paste_post_013` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -380,6 +394,7 @@ DROP TABLE IF EXISTS `paste_post_014`;
 CREATE TABLE `paste_post_014` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -407,6 +422,7 @@ DROP TABLE IF EXISTS `paste_post_015`;
 CREATE TABLE `paste_post_015` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -434,6 +450,7 @@ DROP TABLE IF EXISTS `paste_post_016`;
 CREATE TABLE `paste_post_016` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -461,6 +478,7 @@ DROP TABLE IF EXISTS `paste_post_017`;
 CREATE TABLE `paste_post_017` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -488,6 +506,7 @@ DROP TABLE IF EXISTS `paste_post_018`;
 CREATE TABLE `paste_post_018` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -515,6 +534,7 @@ DROP TABLE IF EXISTS `paste_post_019`;
 CREATE TABLE `paste_post_019` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -542,6 +562,7 @@ DROP TABLE IF EXISTS `paste_post_020`;
 CREATE TABLE `paste_post_020` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -569,6 +590,7 @@ DROP TABLE IF EXISTS `paste_post_021`;
 CREATE TABLE `paste_post_021` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -596,6 +618,7 @@ DROP TABLE IF EXISTS `paste_post_022`;
 CREATE TABLE `paste_post_022` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -623,6 +646,7 @@ DROP TABLE IF EXISTS `paste_post_023`;
 CREATE TABLE `paste_post_023` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -650,6 +674,7 @@ DROP TABLE IF EXISTS `paste_post_024`;
 CREATE TABLE `paste_post_024` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -677,6 +702,7 @@ DROP TABLE IF EXISTS `paste_post_025`;
 CREATE TABLE `paste_post_025` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -704,6 +730,7 @@ DROP TABLE IF EXISTS `paste_post_026`;
 CREATE TABLE `paste_post_026` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -731,6 +758,7 @@ DROP TABLE IF EXISTS `paste_post_027`;
 CREATE TABLE `paste_post_027` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -758,6 +786,7 @@ DROP TABLE IF EXISTS `paste_post_028`;
 CREATE TABLE `paste_post_028` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -785,6 +814,7 @@ DROP TABLE IF EXISTS `paste_post_029`;
 CREATE TABLE `paste_post_029` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -812,6 +842,7 @@ DROP TABLE IF EXISTS `paste_post_030`;
 CREATE TABLE `paste_post_030` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -839,6 +870,7 @@ DROP TABLE IF EXISTS `paste_post_031`;
 CREATE TABLE `paste_post_031` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -866,6 +898,7 @@ DROP TABLE IF EXISTS `paste_post_032`;
 CREATE TABLE `paste_post_032` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -893,6 +926,7 @@ DROP TABLE IF EXISTS `paste_post_033`;
 CREATE TABLE `paste_post_033` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -920,6 +954,7 @@ DROP TABLE IF EXISTS `paste_post_034`;
 CREATE TABLE `paste_post_034` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -947,6 +982,7 @@ DROP TABLE IF EXISTS `paste_post_035`;
 CREATE TABLE `paste_post_035` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -974,6 +1010,7 @@ DROP TABLE IF EXISTS `paste_post_036`;
 CREATE TABLE `paste_post_036` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1001,6 +1038,7 @@ DROP TABLE IF EXISTS `paste_post_037`;
 CREATE TABLE `paste_post_037` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1028,6 +1066,7 @@ DROP TABLE IF EXISTS `paste_post_038`;
 CREATE TABLE `paste_post_038` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1055,6 +1094,7 @@ DROP TABLE IF EXISTS `paste_post_039`;
 CREATE TABLE `paste_post_039` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1082,6 +1122,7 @@ DROP TABLE IF EXISTS `paste_post_040`;
 CREATE TABLE `paste_post_040` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1109,6 +1150,7 @@ DROP TABLE IF EXISTS `paste_post_041`;
 CREATE TABLE `paste_post_041` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1136,6 +1178,7 @@ DROP TABLE IF EXISTS `paste_post_042`;
 CREATE TABLE `paste_post_042` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1163,6 +1206,7 @@ DROP TABLE IF EXISTS `paste_post_043`;
 CREATE TABLE `paste_post_043` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1190,6 +1234,7 @@ DROP TABLE IF EXISTS `paste_post_044`;
 CREATE TABLE `paste_post_044` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1217,6 +1262,7 @@ DROP TABLE IF EXISTS `paste_post_045`;
 CREATE TABLE `paste_post_045` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1244,6 +1290,7 @@ DROP TABLE IF EXISTS `paste_post_046`;
 CREATE TABLE `paste_post_046` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1271,6 +1318,7 @@ DROP TABLE IF EXISTS `paste_post_047`;
 CREATE TABLE `paste_post_047` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1298,6 +1346,7 @@ DROP TABLE IF EXISTS `paste_post_048`;
 CREATE TABLE `paste_post_048` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1325,6 +1374,7 @@ DROP TABLE IF EXISTS `paste_post_049`;
 CREATE TABLE `paste_post_049` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1352,6 +1402,7 @@ DROP TABLE IF EXISTS `paste_post_050`;
 CREATE TABLE `paste_post_050` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1379,6 +1430,7 @@ DROP TABLE IF EXISTS `paste_post_051`;
 CREATE TABLE `paste_post_051` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1406,6 +1458,7 @@ DROP TABLE IF EXISTS `paste_post_052`;
 CREATE TABLE `paste_post_052` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1433,6 +1486,7 @@ DROP TABLE IF EXISTS `paste_post_053`;
 CREATE TABLE `paste_post_053` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1460,6 +1514,7 @@ DROP TABLE IF EXISTS `paste_post_054`;
 CREATE TABLE `paste_post_054` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1487,6 +1542,7 @@ DROP TABLE IF EXISTS `paste_post_055`;
 CREATE TABLE `paste_post_055` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1514,6 +1570,7 @@ DROP TABLE IF EXISTS `paste_post_056`;
 CREATE TABLE `paste_post_056` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1541,6 +1598,7 @@ DROP TABLE IF EXISTS `paste_post_057`;
 CREATE TABLE `paste_post_057` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1568,6 +1626,7 @@ DROP TABLE IF EXISTS `paste_post_058`;
 CREATE TABLE `paste_post_058` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1595,6 +1654,7 @@ DROP TABLE IF EXISTS `paste_post_059`;
 CREATE TABLE `paste_post_059` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1622,6 +1682,7 @@ DROP TABLE IF EXISTS `paste_post_060`;
 CREATE TABLE `paste_post_060` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1649,6 +1710,7 @@ DROP TABLE IF EXISTS `paste_post_061`;
 CREATE TABLE `paste_post_061` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1676,6 +1738,7 @@ DROP TABLE IF EXISTS `paste_post_062`;
 CREATE TABLE `paste_post_062` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1703,6 +1766,7 @@ DROP TABLE IF EXISTS `paste_post_063`;
 CREATE TABLE `paste_post_063` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1730,6 +1794,7 @@ DROP TABLE IF EXISTS `paste_post_064`;
 CREATE TABLE `paste_post_064` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1757,6 +1822,7 @@ DROP TABLE IF EXISTS `paste_post_065`;
 CREATE TABLE `paste_post_065` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1784,6 +1850,7 @@ DROP TABLE IF EXISTS `paste_post_066`;
 CREATE TABLE `paste_post_066` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1811,6 +1878,7 @@ DROP TABLE IF EXISTS `paste_post_067`;
 CREATE TABLE `paste_post_067` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1838,6 +1906,7 @@ DROP TABLE IF EXISTS `paste_post_068`;
 CREATE TABLE `paste_post_068` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1865,6 +1934,7 @@ DROP TABLE IF EXISTS `paste_post_069`;
 CREATE TABLE `paste_post_069` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1892,6 +1962,7 @@ DROP TABLE IF EXISTS `paste_post_070`;
 CREATE TABLE `paste_post_070` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1919,6 +1990,7 @@ DROP TABLE IF EXISTS `paste_post_071`;
 CREATE TABLE `paste_post_071` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1946,6 +2018,7 @@ DROP TABLE IF EXISTS `paste_post_072`;
 CREATE TABLE `paste_post_072` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -1973,6 +2046,7 @@ DROP TABLE IF EXISTS `paste_post_073`;
 CREATE TABLE `paste_post_073` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2000,6 +2074,7 @@ DROP TABLE IF EXISTS `paste_post_074`;
 CREATE TABLE `paste_post_074` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2027,6 +2102,7 @@ DROP TABLE IF EXISTS `paste_post_075`;
 CREATE TABLE `paste_post_075` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2054,6 +2130,7 @@ DROP TABLE IF EXISTS `paste_post_076`;
 CREATE TABLE `paste_post_076` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2081,6 +2158,7 @@ DROP TABLE IF EXISTS `paste_post_077`;
 CREATE TABLE `paste_post_077` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2108,6 +2186,7 @@ DROP TABLE IF EXISTS `paste_post_078`;
 CREATE TABLE `paste_post_078` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2135,6 +2214,7 @@ DROP TABLE IF EXISTS `paste_post_079`;
 CREATE TABLE `paste_post_079` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2162,6 +2242,7 @@ DROP TABLE IF EXISTS `paste_post_080`;
 CREATE TABLE `paste_post_080` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2189,6 +2270,7 @@ DROP TABLE IF EXISTS `paste_post_081`;
 CREATE TABLE `paste_post_081` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2216,6 +2298,7 @@ DROP TABLE IF EXISTS `paste_post_082`;
 CREATE TABLE `paste_post_082` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2243,6 +2326,7 @@ DROP TABLE IF EXISTS `paste_post_083`;
 CREATE TABLE `paste_post_083` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2270,6 +2354,7 @@ DROP TABLE IF EXISTS `paste_post_084`;
 CREATE TABLE `paste_post_084` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2297,6 +2382,7 @@ DROP TABLE IF EXISTS `paste_post_085`;
 CREATE TABLE `paste_post_085` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2324,6 +2410,7 @@ DROP TABLE IF EXISTS `paste_post_086`;
 CREATE TABLE `paste_post_086` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2351,6 +2438,7 @@ DROP TABLE IF EXISTS `paste_post_087`;
 CREATE TABLE `paste_post_087` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2378,6 +2466,7 @@ DROP TABLE IF EXISTS `paste_post_088`;
 CREATE TABLE `paste_post_088` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2405,6 +2494,7 @@ DROP TABLE IF EXISTS `paste_post_089`;
 CREATE TABLE `paste_post_089` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2432,6 +2522,7 @@ DROP TABLE IF EXISTS `paste_post_090`;
 CREATE TABLE `paste_post_090` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2459,6 +2550,7 @@ DROP TABLE IF EXISTS `paste_post_091`;
 CREATE TABLE `paste_post_091` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2486,6 +2578,7 @@ DROP TABLE IF EXISTS `paste_post_092`;
 CREATE TABLE `paste_post_092` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2513,6 +2606,7 @@ DROP TABLE IF EXISTS `paste_post_093`;
 CREATE TABLE `paste_post_093` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2540,6 +2634,7 @@ DROP TABLE IF EXISTS `paste_post_094`;
 CREATE TABLE `paste_post_094` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2567,6 +2662,7 @@ DROP TABLE IF EXISTS `paste_post_095`;
 CREATE TABLE `paste_post_095` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2594,6 +2690,7 @@ DROP TABLE IF EXISTS `paste_post_096`;
 CREATE TABLE `paste_post_096` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2621,6 +2718,7 @@ DROP TABLE IF EXISTS `paste_post_097`;
 CREATE TABLE `paste_post_097` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2648,6 +2746,7 @@ DROP TABLE IF EXISTS `paste_post_098`;
 CREATE TABLE `paste_post_098` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',
@@ -2675,6 +2774,7 @@ DROP TABLE IF EXISTS `paste_post_099`;
 CREATE TABLE `paste_post_099` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `content` varchar(500) NOT NULL COMMENT '内容',
+`pictures` varchar(500) DEFAULT NULL COMMENT '封面图片',
 `userId` int(11) NOT NULL COMMENT '回帖人',
 `pasteId` int(11) DEFAULT NULL COMMENT '原帖ID',
 `source` varchar(500) NOT NULL COMMENT '来源',

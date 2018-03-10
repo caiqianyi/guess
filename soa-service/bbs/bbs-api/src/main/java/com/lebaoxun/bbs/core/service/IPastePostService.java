@@ -21,6 +21,7 @@ public interface IPastePostService {
 	 */
 	@RequestMapping(value="/paste/post/reply",method=RequestMethod.POST)
 	SuccessMessage replyPaste(@RequestParam("content") String content, 
+			@RequestParam(value="pictures",required=false) String pictures, 
 			@RequestParam("userId") Integer userId,
 			@RequestParam("pasteId") Integer pasteId, 
 			@RequestParam("source") String source);
@@ -46,8 +47,15 @@ public interface IPastePostService {
 	 * @return
 	 */
 	@RequestMapping(value="/paste/post/findByPasteId",method=RequestMethod.GET)
-	SuccessMessage findByPasteId(@RequestParam("pasteId") Integer pasteId,
-			@RequestParam("orderBy") String orderBy, 
+	SuccessMessage findByPasteId(
+			@RequestParam("userId") Integer userId, 
+			@RequestParam("flag") Integer flag,
+			@RequestParam("pasteId") Integer pasteId,
 			@RequestParam("size") Integer size, 
 			@RequestParam("offset") Integer offset);
+	
+	@RequestMapping(value="/paste/post/findById",method=RequestMethod.GET)
+	SuccessMessage findById(@RequestParam("userId") Integer userId,
+			@RequestParam("pasteId") Integer pasteId,
+			@RequestParam("id") Integer id);
 }

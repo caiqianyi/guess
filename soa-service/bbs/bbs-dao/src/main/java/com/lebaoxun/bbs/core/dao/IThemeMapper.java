@@ -28,4 +28,10 @@ public interface IThemeMapper {
 	List<Theme> findByKindOf(@Param("kindOf") String kindOf,
 			@Param("size") Integer size,
 			@Param("offset") Integer offset);
+	
+	List<Theme> findByRecommend(@Param("kws") String[] kws,
+			@Param("likeKindOfs") String likeKindOfs[],
+			@Param("size") Integer size);
+	
+	List<Theme> findByUserSubscriber(@Param("userId") Integer userId);
 }

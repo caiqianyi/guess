@@ -108,4 +108,9 @@ public class AccountServiceHystrix implements IAccountService {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502","服务器异常，请稍后重试");
 	}
+	
+	@Override
+	public User findCacheInfoByUserId(Integer userId) {
+		throw new I18nMessageException("502","服务器异常，请稍后重试");
+	}
 }

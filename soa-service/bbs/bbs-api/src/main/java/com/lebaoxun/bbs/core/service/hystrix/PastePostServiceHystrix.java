@@ -10,7 +10,7 @@ import com.lebaoxun.commons.exception.SuccessMessage;
 public class PastePostServiceHystrix implements IPastePostService {
 
 	@Override
-	public SuccessMessage replyPaste(String content, Integer userId,
+	public SuccessMessage replyPaste(String content, String pictures, Integer userId,
 			Integer pasteId, String source) {
 		throw new I18nMessageException("502");
 	}
@@ -22,10 +22,13 @@ public class PastePostServiceHystrix implements IPastePostService {
 	}
 
 	@Override
-	public SuccessMessage findByPasteId(Integer pasteId, String orderBy,
-			Integer size, Integer offset) {
-		// TODO Auto-generated method stub
+	public SuccessMessage findByPasteId(Integer userId, Integer flag,
+			Integer pasteId, Integer size, Integer offset) {
 		throw new I18nMessageException("502");
 	}
 
+	@Override
+	public SuccessMessage findById(Integer userId, Integer pasteId, Integer id) {
+		throw new I18nMessageException("502");
+	}
 }

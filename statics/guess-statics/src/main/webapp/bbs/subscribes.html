@@ -6,153 +6,16 @@
 <meta name="viewport"
 	content="initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no">
-<title>FrozenUI Demo</title>
+<title>乐宝贴吧</title>
 <script type="text/javascript" src="/js/version"></script>
 <script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
 <script type="text/javascript">
 importFiles[importFiles.length] = {src:"/css/bbs/basic.css",type:"css"};
+importFiles[importFiles.length] = {src:"/css/bbs/index.css",type:"css"};
 importFiles[importFiles.length] = {src:"/js/bbs/subscribes.js",type:"script"};
 </script>
 <style type="text/css">
-.forumTile_list li {
-    position: relative;
-}
-.forumTile {
-    display: inline-block;
-    width: 50%;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 4px;
-    vertical-align: text-bottom;
-}
-.forumTile_withLevel .forumTile_wrapper {
-    position: relative;
-    text-align: left;
-    font-size: 15px;
-}
-.forumTile_wrapper {
-    height: 43px;
-    line-height: 43px;
-    text-align: center;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    display: -webkit-box;
-    border: 1px solid #eaeaea;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    background: #F1F3F6 -webkit-gradient(linear,0 0,0 100%,from(#F3F5F8),to(#ECEEF0));
-    border-radius: 2px;
-    color: #000;
-}
-.forumTile_withLevel .forumTile_name_wrapper {
-    padding-left: 8px;
-}
-.forumTile_name_wrapper {
-    -webkit-box-flex: 2;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-.forumTile_name {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-.forumTile_name_wrapper {
-    -webkit-box-flex: 2;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-.forumTile_sign {
-    display: inline-block;
-    width: 30px;
-    height: 20px;
-    background-position: -1px -243px;
-    vertical-align: middle;
-}
-.global_icon, .global_icon_before:before, .global_icon_after:after, .level {
-    background-image: url(//tb2.bdstatic.com/tb/mobile/sglobal/img/new_sglobal_icon_89f6b7d.png);
-    background-repeat: no-repeat;
-    -webkit-background-size: 70px auto;
-    background-size: 70px auto;
-}
 
-.forumTile_list.enable .forumTile_del {
-    display: block;
-}
-.forumTile_list .forumTile_del {
-    top: -6px;
-    left: -6px;
-    width: 24px;
-    height: 24px;
-    display: none;
-    position: absolute;
-}
-.forumTile_list .closeButton {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    -webkit-transform: rotate(45deg);
-    width: 18px;
-    height: 18px;
-    -webkit-border-radius: 9px;
-    -webkit-user-select: none;
-    background-color: #000;
-    opacity: .6;
-}
-.region_head {
-    font-size: 12px;
-    line-height: 28px;
-    padding-left: 10px;
-    background: #f4f6f8;
-    border-bottom: 1px solid #EAEBEC;
-    color: #a3a8ad;
-}
-.mylike_edit, .mylike_add {
-    display: none;
-    float: right;
-    margin-right: 8px;
-}
-.mylike_add {
-    display: none;
-    margin-right: 10px;
-}
-.recent-container .r-title {
-    font-size: 14px;
-    background-color: #fff;
-    padding: 12px 16px;
-    position: relative;
-    z-index: 1;
-    font-weight: 400;
-}
-.r-recommend-list li {
-    text-align: center;
-}
-.r-bar-name {
-    margin-top: 6px;
-    color: #000;
-    line-height: 16px;
-    font-size: 14px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding: 2px 5px;
-}
-.r-bar-jumbotron {
-    width: 50px;
-    height: 50px;
-    margin: 16px auto 10px auto;
-    border-radius: 4px;
-    background-color: #ccc;
-    position: relative;
-    z-index: 3;
-    overflow: hidden;
-}
-.r-img {
-    width: 100%;
-}
 </style>
 </head>
 
@@ -181,114 +44,22 @@ importFiles[importFiles.length] = {src:"/js/bbs/subscribes.js",type:"script"};
 			</div>
 			<div class="ui-whitespace region_head">
 				我关注的贴吧
-				<a id="j_mylike_edit" class="mylike_edit" href="#" style="display: block;">编辑</a>
-				<a id="j_mylike_add" class="mylike_add" href="#">添加</a>
+				<a id="j_mysubscriber_edit" class="mylike_edit" href="javascript:void(0);" style="display: block;">编辑</a>
 			</div>
 			<div class="demo-block" style="border-bottom: 10px solid #f8f8f8;">
-	            <ul class="ui-grid-halve">
-	                <li data-fn="nba" data-ft="2" class="forumTile forumTile_withLevel post">
-	                    <a data-fid="46"
-							class="j_forumTile_wrapper forumTile_wrapper"
-							href="javascript:void(0);">
-							<div class="forumTile_name_wrapper">
-								<div class="forumTile_name">nba</div>
-							</div>
-							<div class="forumTile_sign global_icon"></div>
-							<div class="level level_2">2</div>
-						</a>
-						<a class="j_forumTile_del forumTile_del"><span class="closeButton"></span></a>
-					</li>
-	                <li data-fn="nba" data-ft="2" class="forumTile forumTile_withLevel post">
-	                    <a data-fid="46"
-							class="j_forumTile_wrapper forumTile_wrapper"
-							href="javascript:void(0);">
-							<div class="forumTile_name_wrapper">
-								<div class="forumTile_name">nba</div>
-							</div>
-							<div class="forumTile_sign global_icon"></div>
-							<div class="level level_2">2</div>
-						</a>
-						<a class="j_forumTile_del forumTile_del"><span class="closeButton"></span></a>
-					</li>
-	                <li data-fn="nba" data-ft="2" class="forumTile forumTile_withLevel post">
-	                    <a data-fid="46"
-							class="j_forumTile_wrapper forumTile_wrapper"
-							href="javascript:void(0);">
-							<div class="forumTile_name_wrapper">
-								<div class="forumTile_name">nba</div>
-							</div>
-							<div class="forumTile_sign global_icon"></div>
-							<div class="level level_2">2</div>
-						</a>
-						<a class="j_forumTile_del forumTile_del"><span class="closeButton"></span></a>
-					</li>
-	                <li data-fn="nba" data-ft="2" class="forumTile forumTile_withLevel post">
-	                    <a data-fid="46"
-							class="j_forumTile_wrapper forumTile_wrapper"
-							href="javascript:void(0);">
-							<div class="forumTile_name_wrapper">
-								<div class="forumTile_name">nba</div>
-							</div>
-							<div class="forumTile_sign global_icon"></div>
-							<div class="level level_2">2</div>
-						</a>
-						<a class="j_forumTile_del forumTile_del"><span class="closeButton"></span></a>
-					</li>
+	            <ul class="ui-list ui-border-tb" id="subscriber-list">
 	            </ul>
 	        </div>
 
 			<div class="ui-whitespace region_head r-title">
 				可能感兴趣的贴吧
-				<a class="mylike_edit" href="#" style="display: block;">换一换</a>
+				<a class="mylike_edit" href="javascript:void(0);" style="display: block;" id="btn-change-recommend">换一换</a>
 			</div>
 			<div class="demo-block">
-            <ul class="ui-grid-trisect ui-border-b r-recommend-list">
-                <li>
-                	<div class="r-bar-jumbotron" data-alloy="permision"><img class="r-img" src="https://p.qpic.cn/qqconadmin/0/1870ccb88513460b9799c167c4ef8474/0" data-alloy="permision"></div>
-                    <div class="r-bar-name" data-alloy="permision">自驾游</div>
-                    <h4 style="font-size: 14px;">关注 172879</h4>
-                    <h4 style="font-size: 14px;">帖子 17181975</h4>
-                    <button class="ui-btn-s ui-btn-progress">关注</button>
-                </li>
-                <li>
-                	<div class="r-bar-jumbotron" data-alloy="permision"><img class="r-img" src="https://p.qpic.cn/qqconadmin/0/1870ccb88513460b9799c167c4ef8474/0" data-alloy="permision"></div>
-                    <div class="r-bar-name" data-alloy="permision">自驾游</div>
-                    <h4 style="font-size: 14px;">关注 172879</h4>
-                    <h4 style="font-size: 14px;">帖子 17181975</h4>
-                    <button class="ui-btn-s ui-btn-progress">关注</button>
-                </li>
-                <li>
-                	<div class="r-bar-jumbotron" data-alloy="permision"><img class="r-img" src="https://p.qpic.cn/qqconadmin/0/1870ccb88513460b9799c167c4ef8474/0" data-alloy="permision"></div>
-                    <div class="r-bar-name" data-alloy="permision">自驾游</div>
-                    <h4 style="font-size: 14px;">关注 172879</h4>
-                    <h4 style="font-size: 14px;">帖子 17181975</h4>
-                    <button class="ui-btn-s ui-btn-progress">关注</button>
-                </li>
-                <li>
-                	<div class="r-bar-jumbotron" data-alloy="permision"><img class="r-img" src="https://p.qpic.cn/qqconadmin/0/1870ccb88513460b9799c167c4ef8474/0" data-alloy="permision"></div>
-                    <div class="r-bar-name" data-alloy="permision">自驾游</div>
-                    <h4 style="font-size: 14px;">关注 172879</h4>
-                    <h4 style="font-size: 14px;">帖子 17181975</h4>
-                    <button class="ui-btn-s ui-btn-progress">关注</button>
-                </li>
-                <li>
-                	<div class="r-bar-jumbotron" data-alloy="permision"><img class="r-img" src="https://p.qpic.cn/qqconadmin/0/1870ccb88513460b9799c167c4ef8474/0" data-alloy="permision"></div>
-                    <div class="r-bar-name" data-alloy="permision">自驾游</div>
-                    <h4 style="font-size: 14px;">关注 172879</h4>
-                    <h4 style="font-size: 14px;">帖子 17181975</h4>
-                    <button class="ui-btn-s ui-btn-progress">关注</button>
-                </li>
-                <li>
-                	<div class="r-bar-jumbotron" data-alloy="permision"><img class="r-img" src="https://p.qpic.cn/qqconadmin/0/1870ccb88513460b9799c167c4ef8474/0" data-alloy="permision"></div>
-                    <div class="r-bar-name" data-alloy="permision">自驾游</div>
-                    <h4 style="font-size: 14px;">关注 172879</h4>
-                    <h4 style="font-size: 14px;">帖子 17181975</h4>
-                    <button class="ui-btn-s ui-btn-progress">关注</button>
-                </li>
-            </ul>
-        </div>
+	            <ul class="ui-grid-trisect ui-border-b r-recommend-list">
+	            </ul>
+	        </div>
 		</section>
-
 	</section>
 	<!-- /.ui-container-->
 </body>

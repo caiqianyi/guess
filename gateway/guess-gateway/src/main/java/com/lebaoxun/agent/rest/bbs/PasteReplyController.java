@@ -1,6 +1,7 @@
 package com.lebaoxun.agent.rest.bbs;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,7 @@ import com.lebaoxun.account.entity.User;
 import com.lebaoxun.agent.security.Oauth2SecuritySubject;
 import com.lebaoxun.bbs.core.service.IPasteReplyService;
 import com.lebaoxun.commons.exception.SuccessMessage;
+import com.lebaoxun.commons.utils.UAgentInfo;
 
 @RestController
 @RequestMapping("/bbs")
@@ -35,8 +37,18 @@ public class PasteReplyController {
 	SuccessMessage publish(@RequestParam("content") String content, 
 			@RequestParam("pasteId") Integer pasteId, 
 			@RequestParam("postId") Integer postId,
-			@RequestParam(value="toReplyId",required=false) Integer toReplyId, 
-			@RequestParam("source") String source){
+			@RequestParam(value="toReplyId",required=false) Integer toReplyId,
+			HttpServletRequest request){
+		UAgentInfo detector = new UAgentInfo(request.getHeader("User-Agent"), request.getHeader("Accept"));
+		String source = "";
+		if(detector.isWechat()){
+			source = "微信公众号";
+		}else if (detector.detectMobileQuick()) {
+			source = "移动浏览器";
+		} else {
+		    //PC浏览器
+			source = "PC浏览器";
+		}
 		User user = oauth2SecuritySubject.getCurrentUser();
 		return pasteReplyService.publish(content, user.getUserId(), pasteId, 
 				postId, toReplyId, source);
@@ -65,10 +77,12 @@ public class PasteReplyController {
 	 */
 	@RequestMapping(value="/paste/replay/findByPasteId",method=RequestMethod.GET)
 	SuccessMessage findByPasteId(@RequestParam("pasteId") Integer pasteId,
-			@RequestParam("pasteId") Integer postId, 
+			@RequestParam("postId") Integer postId, 
+			@RequestParam("flag") Integer flag, 
 			@RequestParam("size") Integer size,
 			@RequestParam("offset") Integer offset){
-		return pasteReplyService.findByPasteId(pasteId, postId, size, offset);
+		User user = oauth2SecuritySubject.getCurrentUser();
+		return pasteReplyService.findByPasteId(user.getUserId(), pasteId, postId, flag, size, offset);
 	}
 	
 	/**

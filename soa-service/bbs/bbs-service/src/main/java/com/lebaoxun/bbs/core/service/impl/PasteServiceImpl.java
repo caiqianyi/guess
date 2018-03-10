@@ -9,11 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lebaoxun.account.entity.User;
+import com.lebaoxun.account.service.IAccountService;
 import com.lebaoxun.bbs.core.dao.IPasteMapper;
 import com.lebaoxun.bbs.core.dao.IThemeMapper;
 import com.lebaoxun.bbs.core.entity.Paste;
 import com.lebaoxun.bbs.core.entity.Theme;
+import com.lebaoxun.bbs.core.enums.PraiseLogType;
 import com.lebaoxun.bbs.core.service.IPasteService;
+import com.lebaoxun.bbs.core.service.IPraiseService;
 import com.lebaoxun.commons.exception.I18nMessageException;
 
 /**
@@ -29,6 +33,12 @@ public class PasteServiceImpl implements IPasteService {
 	
 	@Resource
 	private IThemeMapper themeMapper;
+	
+	@Resource
+	private IAccountService accountService;
+	
+	@Resource
+	private IPraiseService praiseService;
 	
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
@@ -134,16 +144,43 @@ public class PasteServiceImpl implements IPasteService {
 	}
 
 	@Override
-	public List<Paste> findByPlateId(Integer plateId, Integer size,
-			Integer offset) {
+	public List<Paste> findByPlateId(Integer userId,Integer plateId, 
+			Integer size, Integer offset) {
 		// TODO Auto-generated method stub
-		return pasteMapper.findByPlateId(plateId, size, offset);
+		List<Paste> pastes = pasteMapper.findByPlateId(plateId, size, offset);
+		for(Paste paste : pastes){
+			User user = accountService.findCacheInfoByUserId(paste.getUserId());
+			boolean praise = false;
+			if(userId != null){
+				int count = praiseService.countByUser(PraiseLogType.PASTE, paste.getId()+"" , userId);
+				praise = count > 0;
+			}
+			paste.setPraise(praise);
+			if(user != null){
+				paste.setNickName(user.getNickname());
+				paste.setHeadimgurl(user.getHeadimgurl());
+			}
+		}
+		return pastes;
 	}
 
 	@Override
-	public Paste findById(Integer id) {
+	public Paste findById(Integer userId,Integer id) {
 		// TODO Auto-generated method stub
-		return pasteMapper.findById(id);
+		Paste paste = pasteMapper.findById(id);
+		
+		User user = accountService.findCacheInfoByUserId(paste.getUserId());
+		boolean praise = false;
+		if(userId != null){
+			int count = praiseService.countByUser(PraiseLogType.PASTE, paste.getId()+"" , userId);
+			praise = count > 0;
+		}
+		paste.setPraise(praise);
+		if(user != null){
+			paste.setNickName(user.getNickname());
+			paste.setHeadimgurl(user.getHeadimgurl());
+		}
+		return paste;
 	}
 
 }

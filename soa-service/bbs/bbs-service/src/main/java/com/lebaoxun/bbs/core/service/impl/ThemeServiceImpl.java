@@ -1,12 +1,18 @@
 package com.lebaoxun.bbs.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
 import com.lebaoxun.bbs.core.dao.ISubscriberMapper;
 import com.lebaoxun.bbs.core.dao.IThemeMapper;
 import com.lebaoxun.bbs.core.entity.Subscriber;
@@ -21,6 +27,8 @@ import com.lebaoxun.commons.exception.I18nMessageException;
  */
 @Service
 public class ThemeServiceImpl implements IThemeService {
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Resource
 	private IThemeMapper themeMapper;
@@ -80,22 +88,32 @@ public class ThemeServiceImpl implements IThemeService {
 			throw new I18nMessageException("-1","贴吧不存在");
 		}
 		
-		Theme update = new Theme();
-		update.setId(theme.getId());
-		update.setSubscribes(theme.getSubscribes()+1);
-		themeMapper.updateBy(update);
+		boolean isSubscribe = true;
+		Subscriber subscriber = subscriberMapper.findByUserId(SUBSCRIBER_TYPE, themeId, userId);
+		if(subscriber == null){
+			subscriber = new Subscriber();
+			subscriber.setCreateTime(new Date());
+			subscriber.setEnabled(true);
+			subscriber.setPasteCount(0);
+			subscriber.setPos(0);
+			subscriber.setScore(0);
+			subscriber.setThemeId(themeId);
+			subscriber.setType(SUBSCRIBER_TYPE);
+			subscriber.setUserId(userId);
+			int id = subscriberMapper.subscribeFor(subscriber);
+			subscriber.setId(id);
+		}else if(!subscriber.isEnabled()){
+			subscriberMapper.resubscribe(SUBSCRIBER_TYPE, themeId, userId);
+		}else{
+			isSubscribe = false;
+		}
 		
-		Subscriber subscriber = new Subscriber();
-		subscriber.setCreateTime(new Date());
-		subscriber.setEnabled(true);
-		subscriber.setPasteCount(0);
-		subscriber.setPos(0);
-		subscriber.setScore(0);
-		subscriber.setThemeId(themeId);
-		subscriber.setType(SUBSCRIBER_TYPE);
-		subscriber.setUserId(userId);
-		int id = subscriberMapper.subscribeFor(subscriber);
-		subscriber.setId(id);
+		if(isSubscribe){
+			Theme update = new Theme();
+			update.setId(theme.getId());
+			update.setSubscribes(theme.getSubscribes()+1);
+			themeMapper.updateBy(update);
+		}
 		
 		return subscriber;
 	}
@@ -126,6 +144,7 @@ public class ThemeServiceImpl implements IThemeService {
 	@Override
 	public List<Theme> search(String kw, int size, int offset) {
 		// TODO Auto-generated method stub
+		logger.info("size={},offset={}",size,offset);
 		return themeMapper.search(kw, size, offset);
 	}
 
@@ -151,6 +170,41 @@ public class ThemeServiceImpl implements IThemeService {
 	public List<Theme> findByKindOf(String kindOf, Integer size, Integer offset) {
 		// TODO Auto-generated method stub
 		return themeMapper.findByKindOf(kindOf, size, offset);
+	}
+	
+	@Override
+	public List<Theme> findByRecommend(Integer userId,
+			Integer size) {
+		String[] kws = null, likeKindOfs = null;
+		List<Theme> subscribers = themeMapper.findByUserSubscriber(userId);
+		if(subscribers != null && !subscribers.isEmpty()){
+			List<String> subList = new ArrayList<String>();
+			Set<String> likes = new HashSet<String>();
+			for(Theme subscriber : subscribers){
+				subList.add(subscriber.getKw());
+				likes.add(subscriber.getKindOf());
+			}
+			kws = subList.toArray(new String[subList.size()]);
+			likeKindOfs = likes.toArray(new String[likes.size()]);
+		}
+		logger.info("kws={},likeKindOfs={}",new Gson().toJson(kws),new Gson().toJson(likeKindOfs));
+		// TODO Auto-generated method stub
+		
+		List<Theme> recommends = themeMapper.findByRecommend(kws, likeKindOfs, size);
+		if(recommends == null){
+			recommends = new ArrayList<Theme>();
+		}
+		if(recommends.size() < size){
+			int s = size - recommends.size();
+			recommends.addAll(themeMapper.findByRecommend(kws, null, s));
+		}
+		return recommends;
+	}
+	
+	@Override
+	public List<Theme> findByUserSubscriber(Integer userId) {
+		// TODO Auto-generated method stub
+		return themeMapper.findByUserSubscriber(userId);
 	}
 
 }

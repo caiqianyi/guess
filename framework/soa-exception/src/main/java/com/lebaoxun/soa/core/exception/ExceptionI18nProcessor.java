@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,11 @@ public class ExceptionI18nProcessor {
     	}
 		String key = i18ne.getCode();
 		String msg = props.getProperty(key);
+		
+		if(StringUtils.isBlank(msg)){
+			msg = i18ne.getInfo();
+		}
+		
 		logger.debug("key={},msg={}",key,msg);
 		
 		if(i18ne.getArgs() != null){

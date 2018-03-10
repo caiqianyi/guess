@@ -31,6 +31,7 @@ public interface IPastePostMapper {
 	List<PastePost> findByPasteId(@Param("submeter") String submeter,
 			@Param("pasteId") Integer pasteId,
 			@Param("orderBy") String orderBy,
+			@Param("isCreator") Boolean isCreator,
 			@Param("size") Integer size,
 			@Param("offset") Integer offset);
 }

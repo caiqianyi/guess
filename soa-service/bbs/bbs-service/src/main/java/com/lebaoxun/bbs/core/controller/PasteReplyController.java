@@ -59,12 +59,15 @@ public class PasteReplyController {
 	 * @return
 	 */
 	@RequestMapping(value="/paste/replay/findByPasteId",method=RequestMethod.GET)
-	SuccessMessage findByPasteId(@RequestParam("pasteId") Integer pasteId,
-			@RequestParam("pasteId") Integer postId, 
+	SuccessMessage findByPasteId(
+			@RequestParam("userId") Integer userId, 
+			@RequestParam("pasteId") Integer pasteId,
+			@RequestParam("postId") Integer postId, 
+			@RequestParam("flag") Integer flag, 
 			@RequestParam("size") Integer size,
 			@RequestParam("offset") Integer offset){
-		return new SuccessMessage(pasteReplyService.findByPasteId(pasteId, 
-				postId, size, offset));
+		return new SuccessMessage(pasteReplyService.findByPasteId(
+				userId, pasteId, postId, flag, size, offset));
 	}
 	
 	/**

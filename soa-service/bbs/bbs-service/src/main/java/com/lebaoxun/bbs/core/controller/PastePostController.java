@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lebaoxun.bbs.core.entity.PastePost;
 import com.lebaoxun.bbs.core.service.IPastePostService;
 import com.lebaoxun.commons.exception.SuccessMessage;
 
@@ -26,11 +27,12 @@ public class PastePostController {
 	 */
 	@RequestMapping(value="/paste/post/reply",method=RequestMethod.POST)
 	SuccessMessage replyPaste(@RequestParam("content") String content, 
+			@RequestParam(value="pictures",required=false) String pictures, 
 			@RequestParam("userId") Integer userId,
 			@RequestParam("pasteId") Integer pasteId, 
 			@RequestParam("source") String source){
 		return new SuccessMessage(pastePostService.replyPaste(content, 
-				userId, pasteId, source));
+				pictures, userId, pasteId, source));
 	}
 	
 	/**
@@ -56,11 +58,20 @@ public class PastePostController {
 	 * @return
 	 */
 	@RequestMapping(value="/paste/post/findByPasteId",method=RequestMethod.GET)
-	SuccessMessage findByPasteId(@RequestParam("pasteId") Integer pasteId,
-			@RequestParam("orderBy") String orderBy, 
+	SuccessMessage findByPasteId(
+			@RequestParam("userId") Integer userId, 
+			@RequestParam("flag") Integer flag,
+			@RequestParam("pasteId") Integer pasteId,
 			@RequestParam("size") Integer size, 
 			@RequestParam("offset") Integer offset){
-		return new SuccessMessage(pastePostService.findByPasteId(pasteId, orderBy, 
-				size, offset));
+		return new SuccessMessage(pastePostService.findByPasteId(userId,
+				flag, pasteId, size, offset));
+	}
+	
+	@RequestMapping(value="/paste/post/findById",method=RequestMethod.GET)
+	SuccessMessage findById(@RequestParam("userId") Integer userId,
+			@RequestParam("pasteId") Integer pasteId,
+			@RequestParam("id") Integer id){
+		return new SuccessMessage(pastePostService.findById(userId, pasteId, id));
 	}
 }

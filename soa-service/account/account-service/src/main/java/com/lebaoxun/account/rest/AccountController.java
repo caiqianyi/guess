@@ -73,6 +73,10 @@ public class AccountController {
 		return new SuccessMessage("ok");
 	}
 	
+	@RequestMapping(value="/findCacheInfoByUserId/",method=RequestMethod.GET)
+	User findCacheInfoByUserId(@RequestParam("userId") Integer userId){
+		return accountService.findCacheInfoByUserId(userId);
+	}
 	
 	/**
 	 * 查询用户时间内账户交易记录

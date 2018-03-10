@@ -127,4 +127,23 @@ public interface IThemeService {
 	SuccessMessage findByKindOf(@RequestParam("kindOf") String kindOf,
 			@RequestParam("size") Integer size,
 			@RequestParam("offset") Integer offset);
+	
+	/**
+	 * 查询推荐关注
+	 * @param kws 已关注贴吧
+	 * @param likeKindOfs 喜欢啥类型
+	 * @param size 推荐个数
+	 * @return
+	 */
+	@RequestMapping(value="/theme/findByRecommend",method=RequestMethod.GET)
+	SuccessMessage findByRecommend(@RequestParam("userId") Integer userId, 
+			@RequestParam("size") Integer size);
+	
+	/**
+	 * 查询我关注的贴吧
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/theme/findByUserSubscriber",method=RequestMethod.GET)
+	SuccessMessage findByUserSubscriber(@RequestParam("userId") Integer userId);
 }

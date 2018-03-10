@@ -44,14 +44,14 @@ public class PasteServiceHystrix implements IPasteService {
 	}
 
 	@Override
-	public SuccessMessage findByPlateId(Integer plateId, Integer size,
-			Integer offset) {
+	public SuccessMessage findByPlateId(Integer userId, Integer plateId,
+			Integer size, Integer offset) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502");
 	}
 
 	@Override
-	public SuccessMessage findById(Integer id) {
+	public SuccessMessage findById(Integer userId,Integer id) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502");
 	}

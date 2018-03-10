@@ -2,6 +2,8 @@ package com.lebaoxun.bbs.core.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.lebaoxun.bbs.core.entity.Subscriber;
 import com.lebaoxun.bbs.core.entity.Theme;
 
@@ -31,4 +33,8 @@ public interface IThemeService {
 	List<String> findAllKindOf();
 	
 	List<Theme> findByKindOf(String kindOf,Integer size,Integer offset);
+	
+	List<Theme> findByRecommend(Integer userId, Integer size);
+	
+	List<Theme> findByUserSubscriber(Integer userId);
 }

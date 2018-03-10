@@ -15,6 +15,7 @@ import com.lebaoxun.bbs.core.enums.PraiseLogType;
 import com.lebaoxun.bbs.core.service.IPraiseService;
 import com.lebaoxun.commons.exception.SuccessMessage;
 import com.lebaoxun.commons.utils.CommonUtil;
+import com.lebaoxun.commons.utils.UAgentInfo;
 
 @RestController
 @RequestMapping("/bbs")
@@ -36,11 +37,21 @@ public class PraiseController {
 	 * @return
 	 */
 	@RequestMapping(value="/praise/addLog/{logType}",method=RequestMethod.GET)
-	SuccessMessage praisePaste(@RequestParam("source") String source,
+	SuccessMessage praisePaste(
 			@RequestParam("pasteId") Integer pasteId, 
 			@RequestParam("recordId") String recordId,
 			@PathVariable("logType") String logType,
 			HttpServletRequest request){
+		UAgentInfo detector = new UAgentInfo(request.getHeader("User-Agent"), request.getHeader("Accept"));
+		String source = "";
+		if(detector.isWechat()){
+			source = "微信公众号";
+		}else if (detector.detectMobileQuick()) {
+			source = "移动浏览器";
+		} else {
+		    //PC浏览器
+			source = "PC浏览器";
+		}
 		User user = oauth2SecuritySubject.getCurrentUser();
 		return praiseService.praise(user.getUserId(), CommonUtil.getIp2(request), source, pasteId, 
 				recordId, PraiseLogType.valueOf(logType));
@@ -57,7 +68,7 @@ public class PraiseController {
 	 * @return
 	 */
 	@RequestMapping(value="/praise/cancel/{logType}",method=RequestMethod.GET)
-	SuccessMessage praiseCancel(@RequestParam("source") String source,
+	SuccessMessage praiseCancel(
 			@RequestParam("pasteId") Integer pasteId, 
 			@RequestParam("recordId") String recordId,
 			@PathVariable("logType") String logType){

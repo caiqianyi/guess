@@ -23,15 +23,15 @@ public class PasteReplyServiceHystrix implements IPasteReplyService {
 	}
 
 	@Override
-	public SuccessMessage findByPasteId(Integer pasteId, Integer postId,
-			Integer size, Integer offset) {
+	public SuccessMessage findByPasteIdForTops(Integer pasteId,
+			Integer[] postIds, Integer replySize, Integer size) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502");
 	}
 
 	@Override
-	public SuccessMessage findByPasteIdForTops(Integer pasteId,
-			Integer[] postIds, Integer replySize, Integer size) {
+	public SuccessMessage findByPasteId(Integer userId, Integer pasteId,
+			Integer postId, Integer flag, Integer size, Integer offset) {
 		// TODO Auto-generated method stub
 		throw new I18nMessageException("502");
 	}

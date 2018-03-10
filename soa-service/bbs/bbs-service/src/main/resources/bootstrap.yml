@@ -1,6 +1,6 @@
 spring:
   application:
-    name: guess-caipiao-service
+    name: bbs-service
   session:
     store-type: none
   cloud:

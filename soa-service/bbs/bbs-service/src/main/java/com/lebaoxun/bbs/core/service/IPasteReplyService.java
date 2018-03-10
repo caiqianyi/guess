@@ -26,9 +26,10 @@ public interface IPasteReplyService {
 	 * @param offset 偏移量
 	 * @return
 	 */
-	List<PasteReply> findByPasteId(Integer pasteId,
-			Integer postId, Integer size,
-			Integer offset);
+	List<PasteReply> findByPasteId(
+			Integer userId, Integer pasteId,
+			Integer postId, Integer flag,
+			Integer size, Integer offset);
 	
 	/**
 	 * 查询指定回帖，前几个回复

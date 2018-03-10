@@ -169,22 +169,18 @@ var oauth2 = {
 				oauth2.lock = true;
 				var openid = window.storage.get('openid',false);
 				if(openid && openid.length > 0){//是否 系统openid
-					if(!oauth2.isLogin()){
-						oauth2.login({openid:openid,flag:"autoLogin"},function(){
-							oauth2.lock = false;
-							oauth2.ajax(param);
-						});
-					}
+					oauth2.login({openid:openid,flag:"autoLogin"},function(){
+						oauth2.lock = false;
+						oauth2.ajax(param);
+					});
 					return;
 				}
 				var wxopenid = window.storage.get('wxopenid',false);
 				if(wxopenid && wxopenid.length > 0){//是否有微信openid
-					if(!oauth2.isLogin()){
-						oauth2.wechatOAlogin({openid:wxopenid,flag:"autoLogin"},function(){
-							oauth2.lock = false;
-							oauth2.ajax(param);
-						});
-					}
+					oauth2.wechatOAlogin({openid:wxopenid,flag:"autoLogin"},function(){
+						oauth2.lock = false;
+						oauth2.ajax(param);
+					});
 					return;
 				}
 				oauth2.checkLogin(true);

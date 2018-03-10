@@ -5,17 +5,23 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lebaoxun.account.entity.User;
+import com.lebaoxun.account.service.IAccountService;
 import com.lebaoxun.bbs.core.dao.IPasteMapper;
 import com.lebaoxun.bbs.core.dao.IPastePostMapper;
 import com.lebaoxun.bbs.core.dao.IPasteReplyMapper;
 import com.lebaoxun.bbs.core.entity.Paste;
 import com.lebaoxun.bbs.core.entity.PastePost;
 import com.lebaoxun.bbs.core.entity.PasteReply;
+import com.lebaoxun.bbs.core.enums.PraiseLogType;
 import com.lebaoxun.bbs.core.service.IPasteReplyService;
+import com.lebaoxun.bbs.core.service.IPraiseService;
 import com.lebaoxun.commons.exception.I18nMessageException;
 
 /**
@@ -25,6 +31,8 @@ import com.lebaoxun.commons.exception.I18nMessageException;
  */
 @Service
 public class PasteReplyServiceImpl implements IPasteReplyService {
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Resource
 	private IPasteReplyMapper pasteReplyMapper;
@@ -34,6 +42,12 @@ public class PasteReplyServiceImpl implements IPasteReplyService {
 	
 	@Resource
 	private IPasteMapper pasteMapper;
+	
+	@Resource
+	private IAccountService accountService;
+	
+	@Resource
+	private IPraiseService praiseService;
 	
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
@@ -60,6 +74,7 @@ public class PasteReplyServiceImpl implements IPasteReplyService {
 		updatePost.setId(post.getId());
 		updatePost.setLastReplyId(id);
 		updatePost.setLastReplyTime(new Date());
+		updatePost.setPasteId(pasteId);
 		updatePost.setReplyCount(post.getReplyCount()+1);
 		
 		Paste updatePaste = new Paste();
@@ -87,6 +102,7 @@ public class PasteReplyServiceImpl implements IPasteReplyService {
 			PastePost updatePost = new PastePost();
 			updatePost.setId(post.getId());
 			updatePost.setReplyCount(post.getReplyCount()-11);
+			updatePost.setPasteId(pasteId);
 			
 			if(id.equals(post.getLastReplyId())){//是否最后一条
 				PasteReply prev = pasteReplyMapper.findByPrev(submeter, post.getId(), id);
@@ -106,11 +122,32 @@ public class PasteReplyServiceImpl implements IPasteReplyService {
 	}
 
 	@Override
-	public List<PasteReply> findByPasteId(Integer pasteId, Integer postId,
+	public List<PasteReply> findByPasteId(
+			Integer userId, Integer pasteId, 
+			Integer postId, Integer flag,
 			Integer size, Integer offset) {
 		// TODO Auto-generated method stub
-		return pasteReplyMapper.findByPasteId(PasteReply.modulo(pasteId),
-				pasteId, postId, size, offset);
+		String orderBy = "order by createTime desc";
+		if(flag != null && 1 == flag){
+			orderBy = "order by praiseCount desc";
+		}
+		logger.debug("flag={},orderBy={}",flag,orderBy);
+		List<PasteReply> list = pasteReplyMapper.findByPasteId(PasteReply.modulo(pasteId),
+				pasteId, postId, orderBy, size, offset);
+		for(PasteReply reply : list){
+			User user = accountService.findCacheInfoByUserId(userId);
+			boolean praise = false;
+			if(userId != null){
+				int count = praiseService.countByUser(PraiseLogType.REPLY, reply.getId()+"" , userId);
+				praise = count > 0;
+			}
+			reply.setPraise(praise);
+			if(user != null){
+				reply.setNickName(user.getNickname());
+				reply.setHeadimgurl(user.getHeadimgurl());
+			}
+		}
+		return list;
 	}
 
 	@Override

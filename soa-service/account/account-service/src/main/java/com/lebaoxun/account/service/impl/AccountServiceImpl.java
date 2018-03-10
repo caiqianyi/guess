@@ -1,11 +1,16 @@
 package com.lebaoxun.account.service.impl;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.interceptor.KeyGenerator;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +32,20 @@ public class AccountServiceImpl implements IAccountService {
 	
 	@Resource
 	private ITradeRecordMapper tradeRecordMapper;
-
+	
+	@Bean  
+    public KeyGenerator userBaseInfoKeyGenerator(){//缓存key策略
+        return new KeyGenerator() {  
+            @Override  
+            public Object generate(Object target, Method method, Object... params) {
+            	 StringBuilder sb = new StringBuilder();  
+                 sb.append("user:base:info:");  
+                 sb.append(params[0].toString());  
+                 return sb.toString();  
+            }  
+        };  
+    } 
+	
 	@Override
 	public User login(String account, String password) {
 		// TODO Auto-generated method stub
@@ -63,6 +81,14 @@ public class AccountServiceImpl implements IAccountService {
 		// TODO Auto-generated method stub
 		return userMapper.findById(userId);
 	}
+	
+	@Override
+	@Cacheable(value="user:base:info", keyGenerator="userBaseInfoKeyGenerator")
+	public User findCacheInfoByUserId(Integer userId) {
+		// TODO Auto-generated method stub
+		User user = userMapper.findById(userId);
+		return user;
+	}
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
@@ -76,6 +102,7 @@ public class AccountServiceImpl implements IAccountService {
 
 	@Override
 	@Transactional(readOnly=false,timeout=10,propagation=Propagation.REQUIRED)
+	@CacheEvict(value="user:base:info", keyGenerator="userBaseInfoKeyGenerator")
 	public void update(User user) {
 		// TODO Auto-generated method stub
 		userMapper.update(user);

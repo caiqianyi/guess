@@ -1,6 +1,7 @@
 package com.lebaoxun.agent.rest.bbs;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,7 @@ import com.lebaoxun.account.entity.User;
 import com.lebaoxun.agent.security.Oauth2SecuritySubject;
 import com.lebaoxun.bbs.core.service.IPasteService;
 import com.lebaoxun.commons.exception.SuccessMessage;
+import com.lebaoxun.commons.utils.UAgentInfo;
 
 @RestController
 @RequestMapping("/bbs")
@@ -29,21 +31,27 @@ public class PasteController {
 	 * @param pictures 封面
 	 * @param source 
 	 * @param plateId 主题ID
-	 * @param top 是否置顶，1=置顶，0=正常
-	 * @param highlight 是否加精，1=加精，0=正常
 	 * @return
 	 */
 	@RequestMapping(value="/paste/publish",method=RequestMethod.POST)
 	SuccessMessage publish(@RequestParam("title") String title, 
 			@RequestParam("content") String content,
-			@RequestParam("pictures") String pictures, 
-			@RequestParam("source") String source,
+			@RequestParam(value="pictures",required=false) String pictures, 
 			@RequestParam("plateId") Integer plateId,
-			@RequestParam("top") boolean top, 
-			@RequestParam("highlight") boolean highlight){
+			HttpServletRequest request){
+		UAgentInfo detector = new UAgentInfo(request.getHeader("User-Agent"), request.getHeader("Accept"));
+		String source = "";
+		if(detector.isWechat()){
+			source = "微信公众号";
+		}else if (detector.detectMobileQuick()) {
+			source = "移动浏览器";
+		} else {
+		    //PC浏览器
+			source = "PC浏览器";
+		}
 		User user = oauth2SecuritySubject.getCurrentUser();
 		return pasteService.publish(title, content, pictures, source, 
-				user.getUserId(), plateId, top, highlight);
+				user.getUserId(), plateId, false, false);
 	}
 	
 	/**
@@ -111,9 +119,11 @@ public class PasteController {
 	 */
 	@RequestMapping(value="/paste/findByPlateId",method=RequestMethod.GET)
 	SuccessMessage findByPlateId(@RequestParam("plateId") Integer plateId, 
+			@RequestParam(value="highlight",required=false) String highlight, 
 			@RequestParam("size") Integer size, 
 			@RequestParam("offset") Integer offset){
-		return pasteService.findByPlateId(plateId, size, offset);
+		User user = oauth2SecuritySubject.getCurrentUser();
+		return pasteService.findByPlateId(user.getUserId(), plateId, size, offset);
 	}
 	
 	/**
@@ -123,6 +133,7 @@ public class PasteController {
 	 */
 	@RequestMapping(value="/paste/findById",method=RequestMethod.GET)
 	SuccessMessage findById(@RequestParam("id") Integer id){
-		return pasteService.findById(id);
+		User user = oauth2SecuritySubject.getCurrentUser();
+		return pasteService.findById(user.getUserId(),id);
 	}
 }

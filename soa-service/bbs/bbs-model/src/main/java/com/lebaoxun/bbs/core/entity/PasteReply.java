@@ -47,6 +47,14 @@ public class PasteReply implements Serializable{
 	 */
 	private Date createTime;
 	
+	private String nickName;
+	
+	private String headimgurl;
+	
+	private boolean isPraise;
+	
+	private String toReplyNickName;
+	
 	private final static int DENOMINATOR = 100;
 	
 	public Integer getId() {
@@ -125,6 +133,30 @@ public class PasteReply implements Serializable{
 		return modulo(pasteId);
 	}
 	
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getHeadimgurl() {
+		return headimgurl;
+	}
+
+	public void setHeadimgurl(String headimgurl) {
+		this.headimgurl = headimgurl;
+	}
+
+	public boolean isPraise() {
+		return isPraise;
+	}
+
+	public void setPraise(boolean isPraise) {
+		this.isPraise = isPraise;
+	}
+
 	/**
 	 * 分表取模
 	 * @param agentId
@@ -140,11 +172,19 @@ public class PasteReply implements Serializable{
 		return str+remainder;
 	}
 	
+	public String getToReplyNickName() {
+		return toReplyNickName;
+	}
+
+	public void setToReplyNickName(String toReplyNickName) {
+		this.toReplyNickName = toReplyNickName;
+	}
+
 	public static void main(String[] args) {
 		for(int i=0;i<DENOMINATOR;i++){
 			String flag = modulo(i);
-			String sql = "DROP TABLE IF EXISTS `paste_replay_"+flag+"`;\n"+
-			"CREATE TABLE `paste_replay_"+flag+"` (\n"+
+			String sql = "DROP TABLE IF EXISTS `paste_reply_"+flag+"`;\n"+
+			"CREATE TABLE `paste_reply_"+flag+"` (\n"+
 			"`id` int(11) NOT NULL AUTO_INCREMENT,\n"+
 			"`content` varchar(500) NOT NULL COMMENT '内容',\n"+
 			"`userId` int(11) NOT NULL COMMENT '回复人',\n"+
@@ -166,4 +206,5 @@ public class PasteReply implements Serializable{
 			System.out.println(sql);
 		}
 	}
+	
 }

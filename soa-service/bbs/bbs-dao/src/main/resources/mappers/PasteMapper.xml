@@ -30,13 +30,9 @@
 		id, title, content, pictures, source, userId,
 		lastPostId, plateId, collectCount, transpondCount, 
 		praiseCount, replyPasteCount, scanCount, top,
-		highlight, createTime, lastPostTime, lastReplyTime
+		highlight, createTime, lastUpdateTime, lastPostTime, lastReplyTime
 	</sql>
 	
-	<sql id="Base_Order_By">
-		order by #{orderBy}
-	</sql>
-
 	<insert id="save" parameterType="com.lebaoxun.bbs.core.entity.Paste" useGeneratedKeys="true" keyProperty="id">
 		insert into paste (
 		<include refid="Base_Column_List" />
@@ -45,59 +41,63 @@
 		NULL, #{title}, #{content}, #{pictures}, #{source}, #{userId}, 
 		#{lastPostId}, #{plateId}, 0, 0,
 		0, 0, 0, 0,
-		0, NOW(), NULL, NULL)
+		0, NOW(), NOW(), NULL, NULL)
 	</insert>
 
-	<update id="update" parameterType="com.lebaoxun.bbs.core.entity.Paste">
+	<update id="updateBy" parameterType="com.lebaoxun.bbs.core.entity.Paste">
 		update paste
 		<set>
+		    id = id
 			<if test="lastPostId != null">
-				lastPostId = #{lastPostId},
+				,lastPostId = #{lastPostId}
 			</if>
 			<if test="collectCount != null">
-				collectCount = #{collectCount}
+				,collectCount = #{collectCount}
 			</if>
 			<if test="transpondCount != null">
-				transpondCount = #{transpondCount}
+				,transpondCount = #{transpondCount}
 			</if>
 			<if test="praiseCount != null">
-				praiseCount = #{praiseCount}
+				,praiseCount = #{praiseCount}
 			</if>
 			<if test="replyPasteCount != null">
-				replyPasteCount = #{replyPasteCount}
+				,replyPasteCount = #{replyPasteCount}
 			</if>
 			<if test="scanCount != null">
-				scanCount = #{scanCount}
+				,scanCount = #{scanCount}
 			</if>
 			<if test="top != null">
-				top = #{top}
+				,top = #{top}
 			</if>
 			<if test="highlight != null">
-				highlight = #{highlight}
+				,highlight = #{highlight}
 			</if>
 			<if test="deleted != null">
-				deleted = #{deleted}
+				,deleted = #{deleted}
+			</if>
+			<if test="lastUpdateTime != null">
+				,lastUpdateTime = #{lastUpdateTime}
 			</if>
 			<if test="lastPostTime != null">
-				lastPostTime = #{lastPostTime}
+				,lastPostTime = #{lastPostTime}
 			</if>
 			<if test="lastReplyTime != null">
-				lastReplyTime = #{lastReplyTime}
+				,lastReplyTime = #{lastReplyTime}
 			</if>
 		</set>
-		<include refid="Base_Where_Clause" />
+		where id = #{id} and deleted = 0
 	</update>
 
 	<delete id="deleteBy">
-		delete from paste <include refid="Base_Where_Clause" />
+		delete from paste where id = #{id} and userId = #{userId}
 	</delete>
 
 	<select id="findByUserId" resultType="com.lebaoxun.bbs.core.entity.Paste">
 		select
 		<include refid="Base_Column_List" />
 		from paste
-		<include refid="Base_Where_Clause" />
-		<include refid="Base_Order_By"/>
+		where userId = #{userId}
+		order by #{orderBy}
 		<if test="size != null">
 			limit #{size} <if test="offset != null">,offset = #{offset}</if>
 		</if>
@@ -107,10 +107,10 @@
 		select
 		<include refid="Base_Column_List" />
 		from paste
-		<include refid="Base_Where_Clause" />
+		where plateId = #{plateId}
 		order by top desc, lastUpdateTime desc, highlight desc
 		<if test="size != null">
-			limit #{size} <if test="offset != null">,offset = #{offset}</if>
+			limit <if test="offset != null">#{offset},</if> #{size}
 		</if>
 	</select>
 	
@@ -118,6 +118,6 @@
 		select
 		<include refid="Base_Column_List" />
 		from paste
-		<include refid="Base_Where_Clause" />
+		where id = #{id}
 	</select>
 </mapper>

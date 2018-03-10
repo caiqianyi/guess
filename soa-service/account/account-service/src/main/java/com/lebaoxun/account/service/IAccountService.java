@@ -1,5 +1,7 @@
 package com.lebaoxun.account.service;
 
+import java.util.List;
+
 import com.lebaoxun.account.entity.TradeRecord;
 import com.lebaoxun.account.entity.User;
 import com.lebaoxun.commons.pager.Pager;
@@ -19,6 +21,8 @@ public interface IAccountService {
 	User findByMobile(String mobile);
 	
 	User findById(Integer userId);
+	
+	User findCacheInfoByUserId(Integer userId);
 	
 	void modifyBalance(Integer userId,Integer balance,Integer frozenMoney,TradeRecord tradeRecord);
 	

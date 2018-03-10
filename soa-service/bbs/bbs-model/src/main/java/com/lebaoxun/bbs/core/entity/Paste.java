@@ -91,6 +91,12 @@ public class Paste implements Serializable{
 	 */
 	private Date lastReplyTime;
 	
+	private String nickName;
+	
+	private String headimgurl;
+	
+	private boolean isPraise;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -210,5 +216,23 @@ public class Paste implements Serializable{
 	}
 	public void setLastReplyTime(Date lastReplyTime) {
 		this.lastReplyTime = lastReplyTime;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	public String getHeadimgurl() {
+		return headimgurl;
+	}
+	public void setHeadimgurl(String headimgurl) {
+		this.headimgurl = headimgurl;
+	}
+	public boolean isPraise() {
+		return isPraise;
+	}
+	public void setPraise(boolean isPraise) {
+		this.isPraise = isPraise;
 	}
 }

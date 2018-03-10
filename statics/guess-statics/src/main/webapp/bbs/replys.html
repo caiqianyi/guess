@@ -6,7 +6,7 @@
 <meta name="viewport"
 	content="initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no">
-<title>FrozenUI Demo</title>
+<title>乐宝贴吧-NBA吧</title>
 <script type="text/javascript" src="/js/version"></script>
 <script type="text/javascript" src="/lib/base.js" charset="UTF-8"></script>
 <script type="text/javascript">
@@ -14,6 +14,9 @@ importFiles[importFiles.length] = {src:"/css/bbs/basic.css",type:"css"};
 importFiles[importFiles.length] = {src:"/css/bbs/bar.css",type:"css"};
 importFiles[importFiles.length] = {src:"/css/bbs/publish.css",type:"css"};
 importFiles[importFiles.length] = {src:"/css/bbs/paste.css",type:"css"};
+importFiles[importFiles.length] = {src:"/lib/exif.js",type:"script" };
+importFiles[importFiles.length] = {src:"/lib/lrz.js",type:"script" };
+importFiles[importFiles.length] = {src:"/lib/dropload.min.js",type:"script"};
 importFiles[importFiles.length] = {src:"/js/bbs/replys.js",type:"script"};
 </script>
 <style type="text/css">
@@ -51,8 +54,9 @@ importFiles[importFiles.length] = {src:"/js/bbs/replys.js",type:"script"};
 <body ontouchstart>
 	<div id="main" style="">
 		<header class="ui-header ui-header-positive ui-border-b">
-			<i class="ui-icon-return" onclick="history.back()"></i>
-			<h1>6楼</h1>
+			<i class="ui-icon-return" id="btn-toback"></i>
+			<h1 id="page_title"></h1>
+			<button class="ui-btn ui-icon-add" id="btn-to-reply">回复</button>
 		</header>
 		<section class="ui-container">
 			<div id="po_list">
@@ -103,64 +107,36 @@ importFiles[importFiles.length] = {src:"/js/bbs/replys.js",type:"script"};
 			<div class="ui-tab">
 				<div class="ui-border-b" style="    background-color: #fff;width: 100%;  ">
 					<ul class="ui-tab-nav ui-border-b" style="width: 50%;">
-						<li class="current">按时间</li>
-						<li>按热度</li>
-						<li>赞 133</li>
+						<li class="current" id="tab-publishTime">按时间</li>
+						<li id="tab-replyCount">按热度</li>
+						<li id="tab-praiseCount">赞</li>
 					</ul>
 				</div>
 				<div class="PasteList">
 					<ul class="scroll-view post-list">
-						<li class="feeds-li feeds-li-normal">
-							<div class="detail-top">
-								<div class="item-user">
-									<div class="item-user-wrap">
-										<div class="item-user-avator">
-											<img class="avator-img img-ph" src="https://q.qlogo.cn/g?b=qq&amp;k=WBFIzuCK3dPC8OwtnQrvrw&amp;s=100">
-										</div>
-										<span class="item-user-text">
-											<span class="item-user-name">菇凉的霸气う你不懂</span>
-											<span class=""></span>
-										</span>
-										<span class="item-user-time">刚刚</span><i class="icon-cf-close"></i>
-										<span class="comment-zan"><i class="ui-icon-like font24"></i> <i class="comment-dz-num">100</i></span>
-									</div>
-								</div>
-							</div>
-							<div class="detail-bottom">
-								<div class="report-content comment-con-bot">
-									<p class="groupbrief">
-										<label class="new">新</label><span style="word-break: break-all;">最后一击对拼，路飞躲开了，卡二被打中，但路飞先到了极限，先倒下了，随后跟路飞说完话后也倒下了。问题来了，这算谁赢，下楼发漫画情报</span>
-									</p>
-								</div>
-							</div>
-						</li>
-						<li class="feeds-li feeds-li-normal">
-							<div class="detail-top">
-								<div class="item-user">
-									<div class="item-user-wrap">
-										<div class="item-user-avator">
-											<img class="avator-img img-ph" src="https://q.qlogo.cn/g?b=qq&amp;k=WBFIzuCK3dPC8OwtnQrvrw&amp;s=100">
-										</div>
-										<span class="item-user-text">
-											<span class="item-user-name">菇凉的霸气う你不懂</span>
-											<span class=""></span>
-										</span>
-										<span class="item-user-time">刚刚</span><i class="icon-cf-close"></i>
-										<span class="comment-zan"><i class="ui-icon-like font24"></i> <i class="comment-dz-num">10</i></span>
-									</div>
-								</div>
-							</div>
-							<div class="detail-bottom">
-								<div class="report-content comment-con-bot">
-									<p class="groupbrief">
-										<label class="new">新</label><span style="word-break: break-all;">最后一击对拼，路飞躲开了，卡二被打中，但路飞先到了极限，先倒下了，随后跟路飞说完话后也倒下了。问题来了，这算谁赢，下楼发漫画情报</span>
-									</p>
-								</div>
-							</div>
-						</li>
 					</ul>
 				</div>
 			</div>
+		</section>
+	</div>
+	<div id="pb_layer_reply" style="top: 0px; left: 100%; transform: translate3d(0px, 0px, 0px);width: 100%;height: 100%;position: fixed;z-index: 99998;    background: #fff;overflow: hidden;    -webkit-tap-highlight-color: rgba(0,0,0,0);flex-flow: column;    display: flex;">
+		<header class="ui-header ui-header-positive ui-border-b">
+			<i class="ui-icon-return" id="btn-reply-return"></i>
+			<h1>发表回复</h1>
+			<button class="ui-btn ui-icon-add" id="btn-layer-reply">发布</button>
+		</header>
+		<section class="ui-container" id="layer_reply_container">
+			<input type="hidden" name="replyId"/>
+			<div class="editor_panel overthrow">
+				<div class="j_editor_content_panel editor_content_panel">
+					<!-- <div class="j_savedraft_panel savedraft_panel">20:14 自动保存</div> -->
+					<div class="lay_hide">
+						<div class="j_lay_top lay_top"></div>
+						<textarea placeholder="也来说两句" style="height: 80px; width: 100%"
+							class="j_editor_content editor_input editor_content" name="content"></textarea>
+					</div>
+				</div>
+		    </div>
 		</section>
 	</div>
 	<!-- /.ui-container-->

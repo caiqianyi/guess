@@ -150,9 +150,37 @@ public class ThemeController {
 	 * @param offset 偏移量
 	 * @return
 	 */
+	@RequestMapping(value="/theme/findByKindOf",method=RequestMethod.GET)
 	SuccessMessage findByKindOf(@RequestParam("kindOf") String kindOf,
 			@RequestParam("size") Integer size,
 			@RequestParam("offset") Integer offset){
 		return themeService.findByKindOf(kindOf, size, offset);
+	}
+	
+	/**
+	 * 查询推荐关注
+	 * @param kws 已关注贴吧
+	 * @param likeKindOfs 喜欢啥类型
+	 * @param size 推荐个数
+	 * @return
+	 */
+	@RequestMapping(value="/theme/findByRecommend",method=RequestMethod.GET)
+	SuccessMessage findByRecommend(@RequestParam("size") Integer size){
+		if(size > 50){
+			size = 50;
+		}
+		User user = oauth2SecuritySubject.getCurrentUser();
+		return themeService.findByRecommend(user.getUserId(), size);
+	}
+	
+	/**
+	 * 查询我关注的贴吧
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/theme/findByUserSubscriber",method=RequestMethod.GET)
+	SuccessMessage findByUserSubscriber(){
+		User user = oauth2SecuritySubject.getCurrentUser();
+		return themeService.findByUserSubscriber(user.getUserId());
 	}
 }
