@@ -35,7 +35,7 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 	private Logger logger = LoggerFactory
 			.getLogger(LoLMatchNetworkSpiderImpl.class);
 	
-	private final String url = "http://apps.game.qq.com/lol/match/apis/searchBMatchInfo.php?p8=%s&p1=%s&p9=%s&p10=%s&p6=3&page=%s&pagesize=%s&r1=retObj&_=";
+	private final String url = "http://apps.game.qq.com/lol/match/apis/searchBMatchInfo_bak.php?p8=%s&p1=%s&p9=%s&p10=%s&p6=3&page=%s&pagesize=%s&r1=retObj&_=";
 
 	private final String teamUrl = "http://lpl.qq.com/web201612/data/LOL_MATCH2_TEAM_TEAM%s_INFO.js";
 	
@@ -406,8 +406,8 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 					.header("x-requested-with", "XMLHttpRequest")
 					.header("Content-Type", "text/html;charset=UTF-8")
 					.timeout(3000).get();
-			String sw = "var retObj = ";
-			String body = doc.body().text().substring(sw.length());
+			String sw = "var retObj=";
+			String body = doc.body().text().substring(sw.length(),doc.body().text().length()-1);
 			logger.debug("data={}", body);
 			JSONObject datas = JSONObject.parseObject(body);
 			String status = datas.getString("status");
@@ -438,17 +438,18 @@ public class LoLMatchNetworkSpiderImpl implements ILoLMatchNetworkSpider {
 		ILoLGuessTopicService loLGuessTopicService = new LoLGuessTopicServiceImpl();
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		List<GameMatch> gameMatchs = loLMatchNetworkSpider
-				.findByLeagueAndTime("", "", 1, 100,
-						format.parse("2017-10-17 00:00:00"),
-						format.parse("2017-10-30 00:00:00"));
+				.findByLeagueAndTime("5", "95", 1, 50,
+						format.parse("2018-03-20 00:00:00"),
+						format.parse("2018-03-28 00:00:00"));
 
 		for (GameMatch match : gameMatchs) {
-			loLGuessTopicService.createTopicForSF(match, null, null);
+			System.out.println(new Gson().toJson(match));
+			/*loLGuessTopicService.createTopicForSF(match, null, null);
 			loLGuessTopicService.createTopicForBF(match, null, null);
 			loLGuessTopicService.createTopicForFirstBlood(match, null, null);
 			loLGuessTopicService.createTopicForFirstTurret(match, null, null);
 			loLGuessTopicService.createTopicForSOD(match, null, null);
-			loLMatchNetworkSpider.getGuessResultByMatch(match,match.getMatchId()+"");
+			loLMatchNetworkSpider.getGuessResultByMatch(match,match.getMatchId()+"");*/
 		}
 		/*String matchId = "2822";
 		GameMatch match = loLMatchNetworkSpider.findByMatchId(matchId);

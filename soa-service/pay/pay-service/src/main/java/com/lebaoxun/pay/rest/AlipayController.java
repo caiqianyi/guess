@@ -5,13 +5,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +23,7 @@ import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.google.gson.Gson;
 import com.lebaoxun.commons.exception.I18nMessageException;
 import com.lebaoxun.commons.exception.SuccessMessage;
-import com.lebaoxun.soa.amqp.core.sender.IRabbitmqSender;
+import com.lebaoxun.pay.domain.AlipayQuickWapConfig;
 
 /**
  * 
@@ -38,34 +35,39 @@ public class AlipayController {
 
 	private Logger logger = LoggerFactory.getLogger(AlipayController.class);
 
-	@Resource
-	private IRabbitmqSender rabbitmqSender;
+	/*@Resource
+	private IRabbitmqSender rabbitmqSender;*/
 
-	@Resource
-	private Environment env;
+	/*@Resource
+	private Environment env;*/
 	
-	@Value("${pay.notify.host}")
-	private String notifyHost;
-
 	private static final SimpleDateFormat datetimeFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss");
 
-	@RequestMapping(value = "/payment", method = RequestMethod.POST)
+	@RequestMapping(value = "/quick/wap/payment", method = RequestMethod.POST)
 	SuccessMessage payment(@RequestParam("account")String account,
 			@RequestParam("outTradeNo")String outTradeNo,
 			@RequestParam("subject")String subject,
 			@RequestParam("totalAmount")String totalAmount,
 			@RequestParam(value="body",required=false)String body) {
-		String appid = env.getProperty("alipay."+account+".appid");
+		
+		AlipayQuickWapConfig config = new AlipayQuickWapConfig();
+		
+		String appid = config.getAppid();
+		String privateKey = config.getPrivateKey();
+		String publicKey = config.getPublicKey();
+		
+		String returnUrl = config.getReturnUrl();
+		String notifyUrl = config.getNotifyUrl();
+		
+		/*String appid = env.getProperty("alipay."+account+".appid");
 		String privateKey = env.getProperty("alipay."+appid+".key.private");
 		String publicKey = env.getProperty("alipay."+appid+".key.public");
 		
 		String domain = env.getProperty("domain.host");
 		String returnUrl = domain+env.getProperty("alipay.return_url");
-		String notifyUrl = notifyHost+env.getProperty("alipay.notify_url");
-		logger.debug("appid={}",appid);
-		logger.debug("privateKey={}",privateKey);
-		logger.debug("publicKey={}",publicKey);
+		String notifyUrl = env.getProperty("alipay.notify_url");*/
+		logger.debug("appid={},privateKey={},publicKey={}",appid,privateKey,publicKey);
 		AlipayClient client = new DefaultAlipayClient(
 				"https://openapi.alipay.com/gateway.do",
 				appid,
@@ -82,7 +84,7 @@ public class AlipayController {
 		model.setSubject(subject);
 		model.setTotalAmount(totalAmount);
 		model.setBody(body);
-		model.setTimeoutExpress("2m");// 超时时间 可空
+		model.setTimeoutExpress(config.getTimeoutExpress());// 超时时间 可空
 		model.setProductCode("QUICK_WAP_WAY");// 销售产品码 必填
 		alipay_request.setBizModel(model);
 		// 设置异步通知地址
@@ -107,7 +109,7 @@ public class AlipayController {
 	}
 
 	@RequestMapping(value = "/notify")
-	String aliNotify(HttpServletRequest request) {
+	SuccessMessage aliNotify(HttpServletRequest request) {
 
 		//获取支付宝POST过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
@@ -129,10 +131,15 @@ public class AlipayController {
 			String appid = new String(request.getParameter("app_id")
 					.getBytes("ISO-8859-1"), "UTF-8");
 			
+			
+			AlipayQuickWapConfig config = new AlipayQuickWapConfig();
+			
 			// logger.info("异步通知交易状态---"+trade_status);
 			// 获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
-			String publicKey = env.getProperty("alipay."+appid+".key.public");
-			String merc_no = env.getProperty("alipay."+appid+".mcno");
+			String publicKey = config.getPublicKey();
+			String mercNo = config.getMercNo();
+			/*String publicKey = env.getProperty("alipay."+appid+".key.public");
+			String merc_no = env.getProperty("alipay."+appid+".mcno");*/
 			logger.debug("appid={}",appid);
 			logger.debug("publicKey={}",publicKey);
 			
@@ -189,16 +196,12 @@ public class AlipayController {
 			message.put("buyTime", gmt_payment + "");
 			message.put("platform", "alipay");
 			message.put("trade_type", "pay_aliweb");
-			message.put("merc_no", merc_no);
-
-			rabbitmqSender.sendContractDirect("pay.success.queue",
-					new Gson().toJson(message));
-
-			return "success";
+			message.put("merc_no", mercNo);
+			return new SuccessMessage(message);
 		} catch (Exception e) {
 			logger.debug("notify:{}", e);
 		}
-		return "fail";
+		throw new I18nMessageException("500");
 	}
 
 }

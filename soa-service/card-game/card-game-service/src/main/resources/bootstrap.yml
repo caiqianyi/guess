@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: guess-caipiao-service
+  session:
+    store-type: none
+  cloud:
+    config:
+      name: guess
+      profile: test
+      username: guess
+      password: 123123
+      uri: http://47.95.7.11:7369/
+      label: master
+# Define the port where the Widget Foundry server would be running
+server:
+  port: 9996
+  
+lottery:
+  prizes[0]:
+    prob: 0.0000002D
+    amount: 1
+    level: 1
+    totalAmount: 10
+    power: 5000000
+    lottery: F1
+  prizes[1]:
+    prob: 0.000001D
+    amount: 1
+    level: 2
+    totalAmount: 100
+    power: 1000000
+    lottery: F2
+  prizes[2]:
+    prob: 0.000002D
+    amount: 1000
+    level: 3
+    totalAmount: 1000
+    power: 500000
+    lottery: F3
+  prizes[3]:
+    prob: 0.00001D
+    amount: 10000
+    level: 4
+    totalAmount: 10000
+    power: 100000
+    lottery: F4
+  prizes[4]:
+    prob: 0.0001D
+    level: 5
+    power: 10000
+    lottery: F5
+  prizes[5]:
+    prob: 0.001D
+    level: 6
+    power: 1000
+    lottery: F6
+  prizes[6]:
+    prob: 0.01D
+    level: 7
+    power: 100
+    lottery: F7
+  prizes[7]:
+    prob: 0.1D
+    level: 8
+    power: 10
+    lottery: F8
+  prizes[8]:
+    prob: 0.8888868D
+    level: 9
+    power: 1
+    lottery: F9
+  

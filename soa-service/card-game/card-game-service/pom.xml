@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <parent>
+  	<groupId>com.lebaoxun</groupId>
+  	<artifactId>service-parent</artifactId>
+  	<version>1.0.0-RELEASE</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>card-game-service</artifactId>
+  <version>1.0.0-RELEASE</version>
+  <packaging>jar</packaging>
+
+  <name>card-game-service</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <build>
+  	<finalName>card-game-service</finalName>
+  </build>
+  <dependencies>
+  	<dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-ribbon</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-hystrix</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>com.lebaoxun</groupId>
+    	<artifactId>account-dao</artifactId>
+    	<version>1.0.0-RELEASE</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.lebaoxun</groupId>
+    	<artifactId>card-game-model</artifactId>
+    	<version>1.0.0-RELEASE</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.lebaoxun</groupId>
+    	<artifactId>soa-amqp</artifactId>
+    </dependency>
+  </dependencies>
+</project>
